@@ -218,7 +218,7 @@ public final class CardCollection
 
 		define("The Nex Drop Table", CardSet.ITEMS,
 			"Drops from Nex.",
-			"Torva Full Helm", "Torva Platebody", "Zaryte Vambraces", "Virtus Mask");
+			"Torva Full Helm", "Torva Platebody", "Zaryte Vambraces");
 
 		define("The Nightmare", CardSet.ITEMS,
 			"Drops from the Nightmare.",
@@ -226,9 +226,9 @@ public final class CardCollection
 			"Eldritch Orb");
 
 		define("Desert Treasure II Drops", CardSet.ITEMS,
-			"Drops from the four awakened bosses.",
+			"Drops from the Forgotten Four.",
 			"Ultor Vestige", "Magus Vestige", "Venator Vestige", "Bellator Vestige",
-			"Awakener's Orb", "Virtus Robe Top");
+			"Awakener's Orb", "Virtus Mask", "Virtus Robe Top");
 
 		define("Araxxor", CardSet.ITEMS,
 			"Drops from Araxxor.",
@@ -240,8 +240,8 @@ public final class CardCollection
 			"Hydra's Claw", "Hydra Tail", "Hydra Leather", "Occult Necklace",
 			"Smoke Battlestaff", "Granite Hammer");
 
-		define("Cerberus Crystals", CardSet.ITEMS,
-			"The three crystals and the boots they upgrade.",
+		define("Cerberus", CardSet.ITEMS,
+			"The three crystals, the boots they upgrade, and the smouldering stone.",
 			"Primordial Crystal", "Pegasian Crystal", "Eternal Crystal", "Primordial Boots",
 			"Pegasian Boots", "Eternal Boots", "Smouldering Stone");
 
@@ -249,27 +249,40 @@ public final class CardCollection
 			"The three rings from the Wilderness bosses.",
 			"Ring of the Gods", "Treasonous Ring", "Tyrannical Ring");
 
-		define("Dragon Drops", CardSet.ITEMS,
-			"Uniques from Zulrah, Vorkath and the Kraken.",
-			"Tanzanite Fang", "Magic Fang", "Serpentine Visage", "Draconic Visage",
-			"Toxic Blowpipe");
+		define("Zulrah", CardSet.ITEMS,
+			"Zulrah's drops and the blowpipe they build.",
+			"Tanzanite Fang", "Magic Fang", "Serpentine Visage", "Uncut Onyx",
+			"Zulrah's Scales", "Toxic Blowpipe");
+
+		define("Dragon Equipment", CardSet.ITEMS,
+			"Dragon gear.",
+			"Dragon Scimitar", "Dragon Pickaxe", "Dragon Harpoon", "Dragon Claws",
+			"Dragon Hunter Crossbow");
 
 		define("Skilling Boss Drops", CardSet.ITEMS,
 			"Uniques from Tempoross, Wintertodt and Hespori.",
 			"Dragon Harpoon", "Tome of Fire", "Tome of Water");
-		define("Demonic Boots", CardSet.ITEMS,
-			"The three Cerberus boot upgrades.",
-			"Primordial Boots", "Eternal Boots", "Pegasian Boots");
+		define("The Rune Pouch", CardSet.ITEMS,
+			"Every rune.",
+			"Air Rune", "Water Rune", "Earth Rune", "Fire Rune", "Mind Rune", "Body Rune",
+			"Chaos Rune", "Cosmic Rune", "Nature Rune", "Law Rune", "Death Rune", "Blood Rune",
+			"Soul Rune", "Astral Rune", "Wrath Rune", "Mist Rune", "Dust Rune", "Mud Rune",
+			"Smoke Rune", "Steam Rune", "Lava Rune", "Sunfire Rune", "Aether Rune");
+
 		define("Tools", CardSet.ITEMS,
 			"Basic skilling tools.",
 			"Tinderbox", "Rope", "Hammer", "Chisel", "Knife", "Spade");
 		define("The Herb Patch", CardSet.ITEMS,
-			"A herb from each price tier.",
-			"Guam Leaf", "Ranarr Weed", "Snapdragon", "Torstol");
+			"Every herb, cleaned.",
+			"Guam Leaf", "Marrentill", "Tarromin", "Harralander", "Ranarr Weed", "Toadflax",
+			"Irit Leaf", "Avantoe", "Huasca", "Kwuarm", "Snapdragon", "Cadantine", "Lantadyme",
+			"Dwarf Weed", "Torstol");
 		define("Every Catch", CardSet.ITEMS,
 			"Raw fish across the levels.",
-			"Raw Trout", "Raw Salmon", "Raw Lobster", "Raw Swordfish", "Raw Shark",
-			"Raw Anglerfish");
+			"Raw Shrimps", "Raw Anchovies", "Raw Sardine", "Raw Herring", "Raw Mackerel",
+			"Raw Trout", "Raw Cod", "Raw Pike", "Raw Salmon", "Raw Tuna", "Raw Lobster",
+			"Raw Bass", "Raw Swordfish", "Raw Monkfish", "Raw Karambwan", "Raw Shark",
+			"Raw Sea Turtle", "Raw Manta Ray", "Raw Anglerfish", "Raw Dark Crab");
 		define("Combat Minigames", CardSet.MINIGAMES,
 			"Combat minigames.",
 			"Barbarian Assault", "Pest Control", "Castle Wars", "Last Man Standing", "Soul Wars",

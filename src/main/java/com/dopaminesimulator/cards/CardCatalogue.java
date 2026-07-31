@@ -133,6 +133,7 @@ public final class CardCatalogue
 			case HUNTER:
 			case FARMING:
 			case HERBLORE:
+			case SAILING:
 				return Rarity.RARE;
 			case MINING:
 			case FISHING:
@@ -172,6 +173,7 @@ public final class CardCatalogue
 			case FARMING: return SpriteID.Staticons2.FARMING;
 			case HUNTER: return SpriteID.Staticons2.HUNTER;
 			case CONSTRUCTION: return SpriteID.Staticons2.CONSTRUCTION;
+			case SAILING: return SpriteID.Staticons2.SAILING;
 			default: return -1;
 		}
 	}
@@ -305,6 +307,56 @@ public final class CardCatalogue
 		item(out, "Ghrazi Rapier", Rarity.LEGENDARY, ItemID.GHRAZI_RAPIER);
 		item(out, "Inquisitor's Mace", Rarity.LEGENDARY, ItemID.INQUISITORS_MACE);
 		item(out, "Voidwaker", Rarity.LEGENDARY, ItemID.VOIDWAKER);
+		item(out, "Air Rune", Rarity.COMMON, ItemID.AIRRUNE);
+		item(out, "Water Rune", Rarity.COMMON, ItemID.WATERRUNE);
+		item(out, "Earth Rune", Rarity.COMMON, ItemID.EARTHRUNE);
+		item(out, "Fire Rune", Rarity.COMMON, ItemID.FIRERUNE);
+		item(out, "Mind Rune", Rarity.COMMON, ItemID.MINDRUNE);
+		item(out, "Body Rune", Rarity.COMMON, ItemID.BODYRUNE);
+		item(out, "Chaos Rune", Rarity.UNCOMMON, ItemID.CHAOSRUNE);
+		item(out, "Cosmic Rune", Rarity.UNCOMMON, ItemID.COSMICRUNE);
+		item(out, "Nature Rune", Rarity.UNCOMMON, ItemID.NATURERUNE);
+		item(out, "Law Rune", Rarity.UNCOMMON, ItemID.LAWRUNE);
+		item(out, "Death Rune", Rarity.UNCOMMON, ItemID.DEATHRUNE);
+		item(out, "Mist Rune", Rarity.UNCOMMON, ItemID.MISTRUNE);
+		item(out, "Dust Rune", Rarity.UNCOMMON, ItemID.DUSTRUNE);
+		item(out, "Mud Rune", Rarity.RARE, ItemID.MUDRUNE);
+		item(out, "Smoke Rune", Rarity.UNCOMMON, ItemID.SMOKERUNE);
+		item(out, "Steam Rune", Rarity.UNCOMMON, ItemID.STEAMRUNE);
+		item(out, "Lava Rune", Rarity.UNCOMMON, ItemID.LAVARUNE);
+		item(out, "Blood Rune", Rarity.RARE, ItemID.BLOODRUNE);
+		item(out, "Soul Rune", Rarity.RARE, ItemID.SOULRUNE);
+		item(out, "Astral Rune", Rarity.RARE, ItemID.ASTRALRUNE);
+		item(out, "Wrath Rune", Rarity.RARE, ItemID.WRATHRUNE);
+		item(out, "Sunfire Rune", Rarity.EPIC, ItemID.SUNFIRERUNE);
+		item(out, "Aether Rune", Rarity.EPIC, ItemID.AETHERRUNE);
+		item(out, "Marrentill", Rarity.COMMON, ItemID.MARENTILL);
+		item(out, "Tarromin", Rarity.COMMON, ItemID.TARROMIN);
+		item(out, "Harralander", Rarity.UNCOMMON, ItemID.HARRALANDER);
+		item(out, "Toadflax", Rarity.UNCOMMON, ItemID.TOADFLAX);
+		item(out, "Irit Leaf", Rarity.UNCOMMON, ItemID.IRIT_LEAF);
+		item(out, "Avantoe", Rarity.UNCOMMON, ItemID.AVANTOE);
+		item(out, "Kwuarm", Rarity.UNCOMMON, ItemID.KWUARM);
+		item(out, "Huasca", Rarity.RARE, ItemID.HUASCA);
+		item(out, "Cadantine", Rarity.RARE, ItemID.CADANTINE);
+		item(out, "Lantadyme", Rarity.RARE, ItemID.LANTADYME);
+		item(out, "Dwarf Weed", Rarity.RARE, ItemID.DWARF_WEED);
+		item(out, "Raw Shrimps", Rarity.COMMON, ItemID.RAW_SHRIMP);
+		item(out, "Raw Anchovies", Rarity.COMMON, ItemID.RAW_ANCHOVIES);
+		item(out, "Raw Sardine", Rarity.COMMON, ItemID.RAW_SARDINE);
+		item(out, "Raw Herring", Rarity.COMMON, ItemID.RAW_HERRING);
+		item(out, "Raw Mackerel", Rarity.COMMON, ItemID.RAW_MACKEREL);
+		item(out, "Raw Cod", Rarity.COMMON, ItemID.RAW_COD);
+		item(out, "Raw Pike", Rarity.COMMON, ItemID.RAW_PIKE);
+		item(out, "Raw Tuna", Rarity.UNCOMMON, ItemID.RAW_TUNA);
+		item(out, "Raw Bass", Rarity.UNCOMMON, ItemID.RAW_BASS);
+		item(out, "Raw Monkfish", Rarity.UNCOMMON, ItemID.RAW_MONKFISH);
+		item(out, "Raw Karambwan", Rarity.UNCOMMON, ItemID.TBWT_RAW_KARAMBWAN);
+		item(out, "Raw Sea Turtle", Rarity.RARE, ItemID.RAW_SEATURTLE);
+		item(out, "Raw Manta Ray", Rarity.RARE, ItemID.RAW_MANTARAY);
+		item(out, "Raw Dark Crab", Rarity.RARE, ItemID.RAW_DARK_CRAB);
+		item(out, "Uncut Onyx", Rarity.EPIC, ItemID.UNCUT_ONYX);
+		item(out, "Zulrah's Scales", Rarity.COMMON, ItemID.SNAKEBOSS_SCALE);
 		item(out, "Dexterous Prayer Scroll", Rarity.RARE, ItemID.RAIDS_PRAYERSCROLL);
 		item(out, "Arcane Prayer Scroll", Rarity.RARE, ItemID.RAIDS_PRAYERSCROLL_AUGURY);
 		item(out, "Twisted Buckler", Rarity.EPIC, ItemID.TWISTED_BUCKLER);
