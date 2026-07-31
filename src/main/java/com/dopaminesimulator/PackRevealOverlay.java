@@ -1,0 +1,414 @@
+/*
+ * Copyright (c) 2026, Zoinkwiz <https://github.com/Zoinkwiz>
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+package com.dopaminesimulator;
+
+import com.dopaminesimulator.cards.Card;
+import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.core.DopamineState;
+import com.dopaminesimulator.core.Reward;
+import com.dopaminesimulator.core.RewardType;
+import com.dopaminesimulator.ui.CardArtService;
+import com.dopaminesimulator.ui.CardRenderer;
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.function.Supplier;
+import net.runelite.api.Client;
+import net.runelite.client.ui.FontManager;
+import net.runelite.client.ui.overlay.Overlay;
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
+
+public class PackRevealOverlay extends Overlay
+{
+	private static final int CARD_HEIGHT = 172;
+	private static final int CARD_WIDTH = 123;
+	private static final int CARD_GAP = 12;
+	private static final int MAX_ON_SCREEN = 4;
+	private static final long STAGGER_MS = 260L;
+	private static final long MAX_QUEUE_AHEAD_MS = 5000L;
+	private static final long DEAL_MS = 340L;
+	private static final long FLIP_MS = 300L;
+	private static final long HOLD_MS = 1300L;
+	private static final long MAJOR_HOLD_MS = 2400L;
+	private static final long FADE_MS = 450L;
+	private static final int DEAL_FROM_BELOW = 150;
+
+	private static final Color DIM = new Color(0, 0, 0);
+	private static final Color CARD_FACE = new Color(0x1B, 0x1B, 0x1B);
+	private static final Color CARD_BACK = new Color(0x2B, 0x2F, 0x3A);
+	private static final Color CARD_BACK_TRIM = new Color(0x55, 0x5E, 0x72);
+	private final Client client;
+	private final DopamineSimulatorConfig config;
+	private final RevealSoundService sounds;
+	private final CardArtService artService;
+	private final Supplier<DopamineState> stateSupplier;
+	private final Deque<RevealCard> cards = new ConcurrentLinkedDeque<>();
+	private long nextAvailableSlot;
+	private static final class RevealCard
+	{
+		private final String title;
+		private final String detail;
+		private final Rarity rarity;
+		private final Color colour;
+		private final boolean major;
+		private final long start;
+		private final long holdMs;
+
+		private final Card card;
+		private final int stars;
+		private boolean dealSoundPlayed;
+		private boolean revealSoundPlayed;
+		private RevealCard(String title, String detail, Rarity rarity, Color colour,
+						   boolean major, long start, Card card, int stars)
+		{
+			this.title = title;
+			this.detail = detail;
+			this.rarity = rarity;
+			this.colour = colour;
+			this.major = major;
+			this.start = start;
+			this.card = card;
+			this.stars = stars;
+			this.holdMs = major ? MAJOR_HOLD_MS : HOLD_MS;
+		}
+		private long age()
+		{
+			return System.currentTimeMillis() - start;
+		}
+		private long lifetime()
+		{
+			return DEAL_MS + FLIP_MS + holdMs + FADE_MS;
+		}
+		private boolean pending()
+		{
+			return age() < 0;
+		}
+		private boolean expired()
+		{
+			return age() > lifetime();
+		}
+	}
+	PackRevealOverlay(Client client, DopamineSimulatorConfig config, RevealSoundService sounds,
+					  CardArtService artService, Supplier<DopamineState> stateSupplier)
+	{
+		this.client = client;
+		this.config = config;
+		this.sounds = sounds;
+		this.artService = artService;
+		this.stateSupplier = stateSupplier;
+		setPosition(OverlayPosition.DYNAMIC);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
+	}
+
+	public void push(Reward reward)
+	{
+		if (reward == null || !config.showRewardFlashes())
+		{
+			return;
+		}
+
+		if (reward.getType() == RewardType.SOURCE_UNLOCKED)
+		{
+			return;
+		}
+
+		long now = System.currentTimeMillis();
+		long startAt = Math.max(now, nextAvailableSlot);
+		if (startAt - now > MAX_QUEUE_AHEAD_MS)
+		{
+			return;
+		}
+		nextAvailableSlot = startAt + STAGGER_MS;
+		boolean major = reward.getType() == RewardType.SET_COMPLETE
+			|| (reward.getRarity() != null && reward.getRarity().ordinal() >= Rarity.EPIC.ordinal());
+		Color colour = reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE;
+		int stars = reward.getCard() == null || stateSupplier == null
+			? 0
+			: stateSupplier.get().getStars(reward.getCard().getId());
+		cards.addLast(new RevealCard(reward.getTitle(), reward.getDetail(),
+			reward.getRarity(), colour, major, startAt, reward.getCard(), stars));
+		while (cards.size() > MAX_ON_SCREEN * 3)
+		{
+			cards.removeFirst();
+		}
+	}
+
+	public void clear()
+	{
+		cards.clear();
+		nextAvailableSlot = 0L;
+	}
+
+	public void makeWayForBatch()
+	{
+		cards.removeIf(RevealCard::pending);
+		nextAvailableSlot = System.currentTimeMillis();
+	}
+
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		if (!config.showRewardFlashes())
+		{
+			cards.clear();
+			return null;
+		}
+		for (Iterator<RevealCard> it = cards.iterator(); it.hasNext(); )
+		{
+			if (it.next().expired())
+			{
+				it.remove();
+			}
+		}
+		if (cards.isEmpty())
+		{
+			return null;
+		}
+		List<RevealCard> visible = new ArrayList<>();
+		for (RevealCard card : cards)
+		{
+			if (!card.pending())
+			{
+				visible.add(card);
+			}
+		}
+		if (visible.isEmpty())
+		{
+			return null;
+		}
+
+		if (visible.size() > MAX_ON_SCREEN)
+		{
+			visible = visible.subList(visible.size() - MAX_ON_SCREEN, visible.size());
+		}
+
+		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		Composite originalComposite = graphics.getComposite();
+		AffineTransform originalTransform = graphics.getTransform();
+		int canvasWidth = client.getCanvasWidth();
+		int canvasHeight = client.getCanvasHeight();
+		int centreX = canvasWidth / 2;
+		int rowY = (int) (canvasHeight * 0.34d);
+
+		drawDim(graphics, visible, canvasWidth, canvasHeight);
+		int totalWidth = visible.size() * CARD_WIDTH + (visible.size() - 1) * CARD_GAP;
+		int startX = centreX - totalWidth / 2;
+
+		for (int i = 0; i < visible.size(); i++)
+		{
+			int slotX = startX + i * (CARD_WIDTH + CARD_GAP);
+			drawCard(graphics, visible.get(i), slotX, rowY);
+		}
+
+		graphics.setComposite(originalComposite);
+		graphics.setTransform(originalTransform);
+		return null;
+	}
+	private void drawDim(Graphics2D graphics, List<RevealCard> visible, int width, int height)
+	{
+		if (!config.dimScreenOnReveal())
+		{
+			return;
+		}
+
+		float strongest = 0f;
+		for (RevealCard card : visible)
+		{
+			strongest = Math.max(strongest, cardAlpha(card));
+		}
+
+		if (strongest <= 0f)
+		{
+			return;
+		}
+		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, strongest * 0.45f));
+		graphics.setColor(DIM);
+		graphics.fillRect(0, 0, width, height);
+	}
+	private void drawCard(Graphics2D graphics, RevealCard card, int slotX, int slotY)
+	{
+		long age = card.age();
+		float alpha = cardAlpha(card);
+		if (alpha <= 0f)
+		{
+			return;
+		}
+
+		double dealProgress = clamp01(age / (double) DEAL_MS);
+		double eased = smoothstep(dealProgress);
+		int y = (int) (slotY + (1d - eased) * DEAL_FROM_BELOW);
+		if (dealProgress >= 1d && !card.dealSoundPlayed)
+		{
+			card.dealSoundPlayed = true;
+			sounds.cardDealt();
+		}
+
+		long flipAge = age - DEAL_MS;
+		double flipProgress = flipAge <= 0 ? 0d : clamp01(flipAge / (double) FLIP_MS);
+		double scaleX = Math.abs(Math.cos(Math.PI * flipProgress));
+		boolean faceUp = flipProgress >= 0.5d;
+		if (faceUp && !card.revealSoundPlayed)
+		{
+			card.revealSoundPlayed = true;
+			sounds.cardRevealed(card.rarity == null ? Rarity.COMMON : card.rarity);
+		}
+		scaleX = Math.max(0.06d, scaleX);
+		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		AffineTransform beforeCard = graphics.getTransform();
+		graphics.translate(slotX + CARD_WIDTH / 2d, y + CARD_HEIGHT / 2d);
+		graphics.scale(scaleX, 1d);
+		graphics.translate(-CARD_WIDTH / 2d, -CARD_HEIGHT / 2d);
+		if (faceUp)
+		{
+			drawFace(graphics, card, alpha);
+		}
+		else
+		{
+			drawBack(graphics);
+		}
+		graphics.setTransform(beforeCard);
+	}
+	private void drawFace(Graphics2D graphics, RevealCard card, float alpha)
+	{
+		if (card.major)
+		{
+			drawGlow(graphics, card, alpha);
+		}
+
+		if (card.card != null)
+		{
+			CardRenderer.draw(graphics, card.card, 0, 0, CARD_WIDTH, CARD_HEIGHT,
+				card.stars, true, System.currentTimeMillis(), artService.get(card.card));
+			return;
+		}
+
+		graphics.setColor(CARD_FACE);
+		graphics.fillRoundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 8, 8);
+
+		graphics.setColor(card.colour);
+		graphics.setStroke(new BasicStroke(card.major ? 2.5f : 1.5f));
+		graphics.drawRoundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 8, 8);
+		graphics.fillRoundRect(4, 5, CARD_WIDTH - 8, 5, 4, 4);
+		graphics.setFont(FontManager.getRunescapeSmallFont());
+		graphics.setColor(Color.WHITE);
+		drawWrapped(graphics, card.title, CARD_WIDTH, 30);
+		if (card.detail != null && !card.detail.isEmpty())
+		{
+			graphics.setColor(Color.GRAY);
+			drawCentred(graphics, card.detail, CARD_WIDTH, CARD_HEIGHT - 10);
+		}
+	}
+
+	private void drawBack(Graphics2D graphics)
+	{
+		graphics.setColor(CARD_BACK);
+		graphics.fillRoundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 8, 8);
+		graphics.setColor(CARD_BACK_TRIM);
+		graphics.setStroke(new BasicStroke(1.5f));
+		graphics.drawRoundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 8, 8);
+		graphics.drawRoundRect(7, 7, CARD_WIDTH - 14, CARD_HEIGHT - 14, 6, 6);
+		graphics.drawLine(CARD_WIDTH / 2, 18, CARD_WIDTH / 2, CARD_HEIGHT - 18);
+		graphics.drawLine(18, CARD_HEIGHT / 2, CARD_WIDTH - 18, CARD_HEIGHT / 2);
+	}
+	private void drawGlow(Graphics2D graphics, RevealCard card, float alpha)
+	{
+		double pulse = 0.7d + 0.3d * Math.sin(card.age() / 170d);
+		Composite before = graphics.getComposite();
+		Shape clipBefore = graphics.getClip();
+		graphics.setClip(null);
+		for (int i = 4; i >= 1; i--)
+		{
+			float glowAlpha = (float) (alpha * pulse * 0.13d / i);
+			graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+				Math.max(0f, Math.min(1f, glowAlpha))));
+			graphics.setColor(card.colour);
+			int spread = i * 4;
+			graphics.fillRoundRect(-spread, -spread,
+				CARD_WIDTH + spread * 2, CARD_HEIGHT + spread * 2, 14, 14);
+		}
+
+		graphics.setClip(clipBefore);
+		graphics.setComposite(before);
+		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+	}
+	private static float cardAlpha(RevealCard card)
+	{
+		long age = card.age();
+		if (age < 0)
+		{
+			return 0f;
+		}
+		long fadeStart = DEAL_MS + FLIP_MS + card.holdMs;
+		if (age < fadeStart)
+		{
+			return 1f;
+		}
+		long into = age - fadeStart;
+		return Math.max(0f, 1f - into / (float) FADE_MS);
+	}
+	private static void drawCentred(Graphics2D graphics, String text, int width, int y)
+	{
+		FontMetrics metrics = graphics.getFontMetrics();
+		graphics.drawString(text, (width - metrics.stringWidth(text)) / 2, y);
+	}
+	private static void drawWrapped(Graphics2D graphics, String text, int width, int y)
+	{
+		FontMetrics metrics = graphics.getFontMetrics();
+		if (metrics.stringWidth(text) <= width - 8)
+		{
+			drawCentred(graphics, text, width, y);
+			return;
+		}
+		int split = text.lastIndexOf(' ', text.length() / 2 + 4);
+		if (split <= 0)
+		{
+			split = text.length() / 2;
+		}
+		drawCentred(graphics, text.substring(0, split).trim(), width, y);
+		drawCentred(graphics, text.substring(split).trim(), width, y + metrics.getHeight());
+	}
+	private static double clamp01(double value)
+	{
+		return value < 0d ? 0d : Math.min(value, 1d);
+	}
+	private static double smoothstep(double t)
+	{
+		double clamped = clamp01(t);
+		return clamped * clamped * (3d - 2d * clamped);
+	}
+}
