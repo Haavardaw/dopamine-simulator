@@ -60,6 +60,9 @@ public class PackRevealOverlay extends Overlay
 	private static final int CARD_GAP = 12;
 	private static final int MAX_ON_SCREEN = 4;
 	private static final long STAGGER_MS = 260L;
+	private static final long MIN_STAGGER_MS = 90L;
+	private static final long MIN_HOLD_MS = 400L;
+	private static final int MAX_PENDING = 8;
 	private static final long MAX_QUEUE_AHEAD_MS = 5000L;
 	private static final long DEAL_MS = 340L;
 	private static final long FLIP_MS = 300L;
@@ -94,7 +97,7 @@ public class PackRevealOverlay extends Overlay
 		private boolean dealSoundPlayed;
 		private boolean revealSoundPlayed;
 		private RevealCard(String title, String detail, Rarity rarity, Color colour,
-						   boolean major, long start, Card card, int stars)
+						   boolean major, long start, Card card, int stars, long holdMs)
 		{
 			this.title = title;
 			this.detail = detail;
@@ -104,7 +107,7 @@ public class PackRevealOverlay extends Overlay
 			this.start = start;
 			this.card = card;
 			this.stars = stars;
-			this.holdMs = major ? MAJOR_HOLD_MS : HOLD_MS;
+			this.holdMs = holdMs;
 		}
 		private long age()
 		{
@@ -148,24 +151,47 @@ public class PackRevealOverlay extends Overlay
 		}
 
 		long now = System.currentTimeMillis();
+		int pending = pendingCount();
+		if (pending >= MAX_PENDING)
+		{
+			return;
+		}
+
 		long startAt = Math.max(now, nextAvailableSlot);
 		if (startAt - now > MAX_QUEUE_AHEAD_MS)
 		{
 			return;
 		}
-		nextAvailableSlot = startAt + STAGGER_MS;
+
+		long stagger = Math.max(MIN_STAGGER_MS, STAGGER_MS - pending * 25L);
+		nextAvailableSlot = startAt + stagger;
+
 		boolean major = reward.getType() == RewardType.SET_COMPLETE
 			|| (reward.getRarity() != null && reward.getRarity().ordinal() >= Rarity.EPIC.ordinal());
 		Color colour = reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE;
 		int stars = reward.getCard() == null || stateSupplier == null
 			? 0
 			: stateSupplier.get().getStars(reward.getCard().getId());
+
+		double speed = stagger / (double) STAGGER_MS;
+		long hold = Math.max(MIN_HOLD_MS,
+			Math.round((major ? MAJOR_HOLD_MS : HOLD_MS) * speed));
+
 		cards.addLast(new RevealCard(reward.getTitle(), reward.getDetail(),
-			reward.getRarity(), colour, major, startAt, reward.getCard(), stars));
-		while (cards.size() > MAX_ON_SCREEN * 3)
+			reward.getRarity(), colour, major, startAt, reward.getCard(), stars, hold));
+	}
+
+	private int pendingCount()
+	{
+		int pending = 0;
+		for (RevealCard card : cards)
 		{
-			cards.removeFirst();
+			if (card.pending())
+			{
+				pending++;
+			}
 		}
+		return pending;
 	}
 
 	public void clear()
