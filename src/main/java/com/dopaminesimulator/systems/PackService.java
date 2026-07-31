@@ -70,11 +70,12 @@ public class PackService
 		boolean satisfiedPity = false;
 		for (int i = 0; i < tier.getCardCount(); i++)
 		{
-			Rarity rarity = rollRarity(luck, tier.getFloor());
+			Rarity rarity = rollRarity(luck, tier.getFloor(), tier.getCeiling());
 			satisfiedPity |= rarity.isPityWorthy();
 			pulled.add(randomCardOf(rarity, tier, targetSet));
 		}
-		if (!satisfiedPity && state.getPacksSinceLastRare() + 1 >= Balance.PITY_PACKS)
+		if (!satisfiedPity && state.getPacksSinceLastRare() + 1 >= Balance.PITY_PACKS
+			&& (tier.getCeiling() == null || tier.getCeiling().ordinal() >= Rarity.RARE.ordinal()))
 		{
 			pulled.set(pulled.size() - 1, randomCardOf(Rarity.RARE, tier, targetSet));
 			satisfiedPity = true;
@@ -83,7 +84,7 @@ public class PackService
 
 		for (Card card : pulled)
 		{
-			collection.grant(state, card, rewards);
+			collection.grant(state, card, rewards, false, tier.getCopiesPerCard());
 		}
 		return pulled;
 	}
@@ -107,13 +108,17 @@ public class PackService
 		return Math.max(0, Balance.PITY_PACKS - state.getPacksSinceLastRare());
 	}
 
-	private Rarity rollRarity(double luck, Rarity floor)
+	private Rarity rollRarity(double luck, Rarity floor, Rarity ceiling)
 	{
 		double[] weights = new double[Rarity.values().length];
 		double total = 0d;
 		for (Rarity rarity : Rarity.values())
 		{
 			if (floor != null && rarity.ordinal() < floor.ordinal())
+			{
+				continue;
+			}
+			if (ceiling != null && rarity.ordinal() > ceiling.ordinal())
 			{
 				continue;
 			}

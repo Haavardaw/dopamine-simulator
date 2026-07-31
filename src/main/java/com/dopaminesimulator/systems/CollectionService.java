@@ -42,18 +42,25 @@ public class CollectionService
 
 	public boolean grant(DopamineState state, Card card, RewardQueue rewards, boolean fromFusion)
 	{
+		return grant(state, card, rewards, fromFusion, 1);
+	}
+
+	public boolean grant(DopamineState state, Card card, RewardQueue rewards, boolean fromFusion,
+		int copies)
+	{
+		int granted = Math.max(1, copies);
 		if (state.owns(card.getId()))
 		{
 			int starsBefore = state.getStars(card.getId());
-			state.addCopy(card.getId());
+			state.addCopies(card.getId(), granted);
 			int starsAfter = state.getStars(card.getId());
 			if (card.getRarity() == Rarity.LEGENDARY)
 			{
-				state.addShards(Rarity.EPIC, EPIC_SHARDS_PER_LEGENDARY_DUPE);
+				state.addShards(Rarity.EPIC, EPIC_SHARDS_PER_LEGENDARY_DUPE * granted);
 			}
 			else
 			{
-				state.addShards(card.getRarity(), SHARDS_PER_DUPE);
+				state.addShards(card.getRarity(), SHARDS_PER_DUPE * granted);
 			}
 			if (starsAfter > starsBefore)
 			{
@@ -68,7 +75,7 @@ public class CollectionService
 			}
 			return false;
 		}
-		state.addCopy(card.getId());
+		state.addCopies(card.getId(), granted);
 		rewards.push(fromFusion ? Reward.fusion(card) : Reward.newCard(card));
 		checkSetCompletion(state, card.getSet(), rewards);
 		return true;

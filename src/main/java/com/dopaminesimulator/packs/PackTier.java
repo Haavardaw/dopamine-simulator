@@ -32,44 +32,49 @@ import java.awt.Color;
 @Getter
 public enum PackTier
 {
-	SCRAP("Scrap Pack", 400d, 3, 1.0d, null, false, 0d,
+	SCRAP("Scrap Pack", 400d, 3, 1, 1.0d, null, Rarity.RARE, false, 0d,
 		new Color(0x9E, 0x9E, 0x9E),
-		"3 cards. No rarity floor."),
-	STANDARD("Standard Pack", 4_000d, 5, 1.0d, null, false, 2_000d,
+		"3 cards, 1 copy each. Rare at best."),
+	STANDARD("Standard Pack", 2_400d, 5, 3, 1.0d, null, Rarity.EPIC, false, 2_000d,
 		new Color(0x64, 0xB5, 0xF6),
-		"5 cards. No rarity floor."),
-	GILDED("Gilded Pack", 45_000d, 5, 2.5d, Rarity.UNCOMMON, false, 25_000d,
+		"5 cards, 3 copies each. Epic at best."),
+	GILDED("Gilded Pack", 15_000d, 5, 12, 2.5d, Rarity.UNCOMMON, Rarity.EPIC, false, 20_000d,
 		new Color(0x66, 0xBB, 0x6A),
-		"5 cards. Uncommon floor, x2.5 rare odds."),
-	CURATED("Curated Pack", 250_000d, 5, 2.0d, Rarity.UNCOMMON, true, 150_000d,
-		new Color(0x26, 0xC6, 0xDA),
-		"5 cards from one chosen set. Uncommon floor, x2 rare odds."),
-	PRISMATIC("Prismatic Pack", 1_200_000d, 7, 6.0d, Rarity.RARE, false, 700_000d,
-		new Color(0xAB, 0x47, 0xBC),
-		"7 cards. Rare floor, x6 rare odds."),
-	ASCENDANT("Ascendant Pack", 25_000_000d, 10, 15.0d, Rarity.EPIC, false, 15_000_000d,
-		new Color(0xFF, 0xB3, 0x00),
-		"10 cards. Epic floor, x15 rare odds."),
-	MYTHIC("Mythic Pack", 600_000_000d, 12, 40.0d, Rarity.EPIC, false, 400_000_000d,
-		new Color(0xFF, 0x70, 0x43),
-		"12 cards. Epic floor, x40 rare odds.");
+		"5 cards, 12 copies each. Uncommon to Epic, x2.5 rare odds."),
+	CURATED("Curated Pack", 70_000d, 5, 40, 2.0d, Rarity.UNCOMMON, Rarity.EPIC, true,
+		100_000d, new Color(0x26, 0xC6, 0xDA),
+		"5 cards, 40 copies each, from one chosen set. Uncommon to Epic."),
+	PRISMATIC("Prismatic Pack", 350_000d, 7, 120, 6.0d, Rarity.RARE, Rarity.LEGENDARY,
+		false, 500_000d, new Color(0xAB, 0x47, 0xBC),
+		"7 cards, 120 copies each. Rare floor and the first shot at Legendary."),
+	ASCENDANT("Ascendant Pack", 2_000_000d, 10, 400, 15.0d, Rarity.EPIC,
+		Rarity.LEGENDARY, false, 3_000_000d, new Color(0xFF, 0xB3, 0x00),
+		"10 cards, 400 copies each. Epic floor, roughly one card in ten Legendary."),
+	MYTHIC("Mythic Pack", 8_000_000d, 12, 200, 40.0d, Rarity.LEGENDARY, Rarity.LEGENDARY,
+		false, 15_000_000d, new Color(0xFF, 0x70, 0x43),
+		"12 cards, 200 copies each. Legendary only.");
 	private final String displayName;
 	private final double cost;
 	private final int cardCount;
+	private final int copiesPerCard;
 	private final double luck;
 	private final Rarity floor;
+	private final Rarity ceiling;
 	private final boolean targetsSet;
 	private final double unlockAtLifetimePoints;
 	private final Color colour;
 	private final String description;
-	PackTier(String displayName, double cost, int cardCount, double luck, Rarity floor,
-			 boolean targetsSet, double unlockAtLifetimePoints, Color colour, String description)
+	PackTier(String displayName, double cost, int cardCount, int copiesPerCard, double luck,
+			 Rarity floor, Rarity ceiling, boolean targetsSet, double unlockAtLifetimePoints,
+			 Color colour, String description)
 	{
 		this.displayName = displayName;
 		this.cost = cost;
 		this.cardCount = cardCount;
+		this.copiesPerCard = copiesPerCard;
 		this.luck = luck;
 		this.floor = floor;
+		this.ceiling = ceiling;
 		this.targetsSet = targetsSet;
 		this.unlockAtLifetimePoints = unlockAtLifetimePoints;
 		this.colour = colour;
@@ -83,5 +88,10 @@ public enum PackTier
 	public double getCostPerCard()
 	{
 		return cost / cardCount;
+	}
+
+	public double getCostPerCopy()
+	{
+		return cost / (cardCount * (double) copiesPerCard);
 	}
 }

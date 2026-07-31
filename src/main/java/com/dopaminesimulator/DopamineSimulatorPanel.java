@@ -57,10 +57,8 @@ import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.swing.BorderFactory;
@@ -91,7 +89,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 		private static final org.slf4j.Logger LOGGER =
 		org.slf4j.LoggerFactory.getLogger(DopamineSimulatorPanel.class);
 	private static final int CASCADE_INTERVAL_MS = 110;
-	private static final int RECENT_LIMIT = 5;
 	private static final int CARD_MIN_WIDTH = 38;
 	private static final int CARD_MAX_WIDTH = 58;
 	private static final int CARD_GAP = 3;
@@ -100,18 +97,16 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private static final Color GOLD = new Color(0xFF, 0xB3, 0x00);
 	private enum Tab
 	{
-		PLAY, UPGRADES, SHOP, CARDS
+		PLAY, SHOP, CARDS
 	}
 	private final DopamineSimulatorPlugin plugin;
 	private final DopamineSimulatorConfig config;
-	private final Deque<Reward> recent = new ArrayDeque<>();
 	private final AtomicBoolean refreshQueued = new AtomicBoolean();
 
 	private Timer cascadeTimer;
 	private ClickButton clickButton;
 	private final Timer surgeTimer;
 	private final JPanel playContent = new JPanel();
-	private final JPanel upgradesContent = new JPanel();
 	private final JPanel shopContent = new JPanel();
 	private final JPanel cardsContent = new JPanel();
 	private final JScrollPane scrollPane;
@@ -128,7 +123,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 		setBackground(ColorScheme.DARK_GRAY_COLOR);
-		for (JPanel tabPanel : new JPanel[]{playContent, upgradesContent, shopContent, cardsContent})
+		for (JPanel tabPanel : new JPanel[]{playContent, shopContent, cardsContent})
 		{
 			tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.Y_AXIS));
 			tabPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
@@ -136,21 +131,17 @@ public class DopamineSimulatorPanel extends PluginPanel
 		JPanel display = new JPanel(new BorderLayout());
 		display.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
-		tabGroup.setLayout(new GridLayout(1, 4, 1, 0));
+		tabGroup.setLayout(new GridLayout(1, 3, 1, 0));
 		tabGroup.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
 		MaterialTab playTab = tab("Play", tabGroup, playContent);
-		MaterialTab upgradesTab = tab("Upgrades", tabGroup, upgradesContent);
 		MaterialTab shopTab = tab("Shop", tabGroup, shopContent);
 		MaterialTab cardsTab = tab("Cards", tabGroup, cardsContent);
 		playTab.setOnSelectEvent(() -> selectTab(Tab.PLAY));
-		upgradesTab.setOnSelectEvent(() -> selectTab(Tab.UPGRADES));
 		shopTab.setOnSelectEvent(() -> selectTab(Tab.SHOP));
 		cardsTab.setOnSelectEvent(() -> selectTab(Tab.CARDS));
 
 		tabGroup.addTab(playTab);
-		tabGroup.addTab(upgradesTab);
 		tabGroup.addTab(shopTab);
-
 		tabGroup.addTab(cardsTab);
 		ScrollableContent wrapper = new ScrollableContent();
 		wrapper.setLayout(new BorderLayout());
@@ -248,9 +239,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 				case PLAY:
 					buildPlayTab(state);
 					break;
-				case UPGRADES:
-					buildUpgradesTab(state);
-					break;
 				case SHOP:
 					buildShopTab(state);
 					break;
@@ -287,8 +275,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 	{
 		switch (tab)
 		{
-			case UPGRADES:
-				return upgradesContent;
 			case SHOP:
 				return shopContent;
 			case CARDS:
@@ -308,25 +294,35 @@ public class DopamineSimulatorPanel extends PluginPanel
 		playContent.add(pointsLine(state));
 		playContent.add(Box.createVerticalStrut(8));
 		playContent.add(buildClickButton(state, surging));
-		playContent.add(Box.createVerticalStrut(10));
-		playContent.add(sectionLabel("Sources"));
+		playContent.add(Box.createVerticalStrut(8));
+		playContent.add(revealQueueStrip());
+		playContent.add(Box.createVerticalStrut(8));
+
+		playContent.add(sectionLabel("Sources",
+			BigNumbers.format(perHour) + "/hr"));
+		playContent.add(hint("Each one pays more every time you upgrade it."));
 		playContent.add(Box.createVerticalStrut(4));
+		playContent.add(buildQuantitySelector());
+		playContent.add(Box.createVerticalStrut(5));
+
 		for (PointSource source : PointSource.values())
 		{
 			if (state.isSourceUnlocked(source))
 			{
-				playContent.add(sourceRow(state, source, income));
-				playContent.add(Box.createVerticalStrut(3));
+				playContent.add(upgradeRow(state, source, income));
+				playContent.add(Box.createVerticalStrut(4));
 			}
 		}
+
 		PointSource next = state.nextLockedSource();
 		if (next != null)
 		{
 			playContent.add(Box.createVerticalStrut(4));
 			playContent.add(lockedSourceRow(state, next));
 		}
-		playContent.add(Box.createVerticalStrut(10));
-		buildRecentReveals();
+
+		playContent.add(Box.createVerticalStrut(8));
+		playContent.add(milestoneLine(state));
 	}
 
 	private ClickButton buildClickButton(DopamineState state, boolean surging)
@@ -355,49 +351,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 		return PointSource.CLICK.pointsFor(1d, state.getSourceUpgradeLevel(PointSource.CLICK))
 			* Milestones.globalMultiplier(state.getLifetimePoints()) * surge;
 	}
-	private JPanel sourceRow(DopamineState state, PointSource source, IncomeTracker income)
-	{
-		int level = state.getSourceUpgradeLevel(source);
-		double rate = income.perHour(source, state.getTick());
-		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		row.setBorder(BorderFactory.createCompoundBorder(
-			BorderFactory.createMatteBorder(0, 3, 0, 0, source.getColour()),
-			BorderFactory.createEmptyBorder(4, 6, 4, 6)));
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
-		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
-		JPanel text = new JPanel();
-		text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
-		text.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		JLabel name = new JLabel(source.getDisplayName());
-		name.setForeground(source.getColour());
-		name.setAlignmentX(Component.LEFT_ALIGNMENT);
-		text.add(name);
-		JLabel detail = new JLabel(rate > 0
-			? BigNumbers.format(rate) + "/hr"
-			: source.getDescription());
-		detail.setFont(FontManager.getRunescapeSmallFont());
-		detail.setForeground(Color.GRAY);
-		detail.setAlignmentX(Component.LEFT_ALIGNMENT);
-		text.add(detail);
-		row.add(text, BorderLayout.CENTER);
-
-		double fromUpgrades = PointSource.multiplierForLevel(level);
-		double fromCards = CollectionBonus.multiplierFor(state, source);
-
-		JLabel multiplier = new JLabel(multiplierText(fromUpgrades * fromCards));
-		multiplier.setFont(FontManager.getRunescapeSmallFont());
-		multiplier.setForeground(level > 0 || fromCards > 1d ? Color.WHITE : Color.DARK_GRAY);
-		row.add(multiplier, BorderLayout.EAST);
-		CardSet set = CollectionBonus.setFor(source);
-		row.setToolTipText("<html>" + source.getDescription()
-			+ "<br>" + multiplierText(fromUpgrades) + " from " + level + " upgrades"
-			+ "<br>" + multiplierText(fromCards) + " from your " + set.getDisplayName() + " cards"
-			+ " (" + state.getStarsInSet(set) + "★, "
-			+ CardCollection.completedIn(state, set) + " collections)"
-			+ "<br><b>" + multiplierText(fromUpgrades * fromCards) + " total</b></html>");
-		return row;
-	}
 	private JPanel lockedSourceRow(DopamineState state, PointSource source)
 	{
 		JPanel row = new JPanel(new BorderLayout(4, 0));
@@ -420,38 +373,19 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		return row;
 	}
-	private void buildUpgradesTab(DopamineState state)
-	{
-		upgradesContent.add(pointsLine(state));
-		upgradesContent.add(Box.createVerticalStrut(6));
-		upgradesContent.add(buildQuantitySelector());
-		upgradesContent.add(Box.createVerticalStrut(8));
-		upgradesContent.add(sectionLabel("Multipliers"));
-		upgradesContent.add(hint("Permanently increase what an activity is worth."));
-		upgradesContent.add(Box.createVerticalStrut(5));
-		for (PointSource source : PointSource.values())
-		{
-			if (state.isSourceUnlocked(source))
-			{
-				upgradesContent.add(upgradeRow(state, source));
-				upgradesContent.add(Box.createVerticalStrut(4));
-			}
-		}
-		upgradesContent.add(Box.createVerticalStrut(10));
-		upgradesContent.add(Box.createVerticalStrut(8));
-		upgradesContent.add(milestoneLine(state));
-	}
-
-	private ShopRow upgradeRow(DopamineState state, PointSource source)
+	private ShopRow upgradeRow(DopamineState state, PointSource source, IncomeTracker income)
 	{
 		int level = state.getSourceUpgradeLevel(source);
 		double cost = source.upgradeCostForMany(level, buyQuantity);
 		boolean affordable = state.getPoints() >= cost;
-		String effect = "x" + String.format("%.2f", PointSource.multiplierForLevel(level))
+		double rate = income.perHour(source, state.getTick());
+
+		String effect = (rate > 0 ? BigNumbers.format(rate) + "/hr  •  " : "")
+			+ "x" + String.format("%.2f", PointSource.multiplierForLevel(level))
 			+ "  →  x" + String.format("%.2f", PointSource.multiplierForLevel(level + buyQuantity));
 
 		ShopRow row = new ShopRow(
-			source.getDisplayName() + " upgrade",
+			source.getDisplayName(),
 			effect,
 			cost,
 			source.getColour(),
@@ -460,10 +394,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 			state.getPoints() / cost,
 			r -> plugin.buySourceUpgrade(source, buyQuantity));
 		row.setIcon(plugin.getGameIcons().forSource(source));
+		CardSet set = CollectionBonus.setFor(source);
+		double fromCards = CollectionBonus.multiplierFor(state, source);
 		row.setToolTipText("<html><b>" + source.getDisplayName() + "</b><br>"
 			+ source.getDescription() + "<br>Level " + level
-			+ " (each level is x" + String.format("%.2f", PointSource.UPGRADE_MULTIPLIER)
-			+ ")</html>");
+			+ " (each level is x" + String.format("%.2f", PointSource.UPGRADE_MULTIPLIER) + ")"
+			+ "<br>" + multiplierText(fromCards) + " from your " + set.getDisplayName() + " cards"
+			+ "<br><b>" + multiplierText(PointSource.multiplierForLevel(level) * fromCards)
+			+ " total</b></html>");
 		return sized(row);
 	}
 	private void buildShopTab(DopamineState state)
@@ -943,13 +881,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private void acceptRevealed(Reward reward)
 	{
 		plugin.flash(reward);
-		recent.addFirst(reward);
-		while (recent.size() > RECENT_LIMIT)
-		{
-			recent.removeLast();
-		}
 	}
-	private void buildRecentReveals()
+	private JPanel revealQueueStrip()
 	{
 		RewardQueue queue = plugin.getRewards();
 		int depth = queue.depth();
@@ -957,7 +890,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		header.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
-		JLabel label = new JLabel(depth > 0 ? depth + " revealing..." : "Recent");
+		JLabel label = new JLabel(depth > 0 ? depth + " revealing..." : "Nothing waiting");
 		label.setFont(FontManager.getRunescapeBoldFont());
 		label.setForeground(depth > 0 ? GOLD : Color.LIGHT_GRAY);
 		header.add(label, BorderLayout.WEST);
@@ -969,57 +902,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 			skip.addActionListener(e -> revealEverythingNow());
 			header.add(skip, BorderLayout.EAST);
 		}
-		playContent.add(header);
-		playContent.add(Box.createVerticalStrut(4));
-		if (recent.isEmpty())
-		{
-			playContent.add(hint("Revealed cards appear here."));
-			return;
-		}
-		for (Reward reward : recent)
-		{
-			playContent.add(rewardRow(reward));
-			playContent.add(Box.createVerticalStrut(2));
-		}
+		return header;
 	}
 
-	private JPanel rewardRow(Reward reward)
-	{
-		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		row.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
-		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
-		JLabel title = new JLabel(reward.getTitle());
-		title.setForeground(reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE);
-		row.add(title, BorderLayout.WEST);
-		JLabel detail = new JLabel(shortDetail(reward));
-		detail.setForeground(Color.GRAY);
-		detail.setFont(FontManager.getRunescapeSmallFont());
-		row.add(detail, BorderLayout.EAST);
-		row.setToolTipText(reward.getDetail());
-		return row;
-	}
-	private static String shortDetail(Reward reward)
-	{
-		switch (reward.getType())
-		{
-			case NEW_CARD:
-				return "NEW";
-			case DUPLICATE:
-				return "+" + reward.getAmount();
-			case STAR_UP:
-				return reward.getAmount() + "★";
-			case FUSION:
-				return "FUSED";
-			case SET_COMPLETE:
-				return "SET";
-			case SOURCE_UNLOCKED:
-				return "NEW";
-			default:
-				return "";
-		}
-	}
 
 	private JPanel buildQuantitySelector()
 	{

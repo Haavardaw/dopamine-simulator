@@ -143,7 +143,15 @@ public class DopamineState
 	}
 	public void addCopy(String cardId)
 	{
-		cardCounts.merge(cardId, 1, Integer::sum);
+		addCopies(cardId, 1);
+	}
+
+	public void addCopies(String cardId, int copies)
+	{
+		if (copies > 0)
+		{
+			cardCounts.merge(cardId, copies, Integer::sum);
+		}
 	}
 
 	public int getShards(Rarity rarity)
