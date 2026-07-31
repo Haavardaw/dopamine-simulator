@@ -184,7 +184,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		});
 		surgeTimer = new Timer(500, e ->
 		{
-			if (selectedTab == Tab.CARDS || plugin.getEngine() == null)
+			if (selectedTab == Tab.CARDS || !plugin.isPlayable())
 			{
 				return;
 			}
@@ -235,9 +235,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 		JPanel target = contentFor(selectedTab);
 		target.removeAll();
 
-		if (plugin.getEngine() == null)
+		if (!plugin.isPlayable())
 		{
-			target.add(hint("Log in to start."));
+			buildLockedTab();
 		}
 		else
 		{
@@ -267,6 +267,22 @@ public class DopamineSimulatorPanel extends PluginPanel
 		target.repaint();
 		SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(scrollPosition));
 	}
+
+	private void buildLockedTab()
+	{
+		JPanel target = contentFor(selectedTab);
+
+		JLabel title = new JLabel("Logged out");
+		title.setFont(FontManager.getRunescapeBoldFont());
+		title.setForeground(GOLD);
+		title.setAlignmentX(Component.LEFT_ALIGNMENT);
+		target.add(title);
+		target.add(Box.createVerticalStrut(6));
+
+		target.add(hint("Progress is saved per account, so nothing can be earned or spent from "
+			+ "the login screen. Log in to carry on."));
+	}
+
 	private JPanel contentFor(Tab tab)
 	{
 		switch (tab)

@@ -58,6 +58,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
+import net.runelite.api.GameState;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
 import net.runelite.api.coords.WorldPoint;
@@ -398,12 +399,19 @@ public class DopamineSimulatorPlugin extends Plugin
 			default:
 				break;
 		}
+
+		refreshPanel();
 	}
+	public boolean isPlayable()
+	{
+		return engine != null && client.getGameState() == GameState.LOGGED_IN;
+	}
+
 	public void click()
 	{
 		clientThread.invoke(() ->
 		{
-			if (engine == null)
+			if (!isPlayable())
 			{
 				return;
 			}
@@ -416,7 +424,7 @@ public class DopamineSimulatorPlugin extends Plugin
 	{
 		clientThread.invoke(() ->
 		{
-			if (engine == null || count < 1)
+			if (!isPlayable() || count < 1)
 			{
 				return;
 			}
@@ -503,7 +511,7 @@ public class DopamineSimulatorPlugin extends Plugin
 	{
 		clientThread.invoke(() ->
 		{
-			if (engine == null)
+			if (!isPlayable())
 			{
 				return;
 			}
