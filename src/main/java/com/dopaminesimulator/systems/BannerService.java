@@ -99,6 +99,12 @@ public class BannerService
 		return Math.max(1, rarity.copiesForMaxStars() * 6 / 10);
 	}
 
+	/** What a win takes the card to, which reads better than the raw copy count. */
+	public int featuredStars(Rarity rarity)
+	{
+		return rarity.starsFor(featuredCopies(rarity));
+	}
+
 	public Card featured(DopamineState state, Rarity rarity)
 	{
 		String id = state.getBannerCard(rarity);

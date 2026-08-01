@@ -214,7 +214,7 @@ public final class CardCollection
 		define("Tombs of Amascut", CardSet.ITEMS,
 			"Uniques from the Tombs of Amascut.",
 			"Osmumten's Fang", "Lightbearer", "Elidinis' Ward", "Masori Mask",
-			"Masori Chestplate", "Tumeken's Shadow");
+			"Masori Body", "Tumeken's Shadow");
 
 		define("God Wars Uniques", CardSet.ITEMS,
 			"Drops from the four God Wars generals.",

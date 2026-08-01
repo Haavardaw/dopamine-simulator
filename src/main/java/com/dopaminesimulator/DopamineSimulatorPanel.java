@@ -555,14 +555,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 		block.add(header);
 		block.add(Box.createVerticalStrut(4));
 
-		String detail = banner.featuredCopies(rarity) + " copies of "
-			+ featured.getName() + " on a win, and every pull opens a "
+		String detail = "A win takes " + featured.getName() + " straight to "
+			+ banner.featuredStars(rarity) + " stars, and every pull opens a "
 			+ banner.packFor(rarity).getDisplayName() + " regardless.";
 		BufferedImage icon = art;
 
 		ShopRow one = new ShopRow(
 			"Pull",
-			"Wins " + banner.featuredCopies(rarity) + " copies",
+			"Wins it to " + banner.featuredStars(rarity) + "★",
 			cost,
 			rarity.getColour(),
 			"1",

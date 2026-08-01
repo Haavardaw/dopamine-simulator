@@ -32,6 +32,9 @@ import java.awt.Color;
 @Getter
 public enum PackTier
 {
+	// a pile of copies of one card reads as noise, so grants stay small and
+	// bigger packs hand out more cards instead
+
 	SCRAP("Scrap Pack", 400d, 1, 1, 1.0d, null, Rarity.COMMON, false, 0d,
 		new Color(0x9E, 0x9E, 0x9E),
 		"1 card. Common only."),
@@ -41,18 +44,20 @@ public enum PackTier
 	GILDED("Gilded Pack", 15_000d, 3, 6, 1.0d, Rarity.UNCOMMON, Rarity.RARE, false, 20_000d,
 		new Color(0x66, 0xBB, 0x6A),
 		"3 cards. Uncommon or Rare."),
-	CURATED("Curated Pack", 70_000d, 3, 28, 1.0d, Rarity.UNCOMMON, Rarity.RARE, true,
+	CURATED("Curated Pack", 70_000d, 9, 9, 1.0d, Rarity.UNCOMMON, Rarity.RARE, true,
 		100_000d, new Color(0x26, 0xC6, 0xDA),
-		"3 cards from one chosen set. Uncommon or Rare, in bulk."),
-	PRISMATIC("Prismatic Pack", 350_000d, 4, 47, 1.5d, Rarity.RARE, Rarity.EPIC,
+		"9 cards from one chosen set. Uncommon or Rare."),
+	PRISMATIC("Prismatic Pack", 350_000d, 12, 15, 1.5d, Rarity.RARE, Rarity.EPIC,
 		false, 500_000d, new Color(0xAB, 0x47, 0xBC),
-		"4 cards. Rare floor, about three in ten Epic."),
-	ASCENDANT("Ascendant Pack", 2_000_000d, 5, 75, 1.6d, Rarity.EPIC,
+		"12 cards. Rare floor, about three in ten Epic."),
+	ASCENDANT("Ascendant Pack", 2_000_000d, 15, 25, 1.6d, Rarity.EPIC,
 		Rarity.LEGENDARY, false, 3_000_000d, new Color(0xFF, 0xB3, 0x00),
-		"5 cards. Epic floor, about one in seven Legendary."),
+		"15 cards. Epic floor, about one in seven Legendary."),
 	MYTHIC("Mythic Pack", 5_000_000d, 3, 56, 1.0d, Rarity.LEGENDARY, Rarity.LEGENDARY,
 		false, 15_000_000d, new Color(0xFF, 0x70, 0x43),
 		"3 cards, always Legendary. The cheapest Legendary copies in the game.");
+	public static final int MAX_COPIES = 10;
+
 	private final String displayName;
 	private final double cost;
 	private final int cardCount;
@@ -99,7 +104,7 @@ public enum PackTier
 	{
 		double scale = rarity.copiesForMaxStars()
 			/ (double) Rarity.COMMON.copiesForMaxStars();
-		return Math.max(1, (int) Math.round(bulkCopies * scale));
+		return Math.max(1, Math.min(MAX_COPIES, (int) Math.round(bulkCopies * scale)));
 	}
 
 	public double getCostPerCopy()

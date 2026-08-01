@@ -576,7 +576,7 @@ public final class CardCatalogue
 		item(out, "Lightbearer", Rarity.EPIC, ItemID.LIGHTBEARER);
 		item(out, "Elidinis' Ward", Rarity.EPIC, ItemID.ELIDINIS_WARD);
 		item(out, "Masori Mask", Rarity.EPIC, ItemID.MASORI_MASK);
-		item(out, "Masori Chestplate", Rarity.EPIC, ItemID.MASORI_CHESTPLATE);
+		item(out, "Masori Body", Rarity.EPIC, ItemID.MASORI_BODY);
 		item(out, "Tumeken's Shadow", Rarity.LEGENDARY, ItemID.TUMEKENS_SHADOW);
 		item(out, "Armadyl Crossbow", Rarity.EPIC, ItemID.ACB);
 		item(out, "Saradomin Sword", Rarity.RARE, ItemID.SARADOMIN_SWORD);
