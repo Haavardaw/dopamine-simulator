@@ -92,7 +92,7 @@ public class DopamineState
 
 	private Map<Rarity, String> bannerCards = new EnumMap<>(Rarity.class);
 
-	private Map<Rarity, Integer> bannerPity = new EnumMap<>(Rarity.class);
+	private Map<Rarity, Integer> bannerPityByRarity = new EnumMap<>(Rarity.class);
 
 	private int bannerPulls;
 
@@ -162,9 +162,9 @@ public class DopamineState
 		{
 			bannerCards = new EnumMap<>(Rarity.class);
 		}
-		if (bannerPity == null)
+		if (bannerPityByRarity == null)
 		{
-			bannerPity = new EnumMap<>(Rarity.class);
+			bannerPityByRarity = new EnumMap<>(Rarity.class);
 		}
 		unlockedBacks.add("STANDARD");
 		if (selectedBack == null || selectedBack.isEmpty())
@@ -199,7 +199,7 @@ public class DopamineState
 		gildedCards.clear();
 		completedSets.clear();
 		bannerCards.clear();
-		bannerPity.clear();
+		bannerPityByRarity.clear();
 		totalPacksOpened = 0L;
 		packsSinceLastRare = 0;
 		wildcards = 0;
@@ -217,13 +217,13 @@ public class DopamineState
 
 	public int getBannerPity(Rarity rarity)
 	{
-		Integer value = bannerPity.get(rarity);
+		Integer value = bannerPityByRarity.get(rarity);
 		return value == null ? 0 : value;
 	}
 
 	public void setBannerPity(Rarity rarity, int value)
 	{
-		bannerPity.put(rarity, value);
+		bannerPityByRarity.put(rarity, value);
 	}
 
 	public boolean spendShards(Rarity rarity, int amount)

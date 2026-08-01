@@ -67,12 +67,33 @@ public class SaveManager
 			state.ensureInitialised();
 			return state;
 		}
-		catch (IOException | JsonSyntaxException e)
+		catch (IOException | JsonSyntaxException | IllegalStateException e)
 		{
-			log.warn("Could not read Dopamine Simulator save {}, starting fresh", file, e);
+			// starting fresh means the next save overwrites this file, so keep a copy
+			log.warn("Could not read Dopamine Simulator save {}, kept a copy at {}",
+				file, quarantine(file), e);
 			return new DopamineState();
 		}
 	}
+	private File quarantine(File file)
+	{
+		File copy = new File(SAVE_DIR, file.getName() + ".unreadable");
+		for (int i = 1; copy.exists() && i < 100; i++)
+		{
+			copy = new File(SAVE_DIR, file.getName() + ".unreadable." + i);
+		}
+		try
+		{
+			Files.copy(file.toPath(), copy.toPath());
+			return copy;
+		}
+		catch (IOException e)
+		{
+			log.warn("Could not preserve unreadable save {}", file, e);
+			return file;
+		}
+	}
+
 	public void save(long accountHash, DopamineState state)
 	{
 		if (state == null)
