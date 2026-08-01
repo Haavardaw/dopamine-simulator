@@ -52,7 +52,7 @@ public enum PointSource
 
 	// Additive, not multiplicative: output climbs in a straight line while cost
 	// climbs exponentially, so points per hour flattens the way xp per hour does.
-	public static final double UPGRADE_GAIN = 0.15d;
+	public static final double UPGRADE_GAIN = 0.42d;
 
 	public static final double UPGRADE_COST_GROWTH = 1.18d;
 

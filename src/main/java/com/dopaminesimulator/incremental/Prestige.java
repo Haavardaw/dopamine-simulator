@@ -28,7 +28,7 @@ public final class Prestige
 {
 	public static final int STARS_PER_INSIGHT = 100;
 
-	public static final int MIN_STARS = 800;
+	public static final int MIN_STARS = 2_500;
 
 	/**
 	 * Insight makes every upgrade level worth more, so it lifts the ceiling income
