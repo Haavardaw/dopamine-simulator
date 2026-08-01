@@ -132,8 +132,43 @@ public class PassTierRow extends JComponent
 		drawSpine(g);
 
 		int textX = SPINE_X + 20;
-		g.setColor(BODY);
-		g.fillRoundRect(textX - 6, 3, Math.max(20, width - textX + 2), HEIGHT - 6, 5, 5);
+		int plateX = textX - 6;
+		int plateW = Math.max(20, width - textX + 2);
+		boolean ready = reached
+			&& ((!freeClaimed) || (premiumOwned && !premiumClaimed));
+
+		if (ready)
+		{
+			for (int i = 3; i >= 1; i--)
+			{
+				g.setColor(withAlpha(accent, 12 * i));
+				g.fillRoundRect(plateX - i, 3 - i, plateW + i * 2, HEIGHT - 6 + i * 2, 6, 6);
+			}
+		}
+
+		g.setPaint(milestone
+			? new GradientPaint(plateX, 3, new Color(0x2F, 0x2C, 0x24),
+				plateX, HEIGHT - 3, new Color(0x1D, 0x1B, 0x18))
+			: new GradientPaint(plateX, 3, new Color(0x27, 0x27, 0x2D),
+				plateX, HEIGHT - 3, new Color(0x1D, 0x1D, 0x22)));
+		g.fillRoundRect(plateX, 3, plateW, HEIGHT - 6, 5, 5);
+
+		g.setStroke(new BasicStroke(1f));
+		g.setColor(withAlpha(Color.WHITE, 20));
+		g.drawLine(plateX + 2, 4, plateX + plateW - 3, 4);
+		g.setColor(withAlpha(Color.BLACK, 110));
+		g.drawLine(plateX + 2, HEIGHT - 4, plateX + plateW - 3, HEIGHT - 4);
+
+		if (milestone)
+		{
+			g.setColor(withAlpha(reached ? accent : SPINE, 190));
+			g.drawRoundRect(plateX, 3, plateW - 1, HEIGHT - 7, 5, 5);
+		}
+		else if (ready)
+		{
+			g.setColor(withAlpha(accent, 120));
+			g.drawRoundRect(plateX, 3, plateW - 1, HEIGHT - 7, 5, 5);
+		}
 
 		drawNode(g);
 		drawReward(g, free, freeIcon, textX, 14, freeClaimed, false);

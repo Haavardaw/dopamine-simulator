@@ -31,9 +31,6 @@ public final class BattlePass
 {
 	public static final int TIERS = 50;
 
-	// Pass XP is capped per game tick, so a season costs playtime rather than money.
-	public static final double MAX_XP_PER_TICK = 1.0d;
-
 	private static final double XP_BASE = 150d;
 	private static final double XP_PER_TIER = 35d;
 	private static final double SEASON_XP_GROWTH = 0.05d;

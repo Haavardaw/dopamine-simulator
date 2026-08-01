@@ -100,7 +100,8 @@ public class PassHeader extends JComponent
 		drawSheen(g, width);
 		drawVignette(g, width);
 
-		g.setColor(withAlpha(premium ? GOLD : accent, 150));
+		drawBevel(g, width);
+		g.setColor(withAlpha(premium ? GOLD : accent, 170));
 		g.setStroke(new BasicStroke(1.5f));
 		g.drawRoundRect(0, 0, width - 1, HEIGHT - 1, 9, 9);
 		g.setPaint(new GradientPaint(0, 8, brighten(accent), 0, HEIGHT - 8, accent.darker()));
@@ -184,6 +185,17 @@ public class PassHeader extends JComponent
 			width * 0.62f, HEIGHT, withAlpha(Color.WHITE, 22)));
 		g.fillRect(0, 0, width, HEIGHT);
 		g.setClip(clip);
+	}
+
+	private void drawBevel(Graphics2D g, int width)
+	{
+		g.setStroke(new BasicStroke(1f));
+		g.setColor(withAlpha(Color.WHITE, 34));
+		g.drawLine(2, 1, width - 3, 1);
+		g.drawLine(1, 2, 1, HEIGHT - 3);
+		g.setColor(withAlpha(Color.BLACK, 120));
+		g.drawLine(2, HEIGHT - 2, width - 3, HEIGHT - 2);
+		g.drawLine(width - 2, 2, width - 2, HEIGHT - 3);
 	}
 
 	private void drawWeave(Graphics2D g, int width)

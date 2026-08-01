@@ -50,6 +50,7 @@ import com.dopaminesimulator.pass.PassTheme;
 import com.dopaminesimulator.pass.SeasonClock;
 import com.dopaminesimulator.systems.BannerService;
 import com.dopaminesimulator.systems.PassService;
+import com.dopaminesimulator.systems.PassSystem;
 import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.ui.CardComponent;
@@ -616,10 +617,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ ". Next month brings " + next.getArea() + ".");
 		shopContent.add(header);
 		shopContent.add(Box.createVerticalStrut(5));
-		shopContent.add(hint("Cards and packs from " + region.getArea() + ". "
-			+ theme.getDescription() + ". Pass xp is capped per game tick, so the track is paid"
-			+ " for in hours played. The season ends when the month does, and anything left"
-			+ " unclaimed goes with it."));
+		shopContent.add(hint(region.getArea() + " cards and packs. Earned from experience, "
+			+ (long) PassSystem.XP_PER_POINT + " xp a point, with no multipliers. Unclaimed"
+			+ " rewards are lost when the month ends."));
 		shopContent.add(Box.createVerticalStrut(8));
 
 		int pending = pass.unclaimed(state).size();

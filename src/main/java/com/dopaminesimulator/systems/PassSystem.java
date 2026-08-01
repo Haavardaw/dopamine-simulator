@@ -29,20 +29,13 @@ import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.DopamineSystem;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.core.SkillWeights;
-import com.dopaminesimulator.pass.BattlePass;
 
 public class PassSystem implements DopamineSystem
 {
-	private static final double PER_KILL = 1.0d;
-	private static final double XP_PER_POINT = 400d;
-	private static final double TILES_PER_POINT = 25d;
-	private static final double DAMAGE_PER_POINT = 20d;
-	private static final double HEALED_PER_POINT = 20d;
-	private static final double LOOT_PER_POINT = 5_000d;
-	private static final double PER_LEVEL = 25d;
-	private static final double IDLE_TRICKLE = 0.05d;
+	/** Raw experience per point of pass xp. Nothing multiplies this. */
+	public static final double XP_PER_POINT = 25d;
 
-	private double earnedThisTick;
+	private static final double PER_LEVEL = 40d;
 
 	@Override
 	public String getName()
@@ -55,49 +48,15 @@ public class PassSystem implements DopamineSystem
 	{
 		switch (event.getType())
 		{
-			case TICK:
-				earnedThisTick = 0d;
-				if (state.isIdle())
-				{
-					grant(state, IDLE_TRICKLE);
-				}
-				break;
-			case NPC_KILLED:
-				grant(state, PER_KILL);
-				break;
-			case LEVEL_UP:
-				grant(state, PER_LEVEL);
-				break;
 			case XP_GAINED:
-				grant(state, SkillWeights.weightedXp(event.getKey(), event.getAmount())
+				state.addPassXp(SkillWeights.weightedXp(event.getKey(), event.getAmount())
 					/ XP_PER_POINT);
 				break;
-			case DISTANCE_TRAVELLED:
-				grant(state, event.getAmount() / TILES_PER_POINT);
-				break;
-			case DAMAGE_TAKEN:
-				grant(state, event.getAmount() / DAMAGE_PER_POINT);
-				break;
-			case HEALTH_RESTORED:
-				grant(state, event.getAmount() / HEALED_PER_POINT);
-				break;
-			case LOOT_RECEIVED:
-				grant(state, event.getAmount() / LOOT_PER_POINT);
+			case LEVEL_UP:
+				state.addPassXp(PER_LEVEL);
 				break;
 			default:
 				break;
 		}
-	}
-
-	private void grant(DopamineState state, double amount)
-	{
-		double room = BattlePass.MAX_XP_PER_TICK - earnedThisTick;
-		double granted = Math.max(0d, Math.min(amount, room));
-		if (granted <= 0d)
-		{
-			return;
-		}
-		earnedThisTick += granted;
-		state.addPassXp(granted);
 	}
 }
