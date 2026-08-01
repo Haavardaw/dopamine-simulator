@@ -609,9 +609,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ " when you finish tier " + BattlePass.TIERS + ".");
 		shopContent.add(header);
 		shopContent.add(Box.createVerticalStrut(5));
-		shopContent.add(hint(theme.getDescription() + ". Pass xp comes from playing, capped per"
-			+ " tick, so it cannot be bought. Seasons rotate when you finish them, never on a"
-			+ " clock."));
+		shopContent.add(hint(theme.getDescription() + ". Pass xp is capped per game tick, so a"
+			+ " season is paid for in hours played rather than points. Nothing expires: it only"
+			+ " moves while you do, and a season ends when you finish it."));
 		shopContent.add(Box.createVerticalStrut(8));
 
 		int pending = pass.unclaimed(state).size();

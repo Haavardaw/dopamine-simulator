@@ -35,14 +35,17 @@ import java.awt.Graphics2D;
 import java.awt.MultipleGradientPaint;
 import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 
 public class PassHeader extends JComponent
 {
-	public static final int HEIGHT = 68;
+	public static final int HEIGHT = 92;
 
-	private static final Color PLATE_TOP = new Color(0x25, 0x25, 0x2B);
+	private static final Color PLATE_TOP = new Color(0x2B, 0x2A, 0x33);
+	private static final Color GOLD = new Color(0xF2, 0xC8, 0x5A);
 	private static final Color PLATE_BOTTOM = new Color(0x15, 0x15, 0x19);
 	private static final Color TRACK = new Color(0x0E, 0x0E, 0x11);
 
@@ -81,60 +84,101 @@ public class PassHeader extends JComponent
 			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		int width = getWidth();
-		g.setPaint(new GradientPaint(0, 0, PLATE_TOP, 0, HEIGHT, PLATE_BOTTOM));
-		g.fillRoundRect(0, 0, width, HEIGHT, 8, 8);
 
-		g.setPaint(new RadialGradientPaint(new Point2D.Float(width * 0.16f, 0f),
-			Math.max(50f, width * 0.7f), new float[]{0f, 1f},
-			new Color[]{withAlpha(accent, 62), withAlpha(accent, 0)},
+		g.setPaint(new GradientPaint(0, 0, PLATE_TOP, width, HEIGHT, PLATE_BOTTOM));
+		g.fillRoundRect(0, 0, width, HEIGHT, 9, 9);
+
+		g.setPaint(new RadialGradientPaint(new Point2D.Float(width * 0.12f, 0f),
+			Math.max(60f, width * 0.85f), new float[]{0f, 1f},
+			new Color[]{withAlpha(accent, 96), withAlpha(accent, 0)},
 			MultipleGradientPaint.CycleMethod.NO_CYCLE));
-		g.fillRoundRect(0, 0, width, HEIGHT, 8, 8);
+		g.fillRoundRect(0, 0, width, HEIGHT, 9, 9);
 
-		g.setColor(withAlpha(accent, 120));
+		drawSheen(g, width);
+
+		g.setColor(withAlpha(premium ? GOLD : accent, 150));
 		g.setStroke(new BasicStroke(1.5f));
-		g.drawRoundRect(0, 0, width - 1, HEIGHT - 1, 8, 8);
-		g.setColor(accent);
-		g.fillRoundRect(0, 9, 3, HEIGHT - 18, 2, 2);
+		g.drawRoundRect(0, 0, width - 1, HEIGHT - 1, 9, 9);
+		g.setPaint(new GradientPaint(0, 8, brighten(accent), 0, HEIGHT - 8, accent.darker()));
+		g.fillRoundRect(0, 8, 4, HEIGHT - 16, 2, 2);
 
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
-		g.setColor(withAlpha(accent, 210));
-		g.drawString("SEASON " + season, 12, 17);
+		g.setColor(withAlpha(accent, 225));
+		g.drawString("SEASON " + season, 13, 20);
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
-		g.setColor(Color.WHITE);
-		g.drawString(theme, 12, 35);
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
+		g.setColor(new Color(0x08, 0x08, 0x0A));
+		g.drawString(theme, 14, 43);
+		g.setPaint(new GradientPaint(13, 28, Color.WHITE, 13, 44, brighten(accent)));
+		g.drawString(theme, 13, 42);
 
 		String badge = premium ? "PREMIUM" : "FREE";
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
 		FontMetrics metrics = g.getFontMetrics();
-		int badgeW = metrics.stringWidth(badge) + 12;
-		int badgeX = width - badgeW - 10;
-		g.setColor(premium ? withAlpha(accent, 190) : new Color(0x33, 0x33, 0x3A));
-		g.fillRoundRect(badgeX, 9, badgeW, 14, 7, 7);
-		g.setColor(premium ? new Color(0x12, 0x12, 0x14) : new Color(0x8E, 0x8E, 0x98));
-		g.drawString(badge, badgeX + 6, 20);
+		int badgeW = metrics.stringWidth(badge) + 14;
+		int badgeX = width - badgeW - 11;
+		if (premium)
+		{
+			g.setPaint(new GradientPaint(badgeX, 10, GOLD, badgeX, 26, GOLD.darker()));
+		}
+		else
+		{
+			g.setPaint(new GradientPaint(badgeX, 10, new Color(0x3A, 0x3A, 0x42),
+				badgeX, 26, new Color(0x28, 0x28, 0x2E)));
+		}
+		g.fillRoundRect(badgeX, 11, badgeW, 15, 7, 7);
+		g.setColor(premium ? new Color(0x12, 0x0E, 0x04) : new Color(0x9A, 0x9A, 0xA4));
+		g.drawString(badge, badgeX + 7, 22);
 
 		String tierLabel = "TIER " + tier + " / " + tiers;
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 11));
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 		metrics = g.getFontMetrics();
-		g.setColor(accent);
-		g.drawString(tierLabel, width - metrics.stringWidth(tierLabel) - 10, 37);
+		g.setColor(brighten(accent));
+		g.drawString(tierLabel, width - metrics.stringWidth(tierLabel) - 11, 44);
 
-		int barY = HEIGHT - 19;
-		int barW = width - 24;
+		int barY = 60;
+		int barH = 8;
+		int barW = width - 26;
 		g.setColor(TRACK);
-		g.fillRoundRect(12, barY, barW, 6, 3, 3);
-		double progress = need <= 0d ? 1d : Math.min(1d, into / need);
-		g.setPaint(new GradientPaint(12, barY, accent.darker(), 12 + barW, barY, accent));
-		g.fillRoundRect(12, barY, (int) Math.round(barW * progress), 6, 3, 3);
+		g.fillRoundRect(13, barY, barW, barH, 4, 4);
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 9));
-		g.setColor(new Color(0x93, 0x93, 0x9C));
+		double progress = need <= 0d ? 1d : Math.min(1d, into / need);
+		int filled = (int) Math.round(barW * progress);
+		if (filled > 0)
+		{
+			g.setPaint(new GradientPaint(13, barY, accent.darker(), 13 + filled, barY,
+				brighten(accent)));
+			g.fillRoundRect(13, barY, filled, barH, 4, 4);
+			g.setColor(withAlpha(Color.WHITE, 60));
+			g.fillRoundRect(13, barY + 1, filled, barH / 2 - 1, 3, 3);
+		}
+		g.setColor(withAlpha(accent, 90));
+		g.drawRoundRect(13, barY, barW, barH, 4, 4);
+
+		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
+		g.setColor(new Color(0xA0, 0xA0, 0xAA));
 		g.drawString(need <= 0d
-			? "Season complete"
-			: (long) into + " / " + (long) need + " pass xp to tier " + (tier + 1), 12, HEIGHT - 6);
+			? "Season complete - claim what is left, then roll on"
+			: (long) into + " / " + (long) need + " pass xp to tier " + (tier + 1),
+			13, HEIGHT - 10);
 
 		g.dispose();
+	}
+
+	private void drawSheen(Graphics2D g, int width)
+	{
+		Shape clip = g.getClip();
+		g.setClip(new RoundRectangle2D.Float(0, 0, width, HEIGHT, 9, 9));
+		g.setPaint(new GradientPaint(width * 0.35f, 0, withAlpha(Color.WHITE, 0),
+			width * 0.62f, HEIGHT, withAlpha(Color.WHITE, 22)));
+		g.fillRect(0, 0, width, HEIGHT);
+		g.setClip(clip);
+	}
+
+	private static Color brighten(Color colour)
+	{
+		return new Color(Math.min(255, colour.getRed() + 70),
+			Math.min(255, colour.getGreen() + 70), Math.min(255, colour.getBlue() + 70));
 	}
 
 	private static Color withAlpha(Color colour, int alpha)
