@@ -26,6 +26,7 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.incremental.BigNumbers;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
@@ -110,15 +111,16 @@ public class ShopRow extends JComponent
 		boolean hovered = affordable && isShowing() && getMousePosition() != null;
 
 		Skin.card(g, 0, 0, width, height, hovered ? Skin.CARD_HOVER : Skin.CARD);
-		if (affordable)
+		if (hovered)
 		{
-			// affordable rows carry the full accent; the rest show how close they are
-			Skin.edge(g, 0, 0, width, height, 1d, hovered ? Skin.GOLD : accent);
+			g.setStroke(new BasicStroke(1f));
+			g.setColor(Skin.GOLD);
+			g.drawRoundRect(0, 0, width - 1, height - 1, 5, 5);
 		}
-		else
-		{
-			Skin.edge(g, 0, 0, width, height, progressToAfford, accent.darker());
-		}
+		// the source colour is a short tab beside the icon rather than a strip across
+		// the whole row; at this width a full-width bar per row is just noise
+		g.setColor(affordable ? accent : Skin.withAlpha(accent, 90));
+		g.fillRoundRect(2, 8, 3, height - 16, 2, 2);
 
 		drawIcon(g, height);
 
@@ -133,8 +135,20 @@ public class ShopRow extends JComponent
 			affordable ? Skin.WHITE : Skin.FADED);
 
 		g.setFont(Skin.small());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), effect, width - textX - 10), textX, 33,
-			affordable ? Skin.MUTED : Skin.FADED);
+		FontMetrics small = g.getFontMetrics();
+
+		if (affordable)
+		{
+			Skin.text(g, Skin.elide(small, effect, width - textX - 10), textX, 33, Skin.MUTED);
+		}
+		else
+		{
+			// short of the price, the row trades some of its detail for a saving bar
+			int barW = 52;
+			int barX = width - 8 - barW;
+			Skin.text(g, Skin.elide(small, effect, barX - textX - 8), textX, 33, Skin.FADED);
+			Skin.bar(g, barX, 25, barW, 9, progressToAfford, Skin.GOLD_DEEP);
+		}
 
 		g.dispose();
 	}

@@ -71,8 +71,6 @@ public class FeatRow extends JComponent
 		Color rank = Skin.vivid(Feat.tierColour(tier));
 
 		Skin.card(g, 0, 0, width, height, Skin.CARD);
-		Skin.edge(g, 0, 0, width, height, mastered ? 1d : fraction,
-			mastered ? Skin.GOLD : tier > 0 ? rank : Skin.FADED);
 
 		drawMedal(g, height, rank);
 
@@ -88,8 +86,18 @@ public class FeatRow extends JComponent
 			tier > 0 ? Skin.WHITE : Skin.MUTED);
 
 		g.setFont(Skin.small());
-		Skin.text(g, Skin.elide(small, progressText, width - textX - 10), textX, 33,
-			mastered ? Skin.GREEN : Skin.MUTED);
+		if (mastered)
+		{
+			Skin.text(g, Skin.elide(small, progressText, width - textX - 10), textX, 33,
+				Skin.GREEN);
+		}
+		else
+		{
+			int barW = 52;
+			int barX = width - 8 - barW;
+			Skin.text(g, Skin.elide(small, progressText, barX - textX - 8), textX, 33, Skin.MUTED);
+			Skin.bar(g, barX, 25, barW, 9, fraction, tier > 0 ? rank : Skin.FADED);
+		}
 
 		g.dispose();
 	}

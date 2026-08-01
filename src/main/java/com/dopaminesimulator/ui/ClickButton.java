@@ -28,6 +28,10 @@ import com.dopaminesimulator.incremental.BigNumbers;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.MultipleGradientPaint;
+import java.awt.RadialGradientPaint;
+import java.awt.geom.Point2D;
 import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -46,7 +50,7 @@ import javax.swing.Timer;
 
 public class ClickButton extends JComponent
 {
-	private static final int HEIGHT = 62;
+	private static final int HEIGHT = 100;
 	private static final int FRAME_MS = 33;
 	private static final long PARTICLE_LIFETIME_MS = 900L;
 	private static final long PRESS_LIFETIME_MS = 160L;
@@ -166,59 +170,101 @@ public class ClickButton extends JComponent
 
 		int width = getWidth();
 		int height = getHeight();
-		boolean pressed = System.currentTimeMillis() - pressedAt < PRESS_LIFETIME_MS;
+		int centreX = width / 2;
+		int centreY = (height - 16) / 2;
+		int plate = (int) (Math.min(width, height - 16) * 0.78d * currentScale());
 
-		Color accent = surging ? Skin.YELLOW : Skin.GOLD_DEEP;
-		Skin.hero(g, 0, 0, width, height, hovered ? Skin.brighten(accent) : accent);
-
-		if (surging)
-		{
-			// a second frame breathing outside the first, so a surge is unmissable
-			double pulse = 0.5d + 0.5d * Math.sin(System.currentTimeMillis() / 140d);
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-				(float) (0.35d + 0.5d * pulse)));
-			g.setStroke(new BasicStroke(2f));
-			g.setColor(Skin.YELLOW);
-			g.drawRoundRect(3, 3, width - 7, height - 7, 6, 6);
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-		}
-
-		int nudge = pressed ? 1 : 0;
-		int icon = height - 22;
-		drawIcon(g, 12 + nudge, (height - icon) / 2 + nudge, icon);
-		drawLabel(g, 12 + icon + 12 + nudge, width, height, nudge);
-		drawParticles(g, (width + icon) / 2, height / 2);
+		drawGlow(g, centreX, centreY, plate);
+		drawPlate(g, centreX, centreY, plate);
+		drawIcon(g, centreX, centreY, plate);
+		drawLabel(g, width, height);
+		drawParticles(g, centreX, centreY);
 
 		g.dispose();
 	}
 
-	private void drawIcon(Graphics2D g, int x, int y, int size)
+	private double currentScale()
+	{
+		double scale = hovered ? 1.04d : 1.0d;
+		long sincePress = System.currentTimeMillis() - pressedAt;
+		if (sincePress < PRESS_LIFETIME_MS)
+		{
+			scale *= 0.91d + 0.09d * (sincePress / (double) PRESS_LIFETIME_MS);
+		}
+		if (surging)
+		{
+			scale *= 1.03d + 0.03d * Math.sin(System.currentTimeMillis() / 120d);
+		}
+		return scale;
+	}
+
+	private void drawGlow(Graphics2D g, int centreX, int centreY, int plate)
+	{
+		float radius = plate * (surging ? 1.35f : 1.0f);
+		Color tint = surging ? Skin.YELLOW : Skin.GOLD;
+		g.setPaint(new RadialGradientPaint(
+			new Point2D.Float(centreX, centreY), radius,
+			new float[]{0f, 1f},
+			new Color[]{Skin.withAlpha(tint, surging ? 120 : hovered ? 70 : 45),
+				Skin.withAlpha(tint, 0)},
+			MultipleGradientPaint.CycleMethod.NO_CYCLE));
+		g.fillOval((int) (centreX - radius), (int) (centreY - radius),
+			(int) (radius * 2), (int) (radius * 2));
+	}
+
+	private void drawPlate(Graphics2D g, int centreX, int centreY, int plate)
+	{
+		int x = centreX - plate / 2;
+		int y = centreY - plate / 2;
+
+		g.setPaint(new GradientPaint(x, y, Skin.mix(Skin.GOLD_DEEP, Skin.CARD, 0.45f),
+			x, y + plate, new Color(0x14, 0x12, 0x10)));
+		g.fillOval(x, y, plate, plate);
+
+		g.setStroke(new BasicStroke(2f));
+		g.setPaint(new GradientPaint(x, y, surging ? Skin.YELLOW : Skin.GOLD,
+			x, y + plate, Skin.GOLD_DEEP));
+		g.drawOval(x, y, plate - 1, plate - 1);
+
+		if (!surging)
+		{
+			return;
+		}
+		// a ring breathing outward, so a surge is unmissable without a second colour
+		double pulse = 0.5d + 0.5d * Math.sin(System.currentTimeMillis() / 150d);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+			(float) (0.25d + 0.5d * pulse)));
+		g.setStroke(new BasicStroke(1.5f));
+		g.setColor(Skin.YELLOW);
+		int spread = (int) (5 + 7 * pulse);
+		g.drawOval(x - spread, y - spread, plate + spread * 2, plate + spread * 2);
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+	}
+
+	private void drawIcon(Graphics2D g, int centreX, int centreY, int plate)
 	{
 		if (icon == null)
 		{
 			return;
 		}
+		int size = (int) (plate * 0.58d);
 		Object previous = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 			RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-		g.drawImage(icon, x, y, size, size, null);
+		g.drawImage(icon, centreX - size / 2, centreY - size / 2, size, size, null);
 		if (previous != null)
 		{
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, previous);
 		}
 	}
 
-	private void drawLabel(Graphics2D g, int x, int width, int height, int nudge)
+	private void drawLabel(Graphics2D g, int width, int height)
 	{
-		int room = width - x - 12;
 		g.setFont(Skin.heading());
-		Skin.text(g, Skin.elide(g.getFontMetrics(),
-			"+" + BigNumbers.format(pointsPerClick.getAsDouble()), room),
-			x, height / 2 + nudge, surging ? Skin.YELLOW : Skin.GOLD);
-
-		g.setFont(Skin.small());
-		Skin.text(g, surging ? "SURGING - click!" : "Click for points", x,
-			height / 2 + 15 + nudge, surging ? Skin.YELLOW : Skin.MUTED);
+		Skin.centred(g, surging
+				? "SURGE  +" + BigNumbers.format(pointsPerClick.getAsDouble())
+				: "+" + BigNumbers.format(pointsPerClick.getAsDouble()),
+			0, width, height - 4, surging ? Skin.YELLOW : Skin.GOLD);
 	}
 
 	private void drawParticles(Graphics2D g, int centreX, int centreY)

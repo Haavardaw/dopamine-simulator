@@ -128,9 +128,6 @@ public class PassTierRow extends JComponent
 			g.setColor(Skin.GOLD);
 			g.drawRoundRect(1, 1, width - 3, height - 3, 5, 5);
 		}
-		Skin.edge(g, 0, 0, width, height, reached ? 1d : 0d,
-			milestone ? Skin.GOLD : accent);
-
 		drawDisc(g, height);
 
 		int textX = DISC_X + DISC + 7;
