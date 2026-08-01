@@ -63,15 +63,15 @@ public enum Rarity
 		switch (this)
 		{
 			case COMMON:
-				return new int[]{1, 6, 20, 50, 120, 300, 800, 2_200, 6_000, 16_000};
+				return new int[]{1, 2, 5, 10, 20, 40, 80, 160, 320, 600};
 			case UNCOMMON:
-				return new int[]{1, 5, 16, 40, 90, 220, 550, 1_400, 3_600, 9_500};
+				return new int[]{1, 2, 4, 8, 16, 32, 64, 125, 240, 450};
 			case RARE:
-				return new int[]{1, 4, 12, 28, 60, 140, 340, 850, 2_100, 5_400};
+				return new int[]{1, 2, 4, 7, 13, 25, 48, 90, 170, 320};
 			case EPIC:
-				return new int[]{1, 3, 8, 18, 38, 85, 200, 480, 1_200, 3_000};
+				return new int[]{1, 2, 3, 6, 10, 18, 32, 58, 105, 190};
 			default:
-				return new int[]{1, 2, 4, 7, 12, 25, 55, 130, 320, 800};
+				return new int[]{1, 2, 3, 4, 7, 11, 17, 27, 42, 65};
 		}
 	}
 	public int copiesForMaxStars()

@@ -58,7 +58,6 @@ public class ShopRow extends JComponent
 	private final Consumer<ShopRow> onBuy;
 
 	private BufferedImage icon;
-	private boolean hovered;
 	public ShopRow(String title, String effect, double cost, Color accent, String badge,
 				   boolean affordable, double progressToAfford, Consumer<ShopRow> onBuy)
 	{
@@ -79,14 +78,12 @@ public class ShopRow extends JComponent
 			@Override
 			public void mouseEntered(MouseEvent e)
 			{
-				hovered = true;
 				repaint();
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e)
 			{
-				hovered = false;
 				repaint();
 			}
 			@Override
@@ -108,7 +105,7 @@ public class ShopRow extends JComponent
 			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		int width = getWidth();
 		int height = getHeight();
-		drawBody(g, width, height);
+		drawBody(g, width, height, isHovered());
 		drawIconTile(g, height);
 		drawText(g, width, height);
 		if (!affordable)
@@ -117,7 +114,12 @@ public class ShopRow extends JComponent
 		}
 		g.dispose();
 	}
-	private void drawBody(Graphics2D g, int width, int height)
+	private boolean isHovered()
+	{
+		return isShowing() && getMousePosition() != null;
+	}
+
+	private void drawBody(Graphics2D g, int width, int height, boolean hovered)
 	{
 		if (affordable)
 		{

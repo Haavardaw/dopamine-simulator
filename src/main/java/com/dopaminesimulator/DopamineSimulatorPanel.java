@@ -485,7 +485,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		double fromCards = CollectionBonus.multiplierFor(state, source);
 		row.setToolTipText(source.getDescription()
 			+ "  \u2022  level " + level
-			+ ", each worth x" + String.format("%.2f", PointSource.UPGRADE_MULTIPLIER)
+			+ ", each adding "
+			+ Math.round(PointSource.UPGRADE_GAIN * 100d) + "%"
 			+ "  \u2022  " + multiplierText(fromCards) + " from " + set.getDisplayName() + " cards"
 			+ "  \u2022  " + multiplierText(PointSource.multiplierForLevel(level) * fromCards)
 			+ " total");
@@ -606,7 +607,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			double cost = BattlePass.premiumCost(season);
 			shopContent.add(sized(new ShopRow(
 				"Unlock Premium Track",
-				"Every tier pays twice for the rest of the season",
+				"Doubles every tier this season",
 				cost,
 				GOLD,
 				"+",

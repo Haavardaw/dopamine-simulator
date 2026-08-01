@@ -49,17 +49,16 @@ public enum PointSource
 	SUFFERING("Suffering", "Damage taken", 5_000_000d,
 		new Color(0xAB, 0x47, 0xBC), 1.0d, 1_000d);
 
-	public static final double UPGRADE_MULTIPLIER = 1.35d;
+	// Additive, not multiplicative: output climbs in a straight line while cost
+	// climbs exponentially, so points per hour flattens the way xp per hour does.
+	public static final double UPGRADE_GAIN = 0.15d;
 
-	public static final double UPGRADE_COST_GROWTH = 1.70d;
+	public static final double UPGRADE_COST_GROWTH = 1.18d;
 
 	public static final double TARGET_HOURLY_INCOME = 1_000d;
 
 	public static final double UPGRADE_COST_HOURS = 0.5d;
 
-	public static final int BREAKTHROUGH_EVERY = 10;
-
-	public static final double BREAKTHROUGH_COST_STEP = 24.0d;
 	private final String displayName;
 	private final String description;
 	private final double unlockAtLifetimePoints;
@@ -93,25 +92,12 @@ public enum PointSource
 			* (multiplierForLevel(level + 1) - multiplierForLevel(level));
 	}
 
-	// Payback climbs 1.26x a level, so without a rebase the ladder shuts around level 10.
 	public double upgradeCost(int currentLevel)
 	{
-		int sinceBreakthrough = currentLevel % BREAKTHROUGH_EVERY;
-		int breakthroughs = currentLevel / BREAKTHROUGH_EVERY;
 		return baseHourlyIncome() * UPGRADE_COST_HOURS
-			* Math.pow(UPGRADE_COST_GROWTH, sinceBreakthrough)
-			* Math.pow(BREAKTHROUGH_COST_STEP, breakthroughs);
+			* Math.pow(UPGRADE_COST_GROWTH, currentLevel);
 	}
 
-	public static boolean isBreakthrough(int level)
-	{
-		return level > 0 && level % BREAKTHROUGH_EVERY == 0;
-	}
-
-	public static int levelsUntilBreakthrough(int level)
-	{
-		return BREAKTHROUGH_EVERY - level % BREAKTHROUGH_EVERY;
-	}
 	public double upgradeCostForMany(int currentLevel, int count)
 	{
 		if (count <= 0)
@@ -127,7 +113,7 @@ public enum PointSource
 	}
 	public static double multiplierForLevel(int level)
 	{
-		return Math.pow(UPGRADE_MULTIPLIER, Math.max(0, level));
+		return 1d + UPGRADE_GAIN * Math.max(0, level);
 	}
 	public double pointsFor(double units, int upgradeLevel)
 	{
