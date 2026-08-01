@@ -490,6 +490,26 @@ public class DopamineSimulatorPlugin extends Plugin
 		return engine != null && client.getGameState() == GameState.LOGGED_IN;
 	}
 
+	/**
+	 * What one click is worth: a few seconds of everything else you earn, so it
+	 * stays worth pressing at every stage instead of paying a flat sum that the
+	 * rest of the economy leaves behind.
+	 */
+	public double clickPayout()
+	{
+		if (!isPlayable())
+		{
+			return 1d;
+		}
+		DopamineState state = engine.getState();
+		long tick = state.getTick();
+		double others = Math.max(0d,
+			incomeTracker.totalPerHour(tick) - incomeTracker.perHour(PointSource.CLICK, tick));
+		double surge = clickState == null
+			? 1d : clickState.multiplier(System.currentTimeMillis());
+		return Math.max(1d, others * PointSource.CLICK_SECONDS / 3_600d) * surge;
+	}
+
 	public void click()
 	{
 		clientThread.invoke(() ->
@@ -498,8 +518,7 @@ public class DopamineSimulatorPlugin extends Plugin
 			{
 				return;
 			}
-			double worth = clickState.multiplier(System.currentTimeMillis());
-			engine.accept(DopamineEvent.click(worth));
+			engine.accept(DopamineEvent.click(clickPayout()));
 			refreshPanel();
 		});
 	}

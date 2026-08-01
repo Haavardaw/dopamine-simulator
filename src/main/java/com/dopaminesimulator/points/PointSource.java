@@ -51,11 +51,39 @@ public enum PointSource
 	SUFFERING("Suffering", "Damage taken", 5_000_000d,
 		new Color(0xAB, 0x47, 0xBC), 1.0d, 1_000d);
 
-	// Additive, not multiplicative: output climbs in a straight line while cost
-	// climbs exponentially, so points per hour flattens the way xp per hour does.
-	public static final double UPGRADE_GAIN = 0.42d;
+	/**
+	 * Output and cost both climb geometrically, cost slightly faster.
+	 *
+	 * <p>Additive gain against exponential cost was tried first, on the reasoning
+	 * that it would flatten income the way xp per hour flattens. It flattened
+	 * something else instead: the payback on an upgrade is cost over gain, which
+	 * with those two shapes is 1.19 x 1.18^level and therefore unbounded. Payback
+	 * passed a day of play by level twenty and two million hours by level eighty
+	 * seven, so upgrades were irrational to buy after about the fifth one and a
+	 * simulated five hundred hour run stalled at level nineteen by hour twenty
+	 * five.
+	 *
+	 * <p>With both geometric, payback becomes (cost/gain)^level, so the gap
+	 * between these two numbers is the whole design. At 1.11 against 1.18 an
+	 * upgrade pays back in about four hours early and about a day by the time
+	 * cost finally outruns income near level thirty, which is where prestige
+	 * takes over.
+	 */
+	public static final double UPGRADE_GAIN_GROWTH = 1.11d;
 
 	public static final double UPGRADE_COST_GROWTH = 1.18d;
+
+	/** A click pays this many seconds of your current income, rather than a flat sum. */
+	public static final double CLICK_SECONDS = 6d;
+
+	/**
+	 * Clicking earns a share of everything else, so there is no level to sell for
+	 * it. It stays a source for attribution and for the income breakdown.
+	 */
+	public boolean isUpgradeable()
+	{
+		return this != CLICK;
+	}
 
 	public static final double TARGET_HOURLY_INCOME = 1_000d;
 
@@ -118,9 +146,15 @@ public enum PointSource
 		return multiplierForLevel(level, 0);
 	}
 
+	/**
+	 * Insight scales the output rather than the growth rate. Folding it into the
+	 * growth would let a prestiged player push gain past cost growth, at which
+	 * point payback falls with every level and upgrades never stop being free.
+	 */
 	public static double multiplierForLevel(int level, int insight)
 	{
-		return 1d + UPGRADE_GAIN * Prestige.gainMultiplier(insight) * Math.max(0, level);
+		return Math.pow(UPGRADE_GAIN_GROWTH, Math.max(0, level))
+			* Prestige.gainMultiplier(insight);
 	}
 	public double pointsFor(double units, int upgradeLevel, int insight)
 	{

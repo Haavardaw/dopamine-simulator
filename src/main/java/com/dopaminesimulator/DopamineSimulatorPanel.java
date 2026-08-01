@@ -392,7 +392,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		for (PointSource source : PointSource.values())
 		{
-			if (state.isSourceUnlocked(source))
+			if (source.isUpgradeable() && state.isSourceUnlocked(source))
 			{
 				playContent.add(upgradeRow(state, source, income));
 			}
@@ -431,13 +431,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		{
 			return 0d;
 		}
-		DopamineState state = plugin.getEngine().getState();
-		double surge = plugin.getClickState() != null
-			&& plugin.getClickState().isSurging(System.currentTimeMillis())
-			? ClickState.SURGE_MULTIPLIER : 1d;
-		return PointSource.CLICK.pointsFor(1d, state.getSourceUpgradeLevel(PointSource.CLICK),
-			state.getInsight())
-			* Milestones.globalMultiplier(state.getLifetimePoints()) * surge;
+		return plugin.clickPayout();
 	}
 	private JPanel nextUnlockRow(DopamineState state)
 	{
@@ -534,7 +528,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		row.setToolTipText(source.getDescription()
 			+ "  \u2022  level " + level
 			+ ", each adding "
-			+ Math.round(PointSource.UPGRADE_GAIN * 100d) + "%"
+			+ Math.round((PointSource.UPGRADE_GAIN_GROWTH - 1d) * 100d) + "%"
 			+ "  \u2022  " + multiplierText(fromCards) + " from " + set.getDisplayName() + " cards"
 			+ "  \u2022  " + multiplierText(PointSource.multiplierForLevel(level, state.getInsight()) * fromCards)
 			+ " total");

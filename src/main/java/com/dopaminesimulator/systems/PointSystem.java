@@ -70,11 +70,23 @@ public class PointSystem implements DopamineSystem
 			return;
 		}
 		double affinity = CardAffinity.multiplierFor(state, event);
-		double points = source.pointsFor(units, state.getSourceUpgradeLevel(source), state.getInsight())
-			* Milestones.globalMultiplier(state.getLifetimePoints())
-			* CollectionBonus.multiplierFor(state, source)
-			* Feats.multiplierFor(state)
-			* affinity;
+		double points;
+		if (source == PointSource.CLICK)
+		{
+			// a click pays a slice of what everything else is already earning, and
+			// that figure has every multiplier baked into it, so putting it through
+			// them again would compound. The caller hands over the finished number.
+			points = units;
+		}
+		else
+		{
+			points = source.pointsFor(units, state.getSourceUpgradeLevel(source),
+					state.getInsight())
+				* Milestones.globalMultiplier(state.getLifetimePoints())
+				* CollectionBonus.multiplierFor(state, source)
+				* Feats.multiplierFor(state)
+				* affinity;
+		}
 		state.addPoints(points);
 		if (source != PointSource.IDLING)
 		{
