@@ -446,12 +446,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 		row.setIcon(plugin.getGameIcons().forSource(source));
 		CardSet set = CollectionBonus.setFor(source);
 		double fromCards = CollectionBonus.multiplierFor(state, source);
-		row.setToolTipText("<html><b>" + source.getDisplayName() + "</b><br>"
-			+ source.getDescription() + "<br>Level " + level
-			+ " (each level is x" + String.format("%.2f", PointSource.UPGRADE_MULTIPLIER) + ")"
-			+ "<br>" + multiplierText(fromCards) + " from your " + set.getDisplayName() + " cards"
-			+ "<br><b>" + multiplierText(PointSource.multiplierForLevel(level) * fromCards)
-			+ " total</b></html>");
+		row.setToolTipText(source.getDescription()
+			+ "  \u2022  level " + level
+			+ ", each worth x" + String.format("%.2f", PointSource.UPGRADE_MULTIPLIER)
+			+ "  \u2022  " + multiplierText(fromCards) + " from " + set.getDisplayName() + " cards"
+			+ "  \u2022  " + multiplierText(PointSource.multiplierForLevel(level) * fromCards)
+			+ " total");
 		return sized(row);
 	}
 	private void buildShopTab(DopamineState state)
@@ -512,14 +512,15 @@ public class DopamineSimulatorPanel extends PluginPanel
 			state.getPoints() / cost,
 			r -> plugin.buyPacks(tier, selectedSet, buyQuantity));
 		row.setIcon(plugin.getGameIcons().forPack(tier));
-		row.setToolTipText("<html>" + tier.getDescription() + "<br>"
-			+ BigNumbers.format(tier.getCostPerCard()) + " per card<br>"
+		row.setToolTipText(tier.getDescription()
+			+ "  \u2022  " + BigNumbers.format(tier.getCostPerCopy()) + " per copy"
 			+ (buyQuantity > 1
-				? BigNumbers.format(unitCost) + " each, " + BigNumbers.format(cost) + " for "
-					+ buyQuantity + "<br>"
+				? "  \u2022  " + BigNumbers.format(unitCost) + " each, "
+					+ BigNumbers.format(cost) + " for " + buyQuantity
 				: "")
-			+ (tier.isTargetsSet() ? "Draws only from " + selectedSet.getDisplayName()
-			: "Draws from every set") + "</html>");
+			+ "  \u2022  " + (tier.isTargetsSet()
+				? "draws only from " + selectedSet.getDisplayName()
+				: "draws from every set"));
 		return sized(row);
 	}
 	private void buildCardsTab(DopamineState state)
@@ -632,10 +633,10 @@ public class DopamineSimulatorPanel extends PluginPanel
 		}
 		int done = CardCollection.completedIn(state, selectedSet);
 
-		JButton toggle = new JButton("<html>" + (collectionsExpanded ? "▾" : "▸")
-			+ " Collections &nbsp; <font color='#909090'>" + done + "/" + collections.size()
-			+ " &nbsp; each x1." + String.format("%02d",
-				Math.round(CardCollection.BONUS_PER_COLLECTION * 100)) + "</font></html>");
+		JButton toggle = new JButton((collectionsExpanded ? "▾" : "▸")
+			+ " Collections    " + done + "/" + collections.size()
+			+ "    each x1." + String.format("%02d",
+				Math.round(CardCollection.BONUS_PER_COLLECTION * 100)));
 		toggle.setFont(FontManager.getRunescapeSmallFont());
 		toggle.setForeground(done > 0 ? GOLD : Color.LIGHT_GRAY);
 		toggle.setFocusPainted(false);
@@ -686,14 +687,16 @@ public class DopamineSimulatorPanel extends PluginPanel
 		progress.setFont(FontManager.getRunescapeSmallFont());
 		progress.setForeground(complete ? GOLD : Color.GRAY);
 		row.add(progress, BorderLayout.EAST);
-		StringBuilder members = new StringBuilder("<html>" + collection.getDescription() + "<br>");
+		StringBuilder members = new StringBuilder(collection.getDescription());
+		members.append("  \u2022  ").append(owned).append('/').append(collection.size())
+			.append(" owned");
 		for (Card card : collection.getCards())
 		{
-			boolean has = state.owns(card.getId());
-			members.append(has ? "<font color='#FFB300'>&#10003; " : "<font color='#808080'>&#8226; ")
-				.append(card.getName()).append("</font><br>");
+			if (!state.owns(card.getId()))
+			{
+				members.append("  \u2022  need ").append(card.getName());
+			}
 		}
-		members.append("</html>");
 		row.setToolTipText(members.toString());
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height));
 		return row;
@@ -868,15 +871,15 @@ public class DopamineSimulatorPanel extends PluginPanel
 	{
 		if (!owned)
 		{
-			return "<html><b>???</b><br>" + card.getRarity().getDisplayName()
-				+ ", not yet found</html>";
+			return "??? \u2022 " + card.getRarity().getDisplayName() + ", not yet found";
 		}
 		int next = card.getRarity().copiesForNextStar(copies);
-		return "<html><b>" + card.getName() + "</b><br>"
-			+ card.getRarity().getDisplayName() + "  •  " + stars + "★<br>"
-			+ copies + " copies"
-			+ (next > 0 ? "<br>" + (next - copies) + " more for " + (stars + 1) + "★" : "<br>Maxed")
-			+ "</html>";
+		return card.getName()
+			+ "  \u2022  " + card.getRarity().getDisplayName()
+			+ "  \u2022  " + stars + "\u2605"
+			+ "  \u2022  " + copies + " copies"
+			+ (next > 0 ? "  \u2022  " + (next - copies) + " more for " + (stars + 1) + "\u2605"
+				: "  \u2022  maxed");
 	}
 	private void startCascade()
 	{
