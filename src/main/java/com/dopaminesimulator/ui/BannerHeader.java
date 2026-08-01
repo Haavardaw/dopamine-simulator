@@ -108,8 +108,9 @@ public class BannerHeader extends JComponent
 		g.setColor(accent);
 		g.fillRoundRect(0, 10, 3, HEIGHT - 20, 2, 2);
 
-		CardRenderer.draw(g, featured, cardX, cardY, cardW, CARD_H, 0, true,
-			System.currentTimeMillis(), art);
+		// the panel only repaints on rebuild, so a live clock here steps rather than
+		// sweeps; zero gives the sheen a fixed, deliberate angle instead
+		CardRenderer.draw(g, featured, cardX, cardY, cardW, CARD_H, 0, true, 0L, art);
 
 		int textX = 12;
 		int textWidth = Math.max(20, cardX - textX - 8);
