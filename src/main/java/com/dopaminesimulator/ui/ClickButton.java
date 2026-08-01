@@ -44,7 +44,7 @@ import javax.swing.Timer;
 
 public class ClickButton extends JComponent
 {
-	private static final int HEIGHT = 104;
+	private static final int HEIGHT = 58;
 	private static final int FRAME_MS = 33;
 	private static final long PARTICLE_LIFETIME_MS = 900L;
 	private static final long PRESS_LIFETIME_MS = 160L;
@@ -166,60 +166,60 @@ public class ClickButton extends JComponent
 		int height = getHeight();
 		boolean pressed = System.currentTimeMillis() - pressedAt < PRESS_LIFETIME_MS;
 
-		Skin.plate(g, 0, 0, width, height, Skin.PANEL);
-
-		int slab = Math.min(width - 16, height - 26);
-		int x = (width - slab) / 2;
-		int y = 6;
-
-		// a slab that sinks when struck, the way the game's own buttons behave
+		// one wide slab rather than a small tile floating in a large panel
 		if (pressed)
 		{
-			Skin.well(g, x, y, slab, slab, Skin.INSET);
+			Skin.well(g, 0, 0, width, height, Skin.PANEL);
 		}
 		else
 		{
-			Skin.plate(g, x, y, slab, slab, hovered ? Skin.PANEL_LIT : Skin.INSET);
+			Skin.plate(g, 0, 0, width, height, hovered ? Skin.PANEL_LIT : Skin.PANEL);
 		}
 
 		if (surging)
 		{
 			// the surge announces itself by marching the border, not by glowing
 			g.setColor((System.currentTimeMillis() / 150L) % 2 == 0 ? Skin.YELLOW : Skin.ORANGE);
-			g.drawRect(x - 2, y - 2, slab + 3, slab + 3);
-			g.drawRect(x - 3, y - 3, slab + 5, slab + 5);
+			g.drawRect(1, 1, width - 3, height - 3);
+			g.drawRect(2, 2, width - 5, height - 5);
 		}
 
-		drawIcon(g, x + slab / 2, y + slab / 2 + (pressed ? 1 : 0), slab);
-		drawLabel(g, width, height);
-		drawParticles(g, width / 2, y + slab / 2);
+		int nudge = pressed ? 1 : 0;
+		int icon = height - 16;
+		drawIcon(g, 10 + nudge, (height - icon) / 2 + nudge, icon);
+		drawLabel(g, 10 + icon + 10 + nudge, width, height, nudge);
+		drawParticles(g, (width + icon) / 2, height / 2);
 
 		g.dispose();
 	}
 
-	private void drawIcon(Graphics2D g, int centreX, int centreY, int slab)
+	private void drawIcon(Graphics2D g, int x, int y, int size)
 	{
 		if (icon == null)
 		{
 			return;
 		}
-		int size = (int) (slab * 0.66d);
 		Object previous = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 			RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-		g.drawImage(icon, centreX - size / 2, centreY - size / 2, size, size, null);
+		g.drawImage(icon, x, y, size, size, null);
 		if (previous != null)
 		{
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, previous);
 		}
 	}
 
-	private void drawLabel(Graphics2D g, int width, int height)
+	private void drawLabel(Graphics2D g, int x, int width, int height, int nudge)
 	{
-		String value = "+" + BigNumbers.format(pointsPerClick.getAsDouble());
-		g.setFont(Skin.body());
-		Skin.centred(g, surging ? "SURGE  " + value : value, 0, width, height - 6,
-			surging ? Skin.YELLOW : Skin.ORANGE);
+		int room = width - x - 10;
+		g.setFont(Skin.heading());
+		Skin.text(g, Skin.elide(g.getFontMetrics(),
+			"+" + BigNumbers.format(pointsPerClick.getAsDouble()), room),
+			x, height / 2 + nudge, surging ? Skin.YELLOW : Skin.ORANGE);
+
+		g.setFont(Skin.small());
+		Skin.text(g, surging ? "SURGING - click!" : "Click for points", x,
+			height / 2 + 14 + nudge, surging ? Skin.YELLOW : Skin.CREAM);
 	}
 
 	private void drawParticles(Graphics2D g, int centreX, int centreY)

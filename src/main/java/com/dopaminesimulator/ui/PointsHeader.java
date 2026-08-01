@@ -63,11 +63,12 @@ public class PointsHeader extends JComponent
 
 		String value = BigNumbers.format(points);
 		g.setFont(Skin.heading().deriveFont(Font.BOLD, fontSizeFor(value)));
-		Skin.centred(g, value, 4, width - 8, height - 26, surging ? Skin.YELLOW : Skin.ORANGE);
+		Skin.centred(g, value, 4, width - 8, height - 26, Skin.YELLOW);
 
 		g.setFont(Skin.small());
 		Skin.centred(g, BigNumbers.format(perHour) + " per hour", 0, width, height - 6,
 			surging ? Skin.YELLOW : Skin.CREAM);
+		Skin.rule(g, 1, height - 1, width - 2, Skin.ORANGE.darker());
 
 		g.dispose();
 	}

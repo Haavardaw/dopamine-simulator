@@ -114,12 +114,38 @@ public final class Skin
 		{
 			for (int x = 0; x < TILE; x++)
 			{
-				int shift = random.nextInt(15) - 7;
+				// a light grain; any stronger and it reads as static rather than stone
+				int shift = random.nextInt(9) - 4;
 				image.setRGB(x, y, new Color(clamp(base.getRed() + shift),
 					clamp(base.getGreen() + shift), clamp(base.getBlue() + shift)).getRGB());
 			}
 		}
 		return new TexturePaint(image, new Rectangle(0, 0, TILE, TILE));
+	}
+
+	/**
+	 * A row in a list. Rows are not individually bevelled — a stack of bevelled
+	 * boxes reads as blocky — so they carry a hairline and an accent edge instead.
+	 */
+	public static void row(Graphics2D g, int x, int y, int w, int h, Color base, Color stripe)
+	{
+		texture(g, x, y, w, h - 1, base);
+		g.setColor(EDGE_DARK);
+		g.setStroke(new BasicStroke(1f));
+		g.drawLine(x, y + h - 1, x + w - 1, y + h - 1);
+		if (stripe != null)
+		{
+			g.setColor(stripe);
+			g.fillRect(x, y, 2, h - 1);
+		}
+	}
+
+	/** A hairline the width of a panel, for separating blocks without boxing them. */
+	public static void rule(Graphics2D g, int x, int y, int w, Color colour)
+	{
+		g.setStroke(new BasicStroke(1f));
+		g.setColor(colour);
+		g.drawLine(x, y, x + w - 1, y);
 	}
 
 	/** Two hard lines: lit on the top-left, dark on the bottom-right, or the reverse. */

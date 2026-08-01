@@ -34,10 +34,9 @@ import javax.swing.JComponent;
 
 public class FeatRow extends JComponent
 {
-	public static final int HEIGHT = 46;
+	public static final int HEIGHT = 38;
 
-	private static final int MEDAL = 28;
-	private static final int PAD = 5;
+	private static final int RANK_W = 22;
 
 	private final String name;
 	private final String progressText;
@@ -69,48 +68,37 @@ public class FeatRow extends JComponent
 		int width = getWidth();
 		Color rank = Skin.temper(Feat.tierColour(tier));
 
-		Skin.plate(g, 0, 0, width, HEIGHT - 1, tier > 0 ? Skin.PANEL_LIT : Skin.PANEL);
-		if (mastered)
-		{
-			g.setColor(Skin.YELLOW);
-			g.drawRect(1, 1, width - 3, HEIGHT - 4);
-		}
+		Skin.row(g, 0, 0, width, HEIGHT, Skin.PANEL, tier > 0 ? rank : null);
 
-		drawMedal(g, rank);
+		// the rank reads as a number in its own column, not as a medal in a well
+		g.setFont(Skin.heading());
+		FontMetrics heading = g.getFontMetrics();
+		String label = tier > 0 ? String.valueOf(tier) : "-";
+		Skin.text(g, label, 7 + (RANK_W - heading.stringWidth(label)) / 2, 24,
+			tier > 0 ? rank : Skin.DIM);
 
-		int textX = PAD + MEDAL + 6;
-		int textWidth = Math.max(20, width - textX - PAD);
+		int textX = 7 + RANK_W + 6;
 
-		String ranks = tier + " / " + maxTier;
 		g.setFont(Skin.small());
 		FontMetrics small = g.getFontMetrics();
-		int ranksWidth = small.stringWidth(ranks) + 6;
+		String ranks = tier + "/" + maxTier;
+		Skin.right(g, ranks, width - 6, 15, mastered ? Skin.YELLOW : Skin.DIM);
 
 		g.setFont(Skin.body());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), name, textWidth - ranksWidth), textX, 16,
-			tier > 0 ? Skin.ORANGE : Skin.CREAM);
+		Skin.text(g, Skin.elide(g.getFontMetrics(), name,
+			width - textX - small.stringWidth(ranks) - 14), textX, 16,
+			mastered ? Skin.YELLOW : tier > 0 ? Skin.ORANGE : Skin.CREAM);
 
 		g.setFont(Skin.small());
-		Skin.right(g, ranks, width - PAD, 15, tier > 0 ? rank : Skin.DIM);
-		Skin.text(g, Skin.elide(small, progressText, textWidth), textX, 29, Skin.CREAM);
+		Skin.text(g, Skin.elide(small, progressText, width - textX - 8), textX, 29,
+			mastered ? Skin.GREEN : Skin.CREAM);
 
 		if (!mastered)
 		{
-			Skin.bar(g, textX, HEIGHT - 14, textWidth, 8, fraction, Skin.YELLOW);
+			g.setColor(rank);
+			g.fillRect(textX, HEIGHT - 4, (int) Math.round((width - textX - 6) * fraction), 2);
 		}
 
 		g.dispose();
-	}
-
-	private void drawMedal(Graphics2D g, Color rank)
-	{
-		int y = (HEIGHT - 1 - MEDAL) / 2;
-		Skin.well(g, PAD, y, MEDAL, MEDAL, Skin.INSET_DEEP);
-
-		String label = tier > 0 ? String.valueOf(tier) : "-";
-		g.setFont(Skin.body());
-		FontMetrics metrics = g.getFontMetrics();
-		Skin.text(g, label, PAD + (MEDAL - metrics.stringWidth(label)) / 2,
-			y + (MEDAL + metrics.getAscent()) / 2 - 2, tier > 0 ? rank : Skin.DIM);
 	}
 }

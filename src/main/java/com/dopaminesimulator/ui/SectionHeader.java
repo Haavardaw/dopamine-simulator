@@ -58,7 +58,9 @@ public class SectionHeader extends JComponent
 		Skin.pixel(g);
 
 		int width = getWidth();
-		Skin.well(g, 0, 0, width, HEIGHT, Skin.INSET);
+		Skin.texture(g, 0, 0, width, HEIGHT, Skin.INSET);
+		// a gold rule under the heading, the way the game underlines its own
+		Skin.rule(g, 0, HEIGHT - 1, width, Skin.ORANGE.darker());
 
 		int room = width - 12;
 		if (trailing != null && !trailing.isEmpty())

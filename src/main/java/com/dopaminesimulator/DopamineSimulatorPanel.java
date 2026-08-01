@@ -393,7 +393,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 			if (state.isSourceUnlocked(source))
 			{
 				playContent.add(upgradeRow(state, source, income));
-				playContent.add(Box.createVerticalStrut(4));
 			}
 		}
 
@@ -696,7 +695,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 		for (int t = 1; t <= BattlePass.TIERS; t++)
 		{
 			shopContent.add(passRow(state, t, tier));
-			shopContent.add(Box.createVerticalStrut(2));
 		}
 	}
 
@@ -751,7 +749,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 		for (PackTier tier : PackTier.values())
 		{
 			shopContent.add(packRow(state, tier));
-			shopContent.add(Box.createVerticalStrut(4));
 		}
 		shopContent.add(Box.createVerticalStrut(8));
 		shopContent.add(hint("Rare guaranteed within "
@@ -1572,7 +1569,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 		for (Feat feat : Feat.values())
 		{
 			featsContent.add(featRow(state, feat));
-			featsContent.add(Box.createVerticalStrut(CARD_GAP));
 		}
 	}
 

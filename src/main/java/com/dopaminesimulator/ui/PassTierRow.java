@@ -26,7 +26,6 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.pass.PassReward;
 import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
@@ -45,9 +44,9 @@ import javax.swing.JComponent;
  */
 public class PassTierRow extends JComponent
 {
-	public static final int HEIGHT = 40;
+	public static final int HEIGHT = 38;
 
-	private static final int WELL = 26;
+	private static final int WELL = 22;
 	private static final int WELL_X = 5;
 
 	private final int tier;
@@ -116,47 +115,35 @@ public class PassTierRow extends JComponent
 		Skin.pixel(g);
 
 		int width = getWidth();
-		Skin.plate(g, 0, 0, width, HEIGHT - 1, reached ? Skin.PANEL_LIT : Skin.PANEL);
+		Skin.row(g, 0, 0, width, HEIGHT, reached ? Skin.PANEL_LIT : Skin.PANEL,
+			milestone && reached ? Skin.YELLOW : reached ? Skin.temper(accent) : null);
 
-		if (milestone)
-		{
-			// milestones are called out with a gold edge rather than a different shape
-			g.setStroke(new BasicStroke(1f));
-			g.setColor(reached ? Skin.YELLOW : Skin.EDGE_DARK);
-			g.drawRect(1, 1, width - 3, HEIGHT - 4);
-		}
+		drawTierNumber(g);
 
-		drawWell(g);
-
-		int textX = WELL_X + WELL + 6;
+		int textX = WELL_X + WELL + 4;
 		drawReward(g, free, freeIcon, textX, 15, freeClaimed, false);
 		drawReward(g, premium, premiumIcon, textX, 30, premiumClaimed, true);
 
 		g.dispose();
 	}
 
-	private void drawWell(Graphics2D g)
+	private void drawTierNumber(Graphics2D g)
 	{
-		int y = (HEIGHT - 1 - WELL) / 2;
-		Skin.well(g, WELL_X, y, WELL, WELL, reached ? Skin.INSET : Skin.INSET_DEEP);
-
-		g.setFont(Skin.body());
+		g.setFont(milestone ? Skin.heading() : Skin.body());
 		FontMetrics metrics = g.getFontMetrics();
 		String label = String.valueOf(tier);
-		Skin.text(g, label, WELL_X + (WELL - metrics.stringWidth(label)) / 2,
-			y + (WELL + metrics.getAscent()) / 2 - 2,
+		Skin.text(g, label, WELL_X + (WELL - metrics.stringWidth(label)) / 2, 24,
 			reached ? (milestone ? Skin.YELLOW : Skin.CREAM) : Skin.DIM);
 	}
 
 	private void drawReward(Graphics2D g, PassReward reward, BufferedImage icon, int x, int baseline,
 		boolean claimed, boolean isPremium)
 	{
-		int size = 14;
+		int size = 13;
 		int iconY = baseline - size + 2;
 		boolean available = reached && !claimed && (!isPremium || premiumOwned);
 		boolean faded = claimed || !reached || (isPremium && !premiumOwned);
 
-		Skin.well(g, x, iconY, size, size, Skin.INSET_DEEP);
 		if (icon != null)
 		{
 			Composite before = g.getComposite();
@@ -164,13 +151,13 @@ public class PassTierRow extends JComponent
 			{
 				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
 			}
-			g.drawImage(icon, x + 1, iconY + 1, size - 2, size - 2, null);
+			g.drawImage(icon, x, iconY, size, size, null);
 			g.setComposite(before);
 		}
 		else
 		{
 			g.setColor(faded ? Skin.DIM : Skin.temper(reward.colour()));
-			g.fillRect(x + 5, iconY + 5, 4, 4);
+			g.fillRect(x + 4, iconY + 4, 6, 6);
 		}
 
 		g.setFont(Skin.small());
