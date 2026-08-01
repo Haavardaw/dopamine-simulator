@@ -24,7 +24,9 @@
  */
 package com.dopaminesimulator.ui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -32,12 +34,11 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 
 /**
- * A button cut from the same stone as the panels: raised at rest, sunken while
- * held, with the label in interface orange.
+ * A pill button: quiet when idle, gold-rimmed on hover, sunken while held.
  */
 public class StoneButton extends JButton
 {
-	private Color accent = Skin.ORANGE;
+	private Color accent = Skin.GOLD;
 
 	public StoneButton(String text)
 	{
@@ -47,52 +48,60 @@ public class StoneButton extends JButton
 		setContentAreaFilled(false);
 		setBorderPainted(false);
 		setOpaque(false);
-		setForeground(Skin.ORANGE);
+		setRolloverEnabled(true);
+		setForeground(Skin.GOLD);
 	}
 
 	public StoneButton withAccent(Color colour)
 	{
-		this.accent = colour;
-		setForeground(colour);
+		this.accent = Skin.vivid(colour);
+		setForeground(this.accent);
 		return this;
 	}
 
 	@Override
 	public void setBorder(Border border)
 	{
-		// the stone edge is painted, so a second bordered edge would double up
+		// the rim is painted, so a bordered edge would only double it up
 	}
 
 	@Override
 	public Insets getInsets()
 	{
-		return new Insets(4, 8, 4, 8);
+		return new Insets(4, 10, 4, 10);
 	}
 
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
+		int w = getWidth();
+		int h = getHeight();
 		boolean held = getModel().isArmed() && getModel().isPressed();
-		boolean hovered = getModel().isRollover();
+		boolean hovered = getModel().isRollover() && isEnabled();
 
 		if (!isEnabled())
 		{
-			Skin.well(g, 0, 0, getWidth(), getHeight(), Skin.INSET_DEEP);
-		}
-		else if (held)
-		{
-			Skin.well(g, 0, 0, getWidth(), getHeight(), Skin.INSET);
+			g.setColor(Skin.CARD_DEEP);
+			g.fillRoundRect(0, 0, w, h, 6, 6);
 		}
 		else
 		{
-			Skin.plate(g, 0, 0, getWidth(), getHeight(), hovered ? Skin.PANEL_LIT : Skin.PANEL);
+			g.setPaint(held
+				? new GradientPaint(0, 0, Skin.CARD_DEEP, 0, h, Skin.CARD)
+				: new GradientPaint(0, 0, hovered ? Skin.CARD_HOVER : Skin.CARD, 0, h,
+					Skin.CARD_DEEP));
+			g.fillRoundRect(0, 0, w, h, 6, 6);
+
+			g.setStroke(new BasicStroke(1f));
+			g.setColor(hovered ? Skin.GOLD : Skin.withAlpha(accent, 130));
+			g.drawRoundRect(0, 0, w - 1, h - 1, 6, 6);
 		}
 		g.dispose();
 
-		Color wanted = isEnabled() ? accent : Skin.DIM;
+		Color wanted = isEnabled() ? accent : Skin.FADED;
 		if (!wanted.equals(getForeground()))
 		{
 			setForeground(wanted);

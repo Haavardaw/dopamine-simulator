@@ -24,8 +24,11 @@
  */
 package com.dopaminesimulator.ui;
 
-import java.awt.Dimension;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.FontMetrics;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JComponent;
@@ -55,25 +58,33 @@ public class SectionHeader extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
-		Skin.texture(g, 0, 0, width, HEIGHT, Skin.INSET);
-		// a gold rule under the heading, the way the game underlines its own
-		Skin.rule(g, 0, HEIGHT - 1, width, Skin.ORANGE.darker());
+		int room = width - 2;
 
-		int room = width - 12;
 		if (trailing != null && !trailing.isEmpty())
 		{
 			g.setFont(Skin.small());
 			FontMetrics metrics = g.getFontMetrics();
-			Skin.right(g, trailing, width - 6, HEIGHT - 6, Skin.CREAM);
+			Skin.right(g, trailing, width, HEIGHT - 8, Skin.MUTED);
 			room -= metrics.stringWidth(trailing) + 8;
 		}
 
-		g.setFont(Skin.body());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), title, Math.max(20, room)), 6, HEIGHT - 6,
-			Skin.ORANGE);
+		g.setFont(Skin.heading());
+		FontMetrics metrics = g.getFontMetrics();
+		String shown = Skin.elide(metrics, title, Math.max(20, room));
+		Skin.text(g, shown, 0, HEIGHT - 8, Skin.ORANGE);
+
+		// a gold rule that fades out, so the heading anchors without boxing anything
+		int ruleX = metrics.stringWidth(shown) + 7;
+		if (width - ruleX > 12)
+		{
+			g.setStroke(new BasicStroke(1f));
+			g.setPaint(new GradientPaint(ruleX, 0, Skin.GOLD_DEEP, width, 0,
+				new Color(0, 0, 0, 0)));
+			g.drawLine(ruleX, HEIGHT - 12, width, HEIGHT - 12);
+		}
 
 		g.dispose();
 	}

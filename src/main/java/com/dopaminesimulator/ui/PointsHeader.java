@@ -27,13 +27,14 @@ package com.dopaminesimulator.ui;
 import com.dopaminesimulator.incremental.BigNumbers;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JComponent;
 
 public class PointsHeader extends JComponent
 {
-	private static final int HEIGHT = 58;
+	private static final int HEIGHT = 54;
 
 	private final double points;
 	private final double perHour;
@@ -54,21 +55,22 @@ public class PointsHeader extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
 		int height = getHeight();
-		Skin.plate(g, 0, 0, width, height, Skin.PANEL);
-		Skin.well(g, 4, 4, width - 8, height - 22, Skin.INSET_DEEP);
+
+		g.setPaint(new GradientPaint(0, 0, Skin.CARD, 0, height, Skin.CARD_DEEP));
+		g.fillRoundRect(0, 0, width, height, 6, 6);
+		Skin.edge(g, 0, 0, width, height, 1d, surging ? Skin.YELLOW : Skin.GOLD_DEEP);
 
 		String value = BigNumbers.format(points);
 		g.setFont(Skin.heading().deriveFont(Font.BOLD, fontSizeFor(value)));
-		Skin.centred(g, value, 4, width - 8, height - 26, Skin.YELLOW);
+		Skin.centred(g, value, 0, width, height - 21, surging ? Skin.YELLOW : Skin.GOLD);
 
 		g.setFont(Skin.small());
-		Skin.centred(g, BigNumbers.format(perHour) + " per hour", 0, width, height - 6,
-			surging ? Skin.YELLOW : Skin.CREAM);
-		Skin.rule(g, 1, height - 1, width - 2, Skin.ORANGE.darker());
+		Skin.centred(g, BigNumbers.format(perHour) + " per hour", 0, width, height - 8,
+			surging ? Skin.YELLOW : Skin.MUTED);
 
 		g.dispose();
 	}
@@ -77,8 +79,8 @@ public class PointsHeader extends JComponent
 	{
 		if (value.length() <= 6)
 		{
-			return 24f;
+			return 26f;
 		}
-		return value.length() <= 8 ? 20f : 17f;
+		return value.length() <= 8 ? 22f : 18f;
 	}
 }

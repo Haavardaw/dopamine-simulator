@@ -26,16 +26,18 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.feats.Feat;
 import java.awt.Color;
+import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.geom.RoundRectangle2D;
 
 public final class FeatBanner
 {
 	public static final int WIDTH = 300;
 	public static final int HEIGHT = 64;
 
-	private static final int MEDAL = 44;
+	private static final int MEDAL = 40;
 
 	private FeatBanner()
 	{
@@ -44,27 +46,28 @@ public final class FeatBanner
 	public static void draw(Graphics2D g, String title, String caption, Color rank,
 		int tier, double shine)
 	{
-		Skin.pixel(g);
-		Skin.plate(g, 0, 0, WIDTH, HEIGHT, Skin.PANEL);
-		g.setColor(Skin.YELLOW);
-		g.drawRect(1, 1, WIDTH - 3, HEIGHT - 3);
+		Skin.smooth(g);
+		Color tint = Skin.vivid(rank);
+		Skin.hero(g, 0, 0, WIDTH, HEIGHT, tint);
 
-		drawMedal(g, Skin.temper(rank), tier);
+		drawMedal(g, tint, tier);
 
-		int textX = MEDAL + 16;
-		int room = WIDTH - textX - 10;
+		int textX = MEDAL + 20;
+		int room = WIDTH - textX - 12;
 
 		g.setFont(Skin.small());
-		Skin.text(g, tier > 0 ? "Feat earned" : "Achievement", textX, 19, Skin.CREAM);
+		Skin.text(g, tier > 0 ? "FEAT EARNED" : "ACHIEVEMENT", textX, 19,
+			Skin.withAlpha(Skin.GOLD, 210));
 
 		g.setFont(Skin.heading());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), title, room), textX, 39, Skin.ORANGE);
+		Skin.text(g, Skin.elide(g.getFontMetrics(), title, room), textX, 39, Skin.WHITE);
 
 		g.setFont(Skin.small());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), tier > 0
+		FontMetrics small = g.getFontMetrics();
+		Skin.text(g, Skin.elide(small, tier > 0
 			? "Rank " + tier + " of " + Feat.RANKS + "   +"
 				+ Math.round(Feat.BONUS_PER_TIER * 100d) + "% to everything"
-			: caption, room), textX, 55, Skin.YELLOW);
+			: caption, room), textX, 55, tint);
 
 		drawSweep(g, shine);
 	}
@@ -72,22 +75,28 @@ public final class FeatBanner
 	private static void drawMedal(Graphics2D g, Color rank, int tier)
 	{
 		int y = (HEIGHT - MEDAL) / 2;
-		Skin.well(g, 10, y, MEDAL, MEDAL, Skin.INSET_DEEP);
+		g.setPaint(new GradientPaint(12, y, Skin.withAlpha(rank, 110), 12, y + MEDAL,
+			Skin.withAlpha(rank, 30)));
+		g.fillOval(12, y, MEDAL, MEDAL);
+		g.setColor(Skin.GOLD);
+		g.drawOval(12, y, MEDAL - 1, MEDAL - 1);
 
 		String label = tier > 0 ? String.valueOf(tier) : "*";
 		g.setFont(Skin.heading());
-		Skin.centred(g, label, 10, MEDAL, y + (MEDAL + g.getFontMetrics().getAscent()) / 2 - 3, rank);
+		FontMetrics metrics = g.getFontMetrics();
+		Skin.text(g, label, 12 + (MEDAL - metrics.stringWidth(label)) / 2,
+			y + (MEDAL + metrics.getAscent()) / 2 - 2, Skin.WHITE);
 	}
 
-	/** A single bright pass across the plate: the whole flourish, and it is over quickly. */
+	/** A single bright pass across the panel: the whole flourish, and it is over quickly. */
 	private static void drawSweep(Graphics2D g, double shine)
 	{
 		int x = (int) Math.round(-WIDTH * 0.4d + shine * WIDTH * 1.6d);
 		Shape clip = g.getClip();
-		g.clipRect(2, 2, WIDTH - 4, HEIGHT - 4);
+		g.clip(new RoundRectangle2D.Float(2, 2, WIDTH - 4, HEIGHT - 4, 7, 7));
 		g.setPaint(new GradientPaint(x, 0, Skin.withAlpha(Color.WHITE, 0),
-			x + 40, 0, Skin.withAlpha(Color.WHITE, 40)));
-		g.fillRect(x, 2, 80, HEIGHT - 4);
+			x + 45, 0, Skin.withAlpha(Color.WHITE, 55)));
+		g.fillRect(x, 2, 90, HEIGHT - 4);
 		g.setClip(clip);
 	}
 }

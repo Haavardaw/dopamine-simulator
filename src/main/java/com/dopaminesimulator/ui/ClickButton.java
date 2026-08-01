@@ -26,6 +26,8 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.incremental.BigNumbers;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -44,7 +46,7 @@ import javax.swing.Timer;
 
 public class ClickButton extends JComponent
 {
-	private static final int HEIGHT = 58;
+	private static final int HEIGHT = 62;
 	private static final int FRAME_MS = 33;
 	private static final long PARTICLE_LIFETIME_MS = 900L;
 	private static final long PRESS_LIFETIME_MS = 160L;
@@ -160,34 +162,31 @@ public class ClickButton extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
 		int height = getHeight();
 		boolean pressed = System.currentTimeMillis() - pressedAt < PRESS_LIFETIME_MS;
 
-		// one wide slab rather than a small tile floating in a large panel
-		if (pressed)
-		{
-			Skin.well(g, 0, 0, width, height, Skin.PANEL);
-		}
-		else
-		{
-			Skin.plate(g, 0, 0, width, height, hovered ? Skin.PANEL_LIT : Skin.PANEL);
-		}
+		Color accent = surging ? Skin.YELLOW : Skin.GOLD_DEEP;
+		Skin.hero(g, 0, 0, width, height, hovered ? Skin.brighten(accent) : accent);
 
 		if (surging)
 		{
-			// the surge announces itself by marching the border, not by glowing
-			g.setColor((System.currentTimeMillis() / 150L) % 2 == 0 ? Skin.YELLOW : Skin.ORANGE);
-			g.drawRect(1, 1, width - 3, height - 3);
-			g.drawRect(2, 2, width - 5, height - 5);
+			// a second frame breathing outside the first, so a surge is unmissable
+			double pulse = 0.5d + 0.5d * Math.sin(System.currentTimeMillis() / 140d);
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+				(float) (0.35d + 0.5d * pulse)));
+			g.setStroke(new BasicStroke(2f));
+			g.setColor(Skin.YELLOW);
+			g.drawRoundRect(3, 3, width - 7, height - 7, 6, 6);
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 		}
 
 		int nudge = pressed ? 1 : 0;
-		int icon = height - 16;
-		drawIcon(g, 10 + nudge, (height - icon) / 2 + nudge, icon);
-		drawLabel(g, 10 + icon + 10 + nudge, width, height, nudge);
+		int icon = height - 22;
+		drawIcon(g, 12 + nudge, (height - icon) / 2 + nudge, icon);
+		drawLabel(g, 12 + icon + 12 + nudge, width, height, nudge);
 		drawParticles(g, (width + icon) / 2, height / 2);
 
 		g.dispose();
@@ -211,15 +210,15 @@ public class ClickButton extends JComponent
 
 	private void drawLabel(Graphics2D g, int x, int width, int height, int nudge)
 	{
-		int room = width - x - 10;
+		int room = width - x - 12;
 		g.setFont(Skin.heading());
 		Skin.text(g, Skin.elide(g.getFontMetrics(),
 			"+" + BigNumbers.format(pointsPerClick.getAsDouble()), room),
-			x, height / 2 + nudge, surging ? Skin.YELLOW : Skin.ORANGE);
+			x, height / 2 + nudge, surging ? Skin.YELLOW : Skin.GOLD);
 
 		g.setFont(Skin.small());
 		Skin.text(g, surging ? "SURGING - click!" : "Click for points", x,
-			height / 2 + 14 + nudge, surging ? Skin.YELLOW : Skin.CREAM);
+			height / 2 + 15 + nudge, surging ? Skin.YELLOW : Skin.MUTED);
 	}
 
 	private void drawParticles(Graphics2D g, int centreX, int centreY)
@@ -235,7 +234,7 @@ public class ClickButton extends JComponent
 			int x = centreX - metrics.stringWidth(particle.text) / 2
 				+ (int) (particle.driftX * progress);
 			Skin.text(g, particle.text, x, centreY - (int) (progress * 46),
-				surging ? Skin.YELLOW : Skin.CREAM);
+				surging ? Skin.YELLOW : Skin.GOLD);
 		}
 		g.setComposite(before);
 	}

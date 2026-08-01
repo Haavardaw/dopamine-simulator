@@ -40,10 +40,10 @@ import javax.swing.JComponent;
 
 public class ShopRow extends JComponent
 {
-	public static final int HEIGHT = 38;
+	public static final int HEIGHT = 46;
 
-	private static final int ICON = 26;
-	private static final int ICON_X = 7;
+	private static final int ICON = 32;
+	private static final int ICON_X = 8;
 
 	private final String title;
 	private final String effect;
@@ -61,7 +61,7 @@ public class ShopRow extends JComponent
 		this.title = title;
 		this.effect = effect;
 		this.cost = cost;
-		this.accent = Skin.temper(accent);
+		this.accent = Skin.vivid(accent);
 		this.badge = badge;
 		this.affordable = affordable;
 		this.progressToAfford = Math.max(0d, Math.min(1d, progressToAfford));
@@ -103,46 +103,45 @@ public class ShopRow extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
+		int height = HEIGHT - 3;
 		boolean hovered = affordable && isShowing() && getMousePosition() != null;
 
-		Skin.row(g, 0, 0, width, HEIGHT, hovered ? Skin.PANEL_LIT : Skin.PANEL,
-			affordable ? accent : null);
+		Skin.card(g, 0, 0, width, height, hovered ? Skin.CARD_HOVER : Skin.CARD);
+		if (affordable)
+		{
+			// affordable rows carry the full accent; the rest show how close they are
+			Skin.edge(g, 0, 0, width, height, 1d, hovered ? Skin.GOLD : accent);
+		}
+		else
+		{
+			Skin.edge(g, 0, 0, width, height, progressToAfford, accent.darker());
+		}
 
-		drawIcon(g);
+		drawIcon(g, height);
 
-		int textX = ICON_X + ICON + 7;
+		int textX = ICON_X + ICON + 8;
 		String price = BigNumbers.format(cost);
 
-		g.setFont(Skin.small());
-		FontMetrics small = g.getFontMetrics();
-		int priceWidth = small.stringWidth(price);
-		Skin.right(g, price, width - 6, 15, affordable ? Skin.YELLOW : Skin.DIM);
-
 		g.setFont(Skin.body());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), title, width - textX - priceWidth - 14),
-			textX, 16, affordable ? Skin.ORANGE : Skin.DIM);
+		FontMetrics bodyMetrics = g.getFontMetrics();
+		int priceWidth = bodyMetrics.stringWidth(price);
+		Skin.right(g, price, width - 8, 19, affordable ? Skin.GOLD : Skin.FADED);
+		Skin.text(g, Skin.elide(bodyMetrics, title, width - textX - priceWidth - 16), textX, 19,
+			affordable ? Skin.WHITE : Skin.FADED);
 
 		g.setFont(Skin.small());
-		Skin.text(g, Skin.elide(small, effect, width - textX - 8), textX, 29,
-			affordable ? Skin.CREAM : Skin.DIM);
-
-		if (!affordable)
-		{
-			// the accent edge doubles as the progress toward affording it
-			g.setColor(accent.darker());
-			g.fillRect(0, HEIGHT - 1 - (int) Math.round((HEIGHT - 1) * progressToAfford), 2,
-				(int) Math.round((HEIGHT - 1) * progressToAfford));
-		}
+		Skin.text(g, Skin.elide(g.getFontMetrics(), effect, width - textX - 10), textX, 33,
+			affordable ? Skin.MUTED : Skin.FADED);
 
 		g.dispose();
 	}
 
-	private void drawIcon(Graphics2D g)
+	private void drawIcon(Graphics2D g, int height)
 	{
-		int y = (HEIGHT - 1 - ICON) / 2;
+		int y = (height - ICON) / 2;
 		if (icon != null)
 		{
 			double scale = Math.min((double) ICON / icon.getWidth(), (double) ICON / icon.getHeight());
@@ -151,7 +150,7 @@ public class ShopRow extends JComponent
 			Composite before = g.getComposite();
 			if (!affordable)
 			{
-				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.35f));
 			}
 			g.drawImage(icon, ICON_X + (ICON - w) / 2, y + (ICON - h) / 2, w, h, null);
 			g.setComposite(before);
@@ -165,10 +164,10 @@ public class ShopRow extends JComponent
 		if (icon == null)
 		{
 			Skin.centred(g, badge, ICON_X, ICON, y + ICON / 2 + 4,
-				affordable ? Skin.CREAM : Skin.DIM);
+				affordable ? Skin.WHITE : Skin.FADED);
 			return;
 		}
 		// the owned count sits on the corner of the icon, as stack sizes do in game
-		Skin.text(g, badge, ICON_X - 1, y + 9, affordable ? Skin.YELLOW : Skin.DIM);
+		Skin.text(g, badge, ICON_X - 2, y + 9, affordable ? Skin.YELLOW : Skin.FADED);
 	}
 }

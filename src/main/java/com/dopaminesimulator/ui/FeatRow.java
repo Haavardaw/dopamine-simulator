@@ -34,9 +34,10 @@ import javax.swing.JComponent;
 
 public class FeatRow extends JComponent
 {
-	public static final int HEIGHT = 38;
+	public static final int HEIGHT = 46;
 
-	private static final int RANK_W = 22;
+	private static final int MEDAL = 30;
+	private static final int MEDAL_X = 8;
 
 	private final String name;
 	private final String progressText;
@@ -63,42 +64,49 @@ public class FeatRow extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
-		Color rank = Skin.temper(Feat.tierColour(tier));
+		int height = HEIGHT - 3;
+		Color rank = Skin.vivid(Feat.tierColour(tier));
 
-		Skin.row(g, 0, 0, width, HEIGHT, Skin.PANEL, tier > 0 ? rank : null);
+		Skin.card(g, 0, 0, width, height, Skin.CARD);
+		Skin.edge(g, 0, 0, width, height, mastered ? 1d : fraction,
+			mastered ? Skin.GOLD : tier > 0 ? rank : Skin.FADED);
 
-		// the rank reads as a number in its own column, not as a medal in a well
-		g.setFont(Skin.heading());
-		FontMetrics heading = g.getFontMetrics();
-		String label = tier > 0 ? String.valueOf(tier) : "-";
-		Skin.text(g, label, 7 + (RANK_W - heading.stringWidth(label)) / 2, 24,
-			tier > 0 ? rank : Skin.DIM);
+		drawMedal(g, height, rank);
 
-		int textX = 7 + RANK_W + 6;
-
+		int textX = MEDAL_X + MEDAL + 8;
 		g.setFont(Skin.small());
 		FontMetrics small = g.getFontMetrics();
-		String ranks = tier + "/" + maxTier;
-		Skin.right(g, ranks, width - 6, 15, mastered ? Skin.YELLOW : Skin.DIM);
+		String ranks = tier + " / " + maxTier;
+		Skin.right(g, ranks, width - 8, 19, mastered ? Skin.GOLD : Skin.MUTED);
 
 		g.setFont(Skin.body());
 		Skin.text(g, Skin.elide(g.getFontMetrics(), name,
-			width - textX - small.stringWidth(ranks) - 14), textX, 16,
-			mastered ? Skin.YELLOW : tier > 0 ? Skin.ORANGE : Skin.CREAM);
+			width - textX - small.stringWidth(ranks) - 16), textX, 19,
+			tier > 0 ? Skin.WHITE : Skin.MUTED);
 
 		g.setFont(Skin.small());
-		Skin.text(g, Skin.elide(small, progressText, width - textX - 8), textX, 29,
-			mastered ? Skin.GREEN : Skin.CREAM);
-
-		if (!mastered)
-		{
-			g.setColor(rank);
-			g.fillRect(textX, HEIGHT - 4, (int) Math.round((width - textX - 6) * fraction), 2);
-		}
+		Skin.text(g, Skin.elide(small, progressText, width - textX - 10), textX, 33,
+			mastered ? Skin.GREEN : Skin.MUTED);
 
 		g.dispose();
+	}
+
+	/** The rank sits in a coloured disc, which is the only badge a feat needs. */
+	private void drawMedal(Graphics2D g, int height, Color rank)
+	{
+		int y = (height - MEDAL) / 2;
+		g.setColor(tier > 0 ? Skin.withAlpha(rank, 40) : Skin.CARD_DEEP);
+		g.fillOval(MEDAL_X, y, MEDAL, MEDAL);
+		g.setColor(tier > 0 ? rank : Skin.FADED);
+		g.drawOval(MEDAL_X, y, MEDAL - 1, MEDAL - 1);
+
+		String label = tier > 0 ? String.valueOf(tier) : "-";
+		g.setFont(Skin.heading());
+		FontMetrics metrics = g.getFontMetrics();
+		Skin.text(g, label, MEDAL_X + (MEDAL - metrics.stringWidth(label)) / 2,
+			y + (MEDAL + metrics.getAscent()) / 2 - 2, tier > 0 ? rank : Skin.FADED);
 	}
 }

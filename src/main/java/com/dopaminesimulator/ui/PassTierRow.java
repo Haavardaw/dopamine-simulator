@@ -26,6 +26,7 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.pass.PassReward;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
@@ -39,15 +40,15 @@ import java.util.function.Consumer;
 import javax.swing.JComponent;
 
 /**
- * A rung on the season track, laid out like a reward row in the game's own
- * interfaces: a sunken tier well on the left, the free reward above the premium one.
+ * A rung on the season track: the tier in a disc on the left, the free reward
+ * above the premium one, and a claimable tier lit with the gold frame.
  */
 public class PassTierRow extends JComponent
 {
-	public static final int HEIGHT = 38;
+	public static final int HEIGHT = 44;
 
-	private static final int WELL = 22;
-	private static final int WELL_X = 5;
+	private static final int DISC = 26;
+	private static final int DISC_X = 7;
 
 	private final int tier;
 	private final boolean milestone;
@@ -69,7 +70,7 @@ public class PassTierRow extends JComponent
 		this.tier = tier;
 		this.milestone = milestone;
 		this.reached = reached;
-		this.accent = accent;
+		this.accent = Skin.vivid(accent);
 		this.free = free;
 		this.premium = premium;
 		this.freeClaimed = freeClaimed;
@@ -112,34 +113,53 @@ public class PassTierRow extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
-		Skin.row(g, 0, 0, width, HEIGHT, reached ? Skin.PANEL_LIT : Skin.PANEL,
-			milestone && reached ? Skin.YELLOW : reached ? Skin.temper(accent) : null);
+		int height = HEIGHT - 3;
+		boolean claimable = reached
+			&& (!freeClaimed || (premiumOwned && !premiumClaimed));
 
-		drawTierNumber(g);
+		Skin.card(g, 0, 0, width, height, reached ? Skin.CARD : Skin.CARD_DEEP);
+		if (claimable)
+		{
+			// anything waiting to be collected wears the gold, so the eye finds it
+			g.setStroke(new BasicStroke(1.5f));
+			g.setColor(Skin.GOLD);
+			g.drawRoundRect(1, 1, width - 3, height - 3, 5, 5);
+		}
+		Skin.edge(g, 0, 0, width, height, reached ? 1d : 0d,
+			milestone ? Skin.GOLD : accent);
 
-		int textX = WELL_X + WELL + 4;
-		drawReward(g, free, freeIcon, textX, 15, freeClaimed, false);
-		drawReward(g, premium, premiumIcon, textX, 30, premiumClaimed, true);
+		drawDisc(g, height);
+
+		int textX = DISC_X + DISC + 7;
+		drawReward(g, free, freeIcon, textX, 17, freeClaimed, false);
+		drawReward(g, premium, premiumIcon, textX, 33, premiumClaimed, true);
 
 		g.dispose();
 	}
 
-	private void drawTierNumber(Graphics2D g)
+	private void drawDisc(Graphics2D g, int height)
 	{
-		g.setFont(milestone ? Skin.heading() : Skin.body());
+		int y = (height - DISC) / 2;
+		Color tint = milestone ? Skin.GOLD : accent;
+		g.setColor(reached ? Skin.withAlpha(tint, 45) : Skin.CARD_DEEP);
+		g.fillOval(DISC_X, y, DISC, DISC);
+		g.setColor(reached ? tint : Skin.FADED);
+		g.drawOval(DISC_X, y, DISC - 1, DISC - 1);
+
+		g.setFont(Skin.body());
 		FontMetrics metrics = g.getFontMetrics();
 		String label = String.valueOf(tier);
-		Skin.text(g, label, WELL_X + (WELL - metrics.stringWidth(label)) / 2, 24,
-			reached ? (milestone ? Skin.YELLOW : Skin.CREAM) : Skin.DIM);
+		Skin.text(g, label, DISC_X + (DISC - metrics.stringWidth(label)) / 2,
+			y + (DISC + metrics.getAscent()) / 2 - 2, reached ? tint : Skin.FADED);
 	}
 
 	private void drawReward(Graphics2D g, PassReward reward, BufferedImage icon, int x, int baseline,
 		boolean claimed, boolean isPremium)
 	{
-		int size = 13;
+		int size = 14;
 		int iconY = baseline - size + 2;
 		boolean available = reached && !claimed && (!isPremium || premiumOwned);
 		boolean faded = claimed || !reached || (isPremium && !premiumOwned);
@@ -156,8 +176,8 @@ public class PassTierRow extends JComponent
 		}
 		else
 		{
-			g.setColor(faded ? Skin.DIM : Skin.temper(reward.colour()));
-			g.fillRect(x + 4, iconY + 4, 6, 6);
+			g.setColor(faded ? Skin.FADED : Skin.vivid(reward.colour()));
+			g.fillOval(x + 3, iconY + 3, size - 6, size - 6);
 		}
 
 		g.setFont(Skin.small());
@@ -169,14 +189,14 @@ public class PassTierRow extends JComponent
 		}
 
 		String status = claimed ? "done" : available ? "claim" : null;
-		int statusWidth = status == null ? 4 : metrics.stringWidth(status) + 8;
-		int textX = x + size + 5;
-		Skin.text(g, Skin.elide(metrics, text, getWidth() - textX - statusWidth - 6), textX,
-			baseline, claimed ? Skin.DIM : available ? Skin.CREAM : Skin.DIM);
+		int statusWidth = status == null ? 4 : metrics.stringWidth(status) + 10;
+		int textX = x + size + 6;
+		Skin.text(g, Skin.elide(metrics, text, getWidth() - textX - statusWidth - 8), textX,
+			baseline, claimed ? Skin.FADED : available ? Skin.WHITE : Skin.MUTED);
 
 		if (status != null)
 		{
-			Skin.right(g, status, getWidth() - 6, baseline, claimed ? Skin.GREEN : Skin.YELLOW);
+			Skin.right(g, status, getWidth() - 8, baseline, claimed ? Skin.GREEN : Skin.GOLD);
 		}
 	}
 }

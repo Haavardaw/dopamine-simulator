@@ -33,10 +33,7 @@ import javax.swing.JComponent;
 
 public class PassHeader extends JComponent
 {
-	public static final int HEIGHT = 96;
-
-	private static final int TITLE_H = 22;
-	private static final int ROW_H = 16;
+	public static final int HEIGHT = 84;
 
 	private final int season;
 	private final String theme;
@@ -53,7 +50,7 @@ public class PassHeader extends JComponent
 	{
 		this.season = season;
 		this.theme = theme;
-		this.accent = accent;
+		this.accent = Skin.vivid(accent);
 		this.tier = tier;
 		this.tiers = tiers;
 		this.into = into;
@@ -70,41 +67,47 @@ public class PassHeader extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
-		Color accentText = Skin.temper(accent);
+		Skin.hero(g, 0, 0, width, HEIGHT, accent);
 
-		Skin.plate(g, 0, 0, width, HEIGHT, Skin.PANEL);
-
-		// title bar: the region name is the pass name, so it gets the full width
-		Skin.well(g, 0, 0, width, TITLE_H, Skin.INSET);
-		g.setFont(Skin.heading());
-		Skin.centred(g, Skin.elide(g.getFontMetrics(), theme, width - 12), 0, width,
-			TITLE_H - 6, accentText);
-
-		int y = TITLE_H + 3;
-		row(g, width, y, "Season", season + " - " + (premium ? "premium" : "free"),
-			premium ? Skin.YELLOW : Skin.CREAM);
-		row(g, width, y + ROW_H, "Tier", tier + " / " + tiers, Skin.CREAM);
-		row(g, width, y + ROW_H * 2, "Ends in", remaining, Skin.CREAM);
-
-		int barY = y + ROW_H * 3 + 2;
 		g.setFont(Skin.small());
-		Skin.bar(g, 4, barY, width - 8, 13, need <= 0d ? 1d : into / need, Skin.YELLOW,
-			need <= 0d ? "Season complete" : (long) into + " / " + (long) need + " xp");
+		FontMetrics small = g.getFontMetrics();
+		Skin.text(g, "SEASON " + season, 10, 20, Skin.withAlpha(Skin.GOLD, 200));
+
+		String badge = premium ? "PREMIUM" : "FREE";
+		drawBadge(g, width - 10 - small.stringWidth(badge) - 12, 9, badge, small);
+
+		g.setFont(Skin.heading());
+		FontMetrics heading = g.getFontMetrics();
+		Skin.text(g, Skin.elide(heading, theme, width - 20), 10, 41, Skin.WHITE);
+
+		g.setFont(Skin.small());
+		Skin.right(g, remaining, width - 10, 41, Skin.MUTED);
+
+		int barY = HEIGHT - 32;
+		Skin.bar(g, 10, barY, width - 20, 13, need <= 0d ? 1d : into / need, accent,
+			"TIER " + tier + " / " + tiers);
+
+		Skin.text(g, need <= 0d
+			? "Season complete"
+			: (long) into + " / " + (long) need + " xp to next tier", 10, HEIGHT - 9, Skin.MUTED);
 
 		g.dispose();
 	}
 
-	private void row(Graphics2D g, int width, int y, String label, String value, Color valueColour)
+	private void drawBadge(Graphics2D g, int x, int y, String badge, FontMetrics metrics)
 	{
-		Skin.texture(g, 3, y, width - 6, ROW_H - 1, Skin.PANEL_LIT);
-		g.setFont(Skin.small());
-		FontMetrics metrics = g.getFontMetrics();
-		int baseline = y + ROW_H - 6;
-		Skin.text(g, label, 8, baseline, Skin.ORANGE);
-		int room = width - 16 - metrics.stringWidth(label) - 8;
-		Skin.right(g, Skin.elide(metrics, value, room), width - 8, baseline, valueColour);
+		int w = metrics.stringWidth(badge) + 12;
+		g.setColor(premium ? Skin.GOLD : Skin.CARD_DEEP);
+		g.fillRoundRect(x, y, w, 14, 7, 7);
+		if (!premium)
+		{
+			g.setColor(Skin.FADED);
+			g.drawRoundRect(x, y, w - 1, 13, 7, 7);
+		}
+		g.setColor(premium ? new Color(0x24, 0x1A, 0x02) : Skin.MUTED);
+		g.drawString(badge, x + 6, y + 11);
 	}
 }

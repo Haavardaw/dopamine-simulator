@@ -37,10 +37,10 @@ import javax.swing.JComponent;
 
 public class BannerHeader extends JComponent
 {
-	public static final int HEIGHT = 96;
+	public static final int HEIGHT = 94;
 
-	private static final int TITLE_H = 22;
-	private static final int CARD_H = 64;
+	private static final int CARD_H = 78;
+	private static final int PAD = 9;
 
 	private final Card featured;
 	private final Rarity rarity;
@@ -72,58 +72,55 @@ public class BannerHeader extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		Skin.pixel(g);
+		Skin.smooth(g);
 
 		int width = getWidth();
-		Color accent = Skin.temper(rarity.getColour());
-
-		Skin.plate(g, 0, 0, width, HEIGHT, Skin.PANEL);
-
-		Skin.well(g, 0, 0, width, TITLE_H, Skin.INSET);
-		g.setFont(Skin.heading());
-		Skin.centred(g, Skin.elide(g.getFontMetrics(), name, width - 12), 0, width,
-			TITLE_H - 6, accent);
+		Color accent = Skin.vivid(rarity.getColour());
+		Skin.hero(g, 0, 0, width, HEIGHT, accent);
 
 		int cardW = CardRenderer.widthForHeight(CARD_H);
-		int cardX = width - cardW - 6;
-		int cardY = TITLE_H + (HEIGHT - TITLE_H - CARD_H) / 2;
-
-		Skin.well(g, cardX - 3, cardY - 3, cardW + 6, CARD_H + 6, Skin.INSET_DEEP);
+		int cardX = width - cardW - PAD;
+		int cardY = (HEIGHT - CARD_H) / 2;
 		// the panel only repaints on rebuild, so a live clock here steps rather than
 		// sweeps; zero gives the sheen a fixed, deliberate angle instead
 		CardRenderer.draw(g, featured, cardX, cardY, cardW, CARD_H, 0, true, 0L, art);
 
-		int textX = 6;
-		int textWidth = Math.max(20, cardX - textX - 9);
-		int y = TITLE_H + 4;
+		// everything else lives left of the art, so nothing can run underneath it
+		int room = Math.max(30, cardX - PAD * 2);
+
+		g.setFont(Skin.heading());
+		Skin.text(g, Skin.elide(g.getFontMetrics(), name, room), PAD, 22, Skin.GOLD);
 
 		g.setFont(Skin.small());
-		FontMetrics metrics = g.getFontMetrics();
-		Skin.text(g, Skin.elide(metrics, featured.getName(), textWidth), textX, y + 9, Skin.CREAM);
+		FontMetrics small = g.getFontMetrics();
+		Skin.text(g, Skin.elide(small, featured.getName(), room), PAD, 37, Skin.WHITE);
 
-		drawStars(g, textX, y + 21, Skin.YELLOW, WishReveal.starsFor(rarity));
+		drawStars(g, PAD, 49, WishReveal.starsFor(rarity));
 
-		Skin.text(g, String.format("%.1f%% a pull", rate * 100d), textX, y + 38, Skin.CREAM);
-		Skin.text(g, Skin.elide(metrics, remaining, textWidth), textX, y + 50, Skin.ORANGE);
+		String chance = String.format("%.1f%%", rate * 100d);
+		Skin.text(g, chance, PAD, 66, Skin.MUTED);
+		Skin.text(g, Skin.elide(small, remaining,
+			room - small.stringWidth(chance) - 6), PAD + small.stringWidth(chance) + 6, 66,
+			Skin.ORANGE);
 
-		int barY = HEIGHT - 17;
 		double progress = hardPity <= 0 ? 0d : Math.min(1d, pity / (double) hardPity);
-		Skin.bar(g, 4, barY, width - 8, 13, progress, Skin.YELLOW,
+		Skin.bar(g, PAD, HEIGHT - 20, room, 12, progress, accent,
 			"guaranteed in " + Math.max(0, hardPity - pity));
 
 		g.dispose();
 	}
 
-	private void drawStars(Graphics2D g, int x, int y, Color accent, int stars)
+	private void drawStars(Graphics2D g, int x, int y, int stars)
 	{
-		double radius = 4d;
+		double radius = 4.5d;
 		double gap = 3d;
 		for (int i = 0; i < stars; i++)
 		{
+			double cx = x + radius + i * (radius * 2 + gap);
 			g.setColor(Skin.SHADOW);
-			fillStar(g, x + radius + i * (radius * 2 + gap) + 1, y + 1, radius);
-			g.setColor(accent);
-			fillStar(g, x + radius + i * (radius * 2 + gap), y, radius);
+			fillStar(g, cx + 1, y + 1, radius);
+			g.setColor(Skin.GOLD);
+			fillStar(g, cx, y, radius);
 		}
 	}
 
@@ -148,5 +145,4 @@ public class BannerHeader extends JComponent
 		star.closePath();
 		g.fill(star);
 	}
-
 }
