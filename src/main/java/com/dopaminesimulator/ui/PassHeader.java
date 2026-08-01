@@ -57,9 +57,10 @@ public class PassHeader extends JComponent
 	private final double into;
 	private final double need;
 	private final boolean premium;
+	private final String remaining;
 
 	public PassHeader(int season, String theme, Color accent, int tier, int tiers,
-		double into, double need, boolean premium)
+		double into, double need, boolean premium, String remaining)
 	{
 		this.season = season;
 		this.theme = theme;
@@ -69,6 +70,7 @@ public class PassHeader extends JComponent
 		this.into = into;
 		this.need = need;
 		this.premium = premium;
+		this.remaining = remaining;
 		setPreferredSize(new Dimension(0, HEIGHT));
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, HEIGHT));
 		setMinimumSize(new Dimension(0, HEIGHT));
@@ -105,6 +107,11 @@ public class PassHeader extends JComponent
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
 		g.setColor(withAlpha(accent, 225));
 		g.drawString("SEASON " + season, 13, 20);
+
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
+		FontMetrics clock = g.getFontMetrics();
+		g.setColor(new Color(0xB6, 0xB6, 0xC0));
+		g.drawString(remaining, width - clock.stringWidth(remaining) - 11, HEIGHT - 10);
 
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
 		g.setColor(new Color(0x08, 0x08, 0x0A));

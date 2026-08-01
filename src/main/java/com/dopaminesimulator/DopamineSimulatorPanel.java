@@ -31,6 +31,7 @@ import com.dopaminesimulator.cards.CardCollection;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.CollectionBonus;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.cards.Region;
 import com.dopaminesimulator.cosmetics.CardBack;
 import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineState;
@@ -46,6 +47,7 @@ import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.pass.BattlePass;
 import com.dopaminesimulator.pass.PassReward;
 import com.dopaminesimulator.pass.PassTheme;
+import com.dopaminesimulator.pass.SeasonClock;
 import com.dopaminesimulator.systems.BannerService;
 import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.points.ClickState;
@@ -519,9 +521,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 	{
 		BannerService banner = plugin.getBannerService();
 
-		shopContent.add(hint("Three banners run at once. Every pull is guaranteed to include a"
-			+ " pack, and the featured card is guaranteed within "
-			+ BannerService.HARD_PITY + " pulls. Banners have no time limit."));
+		long now = System.currentTimeMillis();
+		shopContent.add(hint("Three banners run at once and the featured cards change every "
+			+ SeasonClock.BANNER_DAYS + " days - "
+			+ SeasonClock.remaining(SeasonClock.bannerEndsAt(now), now)
+			+ ". Every pull opens a pack, and the featured card is guaranteed within "
+			+ BannerService.HARD_PITY + " pulls. Pity carries across rotations."));
 		shopContent.add(Box.createVerticalStrut(8));
 
 		for (Rarity rarity : BannerService.BANNERS)
@@ -597,21 +602,25 @@ public class DopamineSimulatorPanel extends PluginPanel
 		int tier = BattlePass.tierAt(state.getPassXp(), season);
 		PassService pass = plugin.getPassService();
 
+		Region region = Region.forSeason(season);
+		Region next = Region.forSeason(season + 1);
 		PassTheme theme = PassTheme.forSeason(season);
-		PassTheme next = PassTheme.forSeason(season + 1);
+		long now = System.currentTimeMillis();
 		double into = BattlePass.xpIntoTier(state.getPassXp(), season);
 		double need = tier >= BattlePass.TIERS ? 0d : BattlePass.xpForTier(tier + 1, season);
 
-		PassHeader header = new PassHeader(season, theme.getDisplayName(), theme.getColour(),
-			tier, BattlePass.TIERS, into, need, state.isPassPremium());
+		PassHeader header = new PassHeader(season, region.getSeasonName(), region.getColour(),
+			tier, BattlePass.TIERS, into, need, state.isPassPremium(),
+			SeasonClock.remaining(SeasonClock.seasonEndsAt(now), now));
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
-		header.setToolTipText(theme.getDescription() + ". Rolls into " + next.getDisplayName()
-			+ " when you finish tier " + BattlePass.TIERS + ".");
+		header.setToolTipText(region.getArea() + ". " + theme.getDescription()
+			+ ". Next month brings " + next.getSeasonName() + ".");
 		shopContent.add(header);
 		shopContent.add(Box.createVerticalStrut(5));
-		shopContent.add(hint(theme.getDescription() + ". Pass xp is capped per game tick, so a"
-			+ " season is paid for in hours played rather than points. Nothing expires: it only"
-			+ " moves while you do, and a season ends when you finish it."));
+		shopContent.add(hint("Cards and packs from " + region.getArea() + ". "
+			+ theme.getDescription() + ". Pass xp is capped per game tick, so the track is paid"
+			+ " for in hours played. The season ends when the month does, and anything left"
+			+ " unclaimed goes with it."));
 		shopContent.add(Box.createVerticalStrut(8));
 
 		int pending = pass.unclaimed(state).size();
@@ -647,7 +656,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		if (pass.canStartNextSeason(state))
 		{
 			JButton advance = new JButton("Start season " + (season + 1)
-				+ ": " + next.getDisplayName());
+				+ ": " + next.getSeasonName());
 			advance.setFont(FontManager.getRunescapeSmallFont());
 			advance.setForeground(next.getColour());
 			advance.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
@@ -673,7 +682,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		PassReward premium = BattlePass.premiumReward(tier, season);
 
 		PassTierRow row = new PassTierRow(tier, BattlePass.isMilestone(tier), reached >= tier,
-			tier == 1, tier == BattlePass.TIERS, PassTheme.forSeason(season).getColour(),
+			tier == 1, tier == BattlePass.TIERS, Region.forSeason(season).getColour(),
 			free, premium,
 			state.isPassTierClaimed(tier, false), state.isPassTierClaimed(tier, true),
 			state.isPassPremium(), rewardIcon(free), rewardIcon(premium),

@@ -96,6 +96,10 @@ public class DopamineState
 
 	private int bannerPulls;
 
+	private int passSeasonKey;
+
+	private int bannerKey;
+
 	private int insight;
 
 	private int prestigeCount;

@@ -27,11 +27,13 @@ package com.dopaminesimulator.systems;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardSet;
+import com.dopaminesimulator.cards.Region;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.Reward;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.pass.BattlePass;
 import com.dopaminesimulator.pass.PassReward;
+import com.dopaminesimulator.pass.SeasonClock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -45,6 +47,29 @@ public class PassService
 	{
 		this.random = random;
 		this.packs = packs;
+	}
+
+	/**
+	 * Rolls the season on when the calendar month turns. Anything unclaimed is gone,
+	 * which is the point of a season having an end.
+	 */
+	public boolean rollIfExpired(DopamineState state, long nowMs)
+	{
+		int key = SeasonClock.seasonKey(nowMs);
+		if (state.getPassSeasonKey() == key)
+		{
+			return false;
+		}
+
+		boolean first = state.getPassSeasonKey() == 0;
+		state.setPassSeasonKey(key);
+		if (first)
+		{
+			return false;
+		}
+
+		state.startNextSeason();
+		return true;
 	}
 
 	public boolean canClaim(DopamineState state, int tier, boolean premium)
@@ -145,8 +170,8 @@ public class PassService
 		switch (reward.getKind())
 		{
 			case PACK:
-				packs.openFree(state, reward.getPack(), targetSet, (int) reward.getAmount(),
-					rewards);
+				packs.openRegional(state, reward.getPack(),
+					Region.forSeason(state.getPassSeason()), (int) reward.getAmount(), rewards);
 				break;
 			case SHARDS:
 				state.addShards(reward.getRarity(), (int) reward.getAmount());

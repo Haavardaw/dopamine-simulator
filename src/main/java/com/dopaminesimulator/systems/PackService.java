@@ -28,6 +28,7 @@ import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.cards.Region;
 import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.RewardQueue;
@@ -78,7 +79,24 @@ public class PackService
 		return all;
 	}
 
+	public List<Card> openRegional(DopamineState state, PackTier tier, Region region, int count,
+		RewardQueue rewards)
+	{
+		List<Card> all = new ArrayList<>();
+		for (int i = 0; i < count; i++)
+		{
+			all.addAll(open(state, tier, null, region, rewards));
+		}
+		return all;
+	}
+
 	private List<Card> open(DopamineState state, PackTier tier, CardSet targetSet,
+		RewardQueue rewards)
+	{
+		return open(state, tier, targetSet, null, rewards);
+	}
+
+	private List<Card> open(DopamineState state, PackTier tier, CardSet targetSet, Region region,
 		RewardQueue rewards)
 	{
 		state.setTotalPacksOpened(state.getTotalPacksOpened() + 1);
@@ -89,12 +107,12 @@ public class PackService
 		{
 			Rarity rarity = rollRarity(luck, tier.getFloor(), tier.getCeiling());
 			satisfiedPity |= rarity.isPityWorthy();
-			pulled.add(randomCardOf(rarity, tier, targetSet));
+			pulled.add(randomCardOf(rarity, tier, targetSet, region));
 		}
 		if (!satisfiedPity && state.getPacksSinceLastRare() + 1 >= Balance.PITY_PACKS
 			&& (tier.getCeiling() == null || tier.getCeiling().ordinal() >= Rarity.RARE.ordinal()))
 		{
-			pulled.set(pulled.size() - 1, randomCardOf(Rarity.RARE, tier, targetSet));
+			pulled.set(pulled.size() - 1, randomCardOf(Rarity.RARE, tier, targetSet, region));
 			satisfiedPity = true;
 		}
 		state.setPacksSinceLastRare(satisfiedPity ? 0 : state.getPacksSinceLastRare() + 1);
@@ -164,11 +182,26 @@ public class PackService
 		}
 		return floor == null ? Rarity.COMMON : floor;
 	}
-	private Card randomCardOf(Rarity rarity, PackTier tier, CardSet targetSet)
+	private Card randomCardOf(Rarity rarity, PackTier tier, CardSet targetSet, Region region)
 	{
-		List<Card> pool = tier.isTargetsSet() && targetSet != null
-			? CardCatalogue.bySetAndRarity(targetSet, rarity)
-			: CardCatalogue.byRarity(rarity);
+		List<Card> pool = null;
+		if (region != null)
+		{
+			pool = new ArrayList<>();
+			for (Card card : region.pool())
+			{
+				if (card.getRarity() == rarity)
+				{
+					pool.add(card);
+				}
+			}
+		}
+		if (pool == null || pool.isEmpty())
+		{
+			pool = tier.isTargetsSet() && targetSet != null
+				? CardCatalogue.bySetAndRarity(targetSet, rarity)
+				: CardCatalogue.byRarity(rarity);
+		}
 
 		if (pool.isEmpty())
 		{

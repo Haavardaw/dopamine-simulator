@@ -32,6 +32,7 @@ import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.Reward;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.packs.PackTier;
+import com.dopaminesimulator.pass.SeasonClock;
 import java.util.List;
 import java.util.Random;
 
@@ -103,6 +104,27 @@ public class BannerService
 	public int featuredStars(Rarity rarity)
 	{
 		return rarity.starsFor(featuredCopies(rarity));
+	}
+
+	/** New featured cards every week. Pity carries over, as it should. */
+	public boolean rollIfExpired(DopamineState state, long nowMs)
+	{
+		int key = SeasonClock.bannerKey(nowMs);
+		if (state.getBannerKey() == key)
+		{
+			return false;
+		}
+
+		boolean first = state.getBannerKey() == 0;
+		state.setBannerKey(key);
+		for (Rarity rarity : BANNERS)
+		{
+			if (!first || state.getBannerCard(rarity) == null)
+			{
+				roll(state, rarity);
+			}
+		}
+		return !first;
 	}
 
 	public Card featured(DopamineState state, Rarity rarity)

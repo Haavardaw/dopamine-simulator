@@ -27,6 +27,7 @@ package com.dopaminesimulator;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.cards.Region;
 import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineEngine;
 import com.dopaminesimulator.core.DopamineEvent;
@@ -292,6 +293,7 @@ public class DopamineSimulatorPlugin extends Plugin
 			return;
 		}
 		engine.accept(DopamineEvent.tick());
+		rollSeasons();
 		trackMovement();
 		trackHealth();
 		rollForSurge();
@@ -700,6 +702,24 @@ public class DopamineSimulatorPlugin extends Plugin
 			persist();
 			refreshPanel();
 		});
+	}
+
+	private void rollSeasons()
+	{
+		DopamineState state = engine.getState();
+		long now = System.currentTimeMillis();
+		boolean rolled = passService.rollIfExpired(state, now);
+		rolled |= bannerService.rollIfExpired(state, now);
+		if (!rolled)
+		{
+			return;
+		}
+
+		persist();
+		refreshPanel();
+		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+			"Dopamine Simulator: a new season has begun - <col=ffb300>"
+				+ Region.forSeason(state.getPassSeason()).getSeasonName() + "</col>.", null);
 	}
 
 	public void prestige()
