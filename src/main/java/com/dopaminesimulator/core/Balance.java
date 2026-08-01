@@ -37,7 +37,7 @@ public final class Balance
 	public static final double COMBAT_UNITS_LEVEL_SCALE = 0.15d;
 
 	public static final long MAX_TILES_PER_TICK = 3L;
-	public static final double PRESENCE_UNITS_PER_LEVEL = 600d;
+	public static final double LEVEL_UP_UNITS = 12_000d;
 	public static final int PITY_PACKS = 10;
 
 	public static final boolean FUSION_CAN_FAIL = false;

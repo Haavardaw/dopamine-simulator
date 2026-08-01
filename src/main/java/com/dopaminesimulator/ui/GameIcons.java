@@ -145,6 +145,8 @@ public class GameIcons
 				return SpriteID.Staticons.AGILITY;
 			case IDLING:
 				return SpriteID.Mapfunction.BANK;
+			case SUFFERING:
+				return SpriteID.Staticons.HITPOINTS;
 			default:
 				return SpriteID.Staticons2.FARMING;
 		}

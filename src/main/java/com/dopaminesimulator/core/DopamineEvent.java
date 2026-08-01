@@ -56,7 +56,12 @@ public class DopamineEvent
 	}
 	public static DopamineEvent healthRestored(long hitpoints)
 	{
-		return new DopamineEvent(EventType.HEALTH_RESTORED, "Recovery", hitpoints);
+		return new DopamineEvent(EventType.HEALTH_RESTORED, "Eating", hitpoints);
+	}
+
+	public static DopamineEvent damageTaken(long damage)
+	{
+		return new DopamineEvent(EventType.DAMAGE_TAKEN, "Suffering", damage);
 	}
 
 	public static DopamineEvent click(double worth)

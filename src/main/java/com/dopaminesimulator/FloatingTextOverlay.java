@@ -146,7 +146,7 @@ public class FloatingTextOverlay extends Overlay implements PointListener
 	}
 	private static boolean isContinuous(PointSource source)
 	{
-		return source == PointSource.PRESENCE;
+		return source == PointSource.IDLING;
 	}
 	public void flushPending()
 	{

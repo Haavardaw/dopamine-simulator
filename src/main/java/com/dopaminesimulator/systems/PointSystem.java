@@ -97,7 +97,9 @@ public class PointSystem implements DopamineSystem
 			case HEALTH_RESTORED:
 				return PointSource.RECOVERY;
 			case LEVEL_UP:
-				return PointSource.PRESENCE;
+				return PointSource.EXPERIENCE;
+			case DAMAGE_TAKEN:
+				return PointSource.SUFFERING;
 			case TICK:
 				return PointSource.IDLING;
 			default:
@@ -123,7 +125,10 @@ public class PointSystem implements DopamineSystem
 				return event.getAmount();
 
 			case LEVEL_UP:
-				return Balance.PRESENCE_UNITS_PER_LEVEL;
+				return Balance.LEVEL_UP_UNITS;
+
+			case DAMAGE_TAKEN:
+				return event.getAmount();
 
 			case TICK:
 				return state.isIdle() ? 1d : 0d;

@@ -314,11 +314,11 @@ public class DopamineSimulatorPanel extends PluginPanel
 			}
 		}
 
-		PointSource next = state.nextLockedSource();
-		if (next != null)
+		JPanel nextUnlock = nextUnlockRow(state);
+		if (nextUnlock != null)
 		{
 			playContent.add(Box.createVerticalStrut(4));
-			playContent.add(lockedSourceRow(state, next));
+			playContent.add(nextUnlock);
 		}
 
 		playContent.add(Box.createVerticalStrut(8));
@@ -351,28 +351,75 @@ public class DopamineSimulatorPanel extends PluginPanel
 		return PointSource.CLICK.pointsFor(1d, state.getSourceUpgradeLevel(PointSource.CLICK))
 			* Milestones.globalMultiplier(state.getLifetimePoints()) * surge;
 	}
-	private JPanel lockedSourceRow(DopamineState state, PointSource source)
+	private JPanel nextUnlockRow(DopamineState state)
 	{
-		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		row.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
-		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-		JLabel label = new JLabel("Locked at "
-			+ BigNumbers.format(source.getUnlockAtLifetimePoints()) + " lifetime");
-		label.setFont(FontManager.getRunescapeSmallFont());
-		label.setForeground(Color.GRAY);
-		row.add(label, BorderLayout.WEST);
-		JProgressBar bar = new JProgressBar(0, 1000);
-		bar.setValue((int) Math.min(1000,
-			state.getLifetimePoints() / source.getUnlockAtLifetimePoints() * 1000));
-		bar.setForeground(Color.DARK_GRAY);
-		bar.setBackground(ColorScheme.DARK_GRAY_COLOR);
-		bar.setPreferredSize(new Dimension(56, 8));
-		row.add(bar, BorderLayout.EAST);
+		String name = null;
+		String detail = null;
+		double target = 0d;
 
+		PointSource source = state.nextLockedSource();
+		if (source != null)
+		{
+			name = source.getDisplayName();
+			detail = source.getDescription();
+			target = source.getUnlockAtLifetimePoints();
+		}
+
+		for (PackTier tier : PackTier.values())
+		{
+			if (state.isPackUnlocked(tier))
+			{
+				continue;
+			}
+			double at = tier.getUnlockAtLifetimePoints();
+			if (target <= 0d || at < target)
+			{
+				name = tier.getDisplayName();
+				detail = tier.getDescription();
+				target = at;
+			}
+			break;
+		}
+
+		if (name == null)
+		{
+			return null;
+		}
+
+		double lifetime = state.getLifetimePoints();
+		JPanel row = new JPanel();
+		row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
+		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createMatteBorder(0, 2, 0, 0, GOLD),
+			BorderFactory.createEmptyBorder(5, 6, 5, 6)));
+
+		JLabel title = new JLabel("Next unlock: " + name);
+		title.setFont(FontManager.getRunescapeSmallFont());
+		title.setForeground(GOLD);
+		title.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.add(title);
+
+		row.add(hint(detail, availableWidth() - 20));
+		row.add(Box.createVerticalStrut(3));
+
+		JProgressBar bar = new JProgressBar(0, 1000);
+		bar.setValue((int) Math.min(1000, lifetime / target * 1000));
+		bar.setStringPainted(true);
+		bar.setString(BigNumbers.format(lifetime) + " / " + BigNumbers.format(target)
+			+ " lifetime");
+		bar.setFont(FontManager.getRunescapeSmallFont());
+		bar.setForeground(GOLD);
+		bar.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		bar.setAlignmentX(Component.LEFT_ALIGNMENT);
+		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 14));
+		row.add(bar);
+
+		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height));
 		return row;
 	}
+
 	private ShopRow upgradeRow(DopamineState state, PointSource source, IncomeTracker income)
 	{
 		int level = state.getSourceUpgradeLevel(source);

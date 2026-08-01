@@ -46,12 +46,12 @@ public enum PointSource
 		new Color(0x66, 0xBB, 0x6A), 0.4d, 2_500d),
 	WEALTH("Wealth", "Value of loot", 500_000d,
 		new Color(0xFF, 0xD5, 0x4F), 0.3d, 3_300d),
-	PRESENCE("Presence", "Levelling up", 5_000_000d,
-		new Color(0xAB, 0x47, 0xBC), 0.167d, 6_000d);
+	SUFFERING("Suffering", "Damage taken", 5_000_000d,
+		new Color(0xAB, 0x47, 0xBC), 1.0d, 1_000d);
 
 	public static final double UPGRADE_MULTIPLIER = 1.35d;
 
-	public static final double UPGRADE_COST_GROWTH = UPGRADE_MULTIPLIER;
+	public static final double UPGRADE_COST_GROWTH = 1.70d;
 
 	public static final double TARGET_HOURLY_INCOME = 1_000d;
 

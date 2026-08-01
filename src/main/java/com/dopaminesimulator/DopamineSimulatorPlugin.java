@@ -59,12 +59,15 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
+import net.runelite.api.Hitsplat;
+import net.runelite.api.HitsplatID;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -376,6 +379,41 @@ public class DopamineSimulatorPlugin extends Plugin
 		}
 		refreshPanel();
 	}
+	@Subscribe
+	public void onHitsplatApplied(HitsplatApplied event)
+	{
+		if (!isPlayable() || event.getActor() != client.getLocalPlayer())
+		{
+			return;
+		}
+
+		Hitsplat hitsplat = event.getHitsplat();
+		int amount = hitsplat.getAmount();
+		if (amount <= 0 || !isDamage(hitsplat.getHitsplatType()))
+		{
+			return;
+		}
+
+		engine.accept(DopamineEvent.damageTaken(amount));
+	}
+
+	private static boolean isDamage(int hitsplatType)
+	{
+		switch (hitsplatType)
+		{
+			case HitsplatID.DAMAGE_ME:
+			case HitsplatID.DAMAGE_ME_CYAN:
+			case HitsplatID.DAMAGE_ME_ORANGE:
+			case HitsplatID.DAMAGE_ME_YELLOW:
+			case HitsplatID.DAMAGE_ME_WHITE:
+			case HitsplatID.POISON:
+			case HitsplatID.VENOM:
+				return true;
+			default:
+				return false;
+		}
+	}
+
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
 	{

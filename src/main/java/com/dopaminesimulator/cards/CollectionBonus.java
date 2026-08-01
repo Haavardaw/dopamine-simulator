@@ -62,7 +62,7 @@ public final class CollectionBonus
 				return source;
 			}
 		}
-		return PointSource.PRESENCE;
+		return PointSource.IDLING;
 	}
 	public static double multiplierFor(DopamineState state, PointSource source)
 	{

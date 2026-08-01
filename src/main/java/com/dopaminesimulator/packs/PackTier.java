@@ -32,27 +32,27 @@ import java.awt.Color;
 @Getter
 public enum PackTier
 {
-	SCRAP("Scrap Pack", 400d, 3, 1, 1.0d, null, Rarity.RARE, false, 0d,
+	SCRAP("Scrap Pack", 400d, 1, 3, 1.0d, null, Rarity.COMMON, false, 0d,
 		new Color(0x9E, 0x9E, 0x9E),
-		"3 cards, 1 copy each. Rare at best."),
-	STANDARD("Standard Pack", 2_400d, 5, 3, 1.0d, null, Rarity.EPIC, false, 2_000d,
+		"1 card, 3 copies. Common only."),
+	STANDARD("Standard Pack", 2_400d, 2, 8, 1.0d, null, Rarity.UNCOMMON, false, 2_000d,
 		new Color(0x64, 0xB5, 0xF6),
-		"5 cards, 3 copies each. Epic at best."),
-	GILDED("Gilded Pack", 15_000d, 5, 12, 2.5d, Rarity.UNCOMMON, Rarity.EPIC, false, 20_000d,
+		"2 cards, 8 copies each. Uncommon at best."),
+	GILDED("Gilded Pack", 15_000d, 3, 20, 2.5d, Rarity.UNCOMMON, Rarity.RARE, false, 20_000d,
 		new Color(0x66, 0xBB, 0x6A),
-		"5 cards, 12 copies each. Uncommon to Epic, x2.5 rare odds."),
-	CURATED("Curated Pack", 70_000d, 5, 40, 2.0d, Rarity.UNCOMMON, Rarity.EPIC, true,
+		"3 cards, 20 copies each. Uncommon or Rare."),
+	CURATED("Curated Pack", 70_000d, 3, 65, 2.0d, Rarity.UNCOMMON, Rarity.RARE, true,
 		100_000d, new Color(0x26, 0xC6, 0xDA),
-		"5 cards, 40 copies each, from one chosen set. Uncommon to Epic."),
-	PRISMATIC("Prismatic Pack", 350_000d, 7, 120, 6.0d, Rarity.RARE, Rarity.LEGENDARY,
+		"3 cards, 65 copies each, from one chosen set. Uncommon or Rare."),
+	PRISMATIC("Prismatic Pack", 350_000d, 4, 210, 6.0d, Rarity.RARE, Rarity.EPIC,
 		false, 500_000d, new Color(0xAB, 0x47, 0xBC),
-		"7 cards, 120 copies each. Rare floor and the first shot at Legendary."),
-	ASCENDANT("Ascendant Pack", 2_000_000d, 10, 400, 15.0d, Rarity.EPIC,
+		"4 cards, 210 copies each. Rare or Epic."),
+	ASCENDANT("Ascendant Pack", 2_000_000d, 5, 800, 15.0d, Rarity.EPIC,
 		Rarity.LEGENDARY, false, 3_000_000d, new Color(0xFF, 0xB3, 0x00),
-		"10 cards, 400 copies each. Epic floor, roughly one card in ten Legendary."),
-	MYTHIC("Mythic Pack", 8_000_000d, 12, 200, 40.0d, Rarity.LEGENDARY, Rarity.LEGENDARY,
+		"5 cards, 800 copies each. Epic, with roughly one card in ten Legendary."),
+	MYTHIC("Mythic Pack", 8_000_000d, 1, 2_400, 40.0d, Rarity.LEGENDARY, Rarity.LEGENDARY,
 		false, 15_000_000d, new Color(0xFF, 0x70, 0x43),
-		"12 cards, 200 copies each. Legendary only.");
+		"1 card, 2,400 copies. Guaranteed Legendary.");
 	private final String displayName;
 	private final double cost;
 	private final int cardCount;
