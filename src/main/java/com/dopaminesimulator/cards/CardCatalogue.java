@@ -44,14 +44,216 @@ public final class CardCatalogue
 	private static final Map<String, Integer> QUEST_ART = new HashMap<>();
 	static
 	{
+		QUEST_ART.put("Animal Magnetism", ItemID.AVAS_ASSEMBLER);
+		QUEST_ART.put("Another Slice of H.A.M.", ItemID.ANCIENT_GOBLIN_MACE);
+		QUEST_ART.put("The Ascent of Arceuus", ItemID.ARCEUUS_ESSENCE_BLOCK_DARK);
+		QUEST_ART.put("Alfred Grimhand's Barcrawl", ItemID.BARCRAWL_CARD);
+		QUEST_ART.put("Bear Your Soul", ItemID.ARCEUUS_SOULBEARER);
+		QUEST_ART.put("Below Ice Mountain", ItemID.BIM_STEAK_SANDWICH);
+		QUEST_ART.put("Between a Rock...", ItemID.DWARF_GOLDROCK_HELMET);
+		QUEST_ART.put("Big Chompy Bird Hunting", ItemID.OGRE_BOW);
+		QUEST_ART.put("Biohazard", ItemID.DISTILLATOR);
+		QUEST_ART.put("Black Knights' Fortress", ItemID.IRON_CHAINBODY);
+		QUEST_ART.put("Bone Voyage", ItemID.FOSSIL_CALCITE);
+		QUEST_ART.put("Cabin Fever", ItemID.FEVER_PIRACY_BOOK);
+		QUEST_ART.put("Client of Kourend", ItemID.VEOS_KHAREDSTS_MEMOIRS);
+		QUEST_ART.put("Clock Tower", ItemID.BLACKCOG);
+		QUEST_ART.put("Cold War", ItemID.PENGUIN_MASK);
+		QUEST_ART.put("Contact!", ItemID.CONTACT_KERIS);
+		QUEST_ART.put("Cook's Assistant", ItemID.CAKE);
+		QUEST_ART.put("The Corsair Curse", ItemID.PIRATE_BANDANA_BROWN);
+		QUEST_ART.put("Creature of Fenkenstrain", ItemID.RING_OF_CHAROS);
+		QUEST_ART.put("Curse of the Empty Lord", ItemID.SECRET_GHOST_TOP);
+		QUEST_ART.put("Daddy's Home", ItemID.POH_SAW);
+		QUEST_ART.put("Darkness of Hallowvale", ItemID.SILVER_SICKLE_ENCHANTED);
+		QUEST_ART.put("Death Plateau", ItemID.DEATH_CLIMBINGBOOTS);
+		QUEST_ART.put("Death to the Dorgeshuun", ItemID.DTTD_BONE_CROSSBOW);
+		QUEST_ART.put("Demon Slayer", ItemID.SILVERLIGHT);
+		QUEST_ART.put("The Depths of Despair", ItemID.HOSIDIUSQUEST_ACCORD);
+		QUEST_ART.put("Desert Treasure I", ItemID.TRAIL_ANCIENT_STAFF);
+		QUEST_ART.put("Devious Minds", ItemID.DEVIOUS_BOWSWORD);
+		QUEST_ART.put("The Dig Site", ItemID.SPECIMEN_BRUSH);
+		QUEST_ART.put("Doric's Quest", ItemID.COPPER_ORE);
+		QUEST_ART.put("Dragon Slayer I", ItemID.ANTIDRAGONBREATHSHIELD);
 		QUEST_ART.put("Dragon Slayer II", ItemID.MYTHICAL_CAPE);
-		QUEST_ART.put("Monkey Madness II", ItemID.HEAVY_BALLISTA);
-		QUEST_ART.put("Monkey Madness I", ItemID.DRAGON_SCIMITAR);
-		QUEST_ART.put("Song of the Elves", ItemID.BLADE_OF_SAELDOR);
-		QUEST_ART.put("Sins of the Father", ItemID.BLISTERWOOD_FLAIL);
+		QUEST_ART.put("Dream Mentor", ItemID.DREAM_VIAL_FULL);
+		QUEST_ART.put("Druidic Ritual", ItemID.GUAM_LEAF);
+		QUEST_ART.put("Dwarf Cannon", ItemID.MCANNONTOOLKIT);
+		QUEST_ART.put("Eadgar's Ruse", ItemID.EADGAR_GOUTWEED_HERB);
+		QUEST_ART.put("Eagles' Peak", ItemID.HUNTING_FERRET);
+		QUEST_ART.put("Elemental Workshop I", ItemID.ELEMENTAL_SHIELD);
+		QUEST_ART.put("Elemental Workshop II", ItemID.ELEM_MIND_HELM);
+		QUEST_ART.put("Enakhra's Lament", ItemID.CAMULET);
+		QUEST_ART.put("The Enchanted Key", ItemID.MAKINGHISTORY_KEY);
+		QUEST_ART.put("Enlightened Journey", ItemID.ZEP_TEST_BALLOON);
+		QUEST_ART.put("Enter the Abyss", ItemID.RCU_POUCH_SMALL);
+		QUEST_ART.put("Ernest the Chicken", ItemID.RAW_CHICKEN);
+		QUEST_ART.put("The Eyes of Glouphrie", ItemID.EYEGLO_BLUE_CIRCLE);
+		QUEST_ART.put("Fairytale I - Growing Pains", ItemID.FAIRY_ENCHANTED_SECATEURS);
+		QUEST_ART.put("Fairytale II - Cure a Queen", ItemID.FAIRYTALE2_NUFFS_CERTIFICATE);
+		QUEST_ART.put("Family Crest", ItemID.FAMILY_CREST);
+		QUEST_ART.put("Family Pest", ItemID.GAUNTLETS_OF_CHAOS);
+		QUEST_ART.put("The Feud", ItemID.BLACKJACK_OAK);
+		QUEST_ART.put("Fight Arena", ItemID.KHAZARD_PLATEMAIL);
+		QUEST_ART.put("Fishing Contest", ItemID.HEMENSTER_FISHING_TROPHY);
+		QUEST_ART.put("Forgettable Tale...", ItemID.DWARVEN_STOUT);
+		QUEST_ART.put("The Forsaken Tower", ItemID.LOVAQUEST_HAMMER);
+		QUEST_ART.put("The Fremennik Exiles", ItemID.NEITIZNOT_FACEGUARD);
+		QUEST_ART.put("The Fremennik Isles", ItemID.FRIS_KINGLY_HELM);
+		QUEST_ART.put("The Fremennik Trials", ItemID.VIKING_ENCHANTED_STRUNG_LYRE);
+		QUEST_ART.put("Garden of Tranquillity", ItemID.RING_OF_CHAROS_UNLOCKED);
+		QUEST_ART.put("The General's Shadow", ItemID.SHADOW_MAJ_SHADOW_SWORD);
+		QUEST_ART.put("Gertrude's Cat", ItemID.LAZYCATOBJECT_BROWN);
+		QUEST_ART.put("Getting Ahead", ItemID.GA_FURHEAD);
+		QUEST_ART.put("Ghosts Ahoy", ItemID.ECTOPHIAL);
+		QUEST_ART.put("The Giant Dwarf", ItemID.POH_UNFRAMED_PAINTING_GIANTDWARF);
+		QUEST_ART.put("Goblin Diplomacy", ItemID.GOBLIN_ARMOUR);
+		QUEST_ART.put("The Golem", ItemID.GOLEM_STATUETTE);
+		QUEST_ART.put("The Grand Tree", ItemID.GRANDTREE_DACONIAROCK);
+		QUEST_ART.put("The Great Brain Robbery", ItemID.BRAIN_ANCHOR);
+		QUEST_ART.put("Grim Tales", ItemID.GRIM_WEAR_HELMET);
+		QUEST_ART.put("The Hand in the Sand", ItemID.HANDSAND_SANDYHAND);
+		QUEST_ART.put("Haunted Mine", ItemID.CRYSTALSHARD_NECKLACE);
+		QUEST_ART.put("Hazeel Cult", ItemID.CARNILLEAN_ARMOUR);
+		QUEST_ART.put("Heroes' Quest", ItemID.DRAGON_BATTLEAXE);
+		QUEST_ART.put("Holy Grail", ItemID.HOLY_GRAIL);
+		QUEST_ART.put("Horror from the Deep", ItemID.HORROR_CASKET);
+		QUEST_ART.put("Icthlarin's Little Helper", ItemID.ICS_LITTLE_AMULET_OF_CATSPEAK);
+		QUEST_ART.put("Imp Catcher", ItemID.AMULET_OF_ACCURACY);
+		QUEST_ART.put("In Aid of the Myreque", ItemID.BURGH_ROD_COMMAND_FINAL_10);
+		QUEST_ART.put("In Search of Knowledge", ItemID.ARCEUUS_LIBRARY_REWARD);
+		QUEST_ART.put("In Search of the Myreque", ItemID.SILVER_SICKLE);
+		QUEST_ART.put("Jungle Potion", ItemID.SNAKE_WEED);
+		QUEST_ART.put("A Kingdom Divided", ItemID.AKD_ROSES_DUMMY);
+		QUEST_ART.put("King's Ransom", ItemID.KR_CLUE_ARMOUR);
+		QUEST_ART.put("The Knight's Sword", ItemID.FALADIAN_SWORD);
+		QUEST_ART.put("Lair of Tarn Razorlor", ItemID.LOTR_CRYSTALSHARD_NECKLACE_UPGRADE);
 		QUEST_ART.put("Legends' Quest", ItemID.CAPE_OF_LEGENDS);
-		QUEST_ART.put("Lost City", ItemID.DRAGON_DAGGER);
+		QUEST_ART.put("Lost City", ItemID.DRAMEN_STAFF);
+		QUEST_ART.put("The Lost Tribe", ItemID.LOST_TRIBE_BROOCH);
+		QUEST_ART.put("Lunar Diplomacy", ItemID.LUNAR_MOONCLAN_LIMINAL_STAFF);
+		QUEST_ART.put("Mage Arena I", ItemID.SARADOMIN_CAPE);
+		QUEST_ART.put("Mage Arena II", ItemID.MA2_SARADOMIN_CAPE);
+		QUEST_ART.put("Making Friends with My Arm", ItemID.MY2ARM_COFFIN);
+		QUEST_ART.put("Making History", ItemID.MAKINGHISTORY_KEY);
+		QUEST_ART.put("Merlin's Crystal", ItemID.EXCALIBUR);
+		QUEST_ART.put("Misthalin Mystery", ItemID.MACRO_QUIZ_MYSTERY_BOX);
+		QUEST_ART.put("Monkey Madness I", ItemID.DRAGON_SCIMITAR);
+		QUEST_ART.put("Monkey Madness II", ItemID.HEAVY_BALLISTA);
+		QUEST_ART.put("Monk's Friend", ItemID.MONKROBETOP);
+		QUEST_ART.put("Mountain Daughter", ItemID.MDAUGHTER_BEAR_HELMET);
+		QUEST_ART.put("Mourning's End Part I", ItemID.MOURNING_MOURNER_TOP);
+		QUEST_ART.put("Mourning's End Part II", ItemID.DEATH_TALISMAN);
+		QUEST_ART.put("Murder Mystery", ItemID.MURDERNECKLACE);
+		QUEST_ART.put("My Arm's Big Adventure", ItemID.MYARM_HARDYTUBERS);
+		QUEST_ART.put("Nature Spirit", ItemID.SILVER_SICKLE_BLESSED);
+		QUEST_ART.put("A Night at the Theatre", ItemID.VERZIK_SPECIAL_WEAPON);
+		QUEST_ART.put("Observatory Quest", ItemID.TELESCOPE_DUMMY);
+		QUEST_ART.put("Olaf's Quest", ItemID.OLAF2_GATE_KEY_1);
+		QUEST_ART.put("One Small Favour", ItemID.FAVOUR_KEY_RING);
+		QUEST_ART.put("Pirate's Treasure", ItemID.CASKET);
+		QUEST_ART.put("Plague City", ItemID.GASMASK);
+		QUEST_ART.put("A Porcine of Interest", ItemID.PORCINE_SOURHOG_TROPHY);
+		QUEST_ART.put("Priest in Peril", ItemID.DAGGER_WOLFBANE);
+		QUEST_ART.put("Prince Ali Rescue", ItemID.SKINPASTE);
+		QUEST_ART.put("The Queen of Thieves", ItemID.VEOS_MEMOIRS_PISC_PAGE);
+		QUEST_ART.put("Rag and Bone Man I", ItemID.RAG_POLISHED_GOBLIN_BONE);
+		QUEST_ART.put("Rag and Bone Man II", ItemID.RAG_BONESACK);
+		QUEST_ART.put("Ratcatchers", ItemID.SNAKE_FLUTE);
+		QUEST_ART.put("Recipe for Disaster", ItemID.HUNDRED_GAUNTLETS_LEVEL_10);
+		QUEST_ART.put("Recruitment Drive", ItemID.BASIC_TK_HELM);
+		QUEST_ART.put("Regicide", ItemID.DRAGON_HALBERD);
+		QUEST_ART.put("The Restless Ghost", ItemID.AMULET_OF_GHOSTSPEAK);
+		QUEST_ART.put("Romeo & Juliet", ItemID.CADAVA);
+		QUEST_ART.put("Roving Elves", ItemID.CRYSTAL_BOW);
+		QUEST_ART.put("Royal Trouble", ItemID.ROYAL_BOX);
+		QUEST_ART.put("Rum Deal", ItemID.DEAL_WRENCH_BLESSED);
+		QUEST_ART.put("Rune Mysteries", ItemID.AIR_TALISMAN);
+		QUEST_ART.put("Scorpion Catcher", ItemID.SCORPIONCAGEFULL);
+		QUEST_ART.put("Sea Slug", ItemID.SLUG2_SEASLUG_YOUNG);
+		QUEST_ART.put("Shades of Mort'ton", ItemID.FLAMTAER_HAMMER);
+		QUEST_ART.put("Shadow of the Storm", ItemID.DARKLIGHT);
+		QUEST_ART.put("Sheep Herder", ItemID.PLAGUE_JACKET);
+		QUEST_ART.put("Sheep Shearer", ItemID.BALL_OF_WOOL);
+		QUEST_ART.put("Shield of Arrav", ItemID.THE_SHIELD_OF_ARRAV);
+		QUEST_ART.put("Shilo Village", ItemID.MOSOL_WAMPUM_BELT);
+		QUEST_ART.put("Sins of the Father", ItemID.BLISTERWOOD_FLAIL);
+		QUEST_ART.put("Skippy and the Mogres", ItemID.SLAYERGUIDE_MOGRE);
+		QUEST_ART.put("The Slug Menace", ItemID.BASIC_TK_RANK2_HELM);
+		QUEST_ART.put("Song of the Elves", ItemID.BLADE_OF_SAELDOR);
+		QUEST_ART.put("A Soul's Bane", ItemID.SOULBANE_ZAROS_SPEAR);
+		QUEST_ART.put("Spirits of the Elid", ItemID.ELID_STATUETTE);
+		QUEST_ART.put("Swan Song", ItemID.MONKFISH);
+		QUEST_ART.put("Tai Bwo Wannai Trio", ItemID.TBWT_RAW_KARAMBWAN);
+		QUEST_ART.put("A Tail of Two Cats", ItemID.TWOCATS_AMULETOFCATSPEAK);
+		QUEST_ART.put("Tale of the Righteous", ItemID.SHAYZIENQUEST_CRYSTAL_DUMMY);
 		QUEST_ART.put("A Taste of Hope", ItemID.IVANDIS_FLAIL);
+		QUEST_ART.put("Tears of Guthix", ItemID.TOG_BOWL);
+		QUEST_ART.put("Temple of Ikov", ItemID.IKOV_STAFFOFARMARDYL);
+		QUEST_ART.put("Throne of Miscellania", ItemID.MISC_TREATY);
+		QUEST_ART.put("The Tourist Trap", ItemID.DESERT_SHIRT);
+		QUEST_ART.put("Tower of Life", ItemID.TOL_PLAYER_CONSTRUCTION_HARDHAT);
+		QUEST_ART.put("Tree Gnome Village", ItemID.GNOME_AMULET);
+		QUEST_ART.put("Tribal Totem", ItemID.TRIBAL_TOTEM);
+		QUEST_ART.put("Troll Romance", ItemID.TROLLROMANCE_TOBOGGON);
+		QUEST_ART.put("Troll Stronghold", ItemID.TROLL_KEY_PRISON);
+		QUEST_ART.put("Underground Pass", ItemID.IBANSTAFF);
+		QUEST_ART.put("Vampyre Slayer", ItemID.STAKE);
+		QUEST_ART.put("Wanted!", ItemID.WANTED_SOLUS_TROPHY);
+		QUEST_ART.put("Watchtower", ItemID.OGRERELIC);
+		QUEST_ART.put("Waterfall Quest", ItemID.GLARIALS_AMULET_WATERFALL_QUEST);
+		QUEST_ART.put("What Lies Below", ItemID.SUROK_RING);
+		QUEST_ART.put("Witch's House", ItemID.BALL);
+		QUEST_ART.put("Witch's Potion", ItemID.EYE_OF_NEWT);
+		QUEST_ART.put("X Marks the Spot", ItemID.SPADE);
+		QUEST_ART.put("Zogre Flesh Eaters", ItemID.ZOGRE_BOW);
+		QUEST_ART.put("The Frozen Door", ItemID.NEX_FROZEN_KEY);
+		QUEST_ART.put("Land of the Goblins", ItemID.LOTG_3DOSEGOBLIN);
+		QUEST_ART.put("Hopespear's Will", ItemID.LOTG_BONE_HIGHPRIEST5);
+		QUEST_ART.put("Temple of the Eye", ItemID.TOTE_AMULET);
+		QUEST_ART.put("Beneath Cursed Sands", ItemID.KERIS_PARTISAN);
+		QUEST_ART.put("Sleeping Giants", ItemID.GIANTS_FOUNDRY_COLOSSAL_BLADE);
+		QUEST_ART.put("The Garden of Death", ItemID.TGOD_TABLET_1);
+		QUEST_ART.put("Into the Tombs", ItemID.OSMUMTENS_FANG);
+		QUEST_ART.put("Recipe for Disaster - Another Cook's Quest", ItemID.EGG);
+		QUEST_ART.put("Recipe for Disaster - Mountain Dwarf", ItemID.ROCKCAKE);
+		QUEST_ART.put("Recipe for Disaster - Wartface & Bentnoze", ItemID._100GOBLIN_COMPROMISE_MUSH);
+		QUEST_ART.put("Recipe for Disaster - Pirate Pete", ItemID.HUNDRED_PIRATE_FISHCAKE);
+		QUEST_ART.put("Recipe for Disaster - Lumbridge Guide", ItemID._100GUIDE_GUIDECAKE);
+		QUEST_ART.put("Recipe for Disaster - Evil Dave", ItemID.HUNDRED_DAVE_STEW);
+		QUEST_ART.put("Recipe for Disaster - Skrach Uglogwee", ItemID._100_JUBBLY_MEAT_COOKED);
+		QUEST_ART.put("Recipe for Disaster - Sir Amik Varze", ItemID.CHICKENQUEST_EVIL_CHICKEN_EGG);
+		QUEST_ART.put("Recipe for Disaster - King Awowogei", ItemID.HUNDRED_ILM_COOKED_STUFFED_SNAKE);
+		QUEST_ART.put("Recipe for Disaster - Culinaromancer", ItemID.HUNDRED_GAUNTLETS_LEVEL_10);
+		QUEST_ART.put("Secrets of the North", ItemID.VENATOR_BOW);
+		QUEST_ART.put("Desert Treasure II - The Fallen Empire", ItemID.DT2_ELDER_HORN_DUMMY);
+		QUEST_ART.put("His Faithful Servants", ItemID.BARROWS_BOOK_HISTORY);
+		QUEST_ART.put("The Path of Glouphrie", ItemID.CRYSTAL_CHIME);
+		QUEST_ART.put("Children of the Sun", ItemID.VARLAMORE_JAGUAR_FUR);
+		QUEST_ART.put("Barbarian Training", ItemID.BRUT_FISHING_ROD);
+		QUEST_ART.put("Defender of Varrock", ItemID.DOV_SHIELD_OF_ARRAV);
+		QUEST_ART.put("While Guthix Sleeps", ItemID.WGS_STONE_OF_JAS_DUMMY_ITEM);
+		QUEST_ART.put("Twilight's Promise", ItemID.VMQ2_CREST);
+		QUEST_ART.put("At First Light", ItemID.GB_MOSS_ESSENCE);
+		QUEST_ART.put("Perilous Moons", ItemID.PMOON_ICOSAHEDRON);
+		QUEST_ART.put("The Ribbiting Tale of a Lily Pad Labour Dispute", ItemID.ORANGE);
+		QUEST_ART.put("The Heart of Darkness", ItemID.VMQ3_CULTIST_ROBE_TOP);
+		QUEST_ART.put("Death on the Isle", ItemID.DOTI_CASEFILE);
+		QUEST_ART.put("Meat and Greet", ItemID.COOKED_MEAT_UNDEAD);
+		QUEST_ART.put("Ethically Acquired Antiquities", ItemID.VM_MUSEUM_MAP);
+		QUEST_ART.put("The Curse of Arrav", ItemID.COA_CANOPIC_JAR_COMPLETE);
+		QUEST_ART.put("The Final Dawn", ItemID.ARKAN_BLADE);
+		QUEST_ART.put("Shadows of Custodia", ItemID.CUSTODIAN_ANTLER_GUARD);
+		QUEST_ART.put("Scrambled!", ItemID.SCRAMBLED_EGG);
+		QUEST_ART.put("Vale Totems", ItemID.ENT_TOTEMS_LOOT);
+		QUEST_ART.put("Pandemonium", ItemID.SAILING_CHARTING_SPYGLASS);
+		QUEST_ART.put("Prying Times", ItemID.PRYING_TIMES_CARGO_CRATE);
+		QUEST_ART.put("Current Affairs", ItemID.DUMMY_CHARTING_DUCK);
+		QUEST_ART.put("Troubled Tortugans", ItemID.TORTUGAN_SHIELD);
+		QUEST_ART.put("The Red Reef", ItemID.TRR_RED_CORAL);
+		QUEST_ART.put("Learning the Ropes", ItemID.BURNT_SHRIMP);
+		QUEST_ART.put("The Ides of Milk", ItemID.COWQUEST_MILK_SAMPLE_1);
+		QUEST_ART.put("The Blood Moon Rises", ItemID.HALLOWED_FLAIL);
 	}
 	static
 	{
@@ -228,6 +430,8 @@ public final class CardCatalogue
 		boss(out, "Araxxor", Rarity.EPIC, SpriteID.IconBoss25x25.ARAXXOR);
 		boss(out, "The Corrupted Gauntlet", Rarity.EPIC, SpriteID.IconBoss25x25.THE_CORRUPTED_GAUNTLET);
 		boss(out, "Chambers of Xeric", Rarity.LEGENDARY, SpriteID.IconBoss25x25.CHAMBERS_OF_XERIC);
+		out.add(Card.ofItem(CardSet.BOSSES, "Chambers of Xeric: Challenge Mode", Rarity.LEGENDARY,
+			ItemID.TWISTED_BOW));
 		boss(out, "Theatre of Blood", Rarity.LEGENDARY, SpriteID.IconBoss25x25.THEATRE_OF_BLOOD);
 		boss(out, "Tombs of Amascut", Rarity.LEGENDARY, SpriteID.IconBoss25x25.TOMBS_OF_AMASCUT);
 		boss(out, "Yama", Rarity.LEGENDARY, SpriteID.IconBoss25x25.YAMA);
@@ -424,55 +628,61 @@ public final class CardCatalogue
 	}
 	private static void addMinigames(List<Card> out)
 	{
-		plain(out, CardSet.MINIGAMES, "Barbarian Assault", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Pest Control", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Castle Wars", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Blast Furnace", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Tithe Farm", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Wintertodt", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Pyramid Plunder", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Brimhaven Agility Arena", Rarity.COMMON);
-		plain(out, CardSet.MINIGAMES, "Rogues' Den", Rarity.UNCOMMON);
-		plain(out, CardSet.MINIGAMES, "Trouble Brewing", Rarity.UNCOMMON);
-		plain(out, CardSet.MINIGAMES, "Mage Training Arena", Rarity.UNCOMMON);
-		plain(out, CardSet.MINIGAMES, "Gnome Restaurant", Rarity.UNCOMMON);
-		plain(out, CardSet.MINIGAMES, "Volcanic Mine", Rarity.UNCOMMON);
-		plain(out, CardSet.MINIGAMES, "Guardians of the Rift", Rarity.UNCOMMON);
-		plain(out, CardSet.MINIGAMES, "Chambers of Xeric Challenge", Rarity.RARE);
-		plain(out, CardSet.MINIGAMES, "Last Man Standing", Rarity.RARE);
-		plain(out, CardSet.MINIGAMES, "Soul Wars", Rarity.RARE);
-		plain(out, CardSet.MINIGAMES, "Nightmare Zone", Rarity.RARE);
-		plain(out, CardSet.MINIGAMES, "Fight Caves", Rarity.EPIC);
-		plain(out, CardSet.MINIGAMES, "Inferno", Rarity.LEGENDARY);
+		minigame(out, "Barbarian Assault", Rarity.COMMON, ItemID.BARBASSAULT_PENANCE_FIGHTER_TORSO);
+		minigame(out, "Pest Control", Rarity.COMMON, ItemID.PEST_VOID_KNIGHT_TOP);
+		minigame(out, "Castle Wars", Rarity.COMMON, ItemID.CASTLEWARS_CLOAK_SARADOMIN);
+		minigame(out, "Blast Furnace", Rarity.COMMON, ItemID.GAUNTLETS_OF_GOLDSMITHING);
+		minigame(out, "Tithe Farm", Rarity.COMMON, ItemID.TITHE_REWARD_TORSO_MALE);
+		minigame(out, "Pyramid Plunder", Rarity.COMMON, ItemID.PHARAOHS_SCEPTRE);
+		minigame(out, "Brimhaven Agility Arena", Rarity.COMMON, ItemID.AGILITYARENA_TICKET);
+		minigame(out, "Rogues' Den", Rarity.UNCOMMON, ItemID.ROGUESDEN_BODY);
+		minigame(out, "Trouble Brewing", Rarity.UNCOMMON, ItemID.ASGARNIAN_ALE);
+		minigame(out, "Mage Training Arena", Rarity.UNCOMMON, ItemID.MAGICTRAINING_INFINITYHAT);
+		minigame(out, "Gnome Restaurant", Rarity.UNCOMMON, ItemID.BALL_GNOMEBALL_GAME);
+		minigame(out, "Volcanic Mine", Rarity.UNCOMMON, ItemID.FOSSIL_VOLCANIC_ASH);
+		minigame(out, "Guardians of the Rift", Rarity.UNCOMMON, ItemID.ABYSSAL_LANTERN);
+		minigame(out, "Last Man Standing", Rarity.RARE, ItemID.BLIGHTED_KARAMBWAN);
+		minigame(out, "Soul Wars", Rarity.RARE, ItemID.SOUL_CAPE_RED);
+		minigame(out, "Nightmare Zone", Rarity.RARE, ItemID.IMBUED_HEART);
+		minigame(out, "Fight Caves", Rarity.EPIC, ItemID.TZHAAR_CAPE_FIRE);
+		minigame(out, "Inferno", Rarity.LEGENDARY, ItemID.INFERNAL_CAPE);
 	}
 	private static void addSlayer(List<Card> out)
 	{
-		slayer(out, "Crawling Hand", Rarity.COMMON, -1);
-		slayer(out, "Banshee", Rarity.COMMON, ItemID.WITCHWOOD_ICON);
-		slayer(out, "Rockslug", Rarity.COMMON, -1);
-		slayer(out, "Cockatrice", Rarity.COMMON, -1);
-		slayer(out, "Pyrefiend", Rarity.COMMON, -1);
-		slayer(out, "Basilisk", Rarity.COMMON, -1);
-		slayer(out, "Infernal Mage", Rarity.COMMON, -1);
-		slayer(out, "Bloodveld", Rarity.COMMON, -1);
-		slayer(out, "Jelly", Rarity.COMMON, -1);
-		slayer(out, "Turoth", Rarity.COMMON, ItemID.LEAFBLADED_SWORD);
-		slayer(out, "Aberrant Spectre", Rarity.UNCOMMON, -1);
-		slayer(out, "Dust Devil", Rarity.UNCOMMON, -1);
-		slayer(out, "Kurask", Rarity.UNCOMMON, ItemID.LEAFBLADED_SWORD);
-		slayer(out, "Gargoyle", Rarity.UNCOMMON, ItemID.HAMMER);
-		slayer(out, "Nechryael", Rarity.UNCOMMON, -1);
-		slayer(out, "Cave Horror", Rarity.UNCOMMON, -1);
-		slayer(out, "Skeletal Wyvern", Rarity.UNCOMMON, -1);
-		slayer(out, "Dark Beast", Rarity.RARE, -1);
-		slayer(out, "Abyssal Demon", Rarity.RARE, ItemID.ABYSSAL_WHIP);
+		slayer(out, "Crawling Hand", Rarity.COMMON, ItemID.SLAYERGUIDE_CRAWLINGHAND);
+		slayer(out, "Banshee", Rarity.COMMON, ItemID.SLAYERGUIDE_BANSHEE);
+		slayer(out, "Rockslug", Rarity.COMMON, ItemID.SLAYERGUIDE_ROCKSLUG);
+		slayer(out, "Cockatrice", Rarity.COMMON, ItemID.SLAYERGUIDE_COCKATRICE);
+		slayer(out, "Pyrefiend", Rarity.COMMON, ItemID.SLAYERGUIDE_PYRFIEND);
+		slayer(out, "Basilisk", Rarity.COMMON, ItemID.SLAYERGUIDE_BASILISK);
+		slayer(out, "Infernal Mage", Rarity.COMMON, ItemID.SLAYERGUIDE_INFERNALMAGE);
+		slayer(out, "Bloodveld", Rarity.COMMON, ItemID.SLAYERGUIDE_BLOODVELD);
+		slayer(out, "Jelly", Rarity.COMMON, ItemID.SLAYERGUIDE_JELLY);
+		slayer(out, "Turoth", Rarity.COMMON, ItemID.SLAYERGUIDE_TUROTH);
+		slayer(out, "Aberrant Spectre", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_ABERRANTSPECTER);
+		slayer(out, "Dust Devil", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_DUSTDEVIL);
+		slayer(out, "Kurask", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_KURASK);
+		slayer(out, "Gargoyle", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_GARGOYLE);
+		slayer(out, "Nechryael", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_NECHRYAEL);
+		slayer(out, "Cave Horror", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_HARMLESS_CAVE_HORROR);
+		slayer(out, "Skeletal Wyvern", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_SKELETALWYVERN);
+		slayer(out, "Dark Beast", Rarity.RARE, ItemID.SLAYERGUIDE_DARK_BEAST);
+		slayer(out, "Abyssal Demon", Rarity.RARE, ItemID.SLAYERGUIDE_ABYSSALDEMON);
 		slayer(out, "Smoke Devil", Rarity.RARE, ItemID.OCCULT_NECKLACE);
-		slayer(out, "Wyrm", Rarity.RARE, ItemID.BOOTS_OF_STONE);
-		slayer(out, "Drake", Rarity.RARE, ItemID.BOOTS_OF_STONE);
-		slayer(out, "Hydra", Rarity.EPIC, -1);
-		slayer(out, "Brutal Black Dragon", Rarity.EPIC, ItemID.DRAGON_BONES);
-		slayer(out, "Nechryarch", Rarity.LEGENDARY, -1);
+		slayer(out, "Wyrm", Rarity.RARE, ItemID.SLAYERGUIDE_WYRM);
+		slayer(out, "Drake", Rarity.RARE, ItemID.SLAYERGUIDE_DRAKE);
+		slayer(out, "Hydra", Rarity.EPIC, ItemID.SLAYERGUIDE_HYDRA);
+		slayer(out, "Brutal Black Dragon", Rarity.EPIC, ItemID.DRAGONMASK_BLACK);
+		slayer(out, "Nechryarch", Rarity.LEGENDARY, ItemID.MALEDICTION_WARD);
 	}
+	private static void minigame(List<Card> out, String name, Rarity rarity, int itemId)
+	{
+		out.add(itemId > 0
+			? Card.ofItem(CardSet.MINIGAMES, name, rarity, itemId)
+			: Card.ofSprite(CardSet.MINIGAMES, name, rarity,
+				SpriteID.AchievementDiaryIcons.RED_MINIGAMES));
+	}
+
 	private static void slayer(List<Card> out, String name, Rarity rarity, int itemId)
 	{
 		out.add(itemId > 0
@@ -489,22 +699,31 @@ public final class CardCatalogue
 		Rarity[] tiers = {Rarity.COMMON, Rarity.UNCOMMON, Rarity.RARE, Rarity.EPIC};
 		String[] names = {"Easy", "Medium", "Hard", "Elite"};
 
-		String[] codes = {
-			"Ardougne", "Desert", "Falador", "Fremennik", "Kandarin", "Karamja",
-			"Kourend", "Lumbridge", "Morytania", "Varrock", "Western", "Wilderness"
+		int[][] rewards = {
+			{ItemID.ARDY_CAPE_EASY, ItemID.ARDY_CAPE_MEDIUM, ItemID.ARDY_CAPE_HARD, ItemID.ARDY_CAPE_ELITE},
+			{ItemID.DESERT_AMULET_EASY, ItemID.DESERT_AMULET_MEDIUM, ItemID.DESERT_AMULET_HARD, ItemID.DESERT_AMULET_ELITE},
+			{ItemID.FALADOR_SHIELD_EASY, ItemID.FALADOR_SHIELD_MEDIUM, ItemID.FALADOR_SHIELD_HARD, ItemID.FALADOR_SHIELD_ELITE},
+			{ItemID.FREMENNIK_BOOTS_EASY, ItemID.FREMENNIK_BOOTS_MEDIUM, ItemID.FREMENNIK_BOOTS_HARD, ItemID.FREMENNIK_BOOTS_ELITE},
+			{ItemID.SEERS_HEADBAND_EASY, ItemID.SEERS_HEADBAND_MEDIUM, ItemID.SEERS_HEADBAND_HARD, ItemID.SEERS_HEADBAND_ELITE},
+			{ItemID.ATJUN_GLOVES_EASY, ItemID.ATJUN_GLOVES_MED, ItemID.ATJUN_GLOVES_HARD, ItemID.ATJUN_GLOVES_ELITE},
+			{ItemID.ZEAH_BLESSING_EASY, ItemID.ZEAH_BLESSING_MEDIUM, ItemID.ZEAH_BLESSING_HARD, ItemID.ZEAH_BLESSING_ELITE},
+			{ItemID.LUMBRIDGE_RING_EASY, ItemID.LUMBRIDGE_RING_MEDIUM, ItemID.LUMBRIDGE_RING_HARD, ItemID.LUMBRIDGE_RING_ELITE},
+			{ItemID.MORYTANIA_LEGS_EASY, ItemID.MORYTANIA_LEGS_MEDIUM, ItemID.MORYTANIA_LEGS_HARD, ItemID.MORYTANIA_LEGS_ELITE},
+			{ItemID.VARROCK_ARMOUR_EASY, ItemID.VARROCK_ARMOUR_MEDIUM, ItemID.VARROCK_ARMOUR_HARD, ItemID.VARROCK_ARMOUR_ELITE},
+			{ItemID.WESTERN_BANNER_EASY, ItemID.WESTERN_BANNER_MEDIUM, ItemID.WESTERN_BANNER_HARD, ItemID.WESTERN_BANNER_ELITE},
+			{ItemID.WILDERNESS_SWORD_EASY, ItemID.WILDERNESS_SWORD_MEDIUM, ItemID.WILDERNESS_SWORD_HARD, ItemID.WILDERNESS_SWORD_ELITE}
 		};
 
 		for (int a = 0; a < areas.length; a++)
 		{
 			for (int i = 0; i < tiers.length; i++)
 			{
-				out.add(Card.ofSprite(CardSet.DIARIES, areas[a] + " " + names[i], tiers[i],
-					SpriteID.AchievementDiaryIcons.GREEN_ACHIEVEMENT_DIARIES, codes[a]));
+				out.add(Card.ofItem(CardSet.DIARIES, areas[a] + " " + names[i], tiers[i], rewards[a][i]));
 			}
 		}
 
-		out.add(Card.ofSprite(CardSet.DIARIES, "Achievement Diary Cape", Rarity.LEGENDARY,
-			SpriteID.AchievementDiaryIcons.GREEN_ACHIEVEMENT_DIARIES, "Every"));
+		out.add(Card.ofItem(CardSet.DIARIES, "Achievement Diary Cape", Rarity.LEGENDARY,
+			ItemID.SKILLCAPE_AD_TRIMMED));
 	}
 	private static void boss(List<Card> out, String name, Rarity rarity, int spriteId)
 	{

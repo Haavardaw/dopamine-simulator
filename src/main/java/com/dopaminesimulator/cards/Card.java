@@ -35,23 +35,17 @@ public class Card
 	Rarity rarity;
 	int itemId;
 	int spriteId;
-
-	String overlay;
 	public static Card ofItem(CardSet set, String name, Rarity rarity, int itemId)
 	{
-		return new Card(idFor(set, name), name, set, rarity, itemId, -1, null);
+		return new Card(idFor(set, name), name, set, rarity, itemId, -1);
 	}
 	public static Card ofSprite(CardSet set, String name, Rarity rarity, int spriteId)
 	{
-		return new Card(idFor(set, name), name, set, rarity, -1, spriteId, null);
-	}
-	public static Card ofSprite(CardSet set, String name, Rarity rarity, int spriteId, String overlay)
-	{
-		return new Card(idFor(set, name), name, set, rarity, -1, spriteId, overlay);
+		return new Card(idFor(set, name), name, set, rarity, -1, spriteId);
 	}
 	public static Card plain(CardSet set, String name, Rarity rarity)
 	{
-		return new Card(idFor(set, name), name, set, rarity, -1, -1, null);
+		return new Card(idFor(set, name), name, set, rarity, -1, -1);
 	}
 	static String idFor(CardSet set, String name)
 	{
