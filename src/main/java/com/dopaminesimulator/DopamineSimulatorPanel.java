@@ -1735,7 +1735,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	}
 	private WrappedLabel hint(String text, int width)
 	{
-		WrappedLabel label = new WrappedLabel(text, FontManager.getRunescapeSmallFont(),
+		WrappedLabel label = new WrappedLabel(text, FontManager.getRunescapeFont(),
 			Skin.MUTED, Math.max(60, width));
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		return label;

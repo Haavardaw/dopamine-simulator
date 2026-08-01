@@ -134,7 +134,7 @@ public class ShopRow extends JComponent
 		Skin.text(g, Skin.elide(bodyMetrics, title, width - textX - priceWidth - 16), textX, 19,
 			affordable ? Skin.WHITE : Skin.FADED);
 
-		g.setFont(Skin.small());
+		g.setFont(Skin.body());
 		FontMetrics small = g.getFontMetrics();
 
 		if (affordable)

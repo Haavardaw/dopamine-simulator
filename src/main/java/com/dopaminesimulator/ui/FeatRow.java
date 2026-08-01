@@ -75,7 +75,7 @@ public class FeatRow extends JComponent
 		drawMedal(g, height, rank);
 
 		int textX = MEDAL_X + MEDAL + 8;
-		g.setFont(Skin.small());
+		g.setFont(Skin.body());
 		FontMetrics small = g.getFontMetrics();
 		String ranks = tier + " / " + maxTier;
 		Skin.right(g, ranks, width - 8, 19, mastered ? Skin.GOLD : Skin.MUTED);
@@ -85,7 +85,7 @@ public class FeatRow extends JComponent
 			width - textX - small.stringWidth(ranks) - 16), textX, 19,
 			tier > 0 ? Skin.WHITE : Skin.MUTED);
 
-		g.setFont(Skin.small());
+		g.setFont(Skin.body());
 		if (mastered)
 		{
 			Skin.text(g, Skin.elide(small, progressText, width - textX - 10), textX, 33,

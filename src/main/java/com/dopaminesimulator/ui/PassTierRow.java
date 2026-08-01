@@ -45,7 +45,7 @@ import javax.swing.JComponent;
  */
 public class PassTierRow extends JComponent
 {
-	public static final int HEIGHT = 44;
+	public static final int HEIGHT = 48;
 
 	private static final int DISC = 26;
 	private static final int DISC_X = 7;
@@ -131,8 +131,8 @@ public class PassTierRow extends JComponent
 		drawDisc(g, height);
 
 		int textX = DISC_X + DISC + 7;
-		drawReward(g, free, freeIcon, textX, 17, freeClaimed, false);
-		drawReward(g, premium, premiumIcon, textX, 33, premiumClaimed, true);
+		drawReward(g, free, freeIcon, textX, 19, freeClaimed, false);
+		drawReward(g, premium, premiumIcon, textX, 36, premiumClaimed, true);
 
 		g.dispose();
 	}
@@ -177,7 +177,7 @@ public class PassTierRow extends JComponent
 			g.fillOval(x + 3, iconY + 3, size - 6, size - 6);
 		}
 
-		g.setFont(Skin.small());
+		g.setFont(Skin.body());
 		FontMetrics metrics = g.getFontMetrics();
 		String text = reward.describe();
 		if (isPremium && !premiumOwned)

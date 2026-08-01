@@ -91,14 +91,14 @@ public class BannerHeader extends JComponent
 		g.setFont(Skin.heading());
 		Skin.text(g, Skin.elide(g.getFontMetrics(), name, room), PAD, 22, Skin.GOLD);
 
-		g.setFont(Skin.small());
+		g.setFont(Skin.body());
 		FontMetrics small = g.getFontMetrics();
-		Skin.text(g, Skin.elide(small, featured.getName(), room), PAD, 37, Skin.WHITE);
+		Skin.text(g, Skin.elide(small, featured.getName(), room), PAD, 38, Skin.WHITE);
 
 		drawStars(g, PAD, 49, WishReveal.starsFor(rarity));
 
 		String chance = String.format("%.1f%%", rate * 100d);
-		Skin.text(g, chance, PAD, 66, Skin.MUTED);
+		Skin.text(g, chance, PAD, 66, Skin.WHITE);
 		Skin.text(g, Skin.elide(small, remaining,
 			room - small.stringWidth(chance) - 6), PAD + small.stringWidth(chance) + 6, 66,
 			Skin.ORANGE);

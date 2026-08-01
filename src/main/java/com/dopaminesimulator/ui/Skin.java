@@ -57,8 +57,8 @@ public final class Skin
 	public static final Color LINE = new Color(0x14, 0x14, 0x17);
 
 	public static final Color WHITE = new Color(0xF0, 0xF0, 0xF4);
-	public static final Color MUTED = new Color(0x8C, 0x8C, 0x98);
-	public static final Color FADED = new Color(0x5A, 0x5A, 0x64);
+	public static final Color MUTED = new Color(0xB4, 0xB4, 0xC2);
+	public static final Color FADED = new Color(0x74, 0x74, 0x80);
 
 	public static final Color ORANGE = new Color(0xFF, 0x98, 0x1F);
 	public static final Color GOLD = new Color(0xFF, 0xC8, 0x45);
@@ -148,6 +148,13 @@ public final class Skin
 			new Color[]{withAlpha(accent, 105), withAlpha(accent, 0)},
 			MultipleGradientPaint.CycleMethod.NO_CYCLE));
 		g.fillRect(x, y, w, h);
+
+		// a scrim over the lower half: the accent wash is mid-value, and light text
+		// on it was unreadable. Everything below the title now sits on near-black.
+		int scrimTop = y + (int) (h * 0.32f);
+		g.setPaint(new GradientPaint(x, scrimTop, withAlpha(Color.BLACK, 0),
+			x, y + h, withAlpha(Color.BLACK, 175)));
+		g.fillRect(x, scrimTop, w, y + h - scrimTop);
 		g.setClip(clip);
 
 		frame(g, x, y, w, h, accent);
@@ -204,8 +211,12 @@ public final class Skin
 		{
 			g.setPaint(new GradientPaint(x, y, brighten(fill), x, y + h, fill));
 			g.fillRoundRect(x, y, filled, h, h / 2, h / 2);
-			g.setColor(withAlpha(Color.WHITE, 45));
-			g.fillRoundRect(x + 2, y + 1, filled - 4, Math.max(1, h / 2 - 1), h / 3, h / 3);
+			if (label == null)
+			{
+				// the gloss sits exactly where a label would, so a labelled bar goes without
+				g.setColor(withAlpha(Color.WHITE, 45));
+				g.fillRoundRect(x + 2, y + 1, filled - 4, Math.max(1, h / 2 - 1), h / 3, h / 3);
+			}
 		}
 		g.setColor(new Color(0, 0, 0, 110));
 		g.setStroke(new BasicStroke(1f));
@@ -222,7 +233,7 @@ public final class Skin
 		Shape clip = g.getClip();
 
 		g.clipRect(x, y, filled, h);
-		g.setColor(new Color(0x1A, 0x14, 0x04));
+		g.setColor(new Color(0x0A, 0x0A, 0x0C));
 		g.drawString(label, labelX, baseline);
 		g.setClip(clip);
 
