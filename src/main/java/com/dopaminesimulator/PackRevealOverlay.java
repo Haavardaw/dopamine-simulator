@@ -69,6 +69,7 @@ public class PackRevealOverlay extends Overlay
 	private static final long MAX_QUEUE_AHEAD_MS = 5000L;
 	private static final long DEAL_MS = 340L;
 	private static final long BANNER_ENTRANCE_MS = 260L;
+	private static final double BANNER_TOP = 0.06d;
 	private static final long FLIP_MS = 300L;
 	private static final long HOLD_MS = 1300L;
 	private static final long MAJOR_HOLD_MS = 2400L;
@@ -340,14 +341,14 @@ public class PackRevealOverlay extends Overlay
 		int centreX = canvasWidth / 2;
 		int rowY = (int) (canvasHeight * 0.34d);
 
-		drawDim(graphics, visible, canvasWidth, canvasHeight);
-
 		List<RevealCard> banners = new ArrayList<>();
 		List<RevealCard> inRow = new ArrayList<>();
 		for (RevealCard card : visible)
 		{
 			(card.feat ? banners : inRow).add(card);
 		}
+
+		drawDim(graphics, inRow, canvasWidth, canvasHeight);
 
 		int totalWidth = inRow.size() * CARD_WIDTH + (inRow.size() - 1) * CARD_GAP;
 		int startX = centreX - totalWidth / 2;
@@ -358,13 +359,11 @@ public class PackRevealOverlay extends Overlay
 			drawCard(graphics, inRow.get(i), slotX, rowY);
 		}
 
-		int bannerY = inRow.isEmpty()
-			? rowY + (CARD_HEIGHT - FeatBanner.HEIGHT) / 2
-			: rowY - FeatBanner.HEIGHT - 18;
+		int bannerY = (int) (canvasHeight * BANNER_TOP);
 		for (int i = 0; i < banners.size(); i++)
 		{
 			drawBanner(graphics, banners.get(i), centreX - FeatBanner.WIDTH / 2,
-				bannerY - i * (FeatBanner.HEIGHT + 8));
+				bannerY + i * (FeatBanner.HEIGHT + 8));
 		}
 
 		graphics.setComposite(originalComposite);
