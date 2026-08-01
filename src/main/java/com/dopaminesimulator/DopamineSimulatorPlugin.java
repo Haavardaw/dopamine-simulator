@@ -639,7 +639,7 @@ public class DopamineSimulatorPlugin extends Plugin
 		});
 	}
 
-	public void pullBanner(CardSet targetSet, int count)
+	public void pullBanner(Rarity rarity, CardSet targetSet, int count)
 	{
 		clientThread.invoke(() ->
 		{
@@ -649,11 +649,11 @@ public class DopamineSimulatorPlugin extends Plugin
 			}
 			for (int i = 0; i < count; i++)
 			{
-				if (!bannerService.canPull(engine.getState()))
+				if (!bannerService.canPull(engine.getState(), rarity))
 				{
 					break;
 				}
-				bannerService.pull(engine.getState(), targetSet, rewards);
+				bannerService.pull(engine.getState(), rarity, targetSet, rewards);
 			}
 			persist();
 			refreshPanel();

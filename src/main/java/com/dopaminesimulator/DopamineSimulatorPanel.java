@@ -44,6 +44,7 @@ import com.dopaminesimulator.incremental.Milestones;
 import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.pass.BattlePass;
 import com.dopaminesimulator.pass.PassReward;
+import com.dopaminesimulator.pass.PassTheme;
 import com.dopaminesimulator.systems.BannerService;
 import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.points.ClickState;
@@ -509,53 +510,70 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private void buildBannerTab(DopamineState state)
 	{
 		BannerService banner = plugin.getBannerService();
-		Card featured = banner.featured(state);
-		int pity = state.getBannerPity();
 
-		JLabel header = new JLabel("Featured: " + featured.getName());
-		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-		header.setForeground(featured.getRarity().getColour());
+		shopContent.add(hint("Three banners run at once. Each rerolls to a new card the moment"
+			+ " you win it, so the featured card only changes when you claim it."));
+		shopContent.add(Box.createVerticalStrut(8));
+
+		for (Rarity rarity : BannerService.BANNERS)
+		{
+			shopContent.add(bannerBlock(state, banner, rarity));
+			shopContent.add(Box.createVerticalStrut(10));
+		}
+	}
+
+	private JPanel bannerBlock(DopamineState state, BannerService banner, Rarity rarity)
+	{
+		Card featured = banner.featured(state, rarity);
+		int pity = state.getBannerPity(rarity);
+		double cost = banner.pullCost(rarity);
+
+		JPanel block = new JPanel();
+		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
+		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		block.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		JLabel header = new JLabel(rarity.getDisplayName() + " banner: " + featured.getName());
+		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+		header.setForeground(rarity.getColour());
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
-		shopContent.add(header);
-		shopContent.add(Box.createVerticalStrut(4));
-
-		CardComponent art = new CardComponent(featured, state.getStars(featured.getId()),
-			state.owns(featured.getId()), 72, plugin.getCardArtService(),
-			state.isShiny(featured.getId()));
-		art.setAlignmentX(Component.LEFT_ALIGNMENT);
-		shopContent.add(art);
-		shopContent.add(Box.createVerticalStrut(6));
+		block.add(header);
+		block.add(Box.createVerticalStrut(3));
 
 		JProgressBar bar = new JProgressBar(0, BannerService.HARD_PITY);
 		bar.setValue(pity);
 		bar.setStringPainted(true);
-		bar.setString(pity + " / " + BannerService.HARD_PITY + " to guaranteed");
+		bar.setString(pity + "/" + BannerService.HARD_PITY + "  •  "
+			+ String.format("%.1f%%", banner.rateAt(pity) * 100d) + " this pull");
 		bar.setFont(FontManager.getRunescapeSmallFont());
-		bar.setForeground(GOLD);
+		bar.setForeground(rarity.getColour());
 		bar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		bar.setAlignmentX(Component.LEFT_ALIGNMENT);
-		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
-		shopContent.add(bar);
-		shopContent.add(Box.createVerticalStrut(5));
-		shopContent.add(hint(String.format("%.1f%%", banner.rateAt(pity) * 100d)
-			+ " this pull. Every pull also opens a Prismatic Pack. "
-			+ BigNumbers.format(state.getBannerPulls()) + " pulls so far."));
-		shopContent.add(Box.createVerticalStrut(8));
+		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 14));
+		block.add(bar);
+		block.add(Box.createVerticalStrut(4));
 
-		for (int count : new int[]{1, 10})
-		{
-			double cost = BannerService.PULL_COST * count;
-			shopContent.add(sized(new ShopRow(
-				count == 1 ? "Pull" : "Pull x" + count,
-				count + " pull" + (count == 1 ? "" : "s") + " on " + featured.getName(),
-				cost,
-				featured.getRarity().getColour(),
-				String.valueOf(count),
-				state.getPoints() >= cost,
-				state.getPoints() / cost,
-				r -> plugin.pullBanner(selectedSet, count))));
-			shopContent.add(Box.createVerticalStrut(3));
-		}
+		block.add(sized(new ShopRow(
+			"Pull",
+			banner.featuredCopies(rarity) + " copies on win  •  every pull opens a "
+				+ banner.packFor(rarity).getDisplayName(),
+			cost,
+			rarity.getColour(),
+			"1",
+			state.getPoints() >= cost,
+			state.getPoints() / cost,
+			r -> plugin.pullBanner(rarity, selectedSet, 1))));
+		block.add(Box.createVerticalStrut(3));
+		block.add(sized(new ShopRow(
+			"Pull x10",
+			"Ten pulls at once",
+			cost * 10,
+			rarity.getColour(),
+			"10",
+			state.getPoints() >= cost * 10,
+			state.getPoints() / (cost * 10),
+			r -> plugin.pullBanner(rarity, selectedSet, 10))));
+		return block;
 	}
 
 	private void buildPassTab(DopamineState state)
@@ -564,11 +582,19 @@ public class DopamineSimulatorPanel extends PluginPanel
 		int tier = BattlePass.tierAt(state.getPassXp(), season);
 		PassService pass = plugin.getPassService();
 
-		JLabel header = new JLabel("Season " + season + "   Tier " + tier + "/" + BattlePass.TIERS);
+		PassTheme theme = PassTheme.forSeason(season);
+		PassTheme next = PassTheme.forSeason(season + 1);
+
+		JLabel header = new JLabel("Season " + season + ": " + theme.getDisplayName()
+			+ "   Tier " + tier + "/" + BattlePass.TIERS);
 		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-		header.setForeground(GOLD);
+		header.setForeground(theme.getColour());
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		shopContent.add(header);
+		shopContent.add(Box.createVerticalStrut(2));
+		shopContent.add(hint(theme.getDescription() + ". Finish tier " + BattlePass.TIERS
+			+ " to roll into " + next.getDisplayName() + " - seasons rotate when you complete"
+			+ " them, never on a clock."));
 		shopContent.add(Box.createVerticalStrut(3));
 
 		double into = BattlePass.xpIntoTier(state.getPassXp(), season);
@@ -621,15 +647,16 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		if (pass.canStartNextSeason(state))
 		{
-			JButton next = new JButton("Start season " + (season + 1));
-			next.setFont(FontManager.getRunescapeSmallFont());
-			next.setForeground(GOLD);
-			next.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
-			next.setFocusPainted(false);
-			next.setAlignmentX(Component.LEFT_ALIGNMENT);
-			next.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
-			next.addActionListener(e -> plugin.startNextPassSeason());
-			shopContent.add(next);
+			JButton advance = new JButton("Start season " + (season + 1)
+				+ ": " + next.getDisplayName());
+			advance.setFont(FontManager.getRunescapeSmallFont());
+			advance.setForeground(next.getColour());
+			advance.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
+			advance.setFocusPainted(false);
+			advance.setAlignmentX(Component.LEFT_ALIGNMENT);
+			advance.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+			advance.addActionListener(e -> plugin.startNextPassSeason());
+			shopContent.add(advance);
 			shopContent.add(Box.createVerticalStrut(6));
 		}
 

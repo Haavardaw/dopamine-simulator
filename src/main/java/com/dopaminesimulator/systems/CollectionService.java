@@ -63,8 +63,8 @@ public class CollectionService
 		int copies)
 	{
 		int granted = Math.max(1, copies);
-		rollShiny(state, card, rewards);
-		rollGilded(state, card, rewards);
+		boolean becameShiny = rollShiny(state, card, rewards);
+		boolean becameGilded = rollGilded(state, card, rewards);
 		if (state.owns(card.getId()))
 		{
 			int starsBefore = state.getStars(card.getId());
@@ -80,46 +80,53 @@ public class CollectionService
 			}
 			if (starsAfter > starsBefore)
 			{
-				rewards.push(Reward.starUp(card, starsAfter).withCopies(granted));
+				rewards.push(Reward.starUp(card, starsAfter).withCopies(granted)
+					.withVariant(becameShiny, becameGilded));
 			}
 			else
 			{
 				rewards.push(Reward.duplicate(card,
 					card.getRarity() == Rarity.LEGENDARY
 						? EPIC_SHARDS_PER_LEGENDARY_DUPE
-						: SHARDS_PER_DUPE).withCopies(granted));
+						: SHARDS_PER_DUPE).withCopies(granted)
+					.withVariant(becameShiny, becameGilded));
 			}
 			return false;
 		}
 		state.addCopies(card.getId(), granted);
-		rewards.push((fromFusion ? Reward.fusion(card) : Reward.newCard(card)).withCopies(granted));
+		rewards.push((fromFusion ? Reward.fusion(card) : Reward.newCard(card))
+			.withCopies(granted).withVariant(becameShiny, becameGilded));
 		checkSetCompletion(state, card.getSet(), rewards);
 		return true;
 	}
-	private void rollShiny(DopamineState state, Card card, RewardQueue rewards)
+	private boolean rollShiny(DopamineState state, Card card, RewardQueue rewards)
 	{
 		if (state.isShiny(card.getId()))
 		{
-			return;
+			return false;
 		}
 
 		if (random.nextInt(Balance.SHINY_ONE_IN) == 0 && state.makeShiny(card.getId()))
 		{
 			rewards.push(Reward.shiny(card));
+			return true;
 		}
+		return false;
 	}
 
-	private void rollGilded(DopamineState state, Card card, RewardQueue rewards)
+	private boolean rollGilded(DopamineState state, Card card, RewardQueue rewards)
 	{
 		if (state.isGilded(card.getId()))
 		{
-			return;
+			return false;
 		}
 
 		if (random.nextInt(Balance.GILDED_ONE_IN) == 0 && state.makeGilded(card.getId()))
 		{
 			rewards.push(Reward.gilded(card));
+			return true;
 		}
+		return false;
 	}
 
 	private void checkSetCompletion(DopamineState state, CardSet set, RewardQueue rewards)

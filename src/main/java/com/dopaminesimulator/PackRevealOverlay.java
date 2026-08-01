@@ -199,10 +199,9 @@ public class PackRevealOverlay extends Overlay
 		long stagger = Math.max(MIN_STAGGER_MS, STAGGER_MS - pending * 25L);
 		nextAvailableSlot = startAt + stagger;
 
-		boolean shiny = reward.getCard() != null && stateSupplier != null
-			&& stateSupplier.get().isShiny(reward.getCard().getId());
-		boolean gilded = reward.getCard() != null && stateSupplier != null
-			&& stateSupplier.get().isGilded(reward.getCard().getId());
+		// what this pull did, not what the stack already looks like
+		boolean shiny = reward.isShiny();
+		boolean gilded = reward.isGilded();
 
 		boolean major = reward.getType() == RewardType.SET_COMPLETE
 			|| reward.getType() == RewardType.FEAT

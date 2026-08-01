@@ -36,12 +36,12 @@ import java.util.Random;
 
 public class BannerService
 {
-	public static final double PULL_COST = 300_000d;
 	public static final int HARD_PITY = 100;
 	public static final int SOFT_PITY_FROM = 75;
 	public static final double BASE_RATE = 0.006d;
 	public static final double SOFT_PITY_STEP = 0.035d;
-	private static final int FEATURED_COPIES = 40;
+
+	public static final Rarity[] BANNERS = {Rarity.RARE, Rarity.EPIC, Rarity.LEGENDARY};
 
 	private final Random random;
 	private final PackService packs;
@@ -54,15 +54,42 @@ public class BannerService
 		this.collection = collection;
 	}
 
-	public Card featured(DopamineState state)
+	public double pullCost(Rarity rarity)
 	{
-		String id = state.getBannerCardId();
-		Card card = id == null ? null : CardCatalogue.byId(id);
-		if (card == null)
+		switch (rarity)
 		{
-			card = roll(state);
+			case RARE:
+				return 25_000d;
+			case EPIC:
+				return 90_000d;
+			default:
+				return 300_000d;
 		}
-		return card;
+	}
+
+	public PackTier packFor(Rarity rarity)
+	{
+		switch (rarity)
+		{
+			case RARE:
+				return PackTier.GILDED;
+			case EPIC:
+				return PackTier.CURATED;
+			default:
+				return PackTier.PRISMATIC;
+		}
+	}
+
+	public int featuredCopies(Rarity rarity)
+	{
+		return Math.max(1, rarity.copiesForMaxStars() * 6 / 10);
+	}
+
+	public Card featured(DopamineState state, Rarity rarity)
+	{
+		String id = state.getBannerCard(rarity);
+		Card card = id == null ? null : CardCatalogue.byId(id);
+		return card == null ? roll(state, rarity) : card;
 	}
 
 	public double rateAt(int pity)
@@ -78,39 +105,39 @@ public class BannerService
 		return Math.min(1d, BASE_RATE + (pity - SOFT_PITY_FROM + 1) * SOFT_PITY_STEP);
 	}
 
-	public boolean canPull(DopamineState state)
+	public boolean canPull(DopamineState state, Rarity rarity)
 	{
-		return state.getPoints() >= PULL_COST;
+		return state.getPoints() >= pullCost(rarity);
 	}
 
-	public Card pull(DopamineState state, CardSet targetSet, RewardQueue rewards)
+	public Card pull(DopamineState state, Rarity rarity, CardSet targetSet, RewardQueue rewards)
 	{
-		if (!canPull(state) || !state.spendPoints(PULL_COST))
+		if (!canPull(state, rarity) || !state.spendPoints(pullCost(rarity)))
 		{
 			return null;
 		}
 
-		Card prize = featured(state);
+		Card prize = featured(state, rarity);
 		state.setBannerPulls(state.getBannerPulls() + 1);
-		packs.openFree(state, PackTier.PRISMATIC, targetSet, 1, rewards);
+		packs.openFree(state, packFor(rarity), targetSet, 1, rewards);
 
-		if (random.nextDouble() < rateAt(state.getBannerPity()))
+		if (random.nextDouble() < rateAt(state.getBannerPity(rarity)))
 		{
-			state.setBannerPity(0);
-			collection.grant(state, prize, rewards, false, FEATURED_COPIES);
-			roll(state);
+			state.setBannerPity(rarity, 0);
+			collection.grant(state, prize, rewards, false, featuredCopies(rarity));
+			roll(state, rarity);
 			return prize;
 		}
 
-		state.setBannerPity(state.getBannerPity() + 1);
+		state.setBannerPity(rarity, state.getBannerPity(rarity) + 1);
 		return null;
 	}
 
-	public Card roll(DopamineState state)
+	public Card roll(DopamineState state, Rarity rarity)
 	{
-		List<Card> pool = CardCatalogue.byRarity(Rarity.LEGENDARY);
+		List<Card> pool = CardCatalogue.byRarity(rarity);
 		Card chosen = pool.get(random.nextInt(pool.size()));
-		state.setBannerCardId(chosen.getId());
+		state.setBannerCard(rarity, chosen.getId());
 		return chosen;
 	}
 }

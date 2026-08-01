@@ -46,68 +46,79 @@ public class Reward
 	long amount;
 
 	int copies;
+
+	boolean shiny;
+
+	boolean gilded;
 	public Reward withCopies(int granted)
 	{
-		return new Reward(type, title, detail, card, rarity, set, amount, Math.max(1, granted));
+		return new Reward(type, title, detail, card, rarity, set, amount, Math.max(1, granted),
+			shiny, gilded);
+	}
+
+	public Reward withVariant(boolean becameShiny, boolean becameGilded)
+	{
+		return new Reward(type, title, detail, card, rarity, set, amount, copies,
+			becameShiny, becameGilded);
 	}
 
 	public static Reward newCard(Card card)
 	{
 		return new Reward(RewardType.NEW_CARD, card.getName(),
 			"New " + card.getRarity().getDisplayName() + " card",
-			card, card.getRarity(), card.getSet(), 1, 1);
+			card, card.getRarity(), card.getSet(), 1, 1, false, false);
 	}
 	public static Reward duplicate(Card card, int shards)
 	{
 		return new Reward(RewardType.DUPLICATE, card.getName(), "Duplicate: +" + shards + " shards",
-			card, card.getRarity(), card.getSet(), shards, 1);
+			card, card.getRarity(), card.getSet(), shards, 1, false, false);
 	}
 
 	public static Reward shiny(Card card)
 	{
 		return new Reward(RewardType.SHINY, card.getName(), "Shiny!",
-			card, card.getRarity(), card.getSet(), 0, 1);
+			card, card.getRarity(), card.getSet(), 0, 1, false, false);
 	}
 
 	public static Reward gilded(Card card)
 	{
 		return new Reward(RewardType.GILDED, card.getName(), "Gilded!",
-			card, card.getRarity(), card.getSet(), 0, 1);
+			card, card.getRarity(), card.getSet(), 0, 1, false, false);
 	}
 
 	public static Reward starUp(Card card, int stars)
 	{
 		return new Reward(RewardType.STAR_UP, card.getName(),
 			stars + (stars == 1 ? " star" : " stars"),
-			card, card.getRarity(), card.getSet(), stars, 1);
+			card, card.getRarity(), card.getSet(), stars, 1, false, false);
 	}
 	public static Reward fusion(Card card)
 	{
 		return new Reward(RewardType.FUSION, card.getName(),
 			"Fused into a " + card.getRarity().getDisplayName(),
-			card, card.getRarity(), card.getSet(), 1, 1);
+			card, card.getRarity(), card.getSet(), 1, 1, false, false);
 	}
 	public static Reward feat(Feat feat, int tier)
 	{
 		return new Reward(RewardType.FEAT, feat.tierName(tier) + " " + feat.getDisplayName(),
-			"Rank " + tier + " of " + feat.maxTier(), null, null, null, tier, 1);
+			"Rank " + tier + " of " + feat.maxTier(), null, null, null, tier, 1, false, false);
 	}
 
 	public static Reward achievement(Achievement achievement)
 	{
 		return new Reward(RewardType.ACHIEVEMENT, achievement.getDisplayName(),
-			achievement.getDescription(), null, null, null, 0, 1);
+			achievement.getDescription(), null, null, null, 0, 1, false, false);
 	}
 
 	public static Reward setComplete(CardSet set)
 	{
 		return new Reward(RewardType.SET_COMPLETE, set.getDisplayName() + " complete!",
-			"Every card in the set collected", null, null, set, 1, 1);
+			"Every card in the set collected", null, null, set, 1, 1, false, false);
 	}
 
 	public static Reward sourceUnlocked(PointSource source)
 	{
 		return new Reward(RewardType.SOURCE_UNLOCKED, source.getDisplayName() + " unlocked",
-			source.getDescription() + " now earns points", null, null, null, 1, 1);
+			source.getDescription() + " now earns points", null, null, null, 1, 1, false, false);
 	}
 }
