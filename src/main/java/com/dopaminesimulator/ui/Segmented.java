@@ -28,7 +28,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -98,18 +97,29 @@ public class Segmented extends JComponent
 
 			if (i == selected)
 			{
-				g.setPaint(new GradientPaint(x, 0, Skin.GOLD, x, HEIGHT, Skin.GOLD_DEEP));
+				// flat gold, not a gradient: the gradient's dark end landed under the
+				// label, and dark text there had nothing to sit against
+				g.setColor(Skin.GOLD);
 				g.fillRect(x, 0, w, HEIGHT);
+
+				// the shared text helper puts a black shadow behind the glyphs, which
+				// on dark-on-gold reads as a smudge; this one is highlighted instead
+				String label = labels[i];
+				int labelX = x + (w - metrics.stringWidth(label)) / 2;
+				g.setColor(Skin.withAlpha(Color.WHITE, 90));
+				g.drawString(label, labelX, baseline + 1);
+				g.setColor(new Color(0x2A, 0x1C, 0x00));
+				g.drawString(label, labelX, baseline);
+				continue;
 			}
-			else if (i > 0)
+
+			if (i > 0)
 			{
 				g.setStroke(new BasicStroke(1f));
 				g.setColor(Skin.BG);
 				g.drawLine(x, 4, x, HEIGHT - 5);
 			}
-
-			Skin.centred(g, labels[i], x, w, baseline,
-				i == selected ? new Color(0x24, 0x1A, 0x02) : Skin.MUTED);
+			Skin.centred(g, labels[i], x, w, baseline, Skin.MUTED);
 		}
 		g.setClip(clip);
 
