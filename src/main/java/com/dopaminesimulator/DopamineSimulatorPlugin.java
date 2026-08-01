@@ -600,8 +600,10 @@ public class DopamineSimulatorPlugin extends Plugin
 		}
 		if (reward.getType() == RewardType.FEAT || reward.getType() == RewardType.ACHIEVEMENT)
 		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
-				"<col=ffb300>" + reward.getTitle() + "</col> - " + reward.getDetail(), null);
+			// flash() runs on the Swing timer, and addChatMessage asserts the client thread.
+			String line = "<col=ffb300>" + reward.getTitle() + "</col> - " + reward.getDetail();
+			clientThread.invokeLater(() ->
+				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", line, null));
 		}
 		FloatingTextOverlay floating = floatingTextOverlay;
 		if (floating != null)
