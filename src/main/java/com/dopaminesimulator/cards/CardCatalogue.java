@@ -649,32 +649,86 @@ public final class CardCatalogue
 	}
 	private static void addSlayer(List<Card> out)
 	{
-		slayer(out, "Crawling Hand", Rarity.COMMON, ItemID.SLAYERGUIDE_CRAWLINGHAND);
-		slayer(out, "Banshee", Rarity.COMMON, ItemID.SLAYERGUIDE_BANSHEE);
-		slayer(out, "Rockslug", Rarity.COMMON, ItemID.SLAYERGUIDE_ROCKSLUG);
-		slayer(out, "Cockatrice", Rarity.COMMON, ItemID.SLAYERGUIDE_COCKATRICE);
-		slayer(out, "Pyrefiend", Rarity.COMMON, ItemID.SLAYERGUIDE_PYRFIEND);
-		slayer(out, "Basilisk", Rarity.COMMON, ItemID.SLAYERGUIDE_BASILISK);
-		slayer(out, "Infernal Mage", Rarity.COMMON, ItemID.SLAYERGUIDE_INFERNALMAGE);
-		slayer(out, "Bloodveld", Rarity.COMMON, ItemID.SLAYERGUIDE_BLOODVELD);
-		slayer(out, "Jelly", Rarity.COMMON, ItemID.SLAYERGUIDE_JELLY);
-		slayer(out, "Turoth", Rarity.COMMON, ItemID.SLAYERGUIDE_TUROTH);
-		slayer(out, "Aberrant Spectre", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_ABERRANTSPECTER);
-		slayer(out, "Dust Devil", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_DUSTDEVIL);
-		slayer(out, "Kurask", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_KURASK);
-		slayer(out, "Gargoyle", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_GARGOYLE);
-		slayer(out, "Nechryael", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_NECHRYAEL);
-		slayer(out, "Cave Horror", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_HARMLESS_CAVE_HORROR);
-		slayer(out, "Skeletal Wyvern", Rarity.UNCOMMON, ItemID.SLAYERGUIDE_SKELETALWYVERN);
-		slayer(out, "Dark Beast", Rarity.RARE, ItemID.SLAYERGUIDE_DARK_BEAST);
-		slayer(out, "Abyssal Demon", Rarity.RARE, ItemID.SLAYERGUIDE_ABYSSALDEMON);
-		slayer(out, "Smoke Devil", Rarity.RARE, ItemID.OCCULT_NECKLACE);
-		slayer(out, "Wyrm", Rarity.RARE, ItemID.SLAYERGUIDE_WYRM);
-		slayer(out, "Drake", Rarity.RARE, ItemID.SLAYERGUIDE_DRAKE);
-		slayer(out, "Hydra", Rarity.EPIC, ItemID.SLAYERGUIDE_HYDRA);
-		slayer(out, "Brutal Black Dragon", Rarity.EPIC, ItemID.DRAGONMASK_BLACK);
-		slayer(out, "Nechryarch", Rarity.LEGENDARY, ItemID.MALEDICTION_WARD);
+		slayer(out, "Crawling Hand", 5, ItemID.SLAYERGUIDE_CRAWLINGHAND);
+		slayer(out, "Cave Bug", 7, 0);
+		slayer(out, "Cave Crawler", 10, ItemID.SLAYERGUIDE_CAVECRAWLER);
+		slayer(out, "Banshee", 15, ItemID.SLAYERGUIDE_BANSHEE);
+		slayer(out, "Cave Slime", 17, ItemID.BOOTS_OF_STONE);
+		slayer(out, "Rockslug", 20, ItemID.SLAYERGUIDE_ROCKSLUG);
+		slayer(out, "Desert Lizard", 22, ItemID.SLAYERGUIDE_LIZARD);
+		slayer(out, "Cockatrice", 25, ItemID.SLAYERGUIDE_COCKATRICE);
+		slayer(out, "Pyrefiend", 30, ItemID.SLAYERGUIDE_PYRFIEND);
+		slayer(out, "Mogre", 32, ItemID.SLAYERGUIDE_MOGRE);
+		slayer(out, "Harpie Bug Swarm", 33, ItemID.SLAYERGUIDE_SWARM);
+		slayer(out, "Wall Beast", 35, 0);
+		slayer(out, "Killerwatt", 37, ItemID.SLAYERGUIDE_KILLERWATT);
+		slayer(out, "Vyre", 38, ItemID.SLAYERGUIDE_VAMPYRE);
+		slayer(out, "Molanisk", 39, ItemID.SLAYERGUIDE_MOLANISK);
+		slayer(out, "Basilisk", 40, ItemID.SLAYERGUIDE_BASILISK);
+		slayer(out, "Sea Snake", 40, ItemID.SEAWEED);
+		slayer(out, "Terror Dog", 40, ItemID.SLAYERGUIDE_TERRORDOG);
+		slayer(out, "Fever Spider", 42, ItemID.SLAYERGUIDE_FEVER_SPIDER);
+		slayer(out, "Sulphur Lizard", 44, ItemID.SLAYERGUIDE_SULPHURLIZARDS);
+		slayer(out, "Infernal Mage", 45, ItemID.SLAYERGUIDE_INFERNALMAGE);
+		slayer(out, "Brine Rat", 47, ItemID.OLAF2_BRINE_SABRE);
+		slayer(out, "Lesser Nagua", 48, ItemID.SLAYERGUIDE_LESSER_NAGUA);
+		slayer(out, "Bloodveld", 50, ItemID.SLAYERGUIDE_BLOODVELD);
+		slayer(out, "Gryphon", 51, ItemID.SLAYERGUIDE_GRYPHON);
+		slayer(out, "Jelly", 52, ItemID.SLAYERGUIDE_JELLY);
+		slayer(out, "Juvenile Custodian Stalker", 54, ItemID.SLAYERGUIDE_CUSTODIAN_STALKER_JUVENILE);
+		slayer(out, "Turoth", 55, ItemID.SLAYERGUIDE_TUROTH);
+		slayer(out, "Warped Creature", 56, ItemID.WARPED_SCEPTRE);
+		slayer(out, "Mutated Zygomite", 57, ItemID.SLAYER_FUNGICIDE);
+		slayer(out, "Cave Horror", 58, ItemID.SLAYERGUIDE_HARMLESS_CAVE_HORROR);
+		slayer(out, "Aberrant Spectre", 60, ItemID.SLAYERGUIDE_ABERRANTSPECTER);
+		slayer(out, "Basilisk Knight", 60, ItemID.SLAYERGUIDE_BASILISK_KNIGHT);
+		slayer(out, "Wyrm", 62, ItemID.SLAYERGUIDE_WYRM);
+		slayer(out, "Spiritual Ranger", 63, ItemID.RUNE_SPEAR);
+		slayer(out, "Dust Devil", 65, ItemID.SLAYERGUIDE_DUSTDEVIL);
+		slayer(out, "Fossil Island Wyvern", 66, ItemID.SLAYERGUIDE_FOSSILWYVERN);
+		slayer(out, "Mature Custodian Stalker", 67, ItemID.SLAYERGUIDE_CUSTODIAN_STALKER_MATURE);
+		slayer(out, "Spiritual Warrior", 68, ItemID.DRAGON_BOOTS);
+		slayer(out, "Kurask", 70, ItemID.SLAYERGUIDE_KURASK);
+		slayer(out, "Skeletal Wyvern", 72, ItemID.SLAYERGUIDE_SKELETALWYVERN);
+		slayer(out, "Venator", 74, ItemID.VENATOR_BOW);
+		slayer(out, "Gargoyle", 75, ItemID.SLAYERGUIDE_GARGOYLE);
+		slayer(out, "Elder Custodian Stalker", 76, ItemID.SLAYERGUIDE_CUSTODIAN_STALKER_ELDER);
+		slayer(out, "Brutal Black Dragon", 77, ItemID.SLAYERGUIDE_BRUTAL_BLACK);
+		slayer(out, "Aquanite", 78, ItemID.SLAYERGUIDE_AQUANITE);
+		slayer(out, "Nechryael", 80, ItemID.SLAYERGUIDE_NECHRYAEL);
+		slayer(out, "Nechryarch", 80, ItemID.MALEDICTION_WARD);
+		slayer(out, "Ancient Wyvern", 82, ItemID.SLAYERGUIDE_FOSSILANCIENTWYVERN);
+		slayer(out, "Spiritual Mage", 83, ItemID.BLESSED_SPIRIT_SHIELD);
+		slayer(out, "Drake", 84, ItemID.SLAYERGUIDE_DRAKE);
+		slayer(out, "Abyssal Demon", 85, ItemID.SLAYERGUIDE_ABYSSALDEMON);
+		slayer(out, "Cave Kraken", 87, ItemID.KRAKEN_TENTACLE);
+		slayer(out, "Dark Beast", 90, ItemID.SLAYERGUIDE_DARK_BEAST);
+		slayer(out, "Araxyte", 92, ItemID.ARAXYTE_VENOM_SACK);
+		slayer(out, "Smoke Devil", 93, ItemID.OCCULT_NECKLACE);
+		slayer(out, "Hydra", 95, ItemID.SLAYERGUIDE_HYDRA);
 	}
+
+	/**
+	 * Slayer level sets the rarity, so the ladder cannot drift as monsters are
+	 * added. The divides sit on the levels the game itself treats as gates.
+	 */
+	private static Rarity rarityForSlayerLevel(int slayerLevel)
+	{
+		if (slayerLevel < 40)
+		{
+			return Rarity.COMMON;
+		}
+		if (slayerLevel < 60)
+		{
+			return Rarity.UNCOMMON;
+		}
+		if (slayerLevel < 75)
+		{
+			return Rarity.RARE;
+		}
+		return slayerLevel < 90 ? Rarity.EPIC : Rarity.LEGENDARY;
+	}
+
 	private static void minigame(List<Card> out, String name, Rarity rarity, int itemId)
 	{
 		out.add(itemId > 0
@@ -683,8 +737,9 @@ public final class CardCatalogue
 				SpriteID.AchievementDiaryIcons.RED_MINIGAMES));
 	}
 
-	private static void slayer(List<Card> out, String name, Rarity rarity, int itemId)
+	private static void slayer(List<Card> out, String name, int slayerLevel, int itemId)
 	{
+		Rarity rarity = rarityForSlayerLevel(slayerLevel);
 		out.add(itemId > 0
 			? Card.ofItem(CardSet.SLAYER, name, rarity, itemId)
 			: Card.ofSprite(CardSet.SLAYER, name, rarity, SpriteID.Staticons2.SLAYER));
