@@ -84,6 +84,9 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
+import com.dopaminesimulator.dev.WidgetDump;
+import java.io.File;
+import java.io.IOException;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -918,6 +921,34 @@ public class DopamineSimulatorPlugin extends Plugin
 		else if ("givedopamine".equalsIgnoreCase(event.getCommand()) && developerMode)
 		{
 			grantPoints(event.getArguments());
+		}
+		else if ("dumpui".equalsIgnoreCase(event.getCommand()) && developerMode)
+		{
+			dumpOpenInterfaces(event.getArguments());
+		}
+	}
+
+	/**
+	 * Writes whatever interfaces are open to a file, with the sprite, model and
+	 * item id behind each widget. Beats searching the api jar and concluding a
+	 * monster has no art because one particular list did not mention it.
+	 */
+	private void dumpOpenInterfaces(String[] arguments)
+	{
+		String label = arguments != null && arguments.length > 0 ? arguments[0] : "dump";
+		try
+		{
+			File written = WidgetDump.dump(client, label);
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				written == null
+					? "Dopamine Simulator: no interface is open to dump."
+					: "Dopamine Simulator: wrote " + written.getAbsolutePath(), null);
+		}
+		catch (IOException e)
+		{
+			log.warn("could not dump widgets", e);
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: could not write the dump, see the client log.", null);
 		}
 	}
 
