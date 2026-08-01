@@ -157,6 +157,12 @@ public class PassService
 			case GILDED:
 				upgrade(state, rewards, false);
 				break;
+			case CARD_BACK:
+				state.unlockBack(reward.back().name());
+				break;
+			case WILDCARD:
+				state.addWildcards((int) reward.getAmount());
+				break;
 			default:
 				break;
 		}

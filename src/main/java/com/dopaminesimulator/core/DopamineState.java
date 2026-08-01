@@ -84,6 +84,18 @@ public class DopamineState
 
 	private Set<Integer> passClaimedPremium = new LinkedHashSet<>();
 
+	private int wildcards;
+
+	private Set<String> unlockedBacks = new LinkedHashSet<>();
+
+	private String selectedBack = "STANDARD";
+
+	private String bannerCardId;
+
+	private int bannerPulls;
+
+	private int bannerPity;
+
 	public void ensureInitialised()
 	{
 		if (sourceUpgrades == null)
@@ -138,6 +150,43 @@ public class DopamineState
 		{
 			passSeason = 1;
 		}
+		if (unlockedBacks == null)
+		{
+			unlockedBacks = new LinkedHashSet<>();
+		}
+		unlockedBacks.add("STANDARD");
+		if (selectedBack == null || selectedBack.isEmpty())
+		{
+			selectedBack = "STANDARD";
+		}
+	}
+
+	public boolean unlockBack(String id)
+	{
+		return unlockedBacks.add(id);
+	}
+
+	public boolean hasBack(String id)
+	{
+		return unlockedBacks.contains(id);
+	}
+
+	public void addWildcards(int amount)
+	{
+		if (amount > 0)
+		{
+			wildcards += amount;
+		}
+	}
+
+	public boolean spendWildcard()
+	{
+		if (wildcards <= 0)
+		{
+			return false;
+		}
+		wildcards--;
+		return true;
 	}
 
 	public void addPassXp(double amount)

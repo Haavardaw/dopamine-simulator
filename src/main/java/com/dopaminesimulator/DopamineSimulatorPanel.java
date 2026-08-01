@@ -42,6 +42,7 @@ import com.dopaminesimulator.incremental.Milestones;
 import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.pass.BattlePass;
 import com.dopaminesimulator.pass.PassReward;
+import com.dopaminesimulator.systems.BannerService;
 import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
@@ -127,7 +128,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private boolean collectionsExpanded;
 	private String cardSearch = "";
 	private boolean showingAchievements;
-	private boolean showingPass;
+	private int shopView;
 	private final JTextField searchField = new JTextField();
 	DopamineSimulatorPanel(DopamineSimulatorPlugin plugin, DopamineSimulatorConfig config)
 	{
@@ -492,13 +493,66 @@ public class DopamineSimulatorPanel extends PluginPanel
 	}
 	private JPanel shopToggle()
 	{
-		JPanel row = new JPanel(new GridLayout(1, 2, 4, 0));
+		JPanel row = new JPanel(new GridLayout(1, 3, 4, 0));
 		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
-		row.add(toggleButton("Packs", !showingPass, () -> showingPass = false));
-		row.add(toggleButton("Battle Pass", showingPass, () -> showingPass = true));
+		row.add(toggleButton("Packs", shopView == 0, () -> shopView = 0));
+		row.add(toggleButton("Pass", shopView == 1, () -> shopView = 1));
+		row.add(toggleButton("Banner", shopView == 2, () -> shopView = 2));
 		return row;
+	}
+
+	private void buildBannerTab(DopamineState state)
+	{
+		BannerService banner = plugin.getBannerService();
+		Card featured = banner.featured(state);
+		int pity = state.getBannerPity();
+
+		JLabel header = new JLabel("Featured: " + featured.getName());
+		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+		header.setForeground(featured.getRarity().getColour());
+		header.setAlignmentX(Component.LEFT_ALIGNMENT);
+		shopContent.add(header);
+		shopContent.add(Box.createVerticalStrut(4));
+
+		CardComponent art = new CardComponent(featured, state.getStars(featured.getId()),
+			state.owns(featured.getId()), 72, plugin.getCardArtService(),
+			state.isShiny(featured.getId()));
+		art.setAlignmentX(Component.LEFT_ALIGNMENT);
+		shopContent.add(art);
+		shopContent.add(Box.createVerticalStrut(6));
+
+		JProgressBar bar = new JProgressBar(0, BannerService.HARD_PITY);
+		bar.setValue(pity);
+		bar.setStringPainted(true);
+		bar.setString(pity + " / " + BannerService.HARD_PITY + " to guaranteed");
+		bar.setFont(FontManager.getRunescapeSmallFont());
+		bar.setForeground(GOLD);
+		bar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		bar.setAlignmentX(Component.LEFT_ALIGNMENT);
+		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+		shopContent.add(bar);
+		shopContent.add(Box.createVerticalStrut(5));
+		shopContent.add(hint(String.format("%.1f%%", banner.rateAt(pity) * 100d)
+			+ " this pull. Every pull also opens a Prismatic Pack. "
+			+ BigNumbers.format(state.getBannerPulls()) + " pulls so far."));
+		shopContent.add(Box.createVerticalStrut(8));
+
+		for (int count : new int[]{1, 10})
+		{
+			double cost = BannerService.PULL_COST * count;
+			shopContent.add(sized(new ShopRow(
+				count == 1 ? "Pull" : "Pull x" + count,
+				count + " pull" + (count == 1 ? "" : "s") + " on " + featured.getName(),
+				cost,
+				featured.getRarity().getColour(),
+				String.valueOf(count),
+				state.getPoints() >= cost,
+				state.getPoints() / cost,
+				r -> plugin.pullBanner(selectedSet, count))));
+			shopContent.add(Box.createVerticalStrut(3));
+		}
 	}
 
 	private void buildPassTab(DopamineState state)
@@ -665,9 +719,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 		shopContent.add(shopToggle());
 		shopContent.add(Box.createVerticalStrut(8));
 
-		if (showingPass)
+		if (shopView == 1)
 		{
 			buildPassTab(state);
+			return;
+		}
+		if (shopView == 2)
+		{
+			buildBannerTab(state);
 			return;
 		}
 

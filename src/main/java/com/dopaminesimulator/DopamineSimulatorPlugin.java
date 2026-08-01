@@ -41,6 +41,7 @@ import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.systems.CollectionService;
+import com.dopaminesimulator.systems.BannerService;
 import com.dopaminesimulator.systems.PackService;
 import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.systems.PassSystem;
@@ -157,6 +158,9 @@ public class DopamineSimulatorPlugin extends Plugin
 	private PassService passService;
 
 	@Getter
+	private BannerService bannerService;
+
+	@Getter
 	private IncomeTracker incomeTracker;
 
 	@Getter
@@ -195,6 +199,7 @@ public class DopamineSimulatorPlugin extends Plugin
 		CollectionService collection = new CollectionService();
 		packService = new PackService(random, collection);
 		passService = new PassService(random, packService);
+		bannerService = new BannerService(random, packService, collection);
 
 		floatingTextOverlay = new FloatingTextOverlay(client, config, gameIcons);
 		PointListener listeners = (source, detail, amount, tick) ->
@@ -628,6 +633,27 @@ public class DopamineSimulatorPlugin extends Plugin
 				persist();
 				refreshPanel();
 			}
+		});
+	}
+
+	public void pullBanner(CardSet targetSet, int count)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable())
+			{
+				return;
+			}
+			for (int i = 0; i < count; i++)
+			{
+				if (!bannerService.canPull(engine.getState()))
+				{
+					break;
+				}
+				bannerService.pull(engine.getState(), targetSet, rewards);
+			}
+			persist();
+			refreshPanel();
 		});
 	}
 

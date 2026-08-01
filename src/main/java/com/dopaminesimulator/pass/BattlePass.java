@@ -101,46 +101,22 @@ public final class BattlePass
 
 	public static PassReward freeReward(int tier, int season)
 	{
-		if (isMilestone(tier))
-		{
-			return PassReward.packs(packFor(season, 1), 1);
-		}
-		if (tier % 5 == 0)
-		{
-			return PassReward.shards(shardFor(season, 0), 40L * season);
-		}
-		return PassReward.packs(packFor(season, -1), 2);
+		return PassTheme.forSeason(season).free(tier, season);
 	}
 
 	public static PassReward premiumReward(int tier, int season)
 	{
-		if (tier == TIERS)
-		{
-			return PassReward.shiny();
-		}
-		if (tier % 25 == 0)
-		{
-			return PassReward.gilded();
-		}
-		if (isMilestone(tier))
-		{
-			return PassReward.packs(packFor(season, 2), 2);
-		}
-		if (tier % 5 == 0)
-		{
-			return PassReward.shards(shardFor(season, 1), 60L * season);
-		}
-		return PassReward.packs(packFor(season, 0), 1);
+		return PassTheme.forSeason(season).premium(tier, season);
 	}
 
-	private static PackTier packFor(int season, int step)
+	static PackTier packFor(int season, int step)
 	{
 		PackTier[] tiers = PackTier.values();
 		int index = Math.max(0, Math.min(tiers.length - 1, season - 1 + step + 1));
 		return tiers[index];
 	}
 
-	private static Rarity shardFor(int season, int step)
+	static Rarity shardFor(int season, int step)
 	{
 		Rarity[] rarities = Rarity.values();
 		int index = Math.max(0, Math.min(rarities.length - 1, season - 1 + step));
