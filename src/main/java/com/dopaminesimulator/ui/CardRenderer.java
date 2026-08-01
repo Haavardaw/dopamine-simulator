@@ -136,7 +136,7 @@ public final class CardRenderer
 		}
 		if (shiny)
 		{
-			drawShine(g, artX, artY, artW, artH, animMs);
+			drawShine(g, 0, 0, width, height, animMs);
 		}
 
 		g.dispose();
@@ -601,13 +601,13 @@ public final class CardRenderer
 		Shape clip = g.getClip();
 		int radius = Math.max(2, height / 8);
 		g.setClip(new RoundRectangle2D.Float(x, y, width, height, radius, radius));
-		double phase = animMs == 0 ? 0.35d : ((animMs % 2600L) / 2600d) * 1.8d - 0.4d;
+		double phase = animMs == 0 ? 0.35d : ((animMs % 4200L) / 4200d) * 1.8d - 0.4d;
 		float sweep = (float) (phase * width * 2 - width * 0.5f);
 		Color tint = rarity == Rarity.LEGENDARY
 			? new Color(255, 236, 170)
 			: rarity == Rarity.EPIC ? new Color(226, 190, 255)
 				: new Color(200, 226, 255);
-		int peak = rarity == Rarity.LEGENDARY ? 130 : rarity == Rarity.EPIC ? 95 : 55;
+		int peak = rarity == Rarity.LEGENDARY ? 62 : rarity == Rarity.EPIC ? 46 : 30;
 		g.setPaint(new GradientPaint(
 			x + sweep, y, withAlpha(tint, 0),
 			x + sweep + width * 0.42f, y + height, withAlpha(tint, peak),

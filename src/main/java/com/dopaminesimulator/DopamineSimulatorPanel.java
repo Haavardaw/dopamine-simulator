@@ -570,18 +570,24 @@ public class DopamineSimulatorPanel extends PluginPanel
 		block.add(bar);
 		block.add(Box.createVerticalStrut(4));
 
-		block.add(sized(new ShopRow(
+		String detail = banner.featuredCopies(rarity) + " copies of "
+			+ featured.getName() + " on a win, and every pull opens a "
+			+ banner.packFor(rarity).getDisplayName() + " regardless.";
+
+		ShopRow one = new ShopRow(
 			"Pull",
-			banner.featuredCopies(rarity) + " copies on win  •  every pull opens a "
-				+ banner.packFor(rarity).getDisplayName(),
+			"Wins " + banner.featuredCopies(rarity) + " copies",
 			cost,
 			rarity.getColour(),
 			"1",
 			state.getPoints() >= cost,
 			state.getPoints() / cost,
-			r -> plugin.pullBanner(rarity, selectedSet, 1))));
+			r -> plugin.pullBanner(rarity, selectedSet, 1));
+		one.setToolTipText(detail);
+		block.add(sized(one));
 		block.add(Box.createVerticalStrut(3));
-		block.add(sized(new ShopRow(
+
+		ShopRow ten = new ShopRow(
 			"Pull x10",
 			"Ten pulls at once",
 			cost * 10,
@@ -589,7 +595,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 			"10",
 			state.getPoints() >= cost * 10,
 			state.getPoints() / (cost * 10),
-			r -> plugin.pullBanner(rarity, selectedSet, 10))));
+			r -> plugin.pullBanner(rarity, selectedSet, 10));
+		ten.setToolTipText(detail);
+		block.add(sized(ten));
 		return block;
 	}
 
