@@ -74,6 +74,16 @@ public class DopamineState
 
 	private Set<String> achievements = new LinkedHashSet<>();
 
+	private int passSeason = 1;
+
+	private double passXp;
+
+	private boolean passPremium;
+
+	private Set<Integer> passClaimedFree = new LinkedHashSet<>();
+
+	private Set<Integer> passClaimedPremium = new LinkedHashSet<>();
+
 	public void ensureInitialised()
 	{
 		if (sourceUpgrades == null)
@@ -116,6 +126,45 @@ public class DopamineState
 		{
 			achievements = new LinkedHashSet<>();
 		}
+		if (passClaimedFree == null)
+		{
+			passClaimedFree = new LinkedHashSet<>();
+		}
+		if (passClaimedPremium == null)
+		{
+			passClaimedPremium = new LinkedHashSet<>();
+		}
+		if (passSeason < 1)
+		{
+			passSeason = 1;
+		}
+	}
+
+	public void addPassXp(double amount)
+	{
+		if (amount > 0d)
+		{
+			passXp += amount;
+		}
+	}
+
+	public boolean isPassTierClaimed(int tier, boolean premium)
+	{
+		return (premium ? passClaimedPremium : passClaimedFree).contains(tier);
+	}
+
+	public boolean claimPassTier(int tier, boolean premium)
+	{
+		return (premium ? passClaimedPremium : passClaimedFree).add(tier);
+	}
+
+	public void startNextSeason()
+	{
+		passSeason++;
+		passXp = 0d;
+		passPremium = false;
+		passClaimedFree.clear();
+		passClaimedPremium.clear();
 	}
 
 	public boolean hasAchievement(String id)

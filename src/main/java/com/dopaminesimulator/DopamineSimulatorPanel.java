@@ -40,6 +40,9 @@ import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.incremental.BigNumbers;
 import com.dopaminesimulator.incremental.Milestones;
 import com.dopaminesimulator.packs.PackTier;
+import com.dopaminesimulator.pass.BattlePass;
+import com.dopaminesimulator.pass.PassReward;
+import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.ui.CardComponent;
@@ -124,6 +127,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private boolean collectionsExpanded;
 	private String cardSearch = "";
 	private boolean showingAchievements;
+	private boolean showingPass;
 	private final JTextField searchField = new JTextField();
 	DopamineSimulatorPanel(DopamineSimulatorPlugin plugin, DopamineSimulatorConfig config)
 	{
@@ -486,10 +490,186 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ " total");
 		return sized(row);
 	}
+	private JPanel shopToggle()
+	{
+		JPanel row = new JPanel(new GridLayout(1, 2, 4, 0));
+		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
+		row.add(toggleButton("Packs", !showingPass, () -> showingPass = false));
+		row.add(toggleButton("Battle Pass", showingPass, () -> showingPass = true));
+		return row;
+	}
+
+	private void buildPassTab(DopamineState state)
+	{
+		int season = state.getPassSeason();
+		int tier = BattlePass.tierAt(state.getPassXp(), season);
+		PassService pass = plugin.getPassService();
+
+		JLabel header = new JLabel("Season " + season + "   Tier " + tier + "/" + BattlePass.TIERS);
+		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+		header.setForeground(GOLD);
+		header.setAlignmentX(Component.LEFT_ALIGNMENT);
+		shopContent.add(header);
+		shopContent.add(Box.createVerticalStrut(3));
+
+		double into = BattlePass.xpIntoTier(state.getPassXp(), season);
+		double need = tier >= BattlePass.TIERS ? 0d : BattlePass.xpForTier(tier + 1, season);
+		JProgressBar bar = new JProgressBar(0, 1000);
+		bar.setValue(need <= 0d ? 1000 : (int) Math.round(into / need * 1000d));
+		bar.setStringPainted(true);
+		bar.setString(need <= 0d
+			? "Season complete"
+			: (long) into + " / " + (long) need + " pass xp");
+		bar.setFont(FontManager.getRunescapeSmallFont());
+		bar.setForeground(GOLD);
+		bar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		bar.setAlignmentX(Component.LEFT_ALIGNMENT);
+		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+		shopContent.add(bar);
+		shopContent.add(Box.createVerticalStrut(5));
+		shopContent.add(hint("Pass xp comes from playing, capped per tick. It cannot be bought."));
+		shopContent.add(Box.createVerticalStrut(8));
+
+		int pending = pass.unclaimed(state).size();
+		if (pending > 0)
+		{
+			JButton claim = new JButton("Claim " + pending + " reward" + (pending == 1 ? "" : "s"));
+			claim.setFont(FontManager.getRunescapeSmallFont());
+			claim.setForeground(GOLD);
+			claim.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
+			claim.setFocusPainted(false);
+			claim.setAlignmentX(Component.LEFT_ALIGNMENT);
+			claim.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+			claim.addActionListener(e -> plugin.claimAllPassTiers(selectedSet));
+			shopContent.add(claim);
+			shopContent.add(Box.createVerticalStrut(6));
+		}
+
+		if (!state.isPassPremium())
+		{
+			double cost = BattlePass.premiumCost(season);
+			shopContent.add(sized(new ShopRow(
+				"Unlock Premium Track",
+				"Every tier pays twice for the rest of the season",
+				cost,
+				GOLD,
+				"+",
+				state.getPoints() >= cost,
+				state.getPoints() / cost,
+				r -> plugin.buyPassPremium())));
+			shopContent.add(Box.createVerticalStrut(6));
+		}
+
+		if (pass.canStartNextSeason(state))
+		{
+			JButton next = new JButton("Start season " + (season + 1));
+			next.setFont(FontManager.getRunescapeSmallFont());
+			next.setForeground(GOLD);
+			next.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
+			next.setFocusPainted(false);
+			next.setAlignmentX(Component.LEFT_ALIGNMENT);
+			next.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+			next.addActionListener(e -> plugin.startNextPassSeason());
+			shopContent.add(next);
+			shopContent.add(Box.createVerticalStrut(6));
+		}
+
+		for (int t = 1; t <= BattlePass.TIERS; t++)
+		{
+			shopContent.add(passRow(state, t, tier));
+			shopContent.add(Box.createVerticalStrut(2));
+		}
+	}
+
+	private JPanel passRow(DopamineState state, int tier, int reached)
+	{
+		int season = state.getPassSeason();
+		boolean unlocked = reached >= tier;
+		boolean milestone = BattlePass.isMilestone(tier);
+
+		JPanel row = new JPanel(new BorderLayout(6, 0));
+		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
+		row.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createMatteBorder(0, milestone ? 3 : 2, 0, 0,
+				unlocked ? GOLD : Color.DARK_GRAY),
+			BorderFactory.createEmptyBorder(3, 6, 3, 6)));
+
+		JLabel label = new JLabel("Tier " + tier);
+		label.setFont(FontManager.getRunescapeSmallFont());
+		label.setForeground(unlocked ? GOLD : Color.GRAY);
+		label.setPreferredSize(new Dimension(46, 14));
+		row.add(label, BorderLayout.WEST);
+
+		JPanel rewards = new JPanel(new GridLayout(2, 1, 0, 1));
+		rewards.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		rewards.add(passRewardLabel(state, tier, false, unlocked));
+		rewards.add(passRewardLabel(state, tier, true, unlocked));
+		row.add(rewards, BorderLayout.CENTER);
+		row.setToolTipText("Tier " + tier + " of season " + season);
+		return row;
+	}
+
+	private JLabel passRewardLabel(DopamineState state, int tier, boolean premium, boolean unlocked)
+	{
+		PassReward reward = premium
+			? BattlePass.premiumReward(tier, state.getPassSeason())
+			: BattlePass.freeReward(tier, state.getPassSeason());
+		boolean claimed = state.isPassTierClaimed(tier, premium);
+		boolean locked = premium && !state.isPassPremium();
+
+		String prefix = premium ? "★ " : "";
+		JLabel label = new JLabel(prefix + reward.describe() + (claimed ? "  (claimed)" : ""));
+		label.setFont(FontManager.getRunescapeSmallFont());
+
+		if (claimed)
+		{
+			label.setForeground(Color.DARK_GRAY);
+		}
+		else if (locked)
+		{
+			label.setForeground(Color.GRAY);
+		}
+		else if (unlocked)
+		{
+			label.setForeground(reward.colour());
+		}
+		else
+		{
+			label.setForeground(Color.GRAY);
+		}
+
+		if (unlocked && !claimed && !locked)
+		{
+			label.setToolTipText("Click to claim");
+			label.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
+			label.addMouseListener(new java.awt.event.MouseAdapter()
+			{
+				@Override
+				public void mousePressed(java.awt.event.MouseEvent e)
+				{
+					plugin.claimPassTier(tier, premium, selectedSet);
+				}
+			});
+		}
+		return label;
+	}
+
 	private void buildShopTab(DopamineState state)
 	{
 		shopContent.add(pointsLine(state));
 		shopContent.add(Box.createVerticalStrut(6));
+		shopContent.add(shopToggle());
+		shopContent.add(Box.createVerticalStrut(8));
+
+		if (showingPass)
+		{
+			buildPassTab(state);
+			return;
+		}
 
 		shopContent.add(sectionLabel("Packs"));
 		shopContent.add(hint("Bigger packs hold more cards and roll better odds. "

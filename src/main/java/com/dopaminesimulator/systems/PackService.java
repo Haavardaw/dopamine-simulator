@@ -64,6 +64,23 @@ public class PackService
 		{
 			return Collections.emptyList();
 		}
+		return open(state, tier, targetSet, rewards);
+	}
+
+	public List<Card> openFree(DopamineState state, PackTier tier, CardSet targetSet, int count,
+		RewardQueue rewards)
+	{
+		List<Card> all = new ArrayList<>();
+		for (int i = 0; i < count; i++)
+		{
+			all.addAll(open(state, tier, targetSet, rewards));
+		}
+		return all;
+	}
+
+	private List<Card> open(DopamineState state, PackTier tier, CardSet targetSet,
+		RewardQueue rewards)
+	{
 		state.setTotalPacksOpened(state.getTotalPacksOpened() + 1);
 		double luck = tier.getLuck();
 		List<Card> pulled = new ArrayList<>(tier.getCardCount());

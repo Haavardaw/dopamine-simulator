@@ -42,6 +42,8 @@ import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.systems.CollectionService;
 import com.dopaminesimulator.systems.PackService;
+import com.dopaminesimulator.systems.PassService;
+import com.dopaminesimulator.systems.PassSystem;
 import com.dopaminesimulator.systems.AchievementSystem;
 import com.dopaminesimulator.systems.FeatSystem;
 import com.dopaminesimulator.systems.PointSystem;
@@ -152,6 +154,9 @@ public class DopamineSimulatorPlugin extends Plugin
 	private PackService packService;
 
 	@Getter
+	private PassService passService;
+
+	@Getter
 	private IncomeTracker incomeTracker;
 
 	@Getter
@@ -189,6 +194,7 @@ public class DopamineSimulatorPlugin extends Plugin
 		clickState = new ClickState();
 		CollectionService collection = new CollectionService();
 		packService = new PackService(random, collection);
+		passService = new PassService(random, packService);
 
 		floatingTextOverlay = new FloatingTextOverlay(client, config, gameIcons);
 		PointListener listeners = (source, detail, amount, tick) ->
@@ -199,7 +205,8 @@ public class DopamineSimulatorPlugin extends Plugin
 		engine = new DopamineEngine(new DopamineState(), rewards)
 			.register(new PointSystem(listeners))
 			.register(new FeatSystem())
-			.register(achievementSystem);
+			.register(achievementSystem)
+			.register(new PassSystem());
 		panel = new DopamineSimulatorPanel(this, config);
 		navButton = NavigationButton.builder()
 			.tooltip("Dopamine Simulator")
@@ -589,6 +596,63 @@ public class DopamineSimulatorPlugin extends Plugin
 			count--;
 		}
 		return count;
+	}
+
+	public void claimPassTier(int tier, boolean premium, CardSet targetSet)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable())
+			{
+				return;
+			}
+			if (passService.claim(engine.getState(), tier, premium, targetSet, rewards))
+			{
+				persist();
+				refreshPanel();
+			}
+		});
+	}
+
+	public void claimAllPassTiers(CardSet targetSet)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable())
+			{
+				return;
+			}
+			int claimed = passService.claimAll(engine.getState(), targetSet, rewards);
+			if (claimed > 0)
+			{
+				persist();
+				refreshPanel();
+			}
+		});
+	}
+
+	public void buyPassPremium()
+	{
+		clientThread.invoke(() ->
+		{
+			if (isPlayable() && passService.buyPremium(engine.getState()))
+			{
+				persist();
+				refreshPanel();
+			}
+		});
+	}
+
+	public void startNextPassSeason()
+	{
+		clientThread.invoke(() ->
+		{
+			if (isPlayable() && passService.startNextSeason(engine.getState()))
+			{
+				persist();
+				refreshPanel();
+			}
+		});
 	}
 
 	public void flash(Reward reward)
