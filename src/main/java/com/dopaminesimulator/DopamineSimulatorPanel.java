@@ -521,12 +521,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 	{
 		BannerService banner = plugin.getBannerService();
 
-		long now = System.currentTimeMillis();
-		shopContent.add(hint("Three banners run at once and the featured cards change every "
-			+ SeasonClock.BANNER_DAYS + " days - "
-			+ SeasonClock.remaining(SeasonClock.bannerEndsAt(now), now)
-			+ ". Every pull opens a pack, and the featured card is guaranteed within "
-			+ BannerService.HARD_PITY + " pulls. Pity carries across rotations."));
+		shopContent.add(hint("Featured cards change every " + SeasonClock.BANNER_DAYS
+			+ " days. Every pull opens a pack, the featured card is guaranteed within "
+			+ BannerService.HARD_PITY + " pulls, and pity carries across rotations."));
 		shopContent.add(Box.createVerticalStrut(8));
 
 		for (Rarity rarity : BannerService.BANNERS)
@@ -555,8 +552,10 @@ public class DopamineSimulatorPanel extends PluginPanel
 				() -> SwingUtilities.invokeLater(this::refresh));
 		}
 
+		long now = System.currentTimeMillis();
 		BannerHeader header = new BannerHeader(featured, rarity, banner.bannerName(rarity),
-			art, pity, BannerService.HARD_PITY, banner.rateAt(pity));
+			art, pity, BannerService.HARD_PITY, banner.rateAt(pity),
+			SeasonClock.remaining(SeasonClock.bannerEndsAt(now), now));
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		header.setToolTipText(featured.getName() + " from " + featured.getSet().getDisplayName());
 		block.add(header);
@@ -609,12 +608,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 		double into = BattlePass.xpIntoTier(state.getPassXp(), season);
 		double need = tier >= BattlePass.TIERS ? 0d : BattlePass.xpForTier(tier + 1, season);
 
-		PassHeader header = new PassHeader(season, region.getSeasonName(), region.getColour(),
+		PassHeader header = new PassHeader(season, region.getArea(), region.getColour(),
 			tier, BattlePass.TIERS, into, need, state.isPassPremium(),
 			SeasonClock.remaining(SeasonClock.seasonEndsAt(now), now));
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
-		header.setToolTipText(region.getArea() + ". " + theme.getDescription()
-			+ ". Next month brings " + next.getSeasonName() + ".");
+		header.setToolTipText(region.getSeasonName() + ". " + theme.getDescription()
+			+ ". Next month brings " + next.getArea() + ".");
 		shopContent.add(header);
 		shopContent.add(Box.createVerticalStrut(5));
 		shopContent.add(hint("Cards and packs from " + region.getArea() + ". "
@@ -656,7 +655,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		if (pass.canStartNextSeason(state))
 		{
 			JButton advance = new JButton("Start season " + (season + 1)
-				+ ": " + next.getSeasonName());
+				+ ": " + next.getArea());
 			advance.setFont(FontManager.getRunescapeSmallFont());
 			advance.setForeground(next.getColour());
 			advance.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);

@@ -58,9 +58,10 @@ public class BannerHeader extends JComponent
 	private final int pity;
 	private final int hardPity;
 	private final double rate;
+	private final String remaining;
 
 	public BannerHeader(Card featured, Rarity rarity, String name, BufferedImage art,
-		int pity, int hardPity, double rate)
+		int pity, int hardPity, double rate, String remaining)
 	{
 		this.featured = featured;
 		this.rarity = rarity;
@@ -69,6 +70,7 @@ public class BannerHeader extends JComponent
 		this.pity = pity;
 		this.hardPity = hardPity;
 		this.rate = rate;
+		this.remaining = remaining;
 		setPreferredSize(new Dimension(0, HEIGHT));
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, HEIGHT));
 		setMinimumSize(new Dimension(0, HEIGHT));
@@ -133,6 +135,11 @@ public class BannerHeader extends JComponent
 		g.setColor(new Color(0x93, 0x93, 0x9C));
 		g.drawString(pity + "/" + hardPity + "  •  "
 			+ String.format("%.1f%%", rate * 100d), textX, HEIGHT - 8);
+
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
+		FontMetrics clock = g.getFontMetrics();
+		g.setColor(withAlpha(accent, 220));
+		g.drawString(remaining, cardX - clock.stringWidth(remaining) - 6, HEIGHT - 8);
 
 		g.dispose();
 	}

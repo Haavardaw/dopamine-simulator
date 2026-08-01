@@ -96,7 +96,9 @@ public class PassHeader extends JComponent
 			MultipleGradientPaint.CycleMethod.NO_CYCLE));
 		g.fillRoundRect(0, 0, width, HEIGHT, 9, 9);
 
+		drawWeave(g, width);
 		drawSheen(g, width);
+		drawVignette(g, width);
 
 		g.setColor(withAlpha(premium ? GOLD : accent, 150));
 		g.setStroke(new BasicStroke(1.5f));
@@ -113,11 +115,12 @@ public class PassHeader extends JComponent
 		g.setColor(new Color(0xB6, 0xB6, 0xC0));
 		g.drawString(remaining, width - clock.stringWidth(remaining) - 11, HEIGHT - 10);
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
-		g.setColor(new Color(0x08, 0x08, 0x0A));
-		g.drawString(theme, 14, 43);
-		g.setPaint(new GradientPaint(13, 28, Color.WHITE, 13, 44, brighten(accent)));
-		g.drawString(theme, 13, 42);
+		String tierLabel = "TIER " + tier + " / " + tiers;
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+		FontMetrics tierMetrics = g.getFontMetrics();
+		int tierWidth = tierMetrics.stringWidth(tierLabel);
+		g.setColor(brighten(accent));
+		g.drawString(tierLabel, width - tierWidth - 11, 44);
 
 		String badge = premium ? "PREMIUM" : "FREE";
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
@@ -137,11 +140,12 @@ public class PassHeader extends JComponent
 		g.setColor(premium ? new Color(0x12, 0x0E, 0x04) : new Color(0x9A, 0x9A, 0xA4));
 		g.drawString(badge, badgeX + 7, 22);
 
-		String tierLabel = "TIER " + tier + " / " + tiers;
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
-		metrics = g.getFontMetrics();
-		g.setColor(brighten(accent));
-		g.drawString(tierLabel, width - metrics.stringWidth(tierLabel) - 11, 44);
+		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
+		String shown = elide(g.getFontMetrics(), theme, width - tierWidth - 26);
+		g.setColor(new Color(0x08, 0x08, 0x0A));
+		g.drawString(shown, 14, 43);
+		g.setPaint(new GradientPaint(13, 28, Color.WHITE, 13, 44, brighten(accent)));
+		g.drawString(shown, 13, 42);
 
 		int barY = 60;
 		int barH = 8;
@@ -180,6 +184,48 @@ public class PassHeader extends JComponent
 			width * 0.62f, HEIGHT, withAlpha(Color.WHITE, 22)));
 		g.fillRect(0, 0, width, HEIGHT);
 		g.setClip(clip);
+	}
+
+	private void drawWeave(Graphics2D g, int width)
+	{
+		Shape clip = g.getClip();
+		g.setClip(new RoundRectangle2D.Float(0, 0, width, HEIGHT, 9, 9));
+		g.setColor(withAlpha(accent, 26));
+		g.setStroke(new BasicStroke(1f));
+		for (int x = -HEIGHT; x < width + HEIGHT; x += 9)
+		{
+			g.drawLine(x, HEIGHT, x + HEIGHT, 0);
+		}
+		g.setColor(withAlpha(Color.BLACK, 40));
+		for (int x = -HEIGHT; x < width + HEIGHT; x += 27)
+		{
+			g.drawLine(x + 4, HEIGHT, x + HEIGHT + 4, 0);
+		}
+		g.setClip(clip);
+	}
+
+	private void drawVignette(Graphics2D g, int width)
+	{
+		Shape clip = g.getClip();
+		g.setClip(new RoundRectangle2D.Float(0, 0, width, HEIGHT, 9, 9));
+		g.setPaint(new GradientPaint(0, HEIGHT - 30, withAlpha(Color.BLACK, 0),
+			0, HEIGHT, withAlpha(Color.BLACK, 120)));
+		g.fillRect(0, HEIGHT - 30, width, 30);
+		g.setClip(clip);
+	}
+
+	private static String elide(FontMetrics metrics, String text, int maxWidth)
+	{
+		if (metrics.stringWidth(text) <= maxWidth)
+		{
+			return text;
+		}
+		String trimmed = text;
+		while (trimmed.length() > 1 && metrics.stringWidth(trimmed + "…") > maxWidth)
+		{
+			trimmed = trimmed.substring(0, trimmed.length() - 1);
+		}
+		return trimmed + "…";
 	}
 
 	private static Color brighten(Color colour)
