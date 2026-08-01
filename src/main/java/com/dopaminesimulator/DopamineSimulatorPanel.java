@@ -34,7 +34,6 @@ import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.Reward;
-import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.incremental.BigNumbers;
 import com.dopaminesimulator.incremental.Milestones;
 import com.dopaminesimulator.packs.PackTier;
@@ -295,8 +294,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 		playContent.add(Box.createVerticalStrut(8));
 		playContent.add(buildClickButton(state, surging));
 		playContent.add(Box.createVerticalStrut(8));
-		playContent.add(revealQueueStrip());
-		playContent.add(Box.createVerticalStrut(8));
+		JPanel waiting = revealQueueStrip();
+		if (waiting != null)
+		{
+			playContent.add(waiting);
+			playContent.add(Box.createVerticalStrut(8));
+		}
 
 		playContent.add(sectionLabel("Sources",
 			BigNumbers.format(perHour) + "/hr"));
@@ -931,24 +934,27 @@ public class DopamineSimulatorPanel extends PluginPanel
 	}
 	private JPanel revealQueueStrip()
 	{
-		RewardQueue queue = plugin.getRewards();
-		int depth = queue.depth();
+		int depth = plugin.getRewards().depth();
+		if (depth <= 0)
+		{
+			return null;
+		}
+
 		JPanel header = new JPanel(new BorderLayout(4, 0));
 		header.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
-		JLabel label = new JLabel(depth > 0 ? depth + " revealing..." : "Nothing waiting");
+
+		JLabel label = new JLabel(depth + (depth == 1 ? " card waiting" : " cards waiting"));
 		label.setFont(FontManager.getRunescapeBoldFont());
-		label.setForeground(depth > 0 ? GOLD : Color.LIGHT_GRAY);
+		label.setForeground(GOLD);
 		header.add(label, BorderLayout.WEST);
-		if (depth > 0)
-		{
-			JButton skip = new JButton(config.autoReveal() ? "Skip" : "Reveal");
-			skip.setFont(FontManager.getRunescapeSmallFont());
-			skip.setFocusPainted(false);
-			skip.addActionListener(e -> revealEverythingNow());
-			header.add(skip, BorderLayout.EAST);
-		}
+
+		JButton skip = new JButton(config.autoReveal() ? "Skip" : "Reveal");
+		skip.setFont(FontManager.getRunescapeSmallFont());
+		skip.setFocusPainted(false);
+		skip.addActionListener(e -> revealEverythingNow());
+		header.add(skip, BorderLayout.EAST);
 		return header;
 	}
 
