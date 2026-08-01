@@ -34,6 +34,7 @@ import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.ui.CardArtService;
 import com.dopaminesimulator.ui.CardRenderer;
 import com.dopaminesimulator.ui.FeatBanner;
+import com.dopaminesimulator.ui.WishReveal;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -98,7 +99,7 @@ public class PackRevealOverlay extends Overlay
 		private final Rarity rarity;
 		private final Color colour;
 		private final boolean major;
-		private final long start;
+		private long start;
 		private final long holdMs;
 
 		private final Card card;
@@ -108,12 +109,13 @@ public class PackRevealOverlay extends Overlay
 		private int quantity;
 		private final boolean stackable;
 		private final boolean feat;
+		private final boolean wish;
 		private final int featTier;
 		private boolean dealSoundPlayed;
 		private boolean revealSoundPlayed;
 		private RevealCard(String title, String detail, Rarity rarity, Color colour,
 						   boolean major, long start, Card card, int stars, boolean shiny, boolean gilded, int quantity, boolean stackable,
-						   boolean feat, int featTier, long holdMs)
+						   boolean feat, boolean wish, int featTier, long holdMs)
 		{
 			this.title = title;
 			this.detail = detail;
@@ -128,6 +130,7 @@ public class PackRevealOverlay extends Overlay
 			this.quantity = quantity;
 			this.stackable = stackable;
 			this.feat = feat;
+			this.wish = wish;
 			this.featTier = featTier;
 			this.holdMs = holdMs;
 		}
@@ -178,6 +181,12 @@ public class PackRevealOverlay extends Overlay
 			return;
 		}
 
+		if (reward.getType() == RewardType.BANNER_WIN)
+		{
+			pushWish(reward);
+			return;
+		}
+
 		long now = System.currentTimeMillis();
 		if (stackOntoExisting(reward))
 		{
@@ -206,6 +215,7 @@ public class PackRevealOverlay extends Overlay
 		boolean major = reward.getType() == RewardType.SET_COMPLETE
 			|| reward.getType() == RewardType.FEAT
 			|| reward.getType() == RewardType.ACHIEVEMENT
+			|| reward.getType() == RewardType.BANNER_WIN
 			|| shiny
 			|| gilded
 			|| (reward.getRarity() != null && reward.getRarity().ordinal() >= Rarity.EPIC.ordinal());
@@ -234,8 +244,27 @@ public class PackRevealOverlay extends Overlay
 			reward.getRarity(), colour, major, startAt, reward.getCard(), stars, shiny, gilded, Math.max(1, reward.getCopies()),
 			isStackable(reward),
 			reward.getType() == RewardType.FEAT || reward.getType() == RewardType.ACHIEVEMENT,
+			reward.getType() == RewardType.BANNER_WIN,
 			(int) reward.getAmount(),
 			hold));
+	}
+
+	private void pushWish(Reward reward)
+	{
+		long now = System.currentTimeMillis();
+		cards.removeIf(card -> card.wish);
+
+		// the wish owns the screen, so anything queued behind it waits rather than
+		// expiring unseen while it plays
+		for (RevealCard queued : cards)
+		{
+			queued.start = Math.max(queued.start, now + WishReveal.LIFETIME_MS);
+		}
+		nextAvailableSlot = now + WishReveal.LIFETIME_MS;
+		cards.addLast(new RevealCard(reward.getTitle(), reward.getDetail(), reward.getRarity(),
+			reward.getRarity() == null ? Color.WHITE : reward.getRarity().getColour(),
+			true, now, reward.getCard(), 0, false, false, 1, false, false, true, 0,
+			WishReveal.LIFETIME_MS - DEAL_MS - FLIP_MS - FADE_MS));
 	}
 
 	private boolean stackOntoExisting(Reward reward)
@@ -285,6 +314,7 @@ public class PackRevealOverlay extends Overlay
 			&& type != RewardType.GILDED
 			&& type != RewardType.FEAT
 			&& type != RewardType.ACHIEVEMENT
+			&& type != RewardType.BANNER_WIN
 			&& type != RewardType.SET_COMPLETE;
 	}
 
@@ -357,6 +387,19 @@ public class PackRevealOverlay extends Overlay
 		int canvasHeight = client.getCanvasHeight();
 		int centreX = canvasWidth / 2;
 		int rowY = (int) (canvasHeight * 0.34d);
+
+		for (RevealCard card : visible)
+		{
+			if (card.wish && card.card != null)
+			{
+				drawDim(graphics, visible, canvasWidth, canvasHeight);
+				WishReveal.draw(graphics, canvasWidth, canvasHeight, card.card,
+					artService.get(card.card), card.age(), cardAlpha(card));
+				graphics.setComposite(originalComposite);
+				graphics.setTransform(originalTransform);
+				return null;
+			}
+		}
 
 		List<RevealCard> banners = new ArrayList<>();
 		List<RevealCard> inRow = new ArrayList<>();

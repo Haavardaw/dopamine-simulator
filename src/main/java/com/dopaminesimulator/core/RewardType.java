@@ -35,5 +35,6 @@ public enum RewardType
 	GILDED,
 	FEAT,
 	ACHIEVEMENT,
+	BANNER_WIN,
 	SET_COMPLETE
 }

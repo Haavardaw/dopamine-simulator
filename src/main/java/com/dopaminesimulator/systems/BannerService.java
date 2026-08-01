@@ -29,6 +29,7 @@ import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.DopamineState;
+import com.dopaminesimulator.core.Reward;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.packs.PackTier;
 import java.util.List;
@@ -64,6 +65,19 @@ public class BannerService
 				return 90_000d;
 			default:
 				return 300_000d;
+		}
+	}
+
+	public String bannerName(Rarity rarity)
+	{
+		switch (rarity)
+		{
+			case RARE:
+				return "Curious Findings";
+			case EPIC:
+				return "Storied Relics";
+			default:
+				return "Mythic Invocation";
 		}
 	}
 
@@ -124,6 +138,7 @@ public class BannerService
 		if (random.nextDouble() < rateAt(state.getBannerPity(rarity)))
 		{
 			state.setBannerPity(rarity, 0);
+			rewards.push(Reward.bannerWin(prize));
 			collection.grant(state, prize, rewards, false, featuredCopies(rarity));
 			roll(state, rarity);
 			return prize;

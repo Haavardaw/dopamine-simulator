@@ -110,6 +110,12 @@ public class Reward
 			achievement.getDescription(), null, null, null, 0, 1, false, false);
 	}
 
+	public static Reward bannerWin(Card card)
+	{
+		return new Reward(RewardType.BANNER_WIN, card.getName(), "Featured",
+			card, card.getRarity(), card.getSet(), 0, 1, false, false);
+	}
+
 	public static Reward setComplete(CardSet set)
 	{
 		return new Reward(RewardType.SET_COMPLETE, set.getDisplayName() + " complete!",

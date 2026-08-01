@@ -53,6 +53,7 @@ import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.ui.CardComponent;
 import com.dopaminesimulator.ui.ClickButton;
 import com.dopaminesimulator.ui.FeatRow;
+import com.dopaminesimulator.ui.WishReveal;
 import com.dopaminesimulator.ui.PointsHeader;
 import com.dopaminesimulator.ui.ScrollableContent;
 import com.dopaminesimulator.ui.SectionHeader;
@@ -515,8 +516,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 	{
 		BannerService banner = plugin.getBannerService();
 
-		shopContent.add(hint("Three banners run at once. Each rerolls to a new card the moment"
-			+ " you win it, so the featured card only changes when you claim it."));
+		shopContent.add(hint("Three banners run at once. Every pull is guaranteed to include a"
+			+ " pack, and the featured card is guaranteed within "
+			+ BannerService.HARD_PITY + " pulls. Banners have no time limit."));
 		shopContent.add(Box.createVerticalStrut(8));
 
 		for (Rarity rarity : BannerService.BANNERS)
@@ -537,11 +539,22 @@ public class DopamineSimulatorPanel extends PluginPanel
 		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		block.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		JLabel header = new JLabel(rarity.getDisplayName() + " banner: " + featured.getName());
-		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+		JLabel header = new JLabel(banner.bannerName(rarity));
+		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 		header.setForeground(rarity.getColour());
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		block.add(header);
+
+		StringBuilder stars = new StringBuilder();
+		for (int i = 0; i < WishReveal.starsFor(rarity); i++)
+		{
+			stars.append('★');
+		}
+		JLabel featuredLine = new JLabel(featured.getName() + "   " + stars);
+		featuredLine.setFont(FontManager.getRunescapeSmallFont());
+		featuredLine.setForeground(Color.LIGHT_GRAY);
+		featuredLine.setAlignmentX(Component.LEFT_ALIGNMENT);
+		block.add(featuredLine);
 		block.add(Box.createVerticalStrut(3));
 
 		JProgressBar bar = new JProgressBar(0, BannerService.HARD_PITY);
