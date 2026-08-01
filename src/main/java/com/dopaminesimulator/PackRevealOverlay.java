@@ -28,6 +28,7 @@ import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.Reward;
+import com.dopaminesimulator.cosmetics.CardBack;
 import com.dopaminesimulator.core.RewardType;
 import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.ui.CardArtService;
@@ -628,15 +629,53 @@ public class PackRevealOverlay extends Overlay
 
 	private void drawBack(Graphics2D graphics)
 	{
-		graphics.setColor(CARD_BACK);
+		CardBack back = CardBack.STANDARD;
+		if (stateSupplier != null)
+		{
+			back = CardBack.byId(stateSupplier.get().getSelectedBack());
+		}
+
+		graphics.setColor(back.getBase());
 		graphics.fillRoundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 8, 8);
-		graphics.setColor(CARD_BACK_TRIM);
+		graphics.setColor(back.getTrim());
 		graphics.setStroke(new BasicStroke(1.5f));
 		graphics.drawRoundRect(0, 0, CARD_WIDTH, CARD_HEIGHT, 8, 8);
 		graphics.drawRoundRect(7, 7, CARD_WIDTH - 14, CARD_HEIGHT - 14, 6, 6);
-		graphics.drawLine(CARD_WIDTH / 2, 18, CARD_WIDTH / 2, CARD_HEIGHT - 18);
-		graphics.drawLine(18, CARD_HEIGHT / 2, CARD_WIDTH - 18, CARD_HEIGHT / 2);
+
+		int cx = CARD_WIDTH / 2;
+		int cy = CARD_HEIGHT / 2;
+		switch (back.getPattern())
+		{
+			case RINGS:
+				for (int r = 14; r <= 44; r += 10)
+				{
+					graphics.drawOval(cx - r, cy - r, r * 2, r * 2);
+				}
+				break;
+			case RAYS:
+				for (int i = 0; i < 12; i++)
+				{
+					double angle = Math.PI * 2d * i / 12d;
+					graphics.drawLine(cx + (int) (Math.cos(angle) * 14),
+						cy + (int) (Math.sin(angle) * 14),
+						cx + (int) (Math.cos(angle) * 42),
+						cy + (int) (Math.sin(angle) * 42));
+				}
+				break;
+			case LATTICE:
+				for (int offset = -CARD_HEIGHT; offset < CARD_WIDTH; offset += 14)
+				{
+					graphics.drawLine(offset, 8, offset + CARD_HEIGHT, CARD_HEIGHT - 8);
+					graphics.drawLine(offset + CARD_HEIGHT, 8, offset, CARD_HEIGHT - 8);
+				}
+				break;
+			default:
+				graphics.drawLine(cx, 18, cx, CARD_HEIGHT - 18);
+				graphics.drawLine(18, cy, CARD_WIDTH - 18, cy);
+				break;
+		}
 	}
+
 	private void drawGlow(Graphics2D graphics, RevealCard card, float alpha)
 	{
 		double pulse = 0.7d + 0.3d * Math.sin(card.age() / 170d);

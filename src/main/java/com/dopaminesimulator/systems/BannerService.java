@@ -41,7 +41,7 @@ public class BannerService
 	public static final int SOFT_PITY_FROM = 75;
 	public static final double BASE_RATE = 0.006d;
 	public static final double SOFT_PITY_STEP = 0.035d;
-	private static final int FEATURED_COPIES = 400;
+	private static final int FEATURED_COPIES = 40;
 
 	private final Random random;
 	private final PackService packs;

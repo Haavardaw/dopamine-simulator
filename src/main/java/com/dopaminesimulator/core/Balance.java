@@ -48,5 +48,7 @@ public final class Balance
 
 	public static final int SHINY_STAR_MULTIPLIER = 2;
 
+	public static final int SHARDS_PER_FORGE = 200;
+
 	public static final boolean FUSION_CAN_FAIL = false;
 }

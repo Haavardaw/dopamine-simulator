@@ -152,6 +152,9 @@ public class DopamineSimulatorPlugin extends Plugin
 	private RewardQueue rewards;
 
 	@Getter
+	private CollectionService collection;
+
+	@Getter
 	private PackService packService;
 
 	@Getter
@@ -196,7 +199,7 @@ public class DopamineSimulatorPlugin extends Plugin
 		rewards = new RewardQueue();
 		incomeTracker = new IncomeTracker();
 		clickState = new ClickState();
-		CollectionService collection = new CollectionService();
+		collection = new CollectionService();
 		packService = new PackService(random, collection);
 		passService = new PassService(random, packService);
 		bannerService = new BannerService(random, packService, collection);
@@ -654,6 +657,64 @@ public class DopamineSimulatorPlugin extends Plugin
 			}
 			persist();
 			refreshPanel();
+		});
+	}
+
+	public void useWildcard(Card card)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable() || card == null)
+			{
+				return;
+			}
+			DopamineState state = engine.getState();
+			if (!state.spendWildcard())
+			{
+				return;
+			}
+			collection.grant(state, card, rewards, false,
+				Math.max(1, card.getRarity().copiesForMaxStars() / 10));
+			persist();
+			refreshPanel();
+		});
+	}
+
+	public void forgeWithShards(Card card)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable() || card == null)
+			{
+				return;
+			}
+			DopamineState state = engine.getState();
+			if (!state.spendShards(card.getRarity(), Balance.SHARDS_PER_FORGE))
+			{
+				return;
+			}
+			collection.grant(state, card, rewards, false,
+				Math.max(1, card.getRarity().copiesForMaxStars() / 20));
+			persist();
+			refreshPanel();
+		});
+	}
+
+	public void selectCardBack(String id)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable())
+			{
+				return;
+			}
+			DopamineState state = engine.getState();
+			if (state.hasBack(id))
+			{
+				state.setSelectedBack(id);
+				persist();
+				refreshPanel();
+			}
 		});
 	}
 

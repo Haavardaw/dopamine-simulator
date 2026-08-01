@@ -38,8 +38,8 @@ public final class BattlePass
 	private static final double XP_PER_TIER = 20d;
 	private static final double SEASON_XP_GROWTH = 0.15d;
 
-	private static final double PREMIUM_BASE = 150_000d;
-	private static final double PREMIUM_GROWTH = 3.0d;
+	private static final double PREMIUM_BASE = 12_000d;
+	private static final double PREMIUM_GROWTH = 2.5d;
 
 	private BattlePass()
 	{

@@ -56,6 +56,7 @@ public class AchievementSystem implements DopamineSystem
 	private static final int LUCKY_PACKS = 50;
 	private static final int PACK_RAT_PACKS = 1_000;
 	private static final int DEDICATION_RANK = 10;
+	private static final int WILDCARDS_PER_ACHIEVEMENT = 1;
 
 	private final Set<String> skillsThisSession = new HashSet<>();
 	private final Set<EventType> earnersThisSession = EnumSet.noneOf(EventType.class);
@@ -255,6 +256,7 @@ public class AchievementSystem implements DopamineSystem
 	{
 		if (state.awardAchievement(achievement.name()))
 		{
+			state.addWildcards(WILDCARDS_PER_ACHIEVEMENT);
 			rewards.push(Reward.achievement(achievement));
 		}
 	}

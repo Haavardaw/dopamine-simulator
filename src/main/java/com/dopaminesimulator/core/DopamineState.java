@@ -171,6 +171,16 @@ public class DopamineState
 		return unlockedBacks.contains(id);
 	}
 
+	public boolean spendShards(Rarity rarity, int amount)
+	{
+		if (getShards(rarity) < amount)
+		{
+			return false;
+		}
+		shards.put(rarity, getShards(rarity) - amount);
+		return true;
+	}
+
 	public void addWildcards(int amount)
 	{
 		if (amount > 0)

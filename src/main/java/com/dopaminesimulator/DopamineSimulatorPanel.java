@@ -31,6 +31,8 @@ import com.dopaminesimulator.cards.CardCollection;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.CollectionBonus;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.cosmetics.CardBack;
+import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.Reward;
@@ -824,6 +826,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ " stars" + variantSummary(state)));
 		cardsContent.add(Box.createVerticalStrut(8));
 		cardsContent.add(buildSetSelector(state));
+		JComponent backs = buildBackSelector(state);
+		if (backs != null)
+		{
+			cardsContent.add(Box.createVerticalStrut(4));
+			cardsContent.add(backs);
+		}
 		cardsContent.add(Box.createVerticalStrut(4));
 		cardsContent.add(buildSearchBox());
 		cardsContent.add(Box.createVerticalStrut(8));
@@ -1209,6 +1217,43 @@ public class DopamineSimulatorPanel extends PluginPanel
 		text.add(Box.createVerticalStrut(4));
 		text.add(cardEffectLine(state, card, stars));
 
+		if (state.getWildcards() > 0 && stars < Rarity.MAX_STARS)
+		{
+			int grant = Math.max(1, card.getRarity().copiesForMaxStars() / 10);
+			JButton wildcard = new JButton("Use wildcard  (+" + grant + ")");
+			wildcard.setFont(FontManager.getRunescapeSmallFont());
+			wildcard.setForeground(GOLD);
+			wildcard.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
+			wildcard.setFocusPainted(false);
+			wildcard.setAlignmentX(Component.LEFT_ALIGNMENT);
+			wildcard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+			wildcard.setToolTipText(state.getWildcards() + " left. Adds copies to this exact card.");
+			wildcard.addActionListener(e -> plugin.useWildcard(card));
+			text.add(Box.createVerticalStrut(4));
+			text.add(wildcard);
+		}
+
+		int shards = state.getShards(card.getRarity());
+		if (stars < Rarity.MAX_STARS && shards > 0)
+		{
+			int grant = Math.max(1, card.getRarity().copiesForMaxStars() / 20);
+			boolean enough = shards >= Balance.SHARDS_PER_FORGE;
+			JButton forge = new JButton("Forge  " + shards + "/"
+				+ Balance.SHARDS_PER_FORGE + " shards  (+" + grant + ")");
+			forge.setFont(FontManager.getRunescapeSmallFont());
+			forge.setForeground(enough ? GOLD : Color.GRAY);
+			forge.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+			forge.setFocusPainted(false);
+			forge.setEnabled(enough);
+			forge.setAlignmentX(Component.LEFT_ALIGNMENT);
+			forge.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+			forge.setToolTipText("Spend " + card.getRarity().getDisplayName()
+				+ " shards from duplicates on this card");
+			forge.addActionListener(e -> plugin.forgeWithShards(card));
+			text.add(Box.createVerticalStrut(3));
+			text.add(forge);
+		}
+
 		int next = card.getRarity().copiesForNextStar(copies);
 		if (next > 0)
 		{
@@ -1588,6 +1633,54 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ "  •  each rank adds "
 			+ Math.round(Feat.BONUS_PER_TIER * 100d) + "% to everything you earn");
 		return row;
+	}
+
+	private JComponent buildBackSelector(DopamineState state)
+	{
+		List<CardBack> owned = new ArrayList<>();
+		for (CardBack back : CardBack.values())
+		{
+			if (state.hasBack(back.name()))
+			{
+				owned.add(back);
+			}
+		}
+		if (owned.size() < 2)
+		{
+			return null;
+		}
+
+		JComboBox<CardBack> picker = new JComboBox<>(owned.toArray(new CardBack[0]));
+		picker.setSelectedItem(CardBack.byId(state.getSelectedBack()));
+		picker.setFont(FontManager.getRunescapeSmallFont());
+		picker.setFocusable(false);
+		picker.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		picker.setForeground(Color.LIGHT_GRAY);
+		picker.setAlignmentX(Component.LEFT_ALIGNMENT);
+		picker.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
+		picker.setToolTipText("Card back shown while a pack is flipping");
+		picker.setRenderer(new DefaultListCellRenderer()
+		{
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+				boolean selected, boolean focus)
+			{
+				super.getListCellRendererComponent(list, value, index, selected, focus);
+				CardBack back = (CardBack) value;
+				setText("Back: " + back.getDisplayName());
+				setForeground(selected ? Color.WHITE : back.getTrim());
+				return this;
+			}
+		});
+		picker.addActionListener(e ->
+		{
+			CardBack chosen = (CardBack) picker.getSelectedItem();
+			if (chosen != null && !chosen.name().equals(state.getSelectedBack()))
+			{
+				plugin.selectCardBack(chosen.name());
+			}
+		});
+		return picker;
 	}
 
 	private ShopRow sized(ShopRow row)
