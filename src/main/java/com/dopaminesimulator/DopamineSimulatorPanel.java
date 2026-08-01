@@ -540,9 +540,16 @@ public class DopamineSimulatorPanel extends PluginPanel
 		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		block.setAlignmentX(Component.LEFT_ALIGNMENT);
 
+		BufferedImage art = plugin.getCardArtService().get(featured);
+		if (art == null)
+		{
+			// item and sprite art both arrive asynchronously, so come back once it lands
+			plugin.getCardArtService().onLoaded(featured,
+				() -> SwingUtilities.invokeLater(this::refresh));
+		}
+
 		BannerHeader header = new BannerHeader(featured, rarity, banner.bannerName(rarity),
-			plugin.getCardArtService().get(featured), pity, BannerService.HARD_PITY,
-			banner.rateAt(pity));
+			art, pity, BannerService.HARD_PITY, banner.rateAt(pity));
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		header.setToolTipText(featured.getName() + " from " + featured.getSet().getDisplayName());
 		block.add(header);
@@ -551,7 +558,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		String detail = banner.featuredCopies(rarity) + " copies of "
 			+ featured.getName() + " on a win, and every pull opens a "
 			+ banner.packFor(rarity).getDisplayName() + " regardless.";
-		BufferedImage icon = plugin.getCardArtService().get(featured);
+		BufferedImage icon = art;
 
 		ShopRow one = new ShopRow(
 			"Pull",
