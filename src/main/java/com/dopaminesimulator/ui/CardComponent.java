@@ -29,6 +29,7 @@ import com.dopaminesimulator.cards.Rarity;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MultipleGradientPaint;
@@ -53,16 +54,34 @@ public class CardComponent extends JComponent
 	private final int stars;
 	private final boolean owned;
 	private final CardArtService artService;
+	private final boolean shiny;
+	private final boolean gilded;
+	private static final int INTRO_MS = 260;
+	private long introStartedAt;
 	private boolean hovered;
 	private double pointerX = 0.5d;
 	private double pointerY = 0.5d;
 	private Consumer<Card> onClick;
 	public CardComponent(Card card, int stars, boolean owned, int width, CardArtService artService)
 	{
+		this(card, stars, owned, width, artService, false);
+	}
+
+	public CardComponent(Card card, int stars, boolean owned, int width, CardArtService artService,
+		boolean shiny)
+	{
+		this(card, stars, owned, width, artService, shiny, false);
+	}
+
+	public CardComponent(Card card, int stars, boolean owned, int width, CardArtService artService,
+		boolean shiny, boolean gilded)
+	{
 		this.card = card;
 		this.stars = stars;
 		this.owned = owned;
 		this.artService = artService;
+		this.shiny = shiny;
+		this.gilded = gilded;
 
 		int height = CardRenderer.heightForWidth(width) + INSET * 2;
 		Dimension size = new Dimension(width + INSET * 2, height);
@@ -113,6 +132,35 @@ public class CardComponent extends JComponent
 	{
 		this.onClick = onClick;
 	}
+	public void playIntro()
+	{
+		introStartedAt = System.currentTimeMillis();
+		Timer timer = new Timer(16, null);
+		timer.addActionListener(e ->
+		{
+			repaint();
+			if (introProgress() >= 1d)
+			{
+				timer.stop();
+			}
+		});
+		timer.start();
+	}
+
+	private double introProgress()
+	{
+		if (introStartedAt == 0L)
+		{
+			return 1d;
+		}
+		double t = (System.currentTimeMillis() - introStartedAt) / (double) INTRO_MS;
+		if (t >= 1d)
+		{
+			return 1d;
+		}
+		return t * t * (3d - 2d * t);
+	}
+
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{
@@ -126,14 +174,27 @@ public class CardComponent extends JComponent
 		int x = (getWidth() - cardWidth) / 2;
 		int y = (getHeight() - cardHeight) / 2;
 		AffineTransform before = g.getTransform();
-		if (hovered)
+
+		double intro = introProgress();
+		if (intro < 1d)
+		{
+			double centreX = x + cardWidth / 2d;
+			double centreY = y + cardHeight / 2d;
+			double scale = 0.55d + 0.45d * intro;
+			g.translate(centreX, centreY);
+			g.scale(scale, 1d);
+			g.rotate((1d - intro) * -0.35d);
+			g.translate(-centreX, -centreY);
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+				(float) Math.min(1d, intro * 1.6d)));
+		}
+		else if (hovered)
 		{
 			applyTilt(g, x + cardWidth / 2d, y + cardHeight / 2d);
 		}
 		CardRenderer.draw(g, card, x, y, cardWidth, cardHeight, stars, owned,
-
-			0L,
-			owned ? artService.get(card) : null);
+			shiny ? System.currentTimeMillis() : 0L,
+			owned ? artService.get(card) : null, shiny, gilded);
 		if (hovered && owned)
 		{
 			drawSpecular(g, x, y, cardWidth, cardHeight);

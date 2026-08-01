@@ -29,13 +29,16 @@ import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.Reward;
 import com.dopaminesimulator.core.RewardType;
+import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.ui.CardArtService;
 import com.dopaminesimulator.ui.CardRenderer;
+import com.dopaminesimulator.ui.FeatBanner;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -65,6 +68,7 @@ public class PackRevealOverlay extends Overlay
 	private static final int MAX_PENDING = 8;
 	private static final long MAX_QUEUE_AHEAD_MS = 5000L;
 	private static final long DEAL_MS = 340L;
+	private static final long BANNER_ENTRANCE_MS = 260L;
 	private static final long FLIP_MS = 300L;
 	private static final long HOLD_MS = 1300L;
 	private static final long MAJOR_HOLD_MS = 2400L;
@@ -94,10 +98,17 @@ public class PackRevealOverlay extends Overlay
 
 		private final Card card;
 		private final int stars;
+		private final boolean shiny;
+		private final boolean gilded;
+		private int quantity;
+		private final boolean stackable;
+		private final boolean feat;
+		private final int featTier;
 		private boolean dealSoundPlayed;
 		private boolean revealSoundPlayed;
 		private RevealCard(String title, String detail, Rarity rarity, Color colour,
-						   boolean major, long start, Card card, int stars, long holdMs)
+						   boolean major, long start, Card card, int stars, boolean shiny, boolean gilded, int quantity, boolean stackable,
+						   boolean feat, int featTier, long holdMs)
 		{
 			this.title = title;
 			this.detail = detail;
@@ -107,6 +118,12 @@ public class PackRevealOverlay extends Overlay
 			this.start = start;
 			this.card = card;
 			this.stars = stars;
+			this.shiny = shiny;
+			this.gilded = gilded;
+			this.quantity = quantity;
+			this.stackable = stackable;
+			this.feat = feat;
+			this.featTier = featTier;
 			this.holdMs = holdMs;
 		}
 		private long age()
@@ -124,6 +141,10 @@ public class PackRevealOverlay extends Overlay
 		private boolean expired()
 		{
 			return age() > lifetime();
+		}
+		private boolean fading()
+		{
+			return age() > lifetime() - FADE_MS;
 		}
 	}
 	PackRevealOverlay(Client client, DopamineSimulatorConfig config, RevealSoundService sounds,
@@ -145,12 +166,19 @@ public class PackRevealOverlay extends Overlay
 			return;
 		}
 
-		if (reward.getType() == RewardType.SOURCE_UNLOCKED)
+		if (reward.getType() == RewardType.SOURCE_UNLOCKED
+			|| reward.getType() == RewardType.SHINY
+			|| reward.getType() == RewardType.GILDED)
 		{
 			return;
 		}
 
 		long now = System.currentTimeMillis();
+		if (stackOntoExisting(reward))
+		{
+			return;
+		}
+
 		int pending = pendingCount();
 		if (pending >= MAX_PENDING)
 		{
@@ -166,9 +194,19 @@ public class PackRevealOverlay extends Overlay
 		long stagger = Math.max(MIN_STAGGER_MS, STAGGER_MS - pending * 25L);
 		nextAvailableSlot = startAt + stagger;
 
+		boolean shiny = reward.getCard() != null && stateSupplier != null
+			&& stateSupplier.get().isShiny(reward.getCard().getId());
+		boolean gilded = reward.getCard() != null && stateSupplier != null
+			&& stateSupplier.get().isGilded(reward.getCard().getId());
+
 		boolean major = reward.getType() == RewardType.SET_COMPLETE
+			|| reward.getType() == RewardType.FEAT
+			|| shiny
+			|| gilded
 			|| (reward.getRarity() != null && reward.getRarity().ordinal() >= Rarity.EPIC.ordinal());
-		Color colour = reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE;
+		Color colour = reward.getType() == RewardType.FEAT
+			? Feat.tierColour((int) reward.getAmount())
+			: reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE;
 		int stars = reward.getCard() == null || stateSupplier == null
 			? 0
 			: stateSupplier.get().getStars(reward.getCard().getId());
@@ -177,8 +215,59 @@ public class PackRevealOverlay extends Overlay
 		long hold = Math.max(MIN_HOLD_MS,
 			Math.round((major ? MAJOR_HOLD_MS : HOLD_MS) * speed));
 
-		cards.addLast(new RevealCard(reward.getTitle(), reward.getDetail(),
-			reward.getRarity(), colour, major, startAt, reward.getCard(), stars, hold));
+		cards.addLast(new RevealCard(reward.getTitle(), variantDetail(reward, shiny, gilded),
+			reward.getRarity(), colour, major, startAt, reward.getCard(), stars, shiny, gilded, Math.max(1, reward.getCopies()),
+			isStackable(reward), reward.getType() == RewardType.FEAT, (int) reward.getAmount(),
+			hold));
+	}
+
+	private boolean stackOntoExisting(Reward reward)
+	{
+		Card card = reward.getCard();
+		if (card == null || !isStackable(reward))
+		{
+			return false;
+		}
+
+		for (RevealCard existing : cards)
+		{
+			if (existing.stackable
+				&& existing.card != null
+				&& existing.card.getId().equals(card.getId())
+				&& !existing.expired()
+				&& !existing.fading())
+			{
+				existing.quantity += Math.max(1, reward.getCopies());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static String variantDetail(Reward reward, boolean shiny, boolean gilded)
+	{
+		if (shiny && gilded)
+		{
+			return "Shiny and gilded!";
+		}
+		if (shiny)
+		{
+			return "Shiny!";
+		}
+		if (gilded)
+		{
+			return "Gilded!";
+		}
+		return reward.getDetail();
+	}
+
+	private static boolean isStackable(Reward reward)
+	{
+		RewardType type = reward.getType();
+		return type != RewardType.SHINY
+			&& type != RewardType.GILDED
+			&& type != RewardType.FEAT
+			&& type != RewardType.SET_COMPLETE;
 	}
 
 	private int pendingCount()
@@ -252,13 +341,30 @@ public class PackRevealOverlay extends Overlay
 		int rowY = (int) (canvasHeight * 0.34d);
 
 		drawDim(graphics, visible, canvasWidth, canvasHeight);
-		int totalWidth = visible.size() * CARD_WIDTH + (visible.size() - 1) * CARD_GAP;
+
+		List<RevealCard> banners = new ArrayList<>();
+		List<RevealCard> inRow = new ArrayList<>();
+		for (RevealCard card : visible)
+		{
+			(card.feat ? banners : inRow).add(card);
+		}
+
+		int totalWidth = inRow.size() * CARD_WIDTH + (inRow.size() - 1) * CARD_GAP;
 		int startX = centreX - totalWidth / 2;
 
-		for (int i = 0; i < visible.size(); i++)
+		for (int i = 0; i < inRow.size(); i++)
 		{
 			int slotX = startX + i * (CARD_WIDTH + CARD_GAP);
-			drawCard(graphics, visible.get(i), slotX, rowY);
+			drawCard(graphics, inRow.get(i), slotX, rowY);
+		}
+
+		int bannerY = inRow.isEmpty()
+			? rowY + (CARD_HEIGHT - FeatBanner.HEIGHT) / 2
+			: rowY - FeatBanner.HEIGHT - 18;
+		for (int i = 0; i < banners.size(); i++)
+		{
+			drawBanner(graphics, banners.get(i), centreX - FeatBanner.WIDTH / 2,
+				bannerY - i * (FeatBanner.HEIGHT + 8));
 		}
 
 		graphics.setComposite(originalComposite);
@@ -286,6 +392,80 @@ public class PackRevealOverlay extends Overlay
 		graphics.setColor(DIM);
 		graphics.fillRect(0, 0, width, height);
 	}
+	private void drawStackBehind(Graphics2D graphics, RevealCard card)
+	{
+		if (card.quantity < 2)
+		{
+			return;
+		}
+
+		int layers = Math.min(3, card.quantity - 1);
+		int step = Math.max(3, CARD_HEIGHT / 34);
+		for (int i = layers; i >= 1; i--)
+		{
+			int offset = step * i;
+			graphics.setColor(new Color(0x14, 0x14, 0x18, 190));
+			graphics.fillRoundRect(offset, -offset, CARD_WIDTH, CARD_HEIGHT, 10, 10);
+			graphics.setColor(card.colour == null
+				? CARD_BACK_TRIM
+				: new Color(card.colour.getRed(), card.colour.getGreen(), card.colour.getBlue(),
+					110 - i * 20));
+			graphics.setStroke(new BasicStroke(1f));
+			graphics.drawRoundRect(offset, -offset, CARD_WIDTH - 1, CARD_HEIGHT - 1, 10, 10);
+		}
+	}
+
+	private void drawStackCount(Graphics2D graphics, RevealCard card)
+	{
+		if (card.quantity < 2)
+		{
+			return;
+		}
+
+		String label = "x" + card.quantity;
+		graphics.setFont(FontManager.getRunescapeBoldFont());
+		FontMetrics metrics = graphics.getFontMetrics();
+		int textWidth = metrics.stringWidth(label);
+		int padding = 6;
+		int boxWidth = textWidth + padding * 2;
+		int boxHeight = metrics.getHeight() + 2;
+		int x = CARD_WIDTH - boxWidth - 6;
+		int y = CARD_HEIGHT - boxHeight - 6;
+
+		graphics.setColor(new Color(0x10, 0x10, 0x14, 225));
+		graphics.fillRoundRect(x, y, boxWidth, boxHeight, 6, 6);
+		graphics.setColor(card.colour == null ? Color.WHITE : card.colour);
+		graphics.setStroke(new BasicStroke(1f));
+		graphics.drawRoundRect(x, y, boxWidth, boxHeight, 6, 6);
+		graphics.drawString(label, x + padding, y + metrics.getAscent());
+	}
+
+	private void drawBanner(Graphics2D graphics, RevealCard card, int slotX, int slotY)
+	{
+		long age = card.age();
+		float alpha = cardAlpha(card);
+		if (alpha <= 0f)
+		{
+			return;
+		}
+
+		double entrance = smoothstep(clamp01(age / (double) BANNER_ENTRANCE_MS));
+		int y = (int) Math.round(slotY + (1d - entrance) * 14d);
+		if (entrance >= 1d && !card.revealSoundPlayed)
+		{
+			card.revealSoundPlayed = true;
+			sounds.cardRevealed(Rarity.EPIC);
+		}
+
+		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+			(float) (alpha * entrance)));
+		AffineTransform before = graphics.getTransform();
+		graphics.translate(slotX, y);
+		FeatBanner.draw(graphics, card.title, card.featTier,
+			clamp01((age - BANNER_ENTRANCE_MS) / 900d));
+		graphics.setTransform(before);
+	}
+
 	private void drawCard(Graphics2D graphics, RevealCard card, int slotX, int slotY)
 	{
 		long age = card.age();
@@ -321,7 +501,9 @@ public class PackRevealOverlay extends Overlay
 		graphics.translate(-CARD_WIDTH / 2d, -CARD_HEIGHT / 2d);
 		if (faceUp)
 		{
+			drawStackBehind(graphics, card);
 			drawFace(graphics, card, alpha);
+			drawStackCount(graphics, card);
 		}
 		else
 		{
@@ -339,7 +521,8 @@ public class PackRevealOverlay extends Overlay
 		if (card.card != null)
 		{
 			CardRenderer.draw(graphics, card.card, 0, 0, CARD_WIDTH, CARD_HEIGHT,
-				card.stars, true, System.currentTimeMillis(), artService.get(card.card));
+				card.stars, true, System.currentTimeMillis(), artService.get(card.card),
+				card.shiny, card.gilded);
 			return;
 		}
 

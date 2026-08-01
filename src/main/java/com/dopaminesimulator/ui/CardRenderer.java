@@ -29,6 +29,9 @@ import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Composite;
+import java.awt.AlphaComposite;
+import java.awt.LinearGradientPaint;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
@@ -71,6 +74,19 @@ public final class CardRenderer
 	public static void draw(Graphics2D graphics, Card card, int x, int y, int width, int height,
 							int stars, boolean owned, long animMs, BufferedImage art)
 	{
+		draw(graphics, card, x, y, width, height, stars, owned, animMs, art, false, false);
+	}
+
+	public static void draw(Graphics2D graphics, Card card, int x, int y, int width, int height,
+							int stars, boolean owned, long animMs, BufferedImage art, boolean shiny)
+	{
+		draw(graphics, card, x, y, width, height, stars, owned, animMs, art, shiny, false);
+	}
+
+	public static void draw(Graphics2D graphics, Card card, int x, int y, int width, int height,
+							int stars, boolean owned, long animMs, BufferedImage art, boolean shiny,
+							boolean gilded)
+	{
 		Graphics2D g = (Graphics2D) graphics.create();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
@@ -87,7 +103,7 @@ public final class CardRenderer
 			g.dispose();
 			return;
 		}
-		drawFrame(g, rarity, width, height, radius);
+		drawFrame(g, rarity, width, height, radius, frameColour(rarity, shiny, gilded));
 		int border = borderWidth(height);
 		int innerX = border;
 		int innerY = border;
@@ -109,23 +125,95 @@ public final class CardRenderer
 		}
 
 		drawStars(g, rarity, innerX, innerY + innerH, innerW, height, stars, compact);
-		drawRarityPip(g, rarity, width, height);
+		drawRarityPip(g, rarity, width, height, shiny, gilded);
 		if (rarity.ordinal() >= Rarity.RARE.ordinal())
 		{
 			drawFoil(g, rarity, artX, artY, artW, artH, animMs);
 		}
+		if (gilded)
+		{
+			drawGildedTrim(g, artX, artY, artW, artH);
+		}
+		if (shiny)
+		{
+			drawShine(g, artX, artY, artW, artH, animMs);
+		}
 
 		g.dispose();
 	}
+
+	private static void drawShine(Graphics2D g, int x, int y, int width, int height, long animMs)
+	{
+		Shape clip = g.getClip();
+		int radius = Math.max(2, height / 8);
+		g.setClip(new RoundRectangle2D.Float(x, y, width, height, radius, radius));
+
+		float phase = (animMs % 2600L) / 2600f;
+		float sweep = -1.2f + phase * 3.4f;
+		float cx = x + width * sweep;
+
+		Color[] bands = {
+			new Color(255, 90, 90, 0),
+			new Color(255, 190, 60, 120),
+			new Color(120, 255, 140, 150),
+			new Color(90, 200, 255, 140),
+			new Color(210, 120, 255, 110),
+			new Color(255, 90, 90, 0),
+		};
+		float[] stops = {0f, 0.22f, 0.44f, 0.62f, 0.82f, 1f};
+
+		g.setPaint(new LinearGradientPaint(
+			new Point2D.Float(cx - width * 0.55f, y),
+			new Point2D.Float(cx + width * 0.55f, y + height),
+			stops, bands));
+		Composite previous = g.getComposite();
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.75f));
+		g.fillRect(x, y, width, height);
+		g.setComposite(previous);
+		g.setClip(clip);
+	}
+
+	private static void drawGildedTrim(Graphics2D g, int artX, int artY, int artW, int artH)
+	{
+		int artRadius = Math.max(2, artH / 8);
+		g.setStroke(new BasicStroke(Math.max(1f, artH / 34f)));
+		g.setPaint(new LinearGradientPaint(
+			new Point2D.Float(artX, artY), new Point2D.Float(artX + artW, artY + artH),
+			new float[]{0f, 0.5f, 1f},
+			new Color[]{
+				new Color(0xFF, 0xEF, 0xBE),
+				new Color(0xC9, 0x95, 0x22),
+				new Color(0xFF, 0xF6, 0xD4),
+			}));
+		g.drawRoundRect(artX, artY, artW - 1, artH - 1, artRadius, artRadius);
+	}
+
 
 	private static void drawShadow(Graphics2D g, int width, int height, int radius)
 	{
 		g.setColor(SHADOW);
 		g.fillRoundRect(1, 2, width, height, radius, radius);
 	}
-	private static void drawFrame(Graphics2D g, Rarity rarity, int width, int height, int radius)
+	private static Color frameColour(Rarity rarity, boolean shiny, boolean gilded)
 	{
-		Color base = rarity.getColour();
+		if (shiny && gilded)
+		{
+			return new Color(0xF7, 0xE4, 0xB0);
+		}
+		if (gilded)
+		{
+			return new Color(0xD9, 0xA8, 0x33);
+		}
+		if (shiny)
+		{
+			return new Color(0x7C, 0xE6, 0xD6);
+		}
+		return rarity.getColour();
+	}
+
+	private static void drawFrame(Graphics2D g, Rarity rarity, int width, int height, int radius,
+								  Color base)
+	{
 		Color light = lighten(base, 0.45d);
 		Color dark = darken(base, 0.45d);
 		g.setPaint(new GradientPaint(0, 0, light, width, height, dark));
@@ -236,10 +324,6 @@ public final class CardRenderer
 			drawArtImage(g, art, x, y, width, height);
 		}
 
-		if (card.getOverlay() != null && !card.getOverlay().isEmpty())
-		{
-			drawOverlayLabel(g, card.getOverlay(), x, y, width, height);
-		}
 		drawSetSymbol(g, card.getSet(), x + width - symbolSize(height) - 3,
 			y + height - symbolSize(height) - 3, symbolSize(height), 70);
 		g.setClip(clip);
@@ -293,29 +377,6 @@ public final class CardRenderer
 			}
 			path.closePath();
 			g.draw(path);
-		}
-	}
-	private static void drawOverlayLabel(Graphics2D g, String label, int x, int y,
-										 int width, int height)
-	{
-		g.setFont(FontManager.getRunescapeSmallFont());
-		FontMetrics metrics = g.getFontMetrics();
-		int tracking = height > 60 ? 1 : 0;
-
-		int textWidth = metrics.stringWidth(label) + tracking * (label.length() - 1);
-		int cursor = x + (width - textWidth) / 2;
-		int baseline = y + height - Math.max(3, Math.round(height * 0.10f));
-		g.setColor(new Color(0, 0, 0, 90));
-		g.fillRect(x, baseline - metrics.getAscent() + 1,
-			width, metrics.getAscent() + metrics.getDescent());
-		for (int i = 0; i < label.length(); i++)
-		{
-			String ch = String.valueOf(label.charAt(i));
-			g.setColor(new Color(0, 0, 0, 180));
-			g.drawString(ch, cursor + 1, baseline + 1);
-			g.setColor(new Color(0xEC, 0xEC, 0xF2));
-			g.drawString(ch, cursor, baseline);
-			cursor += metrics.charWidth(label.charAt(i)) + tracking;
 		}
 	}
 	private static void drawArtImage(Graphics2D g, BufferedImage art, int x, int y,
@@ -487,16 +548,49 @@ public final class CardRenderer
 		}
 	}
 
-	private static void drawRarityPip(Graphics2D g, Rarity rarity, int width, int height)
+	private static void drawRarityPip(Graphics2D g, Rarity rarity, int width, int height,
+									  boolean shiny, boolean gilded)
 	{
 		int size = Math.max(4, height / 13);
 		int x = width - size - Math.max(2, height / 30);
 		int y = Math.max(2, height / 30);
 		g.setColor(new Color(0, 0, 0, 150));
 		g.fillOval(x - 1, y - 1, size + 2, size + 2);
-		g.setPaint(new GradientPaint(x, y, lighten(rarity.getColour(), 0.5d),
-			x, y + size, darken(rarity.getColour(), 0.3d)));
+
+		if (shiny && gilded)
+		{
+			g.setPaint(new LinearGradientPaint(
+				new Point2D.Float(x, y), new Point2D.Float(x + size, y + size),
+				new float[]{0f, 0.5f, 1f},
+				new Color[]{new Color(0xFF, 0xEF, 0xBE), new Color(0x7C, 0xE6, 0xD6),
+					new Color(0xC9, 0x95, 0x22)}));
+		}
+		else if (gilded)
+		{
+			g.setPaint(new GradientPaint(x, y, new Color(0xFF, 0xEF, 0xBE),
+				x, y + size, new Color(0xB8, 0x84, 0x14)));
+		}
+		else if (shiny)
+		{
+			g.setPaint(new LinearGradientPaint(
+				new Point2D.Float(x, y), new Point2D.Float(x + size, y + size),
+				new float[]{0f, 0.35f, 0.7f, 1f},
+				new Color[]{new Color(0xFF, 0x9A, 0x9A), new Color(0x9A, 0xFF, 0xB4),
+					new Color(0x9A, 0xC8, 0xFF), new Color(0xD8, 0x9A, 0xFF)}));
+		}
+		else
+		{
+			g.setPaint(new GradientPaint(x, y, lighten(rarity.getColour(), 0.5d),
+				x, y + size, darken(rarity.getColour(), 0.3d)));
+		}
 		g.fillOval(x, y, size, size);
+
+		if (shiny || gilded)
+		{
+			g.setStroke(new BasicStroke(1f));
+			g.setColor(new Color(255, 255, 255, 190));
+			g.drawOval(x, y, size - 1, size - 1);
+		}
 
 		g.setColor(new Color(255, 255, 255, 120));
 		g.fillOval(x + size / 4, y + size / 5, Math.max(1, size / 4), Math.max(1, size / 5));
