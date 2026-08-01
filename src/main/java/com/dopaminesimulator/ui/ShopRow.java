@@ -25,15 +25,13 @@
 package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.incremental.BigNumbers;
-import java.awt.BasicStroke;
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -43,11 +41,10 @@ import javax.swing.JComponent;
 public class ShopRow extends JComponent
 {
 	public static final int HEIGHT = 52;
-	private static final Color BODY_TOP = new Color(0x2B, 0x2B, 0x30);
-	private static final Color BODY_BOTTOM = new Color(0x1F, 0x1F, 0x23);
-	private static final Color BODY_HOVER_TOP = new Color(0x36, 0x36, 0x3D);
-	private static final Color LOCKED = new Color(0x18, 0x18, 0x1B);
-	private static final Color TRACK = new Color(0x14, 0x14, 0x16);
+
+	private static final int TILE = 34;
+	private static final int PAD = 5;
+
 	private final String title;
 	private final String effect;
 	private final double cost;
@@ -55,9 +52,9 @@ public class ShopRow extends JComponent
 	private final String badge;
 	private final boolean affordable;
 	private final double progressToAfford;
-	private final Consumer<ShopRow> onBuy;
 
 	private BufferedImage icon;
+
 	public ShopRow(String title, String effect, double cost, Color accent, String badge,
 				   boolean affordable, double progressToAfford, Consumer<ShopRow> onBuy)
 	{
@@ -68,7 +65,6 @@ public class ShopRow extends JComponent
 		this.badge = badge;
 		this.affordable = affordable;
 		this.progressToAfford = Math.max(0d, Math.min(1d, progressToAfford));
-		this.onBuy = onBuy;
 		setPreferredSize(new Dimension(0, HEIGHT));
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, HEIGHT));
 		setMinimumSize(new Dimension(0, HEIGHT));
@@ -86,6 +82,7 @@ public class ShopRow extends JComponent
 			{
 				repaint();
 			}
+
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
@@ -96,158 +93,97 @@ public class ShopRow extends JComponent
 			}
 		});
 	}
-	@Override
-	protected void paintComponent(Graphics graphics)
-	{
-		Graphics2D g = (Graphics2D) graphics.create();
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		int width = getWidth();
-		int height = getHeight();
-		drawBody(g, width, height, isHovered());
-		drawIconTile(g, height);
-		drawText(g, width, height);
-		if (!affordable)
-		{
-			drawAffordabilityBar(g, width, height);
-		}
-		g.dispose();
-	}
-	private boolean isHovered()
-	{
-		return isShowing() && getMousePosition() != null;
-	}
 
-	private void drawBody(Graphics2D g, int width, int height, boolean hovered)
-	{
-		if (affordable)
-		{
-			g.setPaint(new GradientPaint(0, 0, hovered ? BODY_HOVER_TOP : BODY_TOP,
-				0, height, BODY_BOTTOM));
-		}
-		else
-		{
-			g.setPaint(LOCKED);
-		}
-		g.fillRoundRect(0, 0, width - 1, height - 1, 6, 6);
-
-		g.setColor(affordable ? accent : dim(accent, 0.35d));
-		g.fillRoundRect(0, 0, 3, height - 1, 3, 3);
-		if (hovered && affordable)
-		{
-			g.setColor(accent);
-			g.setStroke(new BasicStroke(1f));
-			g.drawRoundRect(0, 0, width - 1, height - 1, 6, 6);
-		}
-	}
 	public void setIcon(BufferedImage icon)
 	{
 		this.icon = icon;
 	}
 
-	private void drawIconTile(Graphics2D g, int height)
+	@Override
+	protected void paintComponent(Graphics graphics)
 	{
-		int size = height - 16;
-		int x = 10;
-		int y = 8;
-		g.setPaint(new GradientPaint(x, y, affordable ? accent : dim(accent, 0.4d),
-			x, y + size, dim(accent, 0.6d)));
-		g.fillRoundRect(x, y, size, size, 5, 5);
-		g.setColor(new Color(0, 0, 0, 90));
-		g.drawRoundRect(x, y, size, size, 5, 5);
+		Graphics2D g = (Graphics2D) graphics.create();
+		Skin.pixel(g);
+
+		int width = getWidth();
+		int height = getHeight();
+		boolean hovered = affordable && isShowing() && getMousePosition() != null;
+
+		Skin.plate(g, 0, 0, width, height - 1, hovered ? Skin.PANEL_LIT : Skin.PANEL);
+		if (affordable)
+		{
+			g.setColor(hovered ? Skin.YELLOW : Skin.EDGE_LIGHT);
+			g.drawRect(1, 1, width - 3, height - 4);
+		}
+
+		drawTile(g, height);
+		drawText(g, width, height);
+
+		g.dispose();
+	}
+
+	private void drawTile(Graphics2D g, int height)
+	{
+		int y = (height - 1 - TILE) / 2;
+		Skin.well(g, PAD, y, TILE, TILE, Skin.INSET_DEEP);
 
 		if (icon != null)
 		{
-			double scale = Math.min((size - 6d) / icon.getWidth(), (size - 6d) / icon.getHeight());
+			double scale = Math.min((TILE - 6d) / icon.getWidth(), (TILE - 6d) / icon.getHeight());
 			int drawW = (int) Math.round(icon.getWidth() * scale);
 			int drawH = (int) Math.round(icon.getHeight() * scale);
-			java.awt.Composite before = g.getComposite();
+			Composite before = g.getComposite();
 			if (!affordable)
 			{
-				g.setComposite(java.awt.AlphaComposite.getInstance(
-					java.awt.AlphaComposite.SRC_OVER, 0.45f));
+				g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.45f));
 			}
-			g.drawImage(icon, x + (size - drawW) / 2, y + (size - drawH) / 2, drawW, drawH, null);
+			g.drawImage(icon, PAD + (TILE - drawW) / 2, y + (TILE - drawH) / 2, drawW, drawH, null);
 			g.setComposite(before);
 		}
+
 		if (badge == null || badge.isEmpty())
 		{
 			return;
 		}
-		g.setFont(g.getFont().deriveFont(Font.BOLD, icon != null ? 10f : 13f));
-		FontMetrics metrics = g.getFontMetrics();
-		if (icon != null)
+		g.setFont(Skin.small());
+		if (icon == null)
 		{
-			int badgeWidth = metrics.stringWidth(badge) + 6;
-			int badgeX = x + size - badgeWidth;
-			int badgeY = y + size - 11;
-			g.setColor(new Color(0, 0, 0, 190));
-			g.fillRoundRect(badgeX, badgeY, badgeWidth, 11, 4, 4);
-			g.setColor(Color.WHITE);
-			g.drawString(badge, badgeX + 3, badgeY + 9);
+			Skin.centred(g, badge, PAD, TILE, y + TILE / 2 + 4,
+				affordable ? Skin.CREAM : Skin.DIM);
+			return;
 		}
-		else
-		{
-			g.setColor(Color.WHITE);
-			g.drawString(badge, x + (size - metrics.stringWidth(badge)) / 2,
-				y + size / 2 + metrics.getAscent() / 2 - 2);
-		}
+		// stacked count sits in the corner of the tile, as item counts do in game
+		Skin.text(g, badge, PAD + 2, y + 10, affordable ? Skin.YELLOW : Skin.DIM);
 	}
+
 	private void drawText(Graphics2D g, int width, int height)
 	{
-		int textX = height - 16 + 18;
-		g.setFont(g.getFont().deriveFont(Font.BOLD, 12f));
-		g.setColor(affordable ? Color.WHITE : new Color(0x6A, 0x6A, 0x70));
-		g.drawString(clip(g, title, width - textX - 8), textX, 19);
+		int textX = PAD + TILE + 6;
+		int room = Math.max(20, width - textX - PAD);
 
-		g.setFont(g.getFont().deriveFont(Font.PLAIN, 11f));
-		g.setColor(affordable ? new Color(0x9E, 0x9E, 0xA6) : new Color(0x50, 0x50, 0x56));
-		g.drawString(clip(g, effect, width - textX - 8), textX, 33);
-		String price = BigNumbers.format(cost);
-		g.setFont(g.getFont().deriveFont(Font.BOLD, 11f));
-		g.setColor(affordable ? accent : new Color(0x55, 0x55, 0x5A));
-		g.drawString(price, textX, 46);
-	}
+		g.setFont(Skin.body());
+		Skin.text(g, Skin.elide(g.getFontMetrics(), title, room), textX, 16,
+			affordable ? Skin.ORANGE : Skin.DIM);
 
-	private void drawAffordabilityBar(Graphics2D g, int width, int height)
-	{
-		int barX = width - 62;
-		int barY = height - 14;
-		int barWidth = 52;
-		g.setColor(TRACK);
-		g.fillRoundRect(barX, barY, barWidth, 5, 3, 3);
-		g.setColor(dim(accent, 0.25d));
-		g.fillRoundRect(barX, barY, (int) (barWidth * progressToAfford), 5, 3, 3);
-
-		g.setFont(g.getFont().deriveFont(Font.PLAIN, 10f));
-		g.setColor(new Color(0x60, 0x60, 0x66));
-		String percent = (int) (progressToAfford * 100) + "%";
-		g.drawString(percent, barX + barWidth - g.getFontMetrics().stringWidth(percent), barY - 3);
-	}
-
-	private static String clip(Graphics2D g, String text, int available)
-	{
+		g.setFont(Skin.small());
 		FontMetrics metrics = g.getFontMetrics();
-		if (metrics.stringWidth(text) <= available)
+		Skin.text(g, Skin.elide(metrics, effect, room), textX, 29,
+			affordable ? Skin.CREAM : Skin.DIM);
+
+		String price = BigNumbers.format(cost);
+		if (affordable)
 		{
-			return text;
+			Skin.text(g, price, textX, height - 8, Skin.YELLOW);
+			return;
 		}
-		for (int length = text.length() - 1; length > 1; length--)
+
+		// short of the price, the row shows how close you are rather than just a cost
+		int barX = textX + metrics.stringWidth(price) + 6;
+		Skin.text(g, price, textX, height - 8, Skin.DIM);
+		if (width - barX - PAD > 24)
 		{
-			String candidate = text.substring(0, length) + "…";
-			if (metrics.stringWidth(candidate) <= available)
-			{
-				return candidate;
-			}
+			Skin.bar(g, barX, height - 17, width - barX - PAD, 10, progressToAfford,
+				Skin.temper(accent), (int) (progressToAfford * 100) + "%");
 		}
-		return text.substring(0, 1);
-	}
-	private static Color dim(Color colour, double factor)
-	{
-		return new Color(
-			(int) (colour.getRed() * factor),
-			(int) (colour.getGreen() * factor),
-			(int) (colour.getBlue() * factor));
 	}
 }

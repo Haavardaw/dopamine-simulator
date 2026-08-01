@@ -63,14 +63,17 @@ import com.dopaminesimulator.ui.WishReveal;
 import com.dopaminesimulator.ui.PointsHeader;
 import com.dopaminesimulator.ui.ScrollableContent;
 import com.dopaminesimulator.ui.SectionHeader;
+import com.dopaminesimulator.ui.Skin;
+import com.dopaminesimulator.ui.StoneButton;
 import com.dopaminesimulator.ui.WrappedLabel;
 import com.dopaminesimulator.ui.ShopRow;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -95,11 +98,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
@@ -115,7 +118,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private static final int CARD_GAP = 3;
 	private static final int CARD_MIN_COLUMNS = 3;
 	private static final int CARD_MAX_COLUMNS = 10;
-	private static final Color GOLD = new Color(0xFF, 0xB3, 0x00);
+	private static final Color GOLD = Skin.ORANGE;
 	private enum Tab
 	{
 		PLAY, SHOP, CARDS, FEATS
@@ -148,14 +151,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 		this.config = config;
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-		setBackground(ColorScheme.DARK_GRAY_COLOR);
+		setBackground(Skin.INSET_DEEP);
 		for (JPanel tabPanel : new JPanel[]{playContent, shopContent, cardsContent, featsContent})
 		{
 			tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.Y_AXIS));
-			tabPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
+			tabPanel.setBackground(Skin.INSET_DEEP);
 		}
 		JPanel display = new JPanel(new BorderLayout());
-		display.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		display.setBackground(Skin.INSET_DEEP);
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
 		tabGroup.setLayout(new GridLayout(1, 4, 1, 0));
 		tabGroup.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
@@ -174,14 +177,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 		tabGroup.addTab(featsTab);
 		ScrollableContent wrapper = new ScrollableContent();
 		wrapper.setLayout(new BorderLayout());
-		wrapper.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		wrapper.setBackground(Skin.INSET_DEEP);
 		wrapper.add(display, BorderLayout.NORTH);
 		scrollPane = new JScrollPane(wrapper,
 			ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-		scrollPane.getViewport().setBackground(ColorScheme.DARK_GRAY_COLOR);
+		scrollPane.getViewport().setBackground(Skin.INSET_DEEP);
 
 		add(tabGroup, BorderLayout.NORTH);
 		add(scrollPane, BorderLayout.CENTER);
@@ -222,11 +225,41 @@ public class DopamineSimulatorPanel extends PluginPanel
 			@Override
 			public Insets getInsets()
 			{
-				Insets insets = super.getInsets();
-				return new Insets(insets.top, 1, insets.bottom, 1);
+				return new Insets(4, 1, 4, 1);
+			}
+
+			@Override
+			public void setBorder(Border border)
+			{
+				// the tab paints its own stone edge, so the stock highlight border
+				// would only draw a second, conflicting one on top of it
+			}
+
+			@Override
+			protected void paintComponent(Graphics graphics)
+			{
+				Graphics2D g = (Graphics2D) graphics.create();
+				Skin.pixel(g);
+				if (isSelected())
+				{
+					Skin.plate(g, 0, 0, getWidth(), getHeight(), Skin.PANEL_LIT);
+				}
+				else
+				{
+					Skin.well(g, 0, 0, getWidth(), getHeight(), Skin.INSET);
+				}
+				g.dispose();
+
+				Color wanted = isSelected() ? Skin.ORANGE : Skin.CREAM;
+				if (!wanted.equals(getForeground()))
+				{
+					setForeground(wanted);
+				}
+				super.paintComponent(graphics);
 			}
 		};
-		created.setFont(FontManager.getRunescapeSmallFont());
+		created.setFont(FontManager.getRunescapeBoldFont());
+		created.setOpaque(false);
 		created.setHorizontalAlignment(SwingConstants.CENTER);
 		return created;
 	}
@@ -443,7 +476,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		double lifetime = state.getLifetimePoints();
 		JPanel row = new JPanel();
 		row.setLayout(new BoxLayout(row, BoxLayout.Y_AXIS));
-		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		row.setBackground(Skin.INSET);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setBorder(BorderFactory.createCompoundBorder(
 			BorderFactory.createMatteBorder(0, 2, 0, 0, GOLD),
@@ -465,7 +498,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ " lifetime");
 		bar.setFont(FontManager.getRunescapeSmallFont());
 		bar.setForeground(GOLD);
-		bar.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		bar.setBackground(Skin.INSET_DEEP);
 		bar.setAlignmentX(Component.LEFT_ALIGNMENT);
 		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 14));
 		row.add(bar);
@@ -509,7 +542,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private JPanel shopToggle()
 	{
 		JPanel row = new JPanel(new GridLayout(1, 3, 4, 0));
-		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setBackground(Skin.INSET_DEEP);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
 		row.add(toggleButton("Packs", shopView == 0, () -> shopView = 0));
@@ -542,7 +575,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		JPanel block = new JPanel();
 		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
-		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		block.setBackground(Skin.INSET_DEEP);
 		block.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		BufferedImage art = plugin.getCardArtService().get(featured);
@@ -611,7 +644,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		PassHeader header = new PassHeader(season, region.getArea(), region.getColour(),
 			tier, BattlePass.TIERS, into, need, state.isPassPremium(),
-			SeasonClock.remaining(SeasonClock.seasonEndsAt(now), now));
+			SeasonClock.brief(SeasonClock.seasonEndsAt(now), now));
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		header.setToolTipText(region.getSeasonName() + ". " + theme.getDescription()
 			+ ". Next month brings " + next.getArea() + ".");
@@ -625,11 +658,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		int pending = pass.unclaimed(state).size();
 		if (pending > 0)
 		{
-			JButton claim = new JButton("Claim " + pending + " reward" + (pending == 1 ? "" : "s"));
-			claim.setFont(FontManager.getRunescapeSmallFont());
-			claim.setForeground(GOLD);
-			claim.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
-			claim.setFocusPainted(false);
+			StoneButton claim = new StoneButton("Claim " + pending + " reward" + (pending == 1 ? "" : "s"));
 			claim.setAlignmentX(Component.LEFT_ALIGNMENT);
 			claim.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
 			claim.addActionListener(e -> plugin.claimAllPassTiers(selectedSet));
@@ -654,12 +683,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		if (pass.canStartNextSeason(state))
 		{
-			JButton advance = new JButton("Start season " + (season + 1)
+			StoneButton advance = new StoneButton("Start season " + (season + 1)
 				+ ": " + next.getArea());
-			advance.setFont(FontManager.getRunescapeSmallFont());
-			advance.setForeground(next.getColour());
-			advance.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
-			advance.setFocusPainted(false);
+			advance.withAccent(next.getColour());
 			advance.setAlignmentX(Component.LEFT_ALIGNMENT);
 			advance.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
 			advance.addActionListener(e -> plugin.startNextPassSeason());
@@ -787,7 +813,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		double complete = maxStars == 0 ? 0d : stars * 100d / maxStars;
 
 		JLabel header = new JLabel(String.format("%.1f%% complete", complete));
-		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+		header.setFont(FontManager.getRunescapeBoldFont());
 		header.setForeground(GOLD);
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		cardsContent.add(header);
@@ -799,7 +825,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		overall.setString(state.getUniqueCardsOwned() + "/" + CardCatalogue.size() + " owned");
 		overall.setFont(FontManager.getRunescapeSmallFont());
 		overall.setForeground(GOLD);
-		overall.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		overall.setBackground(Skin.INSET);
 		overall.setAlignmentX(Component.LEFT_ALIGNMENT);
 		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
 		cardsContent.add(overall);
@@ -823,15 +849,13 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private JPanel buildSearchBox()
 	{
 		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setBackground(Skin.INSET_DEEP);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.add(searchField, BorderLayout.CENTER);
 
 		if (!cardSearch.isEmpty())
 		{
-			JButton clear = new JButton("x");
-			clear.setFont(FontManager.getRunescapeSmallFont());
-			clear.setFocusPainted(false);
+			StoneButton clear = new StoneButton("x");
 			clear.setMargin(new Insets(0, 4, 0, 4));
 			clear.addActionListener(e ->
 			{
@@ -848,9 +872,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private void initSearchField()
 	{
 		searchField.setFont(FontManager.getRunescapeSmallFont());
-		searchField.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		searchField.setForeground(Color.LIGHT_GRAY);
-		searchField.setCaretColor(Color.LIGHT_GRAY);
+		searchField.setBackground(Skin.INSET);
+		searchField.setForeground(Skin.CREAM);
+		searchField.setCaretColor(Skin.CREAM);
 		searchField.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
 		searchField.setToolTipText("Filter this set by card name");
 		searchField.getDocument().addDocumentListener(new DocumentListener()
@@ -928,14 +952,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private JPanel buildSetSelector(DopamineState state)
 	{
 		JPanel row = new JPanel(new BorderLayout(4, 0));
-		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setBackground(Skin.INSET_DEEP);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		JComboBox<CardSet> picker = new JComboBox<>(CardSet.values());
 		picker.setSelectedItem(selectedSet);
 		picker.setFont(FontManager.getRunescapeSmallFont());
-		picker.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		picker.setForeground(Color.LIGHT_GRAY);
+		picker.setBackground(Skin.INSET);
+		picker.setForeground(Skin.CREAM);
 		picker.setFocusable(false);
 		picker.setRenderer(new DefaultListCellRenderer()
 		{
@@ -1029,13 +1053,11 @@ public class DopamineSimulatorPanel extends PluginPanel
 		}
 		int done = CardCollection.tiersIn(state, selectedSet);
 
-		JButton toggle = new JButton((collectionsExpanded ? "▾" : "▸")
+		StoneButton toggle = new StoneButton((collectionsExpanded ? "▾" : "▸")
 			+ " Collections    " + done + "/" + CardCollection.maxTiersIn(selectedSet)
 			+ "    each x1." + String.format("%02d",
 				Math.round(CardCollection.BONUS_PER_COLLECTION * 100)));
-		toggle.setFont(FontManager.getRunescapeSmallFont());
-		toggle.setForeground(done > 0 ? GOLD : Color.LIGHT_GRAY);
-		toggle.setFocusPainted(false);
+			toggle.withAccent(done > 0 ? GOLD : Skin.CREAM);
 		toggle.setHorizontalAlignment(SwingConstants.LEFT);
 		toggle.setMargin(new Insets(3, 5, 3, 5));
 		toggle.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -1069,21 +1091,21 @@ public class DopamineSimulatorPanel extends PluginPanel
 		int tier = collection.tierIn(state);
 		boolean complete = tier > 0;
 		JPanel row = new JPanel(new BorderLayout(6, 0));
-		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		row.setBackground(Skin.INSET);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setBorder(BorderFactory.createCompoundBorder(
 			BorderFactory.createMatteBorder(0, 2, 0, 0, complete ? GOLD : Color.DARK_GRAY),
 			BorderFactory.createEmptyBorder(4, 6, 4, 6)));
 		JLabel name = new JLabel(collection.getName());
 		name.setFont(FontManager.getRunescapeSmallFont());
-		name.setForeground(complete ? GOLD : Color.LIGHT_GRAY);
+		name.setForeground(complete ? GOLD : Skin.CREAM);
 		row.add(name, BorderLayout.WEST);
 		JLabel progress = new JLabel(complete
 			? collection.tierNameIn(state) + "  "
 				+ multiplierText(Math.pow(1d + CardCollection.BONUS_PER_COLLECTION, tier))
 			: owned + "/" + collection.size());
 		progress.setFont(FontManager.getRunescapeSmallFont());
-		progress.setForeground(complete ? GOLD : Color.GRAY);
+		progress.setForeground(complete ? GOLD : Skin.DIM);
 		row.add(progress, BorderLayout.EAST);
 		StringBuilder members = new StringBuilder(collection.getDescription());
 		members.append("  \u2022  ").append(owned).append('/').append(collection.size())
@@ -1122,7 +1144,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 				return new Dimension(Integer.MAX_VALUE, getPreferredSize().height);
 			}
 		};
-		grid.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		grid.setBackground(Skin.INSET_DEEP);
 		grid.setAlignmentX(Component.LEFT_ALIGNMENT);
 		for (Card card : row)
 		{
@@ -1143,7 +1165,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		for (int i = row.size(); i < columns; i++)
 		{
 			JPanel filler = new JPanel();
-			filler.setBackground(ColorScheme.DARK_GRAY_COLOR);
+			filler.setBackground(Skin.INSET_DEEP);
 			grid.add(filler);
 		}
 		return grid;
@@ -1155,7 +1177,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		int stars = state.getStars(card.getId());
 		boolean owned = copies > 0;
 		JPanel detail = new JPanel(new BorderLayout(8, 0));
-		detail.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		detail.setBackground(Skin.INSET);
 		detail.setBorder(BorderFactory.createCompoundBorder(
 			BorderFactory.createMatteBorder(0, 2, 0, 0, card.getRarity().getColour()),
 			BorderFactory.createEmptyBorder(8, 8, 8, 8)));
@@ -1170,16 +1192,16 @@ public class DopamineSimulatorPanel extends PluginPanel
 		detail.add(big, BorderLayout.WEST);
 		JPanel text = new JPanel();
 		text.setLayout(new BoxLayout(text, BoxLayout.Y_AXIS));
-		text.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		text.setBackground(Skin.INSET);
 		JLabel name = new JLabel(owned ? card.getName() : "???");
-		name.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+		name.setFont(FontManager.getRunescapeBoldFont());
 		name.setForeground(card.getRarity().getColour());
 		name.setAlignmentX(Component.LEFT_ALIGNMENT);
 		text.add(name);
 		JLabel meta = new JLabel(card.getRarity().getDisplayName()
 			+ "  •  " + card.getSet().getDisplayName());
 		meta.setFont(FontManager.getRunescapeSmallFont());
-		meta.setForeground(Color.GRAY);
+		meta.setForeground(Skin.DIM);
 		meta.setAlignmentX(Component.LEFT_ALIGNMENT);
 		text.add(meta);
 		text.add(Box.createVerticalStrut(6));
@@ -1193,7 +1215,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		JLabel tier = new JLabel(stars + " / " + Rarity.MAX_STARS + "★   •   "
 			+ copies + " copies");
 		tier.setFont(FontManager.getRunescapeSmallFont());
-		tier.setForeground(Color.LIGHT_GRAY);
+		tier.setForeground(Skin.CREAM);
 		tier.setAlignmentX(Component.LEFT_ALIGNMENT);
 		text.add(tier);
 		text.add(Box.createVerticalStrut(4));
@@ -1202,11 +1224,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		if (state.getWildcards() > 0 && stars < Rarity.MAX_STARS)
 		{
 			int grant = Math.max(1, card.getRarity().copiesForMaxStars() / 10);
-			JButton wildcard = new JButton("Use wildcard  (+" + grant + ")");
-			wildcard.setFont(FontManager.getRunescapeSmallFont());
-			wildcard.setForeground(GOLD);
-			wildcard.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
-			wildcard.setFocusPainted(false);
+			StoneButton wildcard = new StoneButton("Use wildcard  (+" + grant + ")");
 			wildcard.setAlignmentX(Component.LEFT_ALIGNMENT);
 			wildcard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
 			wildcard.setToolTipText(state.getWildcards() + " left. Adds copies to this exact card.");
@@ -1220,12 +1238,10 @@ public class DopamineSimulatorPanel extends PluginPanel
 		{
 			int grant = Math.max(1, card.getRarity().copiesForMaxStars() / 20);
 			boolean enough = shards >= Balance.SHARDS_PER_FORGE;
-			JButton forge = new JButton("Forge  " + shards + "/"
+			StoneButton forge = new StoneButton("Forge  " + shards + "/"
 				+ Balance.SHARDS_PER_FORGE + " shards  (+" + grant + ")");
-			forge.setFont(FontManager.getRunescapeSmallFont());
-			forge.setForeground(enough ? GOLD : Color.GRAY);
-			forge.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-			forge.setFocusPainted(false);
+			forge.withAccent(enough ? GOLD : Skin.DIM);
+			forge.setBackground(Skin.INSET);
 			forge.setEnabled(enough);
 			forge.setAlignmentX(Component.LEFT_ALIGNMENT);
 			forge.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
@@ -1247,7 +1263,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			bar.setString((next - copies) + " more for " + (stars + 1) + "★");
 			bar.setFont(FontManager.getRunescapeSmallFont());
 			bar.setForeground(card.getRarity().getColour());
-			bar.setBackground(ColorScheme.DARK_GRAY_COLOR);
+			bar.setBackground(Skin.INSET_DEEP);
 			bar.setAlignmentX(Component.LEFT_ALIGNMENT);
 			bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 16));
 			text.add(bar);
@@ -1382,7 +1398,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		}
 
 		JPanel header = new JPanel(new BorderLayout(4, 0));
-		header.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		header.setBackground(Skin.INSET_DEEP);
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
 
@@ -1391,9 +1407,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		label.setForeground(GOLD);
 		header.add(label, BorderLayout.WEST);
 
-		JButton skip = new JButton(config.autoReveal() ? "Skip" : "Reveal");
-		skip.setFont(FontManager.getRunescapeSmallFont());
-		skip.setFocusPainted(false);
+		StoneButton skip = new StoneButton(config.autoReveal() ? "Skip" : "Reveal");
 		skip.addActionListener(e -> revealEverythingNow());
 		header.add(skip, BorderLayout.EAST);
 		return header;
@@ -1403,15 +1417,13 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private JPanel buildQuantitySelector()
 	{
 		JPanel row = new JPanel(new GridLayout(1, 4, 3, 0));
-		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setBackground(Skin.INSET_DEEP);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
 		for (int quantity : new int[]{1, 5, 10, 25})
 		{
-			JButton button = new JButton("x" + quantity);
-			button.setFont(FontManager.getRunescapeSmallFont());
-			button.setForeground(buyQuantity == quantity ? GOLD : Color.LIGHT_GRAY);
-			button.setFocusPainted(false);
+			StoneButton button = new StoneButton("x" + quantity);
+			button.withAccent(buyQuantity == quantity ? GOLD : Skin.CREAM);
 			button.addActionListener(e ->
 			{
 				buyQuantity = quantity;
@@ -1440,7 +1452,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		JPanel block = new JPanel();
 		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
-		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		block.setBackground(Skin.INSET_DEEP);
 		block.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 		if (insight > 0 || ready)
@@ -1472,11 +1484,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ " and your card backs all stay."));
 		block.add(Box.createVerticalStrut(4));
 
-		JButton go = new JButton("Prestige for " + gain + " insight");
-		go.setFont(FontManager.getRunescapeSmallFont());
-		go.setForeground(GOLD);
-		go.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
-		go.setFocusPainted(false);
+		StoneButton go = new StoneButton("Prestige for " + gain + " insight");
 		go.setAlignmentX(Component.LEFT_ALIGNMENT);
 		go.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
 		go.setToolTipText("Each insight makes every upgrade level " 
@@ -1540,7 +1548,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		int total = Feat.totalTiers();
 
 		JLabel header = new JLabel(Feats.titleFor(state));
-		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+		header.setFont(FontManager.getRunescapeBoldFont());
 		header.setForeground(GOLD);
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		featsContent.add(header);
@@ -1552,7 +1560,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		overall.setString(earned + "/" + total + " ranks earned");
 		overall.setFont(FontManager.getRunescapeSmallFont());
 		overall.setForeground(GOLD);
-		overall.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		overall.setBackground(Skin.INSET);
 		overall.setAlignmentX(Component.LEFT_ALIGNMENT);
 		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
 		featsContent.add(overall);
@@ -1571,7 +1579,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private JPanel featsToggle()
 	{
 		JPanel row = new JPanel(new GridLayout(1, 2, 4, 0));
-		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setBackground(Skin.INSET_DEEP);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
 		row.add(toggleButton("Ranks", !showingAchievements, () -> showingAchievements = false));
@@ -1581,13 +1589,11 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 	private JButton toggleButton(String text, boolean active, Runnable onClick)
 	{
-		JButton button = new JButton(text);
-		button.setFont(FontManager.getRunescapeSmallFont());
-		button.setFocusPainted(false);
+		StoneButton button = new StoneButton(text);
 		button.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
-		button.setBackground(active ? ColorScheme.DARKER_GRAY_HOVER_COLOR
-			: ColorScheme.DARKER_GRAY_COLOR);
-		button.setForeground(active ? GOLD : Color.LIGHT_GRAY);
+		button.setBackground(active ? Skin.PANEL_LIT
+			: Skin.INSET);
+			button.withAccent(active ? GOLD : Skin.CREAM);
 		button.addActionListener(e ->
 		{
 			onClick.run();
@@ -1610,7 +1616,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		overall.setString(earned + "/" + Achievement.values().length + " earned");
 		overall.setFont(FontManager.getRunescapeSmallFont());
 		overall.setForeground(GOLD);
-		overall.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		overall.setBackground(Skin.INSET);
 		overall.setAlignmentX(Component.LEFT_ALIGNMENT);
 		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
 		featsContent.add(overall);
@@ -1631,7 +1637,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		boolean secret = achievement.isHidden() && !earned;
 
 		JPanel row = new JPanel(new BorderLayout(6, 0));
-		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		row.setBackground(Skin.INSET);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
 		row.setBorder(BorderFactory.createCompoundBorder(
@@ -1640,14 +1646,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		JLabel name = new JLabel(secret ? "Hidden" : achievement.getDisplayName());
 		name.setFont(FontManager.getRunescapeSmallFont());
-		name.setForeground(earned ? GOLD : Color.LIGHT_GRAY);
+		name.setForeground(earned ? GOLD : Skin.CREAM);
 		row.add(name, BorderLayout.NORTH);
 
 		JLabel detail = new JLabel(secret
 			? "Earn it to find out what it was"
 			: achievement.getDescription());
 		detail.setFont(FontManager.getRunescapeSmallFont());
-		detail.setForeground(Color.GRAY);
+		detail.setForeground(Skin.DIM);
 		row.add(detail, BorderLayout.SOUTH);
 		return row;
 	}
@@ -1691,8 +1697,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		picker.setSelectedItem(CardBack.byId(state.getSelectedBack()));
 		picker.setFont(FontManager.getRunescapeSmallFont());
 		picker.setFocusable(false);
-		picker.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		picker.setForeground(Color.LIGHT_GRAY);
+		picker.setBackground(Skin.INSET);
+		picker.setForeground(Skin.CREAM);
 		picker.setAlignmentX(Component.LEFT_ALIGNMENT);
 		picker.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
 		picker.setToolTipText("Card back shown while a pack is flipping");
@@ -1744,7 +1750,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private WrappedLabel hint(String text, int width)
 	{
 		WrappedLabel label = new WrappedLabel(text, FontManager.getRunescapeSmallFont(),
-			new Color(0x86, 0x86, 0x8E), Math.max(60, width));
+			Skin.DIM, Math.max(60, width));
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		return label;
 	}

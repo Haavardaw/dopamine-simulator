@@ -26,23 +26,16 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.incremental.BigNumbers;
 import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.MultipleGradientPaint;
-import java.awt.RadialGradientPaint;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.function.DoubleSupplier;
@@ -56,11 +49,6 @@ public class ClickButton extends JComponent
 	private static final long PARTICLE_LIFETIME_MS = 900L;
 	private static final long PRESS_LIFETIME_MS = 160L;
 	private static final int MAX_PARTICLES = 18;
-	private static final Color PLATE_TOP = new Color(0x4A, 0x3C, 0x14);
-	private static final Color PLATE_BOTTOM = new Color(0x24, 0x1C, 0x0A);
-	private static final Color GOLD = new Color(0xFF, 0xB3, 0x00);
-	private static final Color GOLD_LIGHT = new Color(0xFF, 0xE2, 0x8A);
-	private static final Color SURGE = new Color(0xFF, 0xEC, 0xB0);
 
 	private final DoubleSupplier pointsPerClick;
 	private final Runnable onClick;
@@ -76,12 +64,10 @@ public class ClickButton extends JComponent
 		private final String text;
 		private final long start;
 		private final int driftX;
-		private final float size;
-		private Particle(String text, int driftX, float size)
+		private Particle(String text, int driftX)
 		{
 			this.text = text;
 			this.driftX = driftX;
-			this.size = size;
 			this.start = System.currentTimeMillis();
 		}
 		private float progress()
@@ -163,7 +149,7 @@ public class ClickButton extends JComponent
 		for (int i = 0; i < count; i++)
 		{
 			particles.add(new Particle("+" + BigNumbers.format(pointsPerClick.getAsDouble()),
-				random.nextInt(70) - 35, surging ? 15f : 12f));
+				random.nextInt(70) - 35));
 		}
 		while (particles.size() > MAX_PARTICLES)
 		{
@@ -174,80 +160,50 @@ public class ClickButton extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Skin.pixel(g);
+
 		int width = getWidth();
 		int height = getHeight();
-		int centreX = width / 2;
-		int centreY = height / 2;
-		double scale = currentScale();
-		int plate = (int) (Math.min(width, height) * 0.68d * scale);
-		drawGlow(g, centreX, centreY, plate);
-		drawPlate(g, centreX, centreY, plate);
-		drawIcon(g, centreX, centreY, plate);
+		boolean pressed = System.currentTimeMillis() - pressedAt < PRESS_LIFETIME_MS;
+
+		Skin.plate(g, 0, 0, width, height, Skin.PANEL);
+
+		int slab = Math.min(width - 16, height - 26);
+		int x = (width - slab) / 2;
+		int y = 6;
+
+		// a slab that sinks when struck, the way the game's own buttons behave
+		if (pressed)
+		{
+			Skin.well(g, x, y, slab, slab, Skin.INSET);
+		}
+		else
+		{
+			Skin.plate(g, x, y, slab, slab, hovered ? Skin.PANEL_LIT : Skin.INSET);
+		}
+
+		if (surging)
+		{
+			// the surge announces itself by marching the border, not by glowing
+			g.setColor((System.currentTimeMillis() / 150L) % 2 == 0 ? Skin.YELLOW : Skin.ORANGE);
+			g.drawRect(x - 2, y - 2, slab + 3, slab + 3);
+			g.drawRect(x - 3, y - 3, slab + 5, slab + 5);
+		}
+
+		drawIcon(g, x + slab / 2, y + slab / 2 + (pressed ? 1 : 0), slab);
 		drawLabel(g, width, height);
-		drawParticles(g, centreX, centreY);
+		drawParticles(g, width / 2, y + slab / 2);
+
 		g.dispose();
 	}
 
-	private double currentScale()
-	{
-		double scale = hovered ? 1.05d : 1.0d;
-		long sincePress = System.currentTimeMillis() - pressedAt;
-		if (sincePress < PRESS_LIFETIME_MS)
-		{
-			double t = sincePress / (double) PRESS_LIFETIME_MS;
-			scale *= 0.9d + 0.1d * t;
-		}
-		if (surging)
-		{
-			scale *= 1.04d + 0.04d * Math.sin(System.currentTimeMillis() / 120d);
-		}
-		return scale;
-	}
-	private void drawGlow(Graphics2D g, int centreX, int centreY, int plate)
-	{
-		float radius = plate * (surging ? 1.5f : 1.05f);
-		int alpha = surging ? 130 : hovered ? 70 : 45;
-		Color tint = surging ? SURGE : GOLD;
-		g.setPaint(new RadialGradientPaint(
-			new Point2D.Float(centreX, centreY),
-			radius,
-			new float[]{0f, 1f},
-			new Color[]{
-				new Color(tint.getRed(), tint.getGreen(), tint.getBlue(), alpha),
-				new Color(tint.getRed(), tint.getGreen(), tint.getBlue(), 0)},
-			MultipleGradientPaint.CycleMethod.NO_CYCLE));
-		g.fillOval((int) (centreX - radius), (int) (centreY - radius),
-			(int) (radius * 2), (int) (radius * 2));
-	}
-	private void drawPlate(Graphics2D g, int centreX, int centreY, int plate)
-	{
-		int x = centreX - plate / 2;
-		int y = centreY - plate / 2;
-		g.setPaint(new java.awt.GradientPaint(x, y, PLATE_TOP, x, y + plate, PLATE_BOTTOM));
-		g.fillOval(x, y, plate, plate);
-		g.setStroke(new BasicStroke(surging ? 3f : 2f));
-		g.setColor(surging ? SURGE : hovered ? GOLD_LIGHT : GOLD);
-		g.drawOval(x, y, plate, plate);
-		if (surging)
-		{
-			double pulse = 0.5d + 0.5d * Math.sin(System.currentTimeMillis() / 150d);
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (0.3d + 0.5d * pulse)));
-			g.setStroke(new BasicStroke(1.5f));
-			int spread = (int) (6 + 6 * pulse);
-			g.drawOval(x - spread, y - spread, plate + spread * 2, plate + spread * 2);
-			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-		}
-	}
-	private void drawIcon(Graphics2D g, int centreX, int centreY, int plate)
+	private void drawIcon(Graphics2D g, int centreX, int centreY, int slab)
 	{
 		if (icon == null)
 		{
 			return;
 		}
-		int size = (int) (plate * 0.62d);
+		int size = (int) (slab * 0.66d);
 		Object previous = g.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 			RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -257,39 +213,29 @@ public class ClickButton extends JComponent
 			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, previous);
 		}
 	}
+
 	private void drawLabel(Graphics2D g, int width, int height)
 	{
-		String text = surging
-			? "SURGE  +" + BigNumbers.format(pointsPerClick.getAsDouble())
-			: "+" + BigNumbers.format(pointsPerClick.getAsDouble());
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, surging ? 13 : 12));
-		FontMetrics metrics = g.getFontMetrics();
-		int x = (width - metrics.stringWidth(text)) / 2;
-		int y = height - 5;
-		g.setColor(new Color(0, 0, 0, 170));
-		g.drawString(text, x + 1, y + 1);
-		g.setColor(surging ? SURGE : GOLD_LIGHT);
-		g.drawString(text, x, y);
+		String value = "+" + BigNumbers.format(pointsPerClick.getAsDouble());
+		g.setFont(Skin.body());
+		Skin.centred(g, surging ? "SURGE  " + value : value, 0, width, height - 6,
+			surging ? Skin.YELLOW : Skin.ORANGE);
 	}
 
 	private void drawParticles(Graphics2D g, int centreX, int centreY)
 	{
 		Composite before = g.getComposite();
-		for (Iterator<Particle> it = particles.iterator(); it.hasNext(); )
+		g.setFont(Skin.body());
+		FontMetrics metrics = g.getFontMetrics();
+		for (Particle particle : particles)
 		{
-			Particle particle = it.next();
 			float progress = particle.progress();
 			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 				Math.max(0f, 1f - progress)));
-			g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, (int) particle.size));
-			FontMetrics metrics = g.getFontMetrics();
 			int x = centreX - metrics.stringWidth(particle.text) / 2
 				+ (int) (particle.driftX * progress);
-			int y = centreY - (int) (progress * 46);
-			g.setColor(Color.BLACK);
-			g.drawString(particle.text, x + 1, y + 1);
-			g.setColor(surging ? SURGE : GOLD_LIGHT);
-			g.drawString(particle.text, x, y);
+			Skin.text(g, particle.text, x, centreY - (int) (progress * 46),
+				surging ? Skin.YELLOW : Skin.CREAM);
 		}
 		g.setComposite(before);
 	}

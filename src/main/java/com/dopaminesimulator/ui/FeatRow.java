@@ -25,26 +25,19 @@
 package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.feats.Feat;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import javax.swing.JComponent;
 
 public class FeatRow extends JComponent
 {
 	public static final int HEIGHT = 46;
 
-	private static final int MEDAL = 30;
-	private static final int PAD = 8;
-	private static final Color BODY = new Color(0x25, 0x25, 0x2A);
-	private static final Color TRACK = new Color(0x16, 0x16, 0x19);
-	private static final Color NAME = new Color(0xE4, 0xE4, 0xEA);
-	private static final Color MUTED = new Color(0x8C, 0x8C, 0x96);
+	private static final int MEDAL = 28;
+	private static final int PAD = 5;
 
 	private final String name;
 	private final String progressText;
@@ -71,39 +64,39 @@ public class FeatRow extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Skin.pixel(g);
 
 		int width = getWidth();
-		Color rank = Feat.tierColour(tier);
+		Color rank = Skin.temper(Feat.tierColour(tier));
 
-		g.setColor(BODY);
-		g.fillRoundRect(0, 0, width, HEIGHT, 6, 6);
+		Skin.plate(g, 0, 0, width, HEIGHT - 1, tier > 0 ? Skin.PANEL_LIT : Skin.PANEL);
+		if (mastered)
+		{
+			g.setColor(Skin.YELLOW);
+			g.drawRect(1, 1, width - 3, HEIGHT - 4);
+		}
 
 		drawMedal(g, rank);
 
-		int textX = PAD + MEDAL + 10;
+		int textX = PAD + MEDAL + 6;
 		int textWidth = Math.max(20, width - textX - PAD);
-		int nameWidth = Math.max(20, textWidth - 42);
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
-		g.setColor(tier > 0 ? rank : NAME);
-		g.drawString(elide(g, name, nameWidth), textX, 18);
+		String ranks = tier + " / " + maxTier;
+		g.setFont(Skin.small());
+		FontMetrics small = g.getFontMetrics();
+		int ranksWidth = small.stringWidth(ranks) + 6;
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
-		g.setColor(MUTED);
-		g.drawString(elide(g, progressText, textWidth), textX, 31);
+		g.setFont(Skin.body());
+		Skin.text(g, Skin.elide(g.getFontMetrics(), name, textWidth - ranksWidth), textX, 16,
+			tier > 0 ? Skin.ORANGE : Skin.CREAM);
 
-		drawRankCount(g, width, rank);
+		g.setFont(Skin.small());
+		Skin.right(g, ranks, width - PAD, 15, tier > 0 ? rank : Skin.DIM);
+		Skin.text(g, Skin.elide(small, progressText, textWidth), textX, 29, Skin.CREAM);
 
 		if (!mastered)
 		{
-			int barY = HEIGHT - 8;
-			g.setColor(TRACK);
-			g.fillRoundRect(textX, barY, textWidth, 3, 3, 3);
-			g.setColor(rank);
-			g.fillRoundRect(textX, barY, (int) Math.round(textWidth * fraction), 3, 3, 3);
+			Skin.bar(g, textX, HEIGHT - 14, textWidth, 8, fraction, Skin.YELLOW);
 		}
 
 		g.dispose();
@@ -111,45 +104,13 @@ public class FeatRow extends JComponent
 
 	private void drawMedal(Graphics2D g, Color rank)
 	{
-		int y = (HEIGHT - MEDAL) / 2;
+		int y = (HEIGHT - 1 - MEDAL) / 2;
+		Skin.well(g, PAD, y, MEDAL, MEDAL, Skin.INSET_DEEP);
 
-		g.setColor(tier > 0 ? rank.darker().darker() : TRACK);
-		g.fillOval(PAD, y, MEDAL, MEDAL);
-		g.setColor(rank);
-		g.setStroke(new BasicStroke(tier > 0 ? 2f : 1f));
-		g.drawOval(PAD, y, MEDAL - 1, MEDAL - 1);
-
-		String label = tier > 0 ? String.valueOf(tier) : "–";
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, tier > 0 ? 13 : 11));
+		String label = tier > 0 ? String.valueOf(tier) : "-";
+		g.setFont(Skin.body());
 		FontMetrics metrics = g.getFontMetrics();
-		g.setColor(tier > 0 ? rank : MUTED);
-		g.drawString(label,
-			PAD + (MEDAL - metrics.stringWidth(label)) / 2,
-			y + (MEDAL + metrics.getAscent()) / 2 - 2);
-	}
-
-	private void drawRankCount(Graphics2D g, int width, Color rank)
-	{
-		String text = tier + " / " + maxTier;
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 10));
-		FontMetrics metrics = g.getFontMetrics();
-		g.setColor(tier > 0 ? rank : MUTED);
-		g.drawString(text, width - PAD - metrics.stringWidth(text), 17);
-	}
-
-	private String elide(Graphics2D g, String text, int maxWidth)
-	{
-		FontMetrics metrics = g.getFontMetrics();
-		if (metrics.stringWidth(text) <= maxWidth)
-		{
-			return text;
-		}
-
-		String trimmed = text;
-		while (trimmed.length() > 1 && metrics.stringWidth(trimmed + "…") > maxWidth)
-		{
-			trimmed = trimmed.substring(0, trimmed.length() - 1);
-		}
-		return trimmed + "…";
+		Skin.text(g, label, PAD + (MEDAL - metrics.stringWidth(label)) / 2,
+			y + (MEDAL + metrics.getAscent()) / 2 - 2, tier > 0 ? rank : Skin.DIM);
 	}
 }

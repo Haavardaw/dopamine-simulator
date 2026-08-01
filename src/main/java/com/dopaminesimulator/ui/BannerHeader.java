@@ -26,30 +26,21 @@ package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.Rarity;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.MultipleGradientPaint;
-import java.awt.RadialGradientPaint;
-import java.awt.RenderingHints;
 import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 
 public class BannerHeader extends JComponent
 {
-	public static final int HEIGHT = 92;
+	public static final int HEIGHT = 96;
 
-	private static final int CARD_H = 72;
-	private static final Color PLATE_TOP = new Color(0x24, 0x24, 0x29);
-	private static final Color PLATE_BOTTOM = new Color(0x14, 0x14, 0x18);
-	private static final Color TRACK = new Color(0x0E, 0x0E, 0x11);
+	private static final int TITLE_H = 22;
+	private static final int CARD_H = 64;
 
 	private final Card featured;
 	private final Rarity rarity;
@@ -81,76 +72,56 @@ public class BannerHeader extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Skin.pixel(g);
 
 		int width = getWidth();
-		Color accent = rarity.getColour();
+		Color accent = Skin.temper(rarity.getColour());
 
-		g.setPaint(new GradientPaint(0, 0, PLATE_TOP, 0, HEIGHT, PLATE_BOTTOM));
-		g.fillRoundRect(0, 0, width, HEIGHT, 8, 8);
+		Skin.plate(g, 0, 0, width, HEIGHT, Skin.PANEL);
+
+		Skin.well(g, 0, 0, width, TITLE_H, Skin.INSET);
+		g.setFont(Skin.heading());
+		Skin.centred(g, Skin.elide(g.getFontMetrics(), name, width - 12), 0, width,
+			TITLE_H - 6, accent);
 
 		int cardW = CardRenderer.widthForHeight(CARD_H);
-		int cardX = width - cardW - 10;
-		int cardY = (HEIGHT - CARD_H) / 2;
+		int cardX = width - cardW - 6;
+		int cardY = TITLE_H + (HEIGHT - TITLE_H - CARD_H) / 2;
 
-		g.setPaint(new RadialGradientPaint(
-			new Point2D.Float(cardX + cardW / 2f, HEIGHT / 2f), Math.max(40f, width * 0.55f),
-			new float[]{0f, 1f},
-			new Color[]{withAlpha(accent, 70), withAlpha(accent, 0)},
-			MultipleGradientPaint.CycleMethod.NO_CYCLE));
-		g.fillRoundRect(0, 0, width, HEIGHT, 8, 8);
-
-		g.setColor(withAlpha(accent, 120));
-		g.setStroke(new BasicStroke(1.5f));
-		g.drawRoundRect(0, 0, width - 1, HEIGHT - 1, 8, 8);
-		g.setColor(accent);
-		g.fillRoundRect(0, 10, 3, HEIGHT - 20, 2, 2);
-
+		Skin.well(g, cardX - 3, cardY - 3, cardW + 6, CARD_H + 6, Skin.INSET_DEEP);
 		// the panel only repaints on rebuild, so a live clock here steps rather than
 		// sweeps; zero gives the sheen a fixed, deliberate angle instead
 		CardRenderer.draw(g, featured, cardX, cardY, cardW, CARD_H, 0, true, 0L, art);
 
-		int textX = 12;
-		int textWidth = Math.max(20, cardX - textX - 8);
+		int textX = 6;
+		int textWidth = Math.max(20, cardX - textX - 9);
+		int y = TITLE_H + 4;
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
-		g.setColor(accent);
-		g.drawString(elide(g, name, textWidth), textX, 21);
+		g.setFont(Skin.small());
+		FontMetrics metrics = g.getFontMetrics();
+		Skin.text(g, Skin.elide(metrics, featured.getName(), textWidth), textX, y + 9, Skin.CREAM);
 
-		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
-		g.setColor(new Color(0xD2, 0xD2, 0xDA));
-		g.drawString(elide(g, featured.getName(), textWidth), textX, 36);
+		drawStars(g, textX, y + 21, Skin.YELLOW, WishReveal.starsFor(rarity));
 
-		drawStars(g, textX, 46, accent, WishReveal.starsFor(rarity));
+		Skin.text(g, String.format("%.1f%% a pull", rate * 100d), textX, y + 38, Skin.CREAM);
+		Skin.text(g, Skin.elide(metrics, remaining, textWidth), textX, y + 50, Skin.ORANGE);
 
-		int barY = HEIGHT - 22;
-		g.setColor(TRACK);
-		g.fillRoundRect(textX, barY, textWidth, 5, 3, 3);
+		int barY = HEIGHT - 17;
 		double progress = hardPity <= 0 ? 0d : Math.min(1d, pity / (double) hardPity);
-		g.setColor(accent);
-		g.fillRoundRect(textX, barY, (int) Math.round(textWidth * progress), 5, 3, 3);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 9));
-		g.setColor(new Color(0x93, 0x93, 0x9C));
-		g.drawString(pity + "/" + hardPity + "  •  "
-			+ String.format("%.1f%%", rate * 100d), textX, HEIGHT - 8);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
-		FontMetrics clock = g.getFontMetrics();
-		g.setColor(withAlpha(accent, 220));
-		g.drawString(remaining, cardX - clock.stringWidth(remaining) - 6, HEIGHT - 8);
+		Skin.bar(g, 4, barY, width - 8, 13, progress, Skin.YELLOW,
+			"guaranteed in " + Math.max(0, hardPity - pity));
 
 		g.dispose();
 	}
 
 	private void drawStars(Graphics2D g, int x, int y, Color accent, int stars)
 	{
-		double radius = 4.5d;
-		double gap = 4d;
+		double radius = 4d;
+		double gap = 3d;
 		for (int i = 0; i < stars; i++)
 		{
+			g.setColor(Skin.SHADOW);
+			fillStar(g, x + radius + i * (radius * 2 + gap) + 1, y + 1, radius);
 			g.setColor(accent);
 			fillStar(g, x + radius + i * (radius * 2 + gap), y, radius);
 		}
@@ -178,23 +149,4 @@ public class BannerHeader extends JComponent
 		g.fill(star);
 	}
 
-	private String elide(Graphics2D g, String text, int maxWidth)
-	{
-		FontMetrics metrics = g.getFontMetrics();
-		if (metrics.stringWidth(text) <= maxWidth)
-		{
-			return text;
-		}
-		String trimmed = text;
-		while (trimmed.length() > 1 && metrics.stringWidth(trimmed + "…") > maxWidth)
-		{
-			trimmed = trimmed.substring(0, trimmed.length() - 1);
-		}
-		return trimmed + "…";
-	}
-
-	private static Color withAlpha(Color colour, int alpha)
-	{
-		return new Color(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha);
-	}
 }

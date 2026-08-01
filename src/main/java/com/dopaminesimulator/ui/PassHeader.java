@@ -24,30 +24,19 @@
  */
 package com.dopaminesimulator.ui;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.MultipleGradientPaint;
-import java.awt.RadialGradientPaint;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 
 public class PassHeader extends JComponent
 {
-	public static final int HEIGHT = 92;
+	public static final int HEIGHT = 96;
 
-	private static final Color PLATE_TOP = new Color(0x2B, 0x2A, 0x33);
-	private static final Color GOLD = new Color(0xF2, 0xC8, 0x5A);
-	private static final Color PLATE_BOTTOM = new Color(0x15, 0x15, 0x19);
-	private static final Color TRACK = new Color(0x0E, 0x0E, 0x11);
+	private static final int TITLE_H = 22;
+	private static final int ROW_H = 16;
 
 	private final int season;
 	private final String theme;
@@ -81,173 +70,41 @@ public class PassHeader extends JComponent
 	protected void paintComponent(Graphics graphics)
 	{
 		Graphics2D g = (Graphics2D) graphics.create();
-		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-			RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		Skin.pixel(g);
 
 		int width = getWidth();
+		Color accentText = Skin.temper(accent);
 
-		g.setPaint(new GradientPaint(0, 0, PLATE_TOP, width, HEIGHT, PLATE_BOTTOM));
-		g.fillRoundRect(0, 0, width, HEIGHT, 9, 9);
+		Skin.plate(g, 0, 0, width, HEIGHT, Skin.PANEL);
 
-		g.setPaint(new RadialGradientPaint(new Point2D.Float(width * 0.12f, 0f),
-			Math.max(60f, width * 0.85f), new float[]{0f, 1f},
-			new Color[]{withAlpha(accent, 96), withAlpha(accent, 0)},
-			MultipleGradientPaint.CycleMethod.NO_CYCLE));
-		g.fillRoundRect(0, 0, width, HEIGHT, 9, 9);
+		// title bar: the region name is the pass name, so it gets the full width
+		Skin.well(g, 0, 0, width, TITLE_H, Skin.INSET);
+		g.setFont(Skin.heading());
+		Skin.centred(g, Skin.elide(g.getFontMetrics(), theme, width - 12), 0, width,
+			TITLE_H - 6, accentText);
 
-		drawWeave(g, width);
-		drawSheen(g, width);
-		drawVignette(g, width);
+		int y = TITLE_H + 3;
+		row(g, width, y, "Season", season + " - " + (premium ? "premium" : "free"),
+			premium ? Skin.YELLOW : Skin.CREAM);
+		row(g, width, y + ROW_H, "Tier", tier + " / " + tiers, Skin.CREAM);
+		row(g, width, y + ROW_H * 2, "Ends in", remaining, Skin.CREAM);
 
-		drawBevel(g, width);
-		g.setColor(withAlpha(premium ? GOLD : accent, 170));
-		g.setStroke(new BasicStroke(1.5f));
-		g.drawRoundRect(0, 0, width - 1, HEIGHT - 1, 9, 9);
-		g.setPaint(new GradientPaint(0, 8, brighten(accent), 0, HEIGHT - 8, accent.darker()));
-		g.fillRoundRect(0, 8, 4, HEIGHT - 16, 2, 2);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
-		g.setColor(withAlpha(accent, 225));
-		g.drawString("SEASON " + season, 13, 20);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
-		FontMetrics clock = g.getFontMetrics();
-		g.setColor(new Color(0xB6, 0xB6, 0xC0));
-		g.drawString(remaining, width - clock.stringWidth(remaining) - 11, HEIGHT - 10);
-
-		String tierLabel = "TIER " + tier + " / " + tiers;
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
-		FontMetrics tierMetrics = g.getFontMetrics();
-		int tierWidth = tierMetrics.stringWidth(tierLabel);
-		g.setColor(brighten(accent));
-		g.drawString(tierLabel, width - tierWidth - 11, 44);
-
-		String badge = premium ? "PREMIUM" : "FREE";
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
-		FontMetrics metrics = g.getFontMetrics();
-		int badgeW = metrics.stringWidth(badge) + 14;
-		int badgeX = width - badgeW - 11;
-		if (premium)
-		{
-			g.setPaint(new GradientPaint(badgeX, 10, GOLD, badgeX, 26, GOLD.darker()));
-		}
-		else
-		{
-			g.setPaint(new GradientPaint(badgeX, 10, new Color(0x3A, 0x3A, 0x42),
-				badgeX, 26, new Color(0x28, 0x28, 0x2E)));
-		}
-		g.fillRoundRect(badgeX, 11, badgeW, 15, 7, 7);
-		g.setColor(premium ? new Color(0x12, 0x0E, 0x04) : new Color(0x9A, 0x9A, 0xA4));
-		g.drawString(badge, badgeX + 7, 22);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 17));
-		String shown = elide(g.getFontMetrics(), theme, width - tierWidth - 26);
-		g.setColor(new Color(0x08, 0x08, 0x0A));
-		g.drawString(shown, 14, 43);
-		g.setPaint(new GradientPaint(13, 28, Color.WHITE, 13, 44, brighten(accent)));
-		g.drawString(shown, 13, 42);
-
-		int barY = 60;
-		int barH = 8;
-		int barW = width - 26;
-		g.setColor(TRACK);
-		g.fillRoundRect(13, barY, barW, barH, 4, 4);
-
-		double progress = need <= 0d ? 1d : Math.min(1d, into / need);
-		int filled = (int) Math.round(barW * progress);
-		if (filled > 0)
-		{
-			g.setPaint(new GradientPaint(13, barY, accent.darker(), 13 + filled, barY,
-				brighten(accent)));
-			g.fillRoundRect(13, barY, filled, barH, 4, 4);
-			g.setColor(withAlpha(Color.WHITE, 60));
-			g.fillRoundRect(13, barY + 1, filled, barH / 2 - 1, 3, 3);
-		}
-		g.setColor(withAlpha(accent, 90));
-		g.drawRoundRect(13, barY, barW, barH, 4, 4);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
-		g.setColor(new Color(0xA0, 0xA0, 0xAA));
-		g.drawString(need <= 0d
-			? "Season complete - claim what is left, then roll on"
-			: (long) into + " / " + (long) need + " pass xp to tier " + (tier + 1),
-			13, HEIGHT - 10);
+		int barY = y + ROW_H * 3 + 2;
+		g.setFont(Skin.small());
+		Skin.bar(g, 4, barY, width - 8, 13, need <= 0d ? 1d : into / need, Skin.YELLOW,
+			need <= 0d ? "Season complete" : (long) into + " / " + (long) need + " xp");
 
 		g.dispose();
 	}
 
-	private void drawSheen(Graphics2D g, int width)
+	private void row(Graphics2D g, int width, int y, String label, String value, Color valueColour)
 	{
-		Shape clip = g.getClip();
-		g.setClip(new RoundRectangle2D.Float(0, 0, width, HEIGHT, 9, 9));
-		g.setPaint(new GradientPaint(width * 0.35f, 0, withAlpha(Color.WHITE, 0),
-			width * 0.62f, HEIGHT, withAlpha(Color.WHITE, 22)));
-		g.fillRect(0, 0, width, HEIGHT);
-		g.setClip(clip);
-	}
-
-	private void drawBevel(Graphics2D g, int width)
-	{
-		g.setStroke(new BasicStroke(1f));
-		g.setColor(withAlpha(Color.WHITE, 34));
-		g.drawLine(2, 1, width - 3, 1);
-		g.drawLine(1, 2, 1, HEIGHT - 3);
-		g.setColor(withAlpha(Color.BLACK, 120));
-		g.drawLine(2, HEIGHT - 2, width - 3, HEIGHT - 2);
-		g.drawLine(width - 2, 2, width - 2, HEIGHT - 3);
-	}
-
-	private void drawWeave(Graphics2D g, int width)
-	{
-		Shape clip = g.getClip();
-		g.setClip(new RoundRectangle2D.Float(0, 0, width, HEIGHT, 9, 9));
-		g.setColor(withAlpha(accent, 26));
-		g.setStroke(new BasicStroke(1f));
-		for (int x = -HEIGHT; x < width + HEIGHT; x += 9)
-		{
-			g.drawLine(x, HEIGHT, x + HEIGHT, 0);
-		}
-		g.setColor(withAlpha(Color.BLACK, 40));
-		for (int x = -HEIGHT; x < width + HEIGHT; x += 27)
-		{
-			g.drawLine(x + 4, HEIGHT, x + HEIGHT + 4, 0);
-		}
-		g.setClip(clip);
-	}
-
-	private void drawVignette(Graphics2D g, int width)
-	{
-		Shape clip = g.getClip();
-		g.setClip(new RoundRectangle2D.Float(0, 0, width, HEIGHT, 9, 9));
-		g.setPaint(new GradientPaint(0, HEIGHT - 30, withAlpha(Color.BLACK, 0),
-			0, HEIGHT, withAlpha(Color.BLACK, 120)));
-		g.fillRect(0, HEIGHT - 30, width, 30);
-		g.setClip(clip);
-	}
-
-	private static String elide(FontMetrics metrics, String text, int maxWidth)
-	{
-		if (metrics.stringWidth(text) <= maxWidth)
-		{
-			return text;
-		}
-		String trimmed = text;
-		while (trimmed.length() > 1 && metrics.stringWidth(trimmed + "…") > maxWidth)
-		{
-			trimmed = trimmed.substring(0, trimmed.length() - 1);
-		}
-		return trimmed + "…";
-	}
-
-	private static Color brighten(Color colour)
-	{
-		return new Color(Math.min(255, colour.getRed() + 70),
-			Math.min(255, colour.getGreen() + 70), Math.min(255, colour.getBlue() + 70));
-	}
-
-	private static Color withAlpha(Color colour, int alpha)
-	{
-		return new Color(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha);
+		Skin.texture(g, 3, y, width - 6, ROW_H - 1, Skin.PANEL_LIT);
+		g.setFont(Skin.small());
+		FontMetrics metrics = g.getFontMetrics();
+		int baseline = y + ROW_H - 6;
+		Skin.text(g, label, 8, baseline, Skin.ORANGE);
+		int room = width - 16 - metrics.stringWidth(label) - 8;
+		Skin.right(g, Skin.elide(metrics, value, room), width - 8, baseline, valueColour);
 	}
 }

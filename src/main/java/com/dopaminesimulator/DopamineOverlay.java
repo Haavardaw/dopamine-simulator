@@ -37,6 +37,7 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.Map;
+import com.dopaminesimulator.ui.Skin;
 import net.runelite.client.ui.overlay.OverlayPanel;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.components.ComponentOrientation;
@@ -47,7 +48,7 @@ import net.runelite.client.ui.overlay.components.TitleComponent;
 
 public class DopamineOverlay extends OverlayPanel
 {
-	private static final Color POINTS = new Color(0xFF, 0xB3, 0x00);
+	private static final Color POINTS = Skin.ORANGE;
 	private static final Color SURGE = new Color(0xFF, 0xE0, 0x82);
 	private static final int ICON_SIZE = 16;
 	private final DopamineSimulatorPlugin plugin;

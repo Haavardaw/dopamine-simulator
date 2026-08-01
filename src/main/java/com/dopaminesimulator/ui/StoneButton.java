@@ -24,31 +24,49 @@
  */
 package com.dopaminesimulator.ui;
 
-import java.awt.Dimension;
-import java.awt.FontMetrics;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JComponent;
+import java.awt.Insets;
+import javax.swing.JButton;
+import javax.swing.border.Border;
 
-public class SectionHeader extends JComponent
+/**
+ * A button cut from the same stone as the panels: raised at rest, sunken while
+ * held, with the label in interface orange.
+ */
+public class StoneButton extends JButton
 {
-	private static final int HEIGHT = 20;
+	private Color accent = Skin.ORANGE;
 
-	private final String title;
-	private final String trailing;
-
-	public SectionHeader(String title)
+	public StoneButton(String text)
 	{
-		this(title, null);
+		super(text);
+		setFont(Skin.body());
+		setFocusPainted(false);
+		setContentAreaFilled(false);
+		setBorderPainted(false);
+		setOpaque(false);
+		setForeground(Skin.ORANGE);
 	}
 
-	public SectionHeader(String title, String trailing)
+	public StoneButton withAccent(Color colour)
 	{
-		this.title = title;
-		this.trailing = trailing;
-		setPreferredSize(new Dimension(0, HEIGHT));
-		setMaximumSize(new Dimension(Integer.MAX_VALUE, HEIGHT));
-		setOpaque(false);
+		this.accent = colour;
+		setForeground(colour);
+		return this;
+	}
+
+	@Override
+	public void setBorder(Border border)
+	{
+		// the stone edge is painted, so a second bordered edge would double up
+	}
+
+	@Override
+	public Insets getInsets()
+	{
+		return new Insets(4, 8, 4, 8);
 	}
 
 	@Override
@@ -57,22 +75,28 @@ public class SectionHeader extends JComponent
 		Graphics2D g = (Graphics2D) graphics.create();
 		Skin.pixel(g);
 
-		int width = getWidth();
-		Skin.well(g, 0, 0, width, HEIGHT, Skin.INSET);
+		boolean held = getModel().isArmed() && getModel().isPressed();
+		boolean hovered = getModel().isRollover();
 
-		int room = width - 12;
-		if (trailing != null && !trailing.isEmpty())
+		if (!isEnabled())
 		{
-			g.setFont(Skin.small());
-			FontMetrics metrics = g.getFontMetrics();
-			Skin.right(g, trailing, width - 6, HEIGHT - 6, Skin.CREAM);
-			room -= metrics.stringWidth(trailing) + 8;
+			Skin.well(g, 0, 0, getWidth(), getHeight(), Skin.INSET_DEEP);
 		}
-
-		g.setFont(Skin.body());
-		Skin.text(g, Skin.elide(g.getFontMetrics(), title, Math.max(20, room)), 6, HEIGHT - 6,
-			Skin.ORANGE);
-
+		else if (held)
+		{
+			Skin.well(g, 0, 0, getWidth(), getHeight(), Skin.INSET);
+		}
+		else
+		{
+			Skin.plate(g, 0, 0, getWidth(), getHeight(), hovered ? Skin.PANEL_LIT : Skin.PANEL);
+		}
 		g.dispose();
+
+		Color wanted = isEnabled() ? accent : Skin.DIM;
+		if (!wanted.equals(getForeground()))
+		{
+			setForeground(wanted);
+		}
+		super.paintComponent(graphics);
 	}
 }

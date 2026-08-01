@@ -73,14 +73,20 @@ public final class SeasonClock
 
 	public static String remaining(long endsAt, long nowMs)
 	{
+		return brief(endsAt, nowMs) + " left";
+	}
+
+	/** The span on its own, for places that already carry an "ends in" label. */
+	public static String brief(long endsAt, long nowMs)
+	{
 		long left = Math.max(0L, endsAt - nowMs);
 		long days = left / 86_400_000L;
 		long hours = left / 3_600_000L % 24;
 		if (days > 0)
 		{
-			return days + "d " + hours + "h left";
+			return days + "d " + hours + "h";
 		}
 		long minutes = left / 60_000L % 60;
-		return hours > 0 ? hours + "h " + minutes + "m left" : minutes + "m left";
+		return hours > 0 ? hours + "h " + minutes + "m" : minutes + "m";
 	}
 }

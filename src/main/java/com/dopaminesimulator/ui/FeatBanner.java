@@ -25,21 +25,17 @@
 package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.feats.Feat;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 
 public final class FeatBanner
 {
 	public static final int WIDTH = 300;
 	public static final int HEIGHT = 64;
 
-	private static final Color PLATE_TOP = new Color(0x2A, 0x2A, 0x30);
-	private static final Color PLATE_BOTTOM = new Color(0x16, 0x16, 0x1A);
-	private static final Color CAPTION = new Color(0x9A, 0x9A, 0xA4);
+	private static final int MEDAL = 44;
 
 	private FeatBanner()
 	{
@@ -48,89 +44,50 @@ public final class FeatBanner
 	public static void draw(Graphics2D g, String title, String caption, Color rank,
 		int tier, double shine)
 	{
+		Skin.pixel(g);
+		Skin.plate(g, 0, 0, WIDTH, HEIGHT, Skin.PANEL);
+		g.setColor(Skin.YELLOW);
+		g.drawRect(1, 1, WIDTH - 3, HEIGHT - 3);
 
-		g.setPaint(new GradientPaint(0, 0, PLATE_TOP, 0, HEIGHT, PLATE_BOTTOM));
-		g.fillRoundRect(0, 0, WIDTH, HEIGHT, 8, 8);
+		drawMedal(g, Skin.temper(rank), tier);
 
-		g.setColor(withAlpha(rank, 110));
-		g.setStroke(new BasicStroke(1.5f));
-		g.drawRoundRect(0, 0, WIDTH - 1, HEIGHT - 1, 8, 8);
+		int textX = MEDAL + 16;
+		int room = WIDTH - textX - 10;
 
-		g.setColor(rank);
-		g.fillRoundRect(0, 8, 4, HEIGHT - 16, 3, 3);
+		g.setFont(Skin.small());
+		Skin.text(g, tier > 0 ? "Feat earned" : "Achievement", textX, 19, Skin.CREAM);
 
-		drawSweep(g, rank, shine);
-		drawMedal(g, rank, tier);
+		g.setFont(Skin.heading());
+		Skin.text(g, Skin.elide(g.getFontMetrics(), title, room), textX, 39, Skin.ORANGE);
 
-		int textX = 78;
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
-		g.setColor(CAPTION);
-		g.drawString(tier > 0 ? "FEAT EARNED" : "ACHIEVEMENT", textX, 20);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
-		g.setColor(Color.WHITE);
-		g.drawString(elide(g, title, WIDTH - textX - 12), textX, 39);
-
-		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
-		g.setColor(rank);
-		g.drawString(elide(g, tier > 0
+		g.setFont(Skin.small());
+		Skin.text(g, Skin.elide(g.getFontMetrics(), tier > 0
 			? "Rank " + tier + " of " + Feat.RANKS + "   +"
 				+ Math.round(Feat.BONUS_PER_TIER * 100d) + "% to everything"
-			: caption, WIDTH - textX - 12), textX, 54);
+			: caption, room), textX, 55, Skin.YELLOW);
+
+		drawSweep(g, shine);
 	}
 
 	private static void drawMedal(Graphics2D g, Color rank, int tier)
 	{
-		int radius = 21;
-		int centreX = 42;
-		int centreY = HEIGHT / 2;
+		int y = (HEIGHT - MEDAL) / 2;
+		Skin.well(g, 10, y, MEDAL, MEDAL, Skin.INSET_DEEP);
 
-		g.setColor(withAlpha(rank, 45));
-		g.fillOval(centreX - radius - 4, centreY - radius - 4, (radius + 4) * 2, (radius + 4) * 2);
-		g.setColor(rank.darker().darker());
-		g.fillOval(centreX - radius, centreY - radius, radius * 2, radius * 2);
-		g.setColor(rank);
-		g.setStroke(new BasicStroke(2.5f));
-		g.drawOval(centreX - radius, centreY - radius, radius * 2, radius * 2);
-		g.setStroke(new BasicStroke(1f));
-		g.drawOval(centreX - radius + 5, centreY - radius + 5,
-			(radius - 5) * 2, (radius - 5) * 2);
-
-		String label = tier > 0 ? String.valueOf(tier) : "★";
-		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 19));
-		FontMetrics metrics = g.getFontMetrics();
-		g.setColor(rank);
-		g.drawString(label, centreX - metrics.stringWidth(label) / 2,
-			centreY + metrics.getAscent() / 2 - 2);
+		String label = tier > 0 ? String.valueOf(tier) : "*";
+		g.setFont(Skin.heading());
+		Skin.centred(g, label, 10, MEDAL, y + (MEDAL + g.getFontMetrics().getAscent()) / 2 - 3, rank);
 	}
 
-	private static void drawSweep(Graphics2D g, Color rank, double shine)
+	/** A single bright pass across the plate: the whole flourish, and it is over quickly. */
+	private static void drawSweep(Graphics2D g, double shine)
 	{
 		int x = (int) Math.round(-WIDTH * 0.4d + shine * WIDTH * 1.6d);
-		g.setPaint(new GradientPaint(x, 0, withAlpha(rank, 0),
-			x + 60, 0, withAlpha(rank, 34)));
-		g.fillRoundRect(Math.max(0, x), 1, Math.min(120, WIDTH - Math.max(0, x)),
-			HEIGHT - 2, 8, 8);
-	}
-
-	private static String elide(Graphics2D g, String text, int maxWidth)
-	{
-		FontMetrics metrics = g.getFontMetrics();
-		if (metrics.stringWidth(text) <= maxWidth)
-		{
-			return text;
-		}
-
-		String trimmed = text;
-		while (trimmed.length() > 1 && metrics.stringWidth(trimmed + "…") > maxWidth)
-		{
-			trimmed = trimmed.substring(0, trimmed.length() - 1);
-		}
-		return trimmed + "…";
-	}
-
-	private static Color withAlpha(Color colour, int alpha)
-	{
-		return new Color(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha);
+		Shape clip = g.getClip();
+		g.clipRect(2, 2, WIDTH - 4, HEIGHT - 4);
+		g.setPaint(new GradientPaint(x, 0, Skin.withAlpha(Color.WHITE, 0),
+			x + 40, 0, Skin.withAlpha(Color.WHITE, 40)));
+		g.fillRect(x, 2, 80, HEIGHT - 4);
+		g.setClip(clip);
 	}
 }
