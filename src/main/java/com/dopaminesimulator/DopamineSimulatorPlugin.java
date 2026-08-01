@@ -32,7 +32,9 @@ import com.dopaminesimulator.core.DopamineEngine;
 import com.dopaminesimulator.core.DopamineEvent;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.feats.Feats;
+import com.dopaminesimulator.incremental.BigNumbers;
 import com.dopaminesimulator.incremental.Prestige;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import com.dopaminesimulator.core.IncomeTracker;
@@ -63,6 +65,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.swing.SwingUtilities;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -109,6 +112,10 @@ public class DopamineSimulatorPlugin extends Plugin
 
 	@Inject
 	private Client client;
+
+	@Inject
+	@Named("developerMode")
+	private boolean developerMode;
 
 	@Inject
 	private ClientThread clientThread;
@@ -857,6 +864,67 @@ public class DopamineSimulatorPlugin extends Plugin
 			runReset("resetdopamine", "everything",
 				state -> "every card, upgrade, feat and pass season",
 				this::wipe);
+		}
+		else if ("givedopamine".equalsIgnoreCase(event.getCommand()) && developerMode)
+		{
+			grantPoints(event.getArguments());
+		}
+	}
+
+	private void grantPoints(String[] arguments)
+	{
+		if (!isPlayable())
+		{
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: log in first.", null);
+			return;
+		}
+
+		double amount = arguments == null || arguments.length == 0
+			? 1_000_000d
+			: parseAmount(arguments[0]);
+		if (amount <= 0d)
+		{
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: usage ::givedopamine 250k", null);
+			return;
+		}
+
+		DopamineState state = engine.getState();
+		state.addPoints(amount);
+		persist();
+		refreshPanel();
+		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+			"Dopamine Simulator: added <col=ffb300>" + BigNumbers.format(amount)
+				+ "</col> points.", null);
+	}
+
+	private static double parseAmount(String raw)
+	{
+		String text = raw.trim().toLowerCase(Locale.ROOT).replace(",", "");
+		double scale = 1d;
+		if (text.endsWith("k"))
+		{
+			scale = 1_000d;
+		}
+		else if (text.endsWith("m"))
+		{
+			scale = 1_000_000d;
+		}
+		else if (text.endsWith("b"))
+		{
+			scale = 1_000_000_000d;
+		}
+
+		try
+		{
+			return Double.parseDouble(scale > 1d
+				? text.substring(0, text.length() - 1)
+				: text) * scale;
+		}
+		catch (NumberFormatException e)
+		{
+			return 0d;
 		}
 	}
 
