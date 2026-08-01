@@ -52,6 +52,7 @@ import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.ui.CardComponent;
 import com.dopaminesimulator.ui.ClickButton;
+import com.dopaminesimulator.ui.BannerHeader;
 import com.dopaminesimulator.ui.FeatRow;
 import com.dopaminesimulator.ui.WishReveal;
 import com.dopaminesimulator.ui.PointsHeader;
@@ -539,40 +540,18 @@ public class DopamineSimulatorPanel extends PluginPanel
 		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		block.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		JLabel header = new JLabel(banner.bannerName(rarity));
-		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
-		header.setForeground(rarity.getColour());
+		BannerHeader header = new BannerHeader(featured, rarity, banner.bannerName(rarity),
+			plugin.getCardArtService().get(featured), pity, BannerService.HARD_PITY,
+			banner.rateAt(pity));
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
+		header.setToolTipText(featured.getName() + " from " + featured.getSet().getDisplayName());
 		block.add(header);
-
-		StringBuilder stars = new StringBuilder();
-		for (int i = 0; i < WishReveal.starsFor(rarity); i++)
-		{
-			stars.append('★');
-		}
-		JLabel featuredLine = new JLabel(featured.getName() + "   " + stars);
-		featuredLine.setFont(FontManager.getRunescapeSmallFont());
-		featuredLine.setForeground(Color.LIGHT_GRAY);
-		featuredLine.setAlignmentX(Component.LEFT_ALIGNMENT);
-		block.add(featuredLine);
-		block.add(Box.createVerticalStrut(3));
-
-		JProgressBar bar = new JProgressBar(0, BannerService.HARD_PITY);
-		bar.setValue(pity);
-		bar.setStringPainted(true);
-		bar.setString(pity + "/" + BannerService.HARD_PITY + "  •  "
-			+ String.format("%.1f%%", banner.rateAt(pity) * 100d) + " this pull");
-		bar.setFont(FontManager.getRunescapeSmallFont());
-		bar.setForeground(rarity.getColour());
-		bar.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-		bar.setAlignmentX(Component.LEFT_ALIGNMENT);
-		bar.setMaximumSize(new Dimension(Integer.MAX_VALUE, 14));
-		block.add(bar);
 		block.add(Box.createVerticalStrut(4));
 
 		String detail = banner.featuredCopies(rarity) + " copies of "
 			+ featured.getName() + " on a win, and every pull opens a "
 			+ banner.packFor(rarity).getDisplayName() + " regardless.";
+		BufferedImage icon = plugin.getCardArtService().get(featured);
 
 		ShopRow one = new ShopRow(
 			"Pull",
@@ -583,6 +562,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			state.getPoints() >= cost,
 			state.getPoints() / cost,
 			r -> plugin.pullBanner(rarity, selectedSet, 1));
+		one.setIcon(icon);
 		one.setToolTipText(detail);
 		block.add(sized(one));
 		block.add(Box.createVerticalStrut(3));
@@ -596,6 +576,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			state.getPoints() >= cost * 10,
 			state.getPoints() / (cost * 10),
 			r -> plugin.pullBanner(rarity, selectedSet, 10));
+		ten.setIcon(icon);
 		ten.setToolTipText(detail);
 		block.add(sized(ten));
 		return block;
