@@ -34,6 +34,8 @@ import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.Reward;
+import com.dopaminesimulator.feats.Feat;
+import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.incremental.BigNumbers;
 import com.dopaminesimulator.incremental.Milestones;
 import com.dopaminesimulator.packs.PackTier;
@@ -41,6 +43,7 @@ import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.ui.CardComponent;
 import com.dopaminesimulator.ui.ClickButton;
+import com.dopaminesimulator.ui.FeatRow;
 import com.dopaminesimulator.ui.PointsHeader;
 import com.dopaminesimulator.ui.ScrollableContent;
 import com.dopaminesimulator.ui.SectionHeader;
@@ -73,10 +76,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
@@ -96,7 +102,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private static final Color GOLD = new Color(0xFF, 0xB3, 0x00);
 	private enum Tab
 	{
-		PLAY, SHOP, CARDS
+		PLAY, SHOP, CARDS, FEATS
 	}
 	private final DopamineSimulatorPlugin plugin;
 	private final DopamineSimulatorConfig config;
@@ -108,12 +114,15 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private final JPanel playContent = new JPanel();
 	private final JPanel shopContent = new JPanel();
 	private final JPanel cardsContent = new JPanel();
+	private final JPanel featsContent = new JPanel();
 	private final JScrollPane scrollPane;
 	private Tab selectedTab = Tab.PLAY;
 	private Card selectedCard;
 	private CardSet selectedSet = CardSet.QUESTS;
 	private int buyQuantity = 1;
 	private boolean collectionsExpanded;
+	private String cardSearch = "";
+	private final JTextField searchField = new JTextField();
 	DopamineSimulatorPanel(DopamineSimulatorPlugin plugin, DopamineSimulatorConfig config)
 	{
 		super(false);
@@ -122,7 +131,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 		setBackground(ColorScheme.DARK_GRAY_COLOR);
-		for (JPanel tabPanel : new JPanel[]{playContent, shopContent, cardsContent})
+		for (JPanel tabPanel : new JPanel[]{playContent, shopContent, cardsContent, featsContent})
 		{
 			tabPanel.setLayout(new BoxLayout(tabPanel, BoxLayout.Y_AXIS));
 			tabPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
@@ -130,18 +139,21 @@ public class DopamineSimulatorPanel extends PluginPanel
 		JPanel display = new JPanel(new BorderLayout());
 		display.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		MaterialTabGroup tabGroup = new MaterialTabGroup(display);
-		tabGroup.setLayout(new GridLayout(1, 3, 1, 0));
+		tabGroup.setLayout(new GridLayout(1, 4, 1, 0));
 		tabGroup.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
 		MaterialTab playTab = tab("Play", tabGroup, playContent);
 		MaterialTab shopTab = tab("Shop", tabGroup, shopContent);
 		MaterialTab cardsTab = tab("Cards", tabGroup, cardsContent);
+		MaterialTab featsTab = tab("Feats", tabGroup, featsContent);
 		playTab.setOnSelectEvent(() -> selectTab(Tab.PLAY));
 		shopTab.setOnSelectEvent(() -> selectTab(Tab.SHOP));
 		cardsTab.setOnSelectEvent(() -> selectTab(Tab.CARDS));
+		featsTab.setOnSelectEvent(() -> selectTab(Tab.FEATS));
 
 		tabGroup.addTab(playTab);
 		tabGroup.addTab(shopTab);
 		tabGroup.addTab(cardsTab);
+		tabGroup.addTab(featsTab);
 		ScrollableContent wrapper = new ScrollableContent();
 		wrapper.setLayout(new BorderLayout());
 		wrapper.setBackground(ColorScheme.DARK_GRAY_COLOR);
@@ -180,6 +192,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			}
 			rebuild();
 		});
+		initSearchField();
 		surgeTimer.start();
 		tabGroup.select(playTab);
 		rebuild();
@@ -209,6 +222,17 @@ public class DopamineSimulatorPanel extends PluginPanel
 	}
 	public void refresh()
 	{
+		if (selectedTab == Tab.CARDS)
+		{
+			SwingUtilities.invokeLater(() ->
+			{
+				if (config.autoReveal())
+				{
+					startCascade();
+				}
+			});
+			return;
+		}
 		if (!refreshQueued.compareAndSet(false, true))
 		{
 			return;
@@ -244,6 +268,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 				case CARDS:
 					buildCardsTab(state);
 					break;
+				case FEATS:
+					buildFeatsTab(state);
+					break;
 			}
 			if (config.autoReveal())
 			{
@@ -278,6 +305,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 				return shopContent;
 			case CARDS:
 				return cardsContent;
+			case FEATS:
+				return featsContent;
 			default:
 				return playContent;
 		}
@@ -497,7 +526,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		}
 		if (tier.getLuck() > 1d)
 		{
-			effect.append("  •  x").append((int) tier.getLuck()).append(" odds");
+			effect.append("  •  +").append(Math.round((tier.getLuck() - 1d) * 100d))
+				.append("% top odds");
 		}
 		String name = tier.isTargetsSet()
 			? tier.getDisplayName() + " (" + selectedSet.getDisplayName() + ")"
@@ -527,18 +557,139 @@ public class DopamineSimulatorPanel extends PluginPanel
 	{
 		int stars = state.getTotalStars();
 		int maxStars = CardCatalogue.size() * Rarity.MAX_STARS;
-		JLabel header = new JLabel(stars + " / " + maxStars + "★");
+		double complete = maxStars == 0 ? 0d : stars * 100d / maxStars;
+
+		JLabel header = new JLabel(String.format("%.1f%% complete", complete));
 		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
 		header.setForeground(GOLD);
 		header.setAlignmentX(Component.LEFT_ALIGNMENT);
 		cardsContent.add(header);
+		cardsContent.add(Box.createVerticalStrut(3));
 
-		cardsContent.add(hint(state.getUniqueCardsOwned() + "/" + CardCatalogue.size()
-			+ " owned. Duplicates raise a card up to ten tiers"));
+		JProgressBar overall = new JProgressBar(0, 1000);
+		overall.setValue((int) Math.round(complete * 10d));
+		overall.setStringPainted(true);
+		overall.setString(state.getUniqueCardsOwned() + "/" + CardCatalogue.size() + " owned");
+		overall.setFont(FontManager.getRunescapeSmallFont());
+		overall.setForeground(GOLD);
+		overall.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		overall.setAlignmentX(Component.LEFT_ALIGNMENT);
+		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+		cardsContent.add(overall);
+		cardsContent.add(Box.createVerticalStrut(5));
+		cardsContent.add(hint(BigNumbers.format(stars) + " of " + BigNumbers.format(maxStars)
+			+ " stars" + variantSummary(state)));
 		cardsContent.add(Box.createVerticalStrut(8));
 		cardsContent.add(buildSetSelector(state));
+		cardsContent.add(Box.createVerticalStrut(4));
+		cardsContent.add(buildSearchBox());
 		cardsContent.add(Box.createVerticalStrut(8));
 		buildSelectedSet(state);
+	}
+
+	private JPanel buildSearchBox()
+	{
+		JPanel row = new JPanel(new BorderLayout(4, 0));
+		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.add(searchField, BorderLayout.CENTER);
+
+		if (!cardSearch.isEmpty())
+		{
+			JButton clear = new JButton("x");
+			clear.setFont(FontManager.getRunescapeSmallFont());
+			clear.setFocusPainted(false);
+			clear.setMargin(new Insets(0, 4, 0, 4));
+			clear.addActionListener(e ->
+			{
+				searchField.setText("");
+				searchField.requestFocusInWindow();
+			});
+			row.add(clear, BorderLayout.EAST);
+		}
+
+		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
+		return row;
+	}
+
+	private void initSearchField()
+	{
+		searchField.setFont(FontManager.getRunescapeSmallFont());
+		searchField.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		searchField.setForeground(Color.LIGHT_GRAY);
+		searchField.setCaretColor(Color.LIGHT_GRAY);
+		searchField.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
+		searchField.setToolTipText("Filter this set by card name");
+		searchField.getDocument().addDocumentListener(new DocumentListener()
+		{
+			private void changed()
+			{
+				String text = searchField.getText().trim();
+				if (text.equals(cardSearch))
+				{
+					return;
+				}
+				cardSearch = text;
+				selectedCard = null;
+				SwingUtilities.invokeLater(() ->
+				{
+					rebuild();
+					searchField.requestFocusInWindow();
+				});
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e)
+			{
+				changed();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e)
+			{
+				changed();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e)
+			{
+				changed();
+			}
+		});
+	}
+
+	private List<Card> visibleCards()
+	{
+		List<Card> all = CardCatalogue.bySet(selectedSet);
+		if (cardSearch.isEmpty())
+		{
+			return all;
+		}
+
+		String needle = cardSearch.toLowerCase();
+		List<Card> matches = new ArrayList<>();
+		for (Card card : all)
+		{
+			if (card.getName().toLowerCase().contains(needle))
+			{
+				matches.add(card);
+			}
+		}
+		return matches;
+	}
+
+	private static String variantSummary(DopamineState state)
+	{
+		StringBuilder text = new StringBuilder();
+		if (state.getShinyCount() > 0)
+		{
+			text.append("  •  ").append(state.getShinyCount()).append(" shiny");
+		}
+		if (state.getGildedCount() > 0)
+		{
+			text.append("  •  ").append(state.getGildedCount()).append(" gilded");
+		}
+		return text.toString();
 	}
 
 	private JPanel buildSetSelector(DopamineState state)
@@ -589,12 +740,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 	}
 	private void buildSelectedSet(DopamineState state)
 	{
-		List<Card> cards = CardCatalogue.bySet(selectedSet);
+		List<Card> cards = visibleCards();
 		int owned = ownedIn(state, selectedSet);
 		int columns = cardColumns();
 		int cardWidth = cardWidthFor(columns);
 		cardsContent.add(sectionLabel(selectedSet.getDisplayName(),
-			owned + "/" + cards.size() + " cards"));
+			cardSearch.isEmpty()
+				? owned + "/" + cards.size() + " cards"
+				: cards.size() + " matching"));
 		PointSource powers = CollectionBonus.sourceFor(selectedSet);
 		JLabel effect = new JLabel(powers.getDisplayName() + " "
 			+ multiplierText(CollectionBonus.multiplierFor(state, powers)));
@@ -609,7 +762,17 @@ public class DopamineSimulatorPanel extends PluginPanel
 		}
 		cardsContent.add(effect);
 		cardsContent.add(Box.createVerticalStrut(6));
-		buildCollections(state);
+		if (cardSearch.isEmpty())
+		{
+			buildCollections(state);
+		}
+
+		if (cards.isEmpty())
+		{
+			cardsContent.add(hint("No cards in " + selectedSet.getDisplayName()
+				+ " match \"" + cardSearch + "\"."));
+			return;
+		}
 		for (int start = 0; start < cards.size(); start += columns)
 		{
 			int end = Math.min(start + columns, cards.size());
@@ -631,10 +794,10 @@ public class DopamineSimulatorPanel extends PluginPanel
 		{
 			return;
 		}
-		int done = CardCollection.completedIn(state, selectedSet);
+		int done = CardCollection.tiersIn(state, selectedSet);
 
 		JButton toggle = new JButton((collectionsExpanded ? "▾" : "▸")
-			+ " Collections    " + done + "/" + collections.size()
+			+ " Collections    " + done + "/" + CardCollection.maxTiersIn(selectedSet)
 			+ "    each x1." + String.format("%02d",
 				Math.round(CardCollection.BONUS_PER_COLLECTION * 100)));
 		toggle.setFont(FontManager.getRunescapeSmallFont());
@@ -670,7 +833,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private JPanel collectionRow(DopamineState state, CardCollection collection)
 	{
 		int owned = collection.ownedIn(state);
-		boolean complete = collection.isComplete(state);
+		int tier = collection.tierIn(state);
+		boolean complete = tier > 0;
 		JPanel row = new JPanel(new BorderLayout(6, 0));
 		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -682,7 +846,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		name.setForeground(complete ? GOLD : Color.LIGHT_GRAY);
 		row.add(name, BorderLayout.WEST);
 		JLabel progress = new JLabel(complete
-			? multiplierText(1d + CardCollection.BONUS_PER_COLLECTION)
+			? collection.tierNameIn(state) + "  "
+				+ multiplierText(Math.pow(1d + CardCollection.BONUS_PER_COLLECTION, tier))
 			: owned + "/" + collection.size());
 		progress.setFont(FontManager.getRunescapeSmallFont());
 		progress.setForeground(complete ? GOLD : Color.GRAY);
@@ -731,7 +896,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 			int copies = state.getCopies(card.getId());
 			int stars = state.getStars(card.getId());
 			CardComponent component = new CardComponent(card, stars, copies > 0, cardWidth,
-				plugin.getCardArtService());
+				plugin.getCardArtService(), state.isShiny(card.getId()),
+				state.isGilded(card.getId()));
 			component.setToolTipText(cardTooltip(card, copies, stars, copies > 0));
 			component.setOnClick(clicked ->
 			{
@@ -761,7 +927,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 			BorderFactory.createMatteBorder(0, 2, 0, 0, card.getRarity().getColour()),
 			BorderFactory.createEmptyBorder(8, 8, 8, 8)));
 		detail.setAlignmentX(Component.LEFT_ALIGNMENT);
-		CardComponent big = new CardComponent(card, stars, owned, 72, plugin.getCardArtService());
+		CardComponent big = new CardComponent(card, stars, owned, 72, plugin.getCardArtService(),
+			state.isShiny(card.getId()), state.isGilded(card.getId()));
+		big.playIntro();
 		big.setOnClick(c -> {
 			selectedCard = null;
 			rebuild();
@@ -1001,6 +1169,60 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ (next > 0 ? ", next at " + BigNumbers.format(next) + " lifetime" : ", all earned"));
 	}
 
+
+	private void buildFeatsTab(DopamineState state)
+	{
+		int earned = Feats.tiersEarned(state);
+		int total = Feat.totalTiers();
+
+		JLabel header = new JLabel(Feats.titleFor(state));
+		header.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+		header.setForeground(GOLD);
+		header.setAlignmentX(Component.LEFT_ALIGNMENT);
+		featsContent.add(header);
+		featsContent.add(Box.createVerticalStrut(3));
+
+		JProgressBar overall = new JProgressBar(0, Math.max(1, total));
+		overall.setValue(earned);
+		overall.setStringPainted(true);
+		overall.setString(earned + "/" + total + " ranks earned");
+		overall.setFont(FontManager.getRunescapeSmallFont());
+		overall.setForeground(GOLD);
+		overall.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		overall.setAlignmentX(Component.LEFT_ALIGNMENT);
+		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+		featsContent.add(overall);
+		featsContent.add(Box.createVerticalStrut(5));
+		featsContent.add(hint("x" + String.format("%.2f", Feats.multiplierFor(state))
+			+ " to everything you earn. Feats cannot be bought, only played for."));
+		featsContent.add(Box.createVerticalStrut(8));
+
+		for (Feat feat : Feat.values())
+		{
+			featsContent.add(featRow(state, feat));
+			featsContent.add(Box.createVerticalStrut(CARD_GAP));
+		}
+	}
+
+	private FeatRow featRow(DopamineState state, Feat feat)
+	{
+		long progress = Feats.progressOf(state, feat);
+		int tier = Feats.tierOf(state, feat);
+		long next = feat.nextThreshold(progress);
+		String unit = feat.getTrack().getUnit();
+
+		String detail = tier >= feat.maxTier()
+			? "Mastered  •  " + BigNumbers.format(progress) + " " + unit
+			: BigNumbers.format(progress) + " / " + BigNumbers.format(next) + " " + unit;
+
+		FeatRow row = new FeatRow(feat, tier, detail,
+			next <= 0 ? 1d : progress / (double) next);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.setToolTipText(feat.getDescription()
+			+ "  •  each rank adds "
+			+ Math.round(Feat.BONUS_PER_TIER * 100d) + "% to everything you earn");
+		return row;
+	}
 
 	private ShopRow sized(ShopRow row)
 	{

@@ -31,6 +31,7 @@ import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineEngine;
 import com.dopaminesimulator.core.DopamineEvent;
 import com.dopaminesimulator.core.DopamineState;
+import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.PointListener;
 import com.dopaminesimulator.core.Reward;
@@ -40,6 +41,7 @@ import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.systems.CollectionService;
 import com.dopaminesimulator.systems.PackService;
+import com.dopaminesimulator.systems.FeatSystem;
 import com.dopaminesimulator.systems.PointSystem;
 import com.dopaminesimulator.ui.CardArtService;
 import com.dopaminesimulator.ui.GameIcons;
@@ -57,6 +59,7 @@ import javax.swing.SwingUtilities;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
+import net.runelite.api.events.CommandExecuted;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.Hitsplat;
@@ -116,6 +119,10 @@ public class DopamineSimulatorPlugin extends Plugin
 
 	@Inject
 	private SaveManager saveManager;
+
+	private static final long RESET_CONFIRM_MS = 30_000L;
+
+	private long resetFeatsRequestedAt;
 
 	@Inject
 	private DopamineSimulatorConfig config;
@@ -186,7 +193,8 @@ public class DopamineSimulatorPlugin extends Plugin
 			floatingTextOverlay.onPointsGained(source, detail, amount, tick);
 		};
 		engine = new DopamineEngine(new DopamineState(), rewards)
-			.register(new PointSystem(listeners));
+			.register(new PointSystem(listeners))
+			.register(new FeatSystem());
 		panel = new DopamineSimulatorPanel(this, config);
 		navButton = NavigationButton.builder()
 			.tooltip("Dopamine Simulator")
@@ -633,6 +641,43 @@ public class DopamineSimulatorPlugin extends Plugin
 
 		refreshPanel();
 	}
+	@Subscribe
+	public void onCommandExecuted(CommandExecuted event)
+	{
+		if (!"resetfeats".equalsIgnoreCase(event.getCommand()))
+		{
+			return;
+		}
+
+		if (engine == null || !isPlayable())
+		{
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: log in first.", null);
+			return;
+		}
+
+		DopamineState state = engine.getState();
+		long now = System.currentTimeMillis();
+		int ranks = Feats.tiersEarned(state);
+
+		if (now - resetFeatsRequestedAt > RESET_CONFIRM_MS)
+		{
+			resetFeatsRequestedAt = now;
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: this wipes <col=ffb300>" + ranks
+					+ "</col> feat ranks and cannot be undone."
+					+ " Run <col=ffb300>::resetfeats</col> again to confirm.", null);
+			return;
+		}
+
+		resetFeatsRequestedAt = 0L;
+		state.resetFeats();
+		persist();
+		refreshPanel();
+		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+			"Dopamine Simulator: cleared <col=ffb300>" + ranks + "</col> feat ranks.", null);
+	}
+
 	private void persist()
 	{
 		if (engine != null && loadedAccountHash != Long.MIN_VALUE)
