@@ -24,6 +24,7 @@
  */
 package com.dopaminesimulator.points;
 
+import com.dopaminesimulator.core.EventType;
 import com.dopaminesimulator.incremental.Prestige;
 import lombok.Getter;
 
@@ -125,6 +126,32 @@ public enum PointSource
 	{
 		return units * basePointsPerUnit * multiplierForLevel(upgradeLevel, insight);
 	}
+	public static PointSource forEvent(EventType type)
+	{
+		switch (type)
+		{
+			case CLICK:
+				return CLICK;
+			case XP_GAINED:
+			case LEVEL_UP:
+				return EXPERIENCE;
+			case NPC_KILLED:
+				return COMBAT;
+			case LOOT_RECEIVED:
+				return WEALTH;
+			case DISTANCE_TRAVELLED:
+				return TRAVEL;
+			case HEALTH_RESTORED:
+				return RECOVERY;
+			case DAMAGE_TAKEN:
+				return SUFFERING;
+			case TICK:
+				return IDLING;
+			default:
+				return null;
+		}
+	}
+
 	public static PointSource byId(String id)
 	{
 		for (PointSource source : values())

@@ -38,6 +38,7 @@ import com.dopaminesimulator.feats.Achievement;
 import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.packs.PackTier;
+import com.dopaminesimulator.points.PointSource;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -88,7 +89,9 @@ public class AchievementSystem implements DopamineSystem
 	@Override
 	public void handle(DopamineState state, DopamineEvent event, RewardQueue rewards)
 	{
-		if (event.getType() != EventType.TICK)
+		PointSource source = PointSource.forEvent(event.getType());
+		boolean earning = source != null && state.isSourceUnlocked(source);
+		if (earning && event.getType() != EventType.TICK)
 		{
 			earnersThisSession.add(event.getType());
 		}
@@ -120,7 +123,7 @@ public class AchievementSystem implements DopamineSystem
 				break;
 			case TICK:
 				sessionTicks++;
-				if (state.isIdle())
+				if (earning && state.isIdle())
 				{
 					idleTicks++;
 				}

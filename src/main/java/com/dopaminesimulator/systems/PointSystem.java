@@ -59,7 +59,7 @@ public class PointSystem implements DopamineSystem
 	@Override
 	public void handle(DopamineState state, DopamineEvent event, RewardQueue rewards)
 	{
-		PointSource source = sourceFor(event);
+		PointSource source = PointSource.forEvent(event.getType());
 		if (source == null || !state.isSourceUnlocked(source))
 		{
 			return;
@@ -81,32 +81,6 @@ public class PointSystem implements DopamineSystem
 			state.setLastEarningTick(state.getTick());
 		}
 		listener.onPointsGained(source, detailOf(event, affinity), points, state.getTick());
-	}
-	private PointSource sourceFor(DopamineEvent event)
-	{
-		switch (event.getType())
-		{
-			case CLICK:
-				return PointSource.CLICK;
-			case XP_GAINED:
-				return PointSource.EXPERIENCE;
-			case NPC_KILLED:
-				return PointSource.COMBAT;
-			case LOOT_RECEIVED:
-				return PointSource.WEALTH;
-			case DISTANCE_TRAVELLED:
-				return PointSource.TRAVEL;
-			case HEALTH_RESTORED:
-				return PointSource.RECOVERY;
-			case LEVEL_UP:
-				return PointSource.EXPERIENCE;
-			case DAMAGE_TAKEN:
-				return PointSource.SUFFERING;
-			case TICK:
-				return PointSource.IDLING;
-			default:
-				return null;
-		}
 	}
 	private double unitsFor(DopamineState state, DopamineEvent event)
 	{
