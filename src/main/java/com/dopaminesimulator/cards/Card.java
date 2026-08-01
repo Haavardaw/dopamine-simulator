@@ -26,6 +26,11 @@ package com.dopaminesimulator.cards;
 
 import lombok.Value;
 
+/**
+ * A card's data, as handed out by {@link CardCatalogue}. Instances come from
+ * {@link Cards} and nowhere else, so an id can only ever be the one the enum
+ * constant defines - there is deliberately no way to derive one from a name.
+ */
 @Value
 public class Card
 {
@@ -35,22 +40,4 @@ public class Card
 	Rarity rarity;
 	int itemId;
 	int spriteId;
-	public static Card ofItem(CardSet set, String name, Rarity rarity, int itemId)
-	{
-		return new Card(idFor(set, name), name, set, rarity, itemId, -1);
-	}
-	public static Card ofSprite(CardSet set, String name, Rarity rarity, int spriteId)
-	{
-		return new Card(idFor(set, name), name, set, rarity, -1, spriteId);
-	}
-	public static Card plain(CardSet set, String name, Rarity rarity)
-	{
-		return new Card(idFor(set, name), name, set, rarity, -1, -1);
-	}
-	static String idFor(CardSet set, String name)
-	{
-		return set.name().toLowerCase() + "-" + name.toLowerCase()
-			.replaceAll("[^a-z0-9]+", "-")
-			.replaceAll("(^-|-$)", "");
-	}
 }

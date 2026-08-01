@@ -47,265 +47,216 @@ public final class CardCollection
 	private final CardSet set;
 	private final String description;
 	private final List<Card> cards;
-	private final List<String> unresolved;
-	private CardCollection(String name, CardSet set, String description, List<String> memberNames)
+	private CardCollection(String name, CardSet set, String description, List<Cards> members)
 	{
 		this.name = name;
 		this.set = set;
 		this.description = description;
-		List<Card> resolved = new ArrayList<>();
-		List<String> missing = new ArrayList<>();
-		for (String member : memberNames)
+		List<Card> resolved = new ArrayList<>(members.size());
+		for (Cards member : members)
 		{
-			Card card = findIn(set, member);
-			if (card == null)
+			if (member.getSet() != set)
 			{
-				missing.add(member);
+				throw new IllegalStateException(name + " lists " + member
+					+ ", which is in " + member.getSet() + " rather than " + set);
 			}
-			else
-			{
-				resolved.add(card);
-			}
+			resolved.add(member.getCard());
 		}
 		this.cards = Collections.unmodifiableList(resolved);
-		this.unresolved = Collections.unmodifiableList(missing);
 	}
 
 	static
 	{
-		for (Card card : CardCatalogue.bySet(CardSet.DIARIES))
+		// the diary sets group themselves: one collection per area, holding whichever
+		// tiers exist for it
+		for (Cards entry : Cards.values())
 		{
-			String area = areaOf(card.getName());
-			if (area == null)
+			if (entry.getSet() != CardSet.DIARIES)
 			{
 				continue;
 			}
-			List<String> tiers = new ArrayList<>();
-			for (Card sibling : CardCatalogue.bySet(CardSet.DIARIES))
+			String area = areaOf(entry.getDisplayName());
+			if (area == null || contains(area + " Diaries"))
 			{
-				if (area.equals(areaOf(sibling.getName())))
+				continue;
+			}
+			List<Cards> tiers = new ArrayList<>();
+			for (Cards sibling : Cards.values())
+			{
+				if (sibling.getSet() == CardSet.DIARIES
+					&& area.equals(areaOf(sibling.getDisplayName())))
 				{
-					tiers.add(sibling.getName());
+					tiers.add(sibling);
 				}
 			}
-			if (!contains(area + " Diaries"))
-			{
-				define(area + " Diaries", CardSet.DIARIES,
-					"All four difficulty tiers.", tiers);
-			}
+			define(area + " Diaries", CardSet.DIARIES, "All four difficulty tiers.", tiers);
 		}
-		define("The Elf Saga", CardSet.QUESTS,
-			"The elf quest series.",
-			"Plague City", "Biohazard", "Underground Pass", "Regicide", "Roving Elves",
-			"Mourning's End Part I", "Mourning's End Part II", "Song of the Elves");
-		define("The Myreque", CardSet.QUESTS,
-			"The Myreque quest series.",
-			"In Search of the Myreque", "In Aid of the Myreque", "Darkness of Hallowvale",
-			"A Taste of Hope", "Sins of the Father", "The Blood Moon Rises");
-		define("The Mahjarrat", CardSet.QUESTS,
-			"Quests involving the Mahjarrat.",
-			"Desert Treasure I", "Desert Treasure II - The Fallen Empire", "The Curse of Arrav",
-			"Defender of Varrock", "While Guthix Sleeps", "Secrets of the North");
-		define("Gnome Business", CardSet.QUESTS,
-			"The gnome quest series.",
-			"Tree Gnome Village", "The Grand Tree", "The Eyes of Glouphrie",
-			"The Path of Glouphrie", "Monkey Madness I", "Monkey Madness II");
-		define("Fremennik Trials", CardSet.QUESTS,
-			"The Fremennik quest series.",
-			"The Fremennik Trials", "The Fremennik Isles", "The Fremennik Exiles");
+		define("The Elf Saga", CardSet.QUESTS, "The elf quest series.", Cards.PLAGUE_CITY,
+			Cards.BIOHAZARD, Cards.UNDERGROUND_PASS, Cards.REGICIDE, Cards.ROVING_ELVES,
+			Cards.MOURNING_S_END_PART_I, Cards.MOURNING_S_END_PART_II, Cards.SONG_OF_THE_ELVES);
+		define("The Myreque", CardSet.QUESTS, "The Myreque quest series.",
+			Cards.IN_SEARCH_OF_THE_MYREQUE, Cards.IN_AID_OF_THE_MYREQUE, Cards.DARKNESS_OF_HALLOWVALE,
+			Cards.A_TASTE_OF_HOPE, Cards.SINS_OF_THE_FATHER, Cards.THE_BLOOD_MOON_RISES);
+		define("The Mahjarrat", CardSet.QUESTS, "Quests involving the Mahjarrat.",
+			Cards.DESERT_TREASURE_I, Cards.DESERT_TREASURE_II_THE_FALLEN_EMPIRE, Cards.THE_CURSE_OF_ARRAV,
+			Cards.DEFENDER_OF_VARROCK, Cards.WHILE_GUTHIX_SLEEPS, Cards.SECRETS_OF_THE_NORTH);
+		define("Gnome Business", CardSet.QUESTS, "The gnome quest series.", Cards.TREE_GNOME_VILLAGE,
+			Cards.THE_GRAND_TREE, Cards.THE_EYES_OF_GLOUPHRIE, Cards.THE_PATH_OF_GLOUPHRIE,
+			Cards.MONKEY_MADNESS_I, Cards.MONKEY_MADNESS_II);
+		define("Fremennik Trials", CardSet.QUESTS, "The Fremennik quest series.",
+			Cards.THE_FREMENNIK_TRIALS, Cards.THE_FREMENNIK_ISLES, Cards.THE_FREMENNIK_EXILES);
 
-		define("Dragon Slayers", CardSet.QUESTS,
-			"Both Dragon Slayer quests.",
-			"Dragon Slayer I", "Dragon Slayer II");
-		define("Pirate Tales", CardSet.QUESTS,
-			"The pirate quest series.",
-			"Pirate's Treasure", "Rum Deal", "Cabin Fever", "The Great Brain Robbery");
-		define("Great Kourend", CardSet.QUESTS,
-			"The Great Kourend quest series.",
-			"Client of Kourend", "The Queen of Thieves", "The Depths of Despair",
-			"Tale of the Righteous", "The Forsaken Tower", "The Ascent of Arceuus",
-			"A Kingdom Divided");
-		define("Varlamore", CardSet.QUESTS,
-			"The Varlamore quest series.",
-			"Children of the Sun", "Twilight's Promise", "Perilous Moons", "The Final Dawn");
+		define("Dragon Slayers", CardSet.QUESTS, "Both Dragon Slayer quests.", Cards.DRAGON_SLAYER_I,
+			Cards.DRAGON_SLAYER_II);
+		define("Pirate Tales", CardSet.QUESTS, "The pirate quest series.", Cards.PIRATE_S_TREASURE,
+			Cards.RUM_DEAL, Cards.CABIN_FEVER, Cards.THE_GREAT_BRAIN_ROBBERY);
+		define("Great Kourend", CardSet.QUESTS, "The Great Kourend quest series.",
+			Cards.CLIENT_OF_KOUREND, Cards.THE_QUEEN_OF_THIEVES, Cards.THE_DEPTHS_OF_DESPAIR,
+			Cards.TALE_OF_THE_RIGHTEOUS, Cards.THE_FORSAKEN_TOWER, Cards.THE_ASCENT_OF_ARCEUUS,
+			Cards.A_KINGDOM_DIVIDED);
+		define("Varlamore", CardSet.QUESTS, "The Varlamore quest series.", Cards.CHILDREN_OF_THE_SUN,
+			Cards.TWILIGHT_S_PROMISE, Cards.PERILOUS_MOONS, Cards.THE_FINAL_DAWN);
 
-		define("Recipe for Disaster", CardSet.QUESTS,
-			"Recipe for Disaster and its ten subquests.",
-			"Recipe for Disaster", "Recipe for Disaster - Another Cook's Quest",
-			"Recipe for Disaster - Mountain Dwarf", "Recipe for Disaster - Wartface & Bentnoze",
-			"Recipe for Disaster - Pirate Pete", "Recipe for Disaster - Lumbridge Guide",
-			"Recipe for Disaster - Evil Dave", "Recipe for Disaster - Skrach Uglogwee",
-			"Recipe for Disaster - Sir Amik Varze", "Recipe for Disaster - King Awowogei",
-			"Recipe for Disaster - Culinaromancer");
-		define("Combat Skills", CardSet.SKILLS,
-			"The seven combat skills.",
-			"Attack", "Strength", "Defence", "Hitpoints", "Ranged", "Magic", "Prayer");
-		define("Gathering Skills", CardSet.SKILLS,
-			"The five gathering skills.",
-			"Mining", "Fishing", "Woodcutting", "Farming", "Hunter");
-		define("Artisan Skills", CardSet.SKILLS,
-			"The eight artisan skills.",
-			"Smithing", "Crafting", "Fletching", "Cooking", "Firemaking", "Herblore",
-			"Construction", "Runecraft");
-		define("Support Skills", CardSet.SKILLS,
-			"The three support skills.",
-			"Agility", "Thieving", "Slayer");
-		define("God Wars Dungeon", CardSet.BOSSES,
-			"The four generals and Nex.",
-			"General Graardor", "K'ril Tsutsaroth", "Commander Zilyana", "Kree'arra", "Nex");
-		define("Dagannoth Kings", CardSet.BOSSES,
-			"All three Dagannoth Kings.",
-			"Dagannoth Rex", "Dagannoth Prime", "Dagannoth Supreme");
-		define("Wilderness Bosses", CardSet.BOSSES,
-			"Bosses found in the Wilderness.",
-			"Callisto", "Vet'ion", "Venenatis", "Chaos Elemental", "Chaos Fanatic",
-			"Crazy Archaeologist", "Scorpia", "King Black Dragon");
-		define("The Desert Awakening", CardSet.BOSSES,
-			"The four Desert Treasure II bosses.",
-			"Duke Sucellus", "The Leviathan", "The Whisperer", "Vardorvis");
-		define("Raids", CardSet.BOSSES,
-			"All three raids.",
-			"Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Theatre of Blood",
-			"Tombs of Amascut");
-		define("Slayer Bosses", CardSet.BOSSES,
-			"Bosses that appear as Slayer tasks.",
-			"Abyssal Sire", "Cerberus", "Kraken", "Thermonuclear Smoke Devil",
-			"Alchemical Hydra", "Grotesque Guardians");
-		define("Skilling Bosses", CardSet.BOSSES,
-			"Bosses trained as skilling activities.",
-			"Tempoross", "Wintertodt", "Zalcano", "Hespori");
-		define("Low-Level Slayer", CardSet.SLAYER,
-			"Slayer tasks up to level 52.",
-			"Crawling Hand", "Banshee", "Rockslug", "Cockatrice", "Pyrefiend", "Basilisk",
-			"Infernal Mage", "Bloodveld", "Jelly");
-		define("Mid-Level Slayer", CardSet.SLAYER,
-			"Slayer tasks from level 55 to 80.",
-			"Turoth", "Aberrant Spectre", "Dust Devil", "Kurask", "Gargoyle", "Nechryael",
-			"Cave Horror", "Skeletal Wyvern", "Wyrm");
+		define("Recipe for Disaster", CardSet.QUESTS, "Recipe for Disaster and its ten subquests.",
+			Cards.RECIPE_FOR_DISASTER, Cards.RECIPE_FOR_DISASTER_ANOTHER_COOK_S_QUEST,
+			Cards.RECIPE_FOR_DISASTER_MOUNTAIN_DWARF, Cards.RECIPE_FOR_DISASTER_WARTFACE_BENTNOZE,
+			Cards.RECIPE_FOR_DISASTER_PIRATE_PETE, Cards.RECIPE_FOR_DISASTER_LUMBRIDGE_GUIDE,
+			Cards.RECIPE_FOR_DISASTER_EVIL_DAVE, Cards.RECIPE_FOR_DISASTER_SKRACH_UGLOGWEE,
+			Cards.RECIPE_FOR_DISASTER_SIR_AMIK_VARZE, Cards.RECIPE_FOR_DISASTER_KING_AWOWOGEI,
+			Cards.RECIPE_FOR_DISASTER_CULINAROMANCER);
+		define("Combat Skills", CardSet.SKILLS, "The seven combat skills.", Cards.ATTACK,
+			Cards.STRENGTH, Cards.DEFENCE, Cards.HITPOINTS, Cards.RANGED, Cards.MAGIC, Cards.PRAYER);
+		define("Gathering Skills", CardSet.SKILLS, "The five gathering skills.", Cards.MINING,
+			Cards.FISHING, Cards.WOODCUTTING, Cards.FARMING, Cards.HUNTER);
+		define("Artisan Skills", CardSet.SKILLS, "The eight artisan skills.", Cards.SMITHING,
+			Cards.CRAFTING, Cards.FLETCHING, Cards.COOKING, Cards.FIREMAKING, Cards.HERBLORE,
+			Cards.CONSTRUCTION, Cards.RUNECRAFT);
+		define("Support Skills", CardSet.SKILLS, "The three support skills.", Cards.AGILITY,
+			Cards.THIEVING, Cards.SLAYER);
+		define("God Wars Dungeon", CardSet.BOSSES, "The four generals and Nex.",
+			Cards.GENERAL_GRAARDOR, Cards.K_RIL_TSUTSAROTH, Cards.COMMANDER_ZILYANA, Cards.KREE_ARRA,
+			Cards.NEX);
+		define("Dagannoth Kings", CardSet.BOSSES, "All three Dagannoth Kings.", Cards.DAGANNOTH_REX,
+			Cards.DAGANNOTH_PRIME, Cards.DAGANNOTH_SUPREME);
+		define("Wilderness Bosses", CardSet.BOSSES, "Bosses found in the Wilderness.", Cards.CALLISTO,
+			Cards.VET_ION, Cards.VENENATIS, Cards.CHAOS_ELEMENTAL, Cards.CHAOS_FANATIC,
+			Cards.CRAZY_ARCHAEOLOGIST, Cards.SCORPIA, Cards.KING_BLACK_DRAGON);
+		define("The Desert Awakening", CardSet.BOSSES, "The four Desert Treasure II bosses.",
+			Cards.DUKE_SUCELLUS, Cards.THE_LEVIATHAN, Cards.THE_WHISPERER, Cards.VARDORVIS);
+		define("Raids", CardSet.BOSSES, "All three raids.", Cards.CHAMBERS_OF_XERIC,
+			Cards.CHAMBERS_OF_XERIC_CHALLENGE_MODE, Cards.THEATRE_OF_BLOOD, Cards.TOMBS_OF_AMASCUT);
+		define("Slayer Bosses", CardSet.BOSSES, "Bosses that appear as Slayer tasks.",
+			Cards.ABYSSAL_SIRE, Cards.CERBERUS, Cards.KRAKEN, Cards.THERMONUCLEAR_SMOKE_DEVIL,
+			Cards.ALCHEMICAL_HYDRA, Cards.GROTESQUE_GUARDIANS);
+		define("Skilling Bosses", CardSet.BOSSES, "Bosses trained as skilling activities.",
+			Cards.TEMPOROSS, Cards.WINTERTODT, Cards.ZALCANO, Cards.HESPORI);
+		define("Low-Level Slayer", CardSet.SLAYER, "Slayer tasks up to level 52.", Cards.CRAWLING_HAND,
+			Cards.BANSHEE, Cards.ROCKSLUG, Cards.COCKATRICE, Cards.PYREFIEND, Cards.BASILISK,
+			Cards.INFERNAL_MAGE, Cards.BLOODVELD, Cards.JELLY);
+		define("Mid-Level Slayer", CardSet.SLAYER, "Slayer tasks from level 55 to 80.", Cards.TUROTH,
+			Cards.ABERRANT_SPECTRE, Cards.DUST_DEVIL, Cards.KURASK, Cards.GARGOYLE, Cards.NECHRYAEL,
+			Cards.CAVE_HORROR, Cards.SKELETAL_WYVERN, Cards.WYRM);
 
-		define("High-Level Slayer", CardSet.SLAYER,
-			"Slayer tasks from level 77 upwards.",
-			"Dark Beast", "Abyssal Demon", "Smoke Devil", "Drake", "Hydra",
-			"Brutal Black Dragon", "Nechryarch");
+		define("High-Level Slayer", CardSet.SLAYER, "Slayer tasks from level 77 upwards.",
+			Cards.DARK_BEAST, Cards.ABYSSAL_DEMON, Cards.SMOKE_DEVIL, Cards.DRAKE, Cards.HYDRA,
+			Cards.BRUTAL_BLACK_DRAGON, Cards.NECHRYARCH);
 
-		define("The Scimitar Ladder", CardSet.ITEMS,
-			"The scimitar tier list.",
-			"Iron Scimitar", "Steel Scimitar", "Mithril Scimitar", "Adamant Scimitar",
-			"Rune Scimitar", "Dragon Scimitar");
-		define("Every Log", CardSet.ITEMS,
-			"Every type of logs.",
-			"Logs", "Oak Logs", "Willow Logs", "Maple Logs", "Yew Logs", "Magic Logs",
-			"Redwood Logs");
-		define("Every Ore", CardSet.ITEMS,
-			"Every type of ore.",
-			"Copper Ore", "Tin Ore", "Iron Ore", "Coal", "Gold Ore", "Mithril Ore",
-			"Adamantite Ore", "Runite Ore");
-		define("Chambers of Xeric", CardSet.ITEMS,
-			"Uniques from the Chambers of Xeric.",
-			"Kodai Wand", "Ancestral Hat", "Ancestral Robe Top", "Elder Maul", "Dragon Claws",
-			"Twisted Buckler", "Dragon Hunter Crossbow", "Dinh's Bulwark",
-			"Dexterous Prayer Scroll", "Arcane Prayer Scroll", "Twisted Bow");
+		define("The Scimitar Ladder", CardSet.ITEMS, "The scimitar tier list.", Cards.IRON_SCIMITAR,
+			Cards.STEEL_SCIMITAR, Cards.MITHRIL_SCIMITAR, Cards.ADAMANT_SCIMITAR, Cards.RUNE_SCIMITAR,
+			Cards.DRAGON_SCIMITAR);
+		define("Every Log", CardSet.ITEMS, "Every type of logs.", Cards.LOGS, Cards.OAK_LOGS,
+			Cards.WILLOW_LOGS, Cards.MAPLE_LOGS, Cards.YEW_LOGS, Cards.MAGIC_LOGS, Cards.REDWOOD_LOGS);
+		define("Every Ore", CardSet.ITEMS, "Every type of ore.", Cards.COPPER_ORE, Cards.TIN_ORE,
+			Cards.IRON_ORE, Cards.COAL, Cards.GOLD_ORE, Cards.MITHRIL_ORE, Cards.ADAMANTITE_ORE,
+			Cards.RUNITE_ORE);
+		define("Chambers of Xeric", CardSet.ITEMS, "Uniques from the Chambers of Xeric.",
+			Cards.KODAI_WAND, Cards.ANCESTRAL_HAT, Cards.ANCESTRAL_ROBE_TOP, Cards.ELDER_MAUL,
+			Cards.DRAGON_CLAWS, Cards.TWISTED_BUCKLER, Cards.DRAGON_HUNTER_CROSSBOW, Cards.DINH_S_BULWARK,
+			Cards.DEXTEROUS_PRAYER_SCROLL, Cards.ARCANE_PRAYER_SCROLL, Cards.TWISTED_BOW);
 
-		define("Theatre of Blood", CardSet.ITEMS,
-			"Uniques from the Theatre of Blood.",
-			"Ghrazi Rapier", "Sanguinesti Staff", "Justiciar Faceguard", "Justiciar Chestguard",
-			"Avernic Defender", "Scythe of Vitur");
+		define("Theatre of Blood", CardSet.ITEMS, "Uniques from the Theatre of Blood.",
+			Cards.GHRAZI_RAPIER, Cards.SANGUINESTI_STAFF, Cards.JUSTICIAR_FACEGUARD,
+			Cards.JUSTICIAR_CHESTGUARD, Cards.AVERNIC_DEFENDER, Cards.SCYTHE_OF_VITUR);
 
-		define("Tombs of Amascut", CardSet.ITEMS,
-			"Uniques from the Tombs of Amascut.",
-			"Osmumten's Fang", "Lightbearer", "Elidinis' Ward", "Masori Mask",
-			"Masori Body", "Tumeken's Shadow");
+		define("Tombs of Amascut", CardSet.ITEMS, "Uniques from the Tombs of Amascut.",
+			Cards.OSMUMTEN_S_FANG, Cards.LIGHTBEARER, Cards.ELIDINIS_WARD, Cards.MASORI_MASK,
+			Cards.MASORI_BODY, Cards.TUMEKEN_S_SHADOW);
 
-		define("God Wars Uniques", CardSet.ITEMS,
-			"Drops from the four God Wars generals.",
-			"Armadyl Chestplate", "Armadyl Helmet", "Armadyl Crossbow", "Bandos Chestplate",
-			"Bandos Tassets", "Saradomin Sword", "Zamorakian Spear", "Staff of the Dead");
+		define("God Wars Uniques", CardSet.ITEMS, "Drops from the four God Wars generals.",
+			Cards.ARMADYL_CHESTPLATE, Cards.ARMADYL_HELMET, Cards.ARMADYL_CROSSBOW,
+			Cards.BANDOS_CHESTPLATE, Cards.BANDOS_TASSETS, Cards.SARADOMIN_SWORD, Cards.ZAMORAKIAN_SPEAR,
+			Cards.STAFF_OF_THE_DEAD);
 
-		define("The Nex Drop Table", CardSet.ITEMS,
-			"Drops from Nex.",
-			"Torva Full Helm", "Torva Platebody", "Zaryte Vambraces");
+		define("The Nex Drop Table", CardSet.ITEMS, "Drops from Nex.", Cards.TORVA_FULL_HELM,
+			Cards.TORVA_PLATEBODY, Cards.ZARYTE_VAMBRACES);
 
-		define("The Nightmare", CardSet.ITEMS,
-			"Drops from the Nightmare.",
-			"Inquisitor's Mace", "Nightmare Staff", "Harmonised Orb", "Volatile Orb",
-			"Eldritch Orb");
+		define("The Nightmare", CardSet.ITEMS, "Drops from the Nightmare.", Cards.INQUISITOR_S_MACE,
+			Cards.NIGHTMARE_STAFF, Cards.HARMONISED_ORB, Cards.VOLATILE_ORB, Cards.ELDRITCH_ORB);
 
-		define("Desert Treasure II Drops", CardSet.ITEMS,
-			"Drops from the Forgotten Four.",
-			"Ultor Vestige", "Magus Vestige", "Venator Vestige", "Bellator Vestige",
-			"Awakener's Orb", "Virtus Mask", "Virtus Robe Top");
+		define("Desert Treasure II Drops", CardSet.ITEMS, "Drops from the Forgotten Four.",
+			Cards.ULTOR_VESTIGE, Cards.MAGUS_VESTIGE, Cards.VENATOR_VESTIGE, Cards.BELLATOR_VESTIGE,
+			Cards.AWAKENER_S_ORB, Cards.VIRTUS_MASK, Cards.VIRTUS_ROBE_TOP);
 
-		define("Araxxor", CardSet.ITEMS,
-			"Drops from Araxxor.",
-			"Noxious Halberd", "Araxyte Fang", "Amulet of Rancour");
+		define("Araxxor", CardSet.ITEMS, "Drops from Araxxor.", Cards.NOXIOUS_HALBERD,
+			Cards.ARAXYTE_FANG, Cards.AMULET_OF_RANCOUR);
 
-		define("Slayer Boss Drops", CardSet.ITEMS,
-			"Uniques from bosses that appear as Slayer tasks.",
-			"Abyssal Whip", "Abyssal Dagger", "Abyssal Bludgeon", "Kraken Tentacle",
-			"Hydra's Claw", "Hydra Tail", "Hydra Leather", "Occult Necklace",
-			"Smoke Battlestaff", "Granite Hammer");
+		define("Slayer Boss Drops", CardSet.ITEMS, "Uniques from bosses that appear as Slayer tasks.",
+			Cards.ABYSSAL_WHIP, Cards.ABYSSAL_DAGGER, Cards.ABYSSAL_BLUDGEON, Cards.KRAKEN_TENTACLE,
+			Cards.HYDRA_S_CLAW, Cards.HYDRA_TAIL, Cards.HYDRA_LEATHER, Cards.OCCULT_NECKLACE,
+			Cards.SMOKE_BATTLESTAFF, Cards.GRANITE_HAMMER);
 
 		define("Cerberus", CardSet.ITEMS,
 			"The three crystals, the boots they upgrade, and the smouldering stone.",
-			"Primordial Crystal", "Pegasian Crystal", "Eternal Crystal", "Primordial Boots",
-			"Pegasian Boots", "Eternal Boots", "Smouldering Stone");
+			Cards.PRIMORDIAL_CRYSTAL, Cards.PEGASIAN_CRYSTAL, Cards.ETERNAL_CRYSTAL,
+			Cards.PRIMORDIAL_BOOTS, Cards.PEGASIAN_BOOTS, Cards.ETERNAL_BOOTS, Cards.SMOULDERING_STONE);
 
-		define("Wilderness Boss Rings", CardSet.ITEMS,
-			"The three rings from the Wilderness bosses.",
-			"Ring of the Gods", "Treasonous Ring", "Tyrannical Ring");
+		define("Wilderness Boss Rings", CardSet.ITEMS, "The three rings from the Wilderness bosses.",
+			Cards.RING_OF_THE_GODS, Cards.TREASONOUS_RING, Cards.TYRANNICAL_RING);
 
-		define("Zulrah", CardSet.ITEMS,
-			"Zulrah's drops and the blowpipe they build.",
-			"Tanzanite Fang", "Magic Fang", "Serpentine Visage", "Uncut Onyx",
-			"Zulrah's Scales", "Toxic Blowpipe");
+		define("Zulrah", CardSet.ITEMS, "Zulrah's drops and the blowpipe they build.",
+			Cards.TANZANITE_FANG, Cards.MAGIC_FANG, Cards.SERPENTINE_VISAGE, Cards.UNCUT_ONYX,
+			Cards.ZULRAH_S_SCALES, Cards.TOXIC_BLOWPIPE);
 
-		define("Dragon Equipment", CardSet.ITEMS,
-			"Dragon gear.",
-			"Dragon Scimitar", "Dragon Pickaxe", "Dragon Harpoon", "Dragon Claws",
-			"Dragon Hunter Crossbow");
+		define("Dragon Equipment", CardSet.ITEMS, "Dragon gear.", Cards.DRAGON_SCIMITAR,
+			Cards.DRAGON_PICKAXE, Cards.DRAGON_HARPOON, Cards.DRAGON_CLAWS, Cards.DRAGON_HUNTER_CROSSBOW);
 
-		define("Skilling Boss Drops", CardSet.ITEMS,
-			"Uniques from Tempoross, Wintertodt and Hespori.",
-			"Dragon Harpoon", "Tome of Fire", "Tome of Water");
-		define("The Rune Pouch", CardSet.ITEMS,
-			"Every rune.",
-			"Air Rune", "Water Rune", "Earth Rune", "Fire Rune", "Mind Rune", "Body Rune",
-			"Chaos Rune", "Cosmic Rune", "Nature Rune", "Law Rune", "Death Rune", "Blood Rune",
-			"Soul Rune", "Astral Rune", "Wrath Rune", "Mist Rune", "Dust Rune", "Mud Rune",
-			"Smoke Rune", "Steam Rune", "Lava Rune", "Sunfire Rune", "Aether Rune");
+		define("Skilling Boss Drops", CardSet.ITEMS, "Uniques from Tempoross, Wintertodt and Hespori.",
+			Cards.DRAGON_HARPOON, Cards.TOME_OF_FIRE, Cards.TOME_OF_WATER);
+		define("The Rune Pouch", CardSet.ITEMS, "Every rune.", Cards.AIR_RUNE, Cards.WATER_RUNE,
+			Cards.EARTH_RUNE, Cards.FIRE_RUNE, Cards.MIND_RUNE, Cards.BODY_RUNE, Cards.CHAOS_RUNE,
+			Cards.COSMIC_RUNE, Cards.NATURE_RUNE, Cards.LAW_RUNE, Cards.DEATH_RUNE, Cards.BLOOD_RUNE,
+			Cards.SOUL_RUNE, Cards.ASTRAL_RUNE, Cards.WRATH_RUNE, Cards.MIST_RUNE, Cards.DUST_RUNE,
+			Cards.MUD_RUNE, Cards.SMOKE_RUNE, Cards.STEAM_RUNE, Cards.LAVA_RUNE, Cards.SUNFIRE_RUNE,
+			Cards.AETHER_RUNE);
 
-		define("Tools", CardSet.ITEMS,
-			"Basic skilling tools.",
-			"Tinderbox", "Rope", "Hammer", "Chisel", "Knife", "Spade");
-		define("The Herb Patch", CardSet.ITEMS,
-			"Every herb, cleaned.",
-			"Guam Leaf", "Marrentill", "Tarromin", "Harralander", "Ranarr Weed", "Toadflax",
-			"Irit Leaf", "Avantoe", "Huasca", "Kwuarm", "Snapdragon", "Cadantine", "Lantadyme",
-			"Dwarf Weed", "Torstol");
-		define("Every Catch", CardSet.ITEMS,
-			"Raw fish across the levels.",
-			"Raw Shrimps", "Raw Anchovies", "Raw Sardine", "Raw Herring", "Raw Mackerel",
-			"Raw Trout", "Raw Cod", "Raw Pike", "Raw Salmon", "Raw Tuna", "Raw Lobster",
-			"Raw Bass", "Raw Swordfish", "Raw Monkfish", "Raw Karambwan", "Raw Shark",
-			"Raw Sea Turtle", "Raw Manta Ray", "Raw Anglerfish", "Raw Dark Crab");
-		define("Combat Minigames", CardSet.MINIGAMES,
-			"Combat minigames.",
-			"Barbarian Assault", "Pest Control", "Castle Wars", "Last Man Standing", "Soul Wars",
-			"Nightmare Zone");
-		define("Skilling Minigames", CardSet.MINIGAMES,
-			"Skilling minigames.",
-			"Blast Furnace", "Tithe Farm", "Pyramid Plunder",
-			"Brimhaven Agility Arena", "Rogues' Den", "Trouble Brewing", "Mage Training Arena",
-			"Gnome Restaurant", "Volcanic Mine", "Guardians of the Rift");
-		define("The Caves", CardSet.MINIGAMES,
-			"The Fight Caves and the Inferno.",
-			"Fight Caves", "Inferno");
+		define("Tools", CardSet.ITEMS, "Basic skilling tools.", Cards.TINDERBOX, Cards.ROPE,
+			Cards.HAMMER, Cards.CHISEL, Cards.KNIFE, Cards.SPADE);
+		define("The Herb Patch", CardSet.ITEMS, "Every herb, cleaned.", Cards.GUAM_LEAF,
+			Cards.MARRENTILL, Cards.TARROMIN, Cards.HARRALANDER, Cards.RANARR_WEED, Cards.TOADFLAX,
+			Cards.IRIT_LEAF, Cards.AVANTOE, Cards.HUASCA, Cards.KWUARM, Cards.SNAPDRAGON, Cards.CADANTINE,
+			Cards.LANTADYME, Cards.DWARF_WEED, Cards.TORSTOL);
+		define("Every Catch", CardSet.ITEMS, "Raw fish across the levels.", Cards.RAW_SHRIMPS,
+			Cards.RAW_ANCHOVIES, Cards.RAW_SARDINE, Cards.RAW_HERRING, Cards.RAW_MACKEREL,
+			Cards.RAW_TROUT, Cards.RAW_COD, Cards.RAW_PIKE, Cards.RAW_SALMON, Cards.RAW_TUNA,
+			Cards.RAW_LOBSTER, Cards.RAW_BASS, Cards.RAW_SWORDFISH, Cards.RAW_MONKFISH,
+			Cards.RAW_KARAMBWAN, Cards.RAW_SHARK, Cards.RAW_SEA_TURTLE, Cards.RAW_MANTA_RAY,
+			Cards.RAW_ANGLERFISH, Cards.RAW_DARK_CRAB);
+		define("Combat Minigames", CardSet.MINIGAMES, "Combat minigames.", Cards.BARBARIAN_ASSAULT,
+			Cards.PEST_CONTROL, Cards.CASTLE_WARS, Cards.LAST_MAN_STANDING, Cards.SOUL_WARS,
+			Cards.NIGHTMARE_ZONE);
+		define("Skilling Minigames", CardSet.MINIGAMES, "Skilling minigames.", Cards.BLAST_FURNACE,
+			Cards.TITHE_FARM, Cards.PYRAMID_PLUNDER, Cards.BRIMHAVEN_AGILITY_ARENA, Cards.ROGUES_DEN,
+			Cards.TROUBLE_BREWING, Cards.MAGE_TRAINING_ARENA, Cards.GNOME_RESTAURANT, Cards.VOLCANIC_MINE,
+			Cards.GUARDIANS_OF_THE_RIFT);
+		define("The Caves", CardSet.MINIGAMES, "The Fight Caves and the Inferno.", Cards.FIGHT_CAVES,
+			Cards.INFERNO);
 	}
-	private static void define(String name, CardSet set, String description, String... members)
+	private static void define(String name, CardSet set, String description, Cards... members)
 	{
 		define(name, set, description, java.util.Arrays.asList(members));
 	}
-	private static void define(String name, CardSet set, String description, List<String> members)
+
+	private static void define(String name, CardSet set, String description, List<Cards> members)
 	{
 		CardCollection collection = new CardCollection(name, set, description, members);
 		ALL.add(collection);
@@ -339,17 +290,6 @@ public final class CardCollection
 		return false;
 	}
 
-	private static Card findIn(CardSet set, String name)
-	{
-		for (Card card : CardCatalogue.bySet(set))
-		{
-			if (card.getName().equalsIgnoreCase(name))
-			{
-				return card;
-			}
-		}
-		return null;
-	}
 	public static List<CardCollection> all()
 	{
 		return Collections.unmodifiableList(ALL);
