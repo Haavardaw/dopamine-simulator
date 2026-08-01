@@ -159,7 +159,7 @@ public final class CardCollection
 
 		define("High-Level Slayer", CardSet.SLAYER, "Slayer tasks from level 77 upwards.",
 			Cards.DARK_BEAST, Cards.ABYSSAL_DEMON, Cards.SMOKE_DEVIL, Cards.DRAKE, Cards.HYDRA,
-			Cards.BRUTAL_BLACK_DRAGON, Cards.NECHRYARCH);
+			Cards.BRUTAL_BLACK_DRAGON, Cards.ARAXYTE, Cards.CAVE_KRAKEN, Cards.ANCIENT_WYVERN);
 
 		define("The Scimitar Ladder", CardSet.ITEMS, "The scimitar tier list.", Cards.IRON_SCIMITAR,
 			Cards.STEEL_SCIMITAR, Cards.MITHRIL_SCIMITAR, Cards.ADAMANT_SCIMITAR, Cards.RUNE_SCIMITAR,
