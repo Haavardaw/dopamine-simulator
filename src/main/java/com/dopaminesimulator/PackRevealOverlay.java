@@ -70,6 +70,8 @@ public class PackRevealOverlay extends Overlay
 	private static final int MAX_PENDING = 8;
 	private static final long MAX_QUEUE_AHEAD_MS = 5000L;
 	private static final long DEAL_MS = 340L;
+	private static final long MIN_DEAL_MS = 120L;
+	private static final long MIN_FLIP_MS = 120L;
 	private static final long BANNER_ENTRANCE_MS = 260L;
 	private static final double BANNER_TOP = 0.06d;
 	private static final long BANNER_SPARK_MS = 620L;
@@ -101,6 +103,8 @@ public class PackRevealOverlay extends Overlay
 		private final boolean major;
 		private long start;
 		private final long holdMs;
+		private final long dealMs;
+		private final long flipMs;
 
 		private final Card card;
 		private final int stars;
@@ -115,7 +119,7 @@ public class PackRevealOverlay extends Overlay
 		private boolean revealSoundPlayed;
 		private RevealCard(String title, String detail, Rarity rarity, Color colour,
 						   boolean major, long start, Card card, int stars, boolean shiny, boolean gilded, int quantity, boolean stackable,
-						   boolean feat, boolean wish, int featTier, long holdMs)
+						   boolean feat, boolean wish, int featTier, long holdMs, long dealMs, long flipMs)
 		{
 			this.title = title;
 			this.detail = detail;
@@ -133,6 +137,8 @@ public class PackRevealOverlay extends Overlay
 			this.wish = wish;
 			this.featTier = featTier;
 			this.holdMs = holdMs;
+			this.dealMs = dealMs;
+			this.flipMs = flipMs;
 		}
 		private long age()
 		{
@@ -140,7 +146,7 @@ public class PackRevealOverlay extends Overlay
 		}
 		private long lifetime()
 		{
-			return DEAL_MS + FLIP_MS + holdMs + FADE_MS;
+			return dealMs + flipMs + holdMs + FADE_MS;
 		}
 		private boolean pending()
 		{
@@ -239,6 +245,8 @@ public class PackRevealOverlay extends Overlay
 		double speed = stagger / (double) STAGGER_MS;
 		long hold = Math.max(MIN_HOLD_MS,
 			Math.round((major ? MAJOR_HOLD_MS : HOLD_MS) * speed));
+		long deal = Math.max(MIN_DEAL_MS, Math.round(DEAL_MS * speed));
+		long flip = Math.max(MIN_FLIP_MS, Math.round(FLIP_MS * speed));
 
 		cards.addLast(new RevealCard(reward.getTitle(), variantDetail(reward, shiny, gilded),
 			reward.getRarity(), colour, major, startAt, reward.getCard(), stars, shiny, gilded, Math.max(1, reward.getCopies()),
@@ -246,7 +254,7 @@ public class PackRevealOverlay extends Overlay
 			reward.getType() == RewardType.FEAT || reward.getType() == RewardType.ACHIEVEMENT,
 			reward.getType() == RewardType.BANNER_WIN,
 			(int) reward.getAmount(),
-			hold));
+			hold, deal, flip));
 	}
 
 	private void pushWish(Reward reward)
@@ -264,7 +272,7 @@ public class PackRevealOverlay extends Overlay
 		cards.addLast(new RevealCard(reward.getTitle(), reward.getDetail(), reward.getRarity(),
 			reward.getRarity() == null ? Color.WHITE : reward.getRarity().getColour(),
 			true, now, reward.getCard(), 0, false, false, 1, false, false, true, 0,
-			WishReveal.LIFETIME_MS - DEAL_MS - FLIP_MS - FADE_MS));
+			WishReveal.LIFETIME_MS - DEAL_MS - FLIP_MS - FADE_MS, DEAL_MS, FLIP_MS));
 	}
 
 	private boolean stackOntoExisting(Reward reward)
@@ -601,7 +609,7 @@ public class PackRevealOverlay extends Overlay
 			return;
 		}
 
-		double dealProgress = clamp01(age / (double) DEAL_MS);
+		double dealProgress = clamp01(age / (double) card.dealMs);
 		double eased = smoothstep(dealProgress);
 		int y = (int) (slotY + (1d - eased) * DEAL_FROM_BELOW);
 		if (dealProgress >= 1d && !card.dealSoundPlayed)
@@ -610,8 +618,8 @@ public class PackRevealOverlay extends Overlay
 			sounds.cardDealt();
 		}
 
-		long flipAge = age - DEAL_MS;
-		double flipProgress = flipAge <= 0 ? 0d : clamp01(flipAge / (double) FLIP_MS);
+		long flipAge = age - card.dealMs;
+		double flipProgress = flipAge <= 0 ? 0d : clamp01(flipAge / (double) card.flipMs);
 		double scaleX = Math.abs(Math.cos(Math.PI * flipProgress));
 		boolean faceUp = flipProgress >= 0.5d;
 		if (faceUp && !card.revealSoundPlayed)
@@ -746,7 +754,7 @@ public class PackRevealOverlay extends Overlay
 		{
 			return 0f;
 		}
-		long fadeStart = DEAL_MS + FLIP_MS + card.holdMs;
+		long fadeStart = card.dealMs + card.flipMs + card.holdMs;
 		if (age < fadeStart)
 		{
 			return 1f;

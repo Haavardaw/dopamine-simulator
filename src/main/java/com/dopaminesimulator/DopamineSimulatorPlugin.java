@@ -554,11 +554,13 @@ public class DopamineSimulatorPlugin extends Plugin
 		}
 	}
 
-	private static int significance(Reward reward)
+	static int significance(Reward reward)
 	{
 		int rarity = reward.getRarity() == null ? 0 : reward.getRarity().ordinal();
 		switch (reward.getType())
 		{
+			case BANNER_WIN:
+				return 2000;
 			case SET_COMPLETE:
 				return 1000;
 			case NEW_CARD:
@@ -659,14 +661,38 @@ public class DopamineSimulatorPlugin extends Plugin
 			{
 				return;
 			}
+			if (count == 1)
+			{
+				bannerService.pull(engine.getState(), rarity, targetSet, rewards);
+				persist();
+				refreshPanel();
+				return;
+			}
+
+			// a ten pull is forty odd cards; show the best of them, not all of them
+			RewardQueue batch = new RewardQueue();
+			int pulled = 0;
 			for (int i = 0; i < count; i++)
 			{
 				if (!bannerService.canPull(engine.getState(), rarity))
 				{
 					break;
 				}
-				bannerService.pull(engine.getState(), rarity, targetSet, rewards);
+				bannerService.pull(engine.getState(), rarity, targetSet, batch);
+				pulled++;
 			}
+			if (pulled == 0)
+			{
+				refreshPanel();
+				return;
+			}
+
+			PackRevealOverlay reveal = revealOverlay;
+			if (reveal != null)
+			{
+				reveal.makeWayForBatch();
+			}
+			revealHighlights(batch.claimAll());
 			persist();
 			refreshPanel();
 		});
