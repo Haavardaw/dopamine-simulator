@@ -34,5 +34,6 @@ public enum RewardType
 	SHINY,
 	GILDED,
 	FEAT,
+	ACHIEVEMENT,
 	SET_COMPLETE
 }

@@ -72,6 +72,8 @@ public class DopamineState
 
 	private Set<String> skillsMaxed = new LinkedHashSet<>();
 
+	private Set<String> achievements = new LinkedHashSet<>();
+
 	public void ensureInitialised()
 	{
 		if (sourceUpgrades == null)
@@ -110,6 +112,20 @@ public class DopamineState
 		{
 			skillsMaxed = new LinkedHashSet<>();
 		}
+		if (achievements == null)
+		{
+			achievements = new LinkedHashSet<>();
+		}
+	}
+
+	public boolean hasAchievement(String id)
+	{
+		return achievements.contains(id);
+	}
+
+	public boolean awardAchievement(String id)
+	{
+		return achievements.add(id);
 	}
 
 	public void resetFeats()
@@ -117,6 +133,7 @@ public class DopamineState
 		featProgress.clear();
 		npcsKilled.clear();
 		skillsMaxed.clear();
+		achievements.clear();
 	}
 
 	public long getFeatProgress(FeatTrack track)

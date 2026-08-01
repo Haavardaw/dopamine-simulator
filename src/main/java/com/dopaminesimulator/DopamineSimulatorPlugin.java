@@ -35,12 +35,14 @@ import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.PointListener;
 import com.dopaminesimulator.core.Reward;
+import com.dopaminesimulator.core.RewardType;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.points.ClickState;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.systems.CollectionService;
 import com.dopaminesimulator.systems.PackService;
+import com.dopaminesimulator.systems.AchievementSystem;
 import com.dopaminesimulator.systems.FeatSystem;
 import com.dopaminesimulator.systems.PointSystem;
 import com.dopaminesimulator.ui.CardArtService;
@@ -124,6 +126,8 @@ public class DopamineSimulatorPlugin extends Plugin
 
 	private long resetFeatsRequestedAt;
 
+	private final AchievementSystem achievementSystem = new AchievementSystem();
+
 	@Inject
 	private DopamineSimulatorConfig config;
 
@@ -194,7 +198,8 @@ public class DopamineSimulatorPlugin extends Plugin
 		};
 		engine = new DopamineEngine(new DopamineState(), rewards)
 			.register(new PointSystem(listeners))
-			.register(new FeatSystem());
+			.register(new FeatSystem())
+			.register(achievementSystem);
 		panel = new DopamineSimulatorPanel(this, config);
 		navButton = NavigationButton.builder()
 			.tooltip("Dopamine Simulator")
@@ -593,6 +598,11 @@ public class DopamineSimulatorPlugin extends Plugin
 		{
 			reveal.push(reward);
 		}
+		if (reward.getType() == RewardType.FEAT || reward.getType() == RewardType.ACHIEVEMENT)
+		{
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"<col=ffb300>" + reward.getTitle() + "</col> - " + reward.getDetail(), null);
+		}
 		FloatingTextOverlay floating = floatingTextOverlay;
 		if (floating != null)
 		{
@@ -630,6 +640,7 @@ public class DopamineSimulatorPlugin extends Plugin
 		incomeTracker.reset();
 		clickState.clear();
 		announcedSources.clear();
+		achievementSystem.newSession();
 		if (revealOverlay != null)
 		{
 			revealOverlay.clear();

@@ -27,6 +27,7 @@ package com.dopaminesimulator.core;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.feats.Achievement;
 import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.points.PointSource;
 import lombok.Value;
@@ -90,6 +91,12 @@ public class Reward
 	{
 		return new Reward(RewardType.FEAT, feat.tierName(tier) + " " + feat.getDisplayName(),
 			"Rank " + tier + " of " + feat.maxTier(), null, null, null, tier, 1);
+	}
+
+	public static Reward achievement(Achievement achievement)
+	{
+		return new Reward(RewardType.ACHIEVEMENT, achievement.getDisplayName(),
+			achievement.getDescription(), null, null, null, 0, 1);
 	}
 
 	public static Reward setComplete(CardSet set)

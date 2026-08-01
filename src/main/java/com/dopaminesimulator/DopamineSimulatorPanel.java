@@ -34,6 +34,7 @@ import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.Reward;
+import com.dopaminesimulator.feats.Achievement;
 import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.incremental.BigNumbers;
@@ -122,6 +123,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private int buyQuantity = 1;
 	private boolean collectionsExpanded;
 	private String cardSearch = "";
+	private boolean showingAchievements;
 	private final JTextField searchField = new JTextField();
 	DopamineSimulatorPanel(DopamineSimulatorPlugin plugin, DopamineSimulatorConfig config)
 	{
@@ -355,6 +357,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		playContent.add(Box.createVerticalStrut(8));
 		playContent.add(milestoneLine(state));
+		playContent.add(featLine(state));
 	}
 
 	private ClickButton buildClickButton(DopamineState state, boolean surging)
@@ -1161,6 +1164,36 @@ public class DopamineSimulatorPanel extends PluginPanel
 		header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 62));
 		return header;
 	}
+	private WrappedLabel featLine(DopamineState state)
+	{
+		int ranks = Feats.tiersEarned(state);
+		Feat closest = null;
+		double best = -1d;
+		for (Feat feat : Feat.values())
+		{
+			long progress = Feats.progressOf(state, feat);
+			long next = feat.nextThreshold(progress);
+			if (next <= 0)
+			{
+				continue;
+			}
+			double fraction = progress / (double) next;
+			if (fraction > best)
+			{
+				best = fraction;
+				closest = feat;
+			}
+		}
+
+		String next = closest == null
+			? "every rank earned"
+			: "next: " + closest.getDisplayName() + " at "
+				+ BigNumbers.format(closest.nextThreshold(Feats.progressOf(state, closest)))
+				+ " " + closest.getTrack().getUnit();
+		return hint("Feats x" + String.format("%.2f", Feats.multiplierFor(state))
+			+ " from " + ranks + " ranks, " + next);
+	}
+
 	private WrappedLabel milestoneLine(DopamineState state)
 	{
 		double next = Milestones.nextAt(state.getLifetimePoints());
@@ -1172,6 +1205,15 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 	private void buildFeatsTab(DopamineState state)
 	{
+		featsContent.add(featsToggle());
+		featsContent.add(Box.createVerticalStrut(8));
+
+		if (showingAchievements)
+		{
+			buildAchievements(state);
+			return;
+		}
+
 		int earned = Feats.tiersEarned(state);
 		int total = Feat.totalTiers();
 
@@ -1202,6 +1244,90 @@ public class DopamineSimulatorPanel extends PluginPanel
 			featsContent.add(featRow(state, feat));
 			featsContent.add(Box.createVerticalStrut(CARD_GAP));
 		}
+	}
+
+	private JPanel featsToggle()
+	{
+		JPanel row = new JPanel(new GridLayout(1, 2, 4, 0));
+		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
+		row.add(toggleButton("Ranks", !showingAchievements, () -> showingAchievements = false));
+		row.add(toggleButton("Achievements", showingAchievements, () -> showingAchievements = true));
+		return row;
+	}
+
+	private JButton toggleButton(String text, boolean active, Runnable onClick)
+	{
+		JButton button = new JButton(text);
+		button.setFont(FontManager.getRunescapeSmallFont());
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
+		button.setBackground(active ? ColorScheme.DARKER_GRAY_HOVER_COLOR
+			: ColorScheme.DARKER_GRAY_COLOR);
+		button.setForeground(active ? GOLD : Color.LIGHT_GRAY);
+		button.addActionListener(e ->
+		{
+			onClick.run();
+			rebuild();
+		});
+		return button;
+	}
+
+	private void buildAchievements(DopamineState state)
+	{
+		int earned = 0;
+		for (Achievement achievement : Achievement.values())
+		{
+			earned += state.hasAchievement(achievement.name()) ? 1 : 0;
+		}
+
+		JProgressBar overall = new JProgressBar(0, Achievement.values().length);
+		overall.setValue(earned);
+		overall.setStringPainted(true);
+		overall.setString(earned + "/" + Achievement.values().length + " earned");
+		overall.setFont(FontManager.getRunescapeSmallFont());
+		overall.setForeground(GOLD);
+		overall.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		overall.setAlignmentX(Component.LEFT_ALIGNMENT);
+		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
+		featsContent.add(overall);
+		featsContent.add(Box.createVerticalStrut(5));
+		featsContent.add(hint("One-off moments rather than long climbs."));
+		featsContent.add(Box.createVerticalStrut(8));
+
+		for (Achievement achievement : Achievement.values())
+		{
+			featsContent.add(achievementRow(state, achievement));
+			featsContent.add(Box.createVerticalStrut(2));
+		}
+	}
+
+	private JPanel achievementRow(DopamineState state, Achievement achievement)
+	{
+		boolean earned = state.hasAchievement(achievement.name());
+		boolean secret = achievement.isHidden() && !earned;
+
+		JPanel row = new JPanel(new BorderLayout(6, 0));
+		row.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
+		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 34));
+		row.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createMatteBorder(0, 2, 0, 0, earned ? GOLD : Color.DARK_GRAY),
+			BorderFactory.createEmptyBorder(4, 6, 4, 6)));
+
+		JLabel name = new JLabel(secret ? "Hidden" : achievement.getDisplayName());
+		name.setFont(FontManager.getRunescapeSmallFont());
+		name.setForeground(earned ? GOLD : Color.LIGHT_GRAY);
+		row.add(name, BorderLayout.NORTH);
+
+		JLabel detail = new JLabel(secret
+			? "Earn it to find out what it was"
+			: achievement.getDescription());
+		detail.setFont(FontManager.getRunescapeSmallFont());
+		detail.setForeground(Color.GRAY);
+		row.add(detail, BorderLayout.SOUTH);
+		return row;
 	}
 
 	private FeatRow featRow(DopamineState state, Feat feat)

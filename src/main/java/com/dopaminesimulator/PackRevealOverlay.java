@@ -70,6 +70,7 @@ public class PackRevealOverlay extends Overlay
 	private static final long DEAL_MS = 340L;
 	private static final long BANNER_ENTRANCE_MS = 260L;
 	private static final double BANNER_TOP = 0.06d;
+	private static final Color ACHIEVEMENT = new Color(0xFF, 0xB3, 0x00);
 	private static final long FLIP_MS = 300L;
 	private static final long HOLD_MS = 1300L;
 	private static final long MAJOR_HOLD_MS = 2400L;
@@ -202,12 +203,23 @@ public class PackRevealOverlay extends Overlay
 
 		boolean major = reward.getType() == RewardType.SET_COMPLETE
 			|| reward.getType() == RewardType.FEAT
+			|| reward.getType() == RewardType.ACHIEVEMENT
 			|| shiny
 			|| gilded
 			|| (reward.getRarity() != null && reward.getRarity().ordinal() >= Rarity.EPIC.ordinal());
-		Color colour = reward.getType() == RewardType.FEAT
-			? Feat.tierColour((int) reward.getAmount())
-			: reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE;
+		Color colour;
+		if (reward.getType() == RewardType.FEAT)
+		{
+			colour = Feat.tierColour((int) reward.getAmount());
+		}
+		else if (reward.getType() == RewardType.ACHIEVEMENT)
+		{
+			colour = ACHIEVEMENT;
+		}
+		else
+		{
+			colour = reward.getRarity() != null ? reward.getRarity().getColour() : Color.WHITE;
+		}
 		int stars = reward.getCard() == null || stateSupplier == null
 			? 0
 			: stateSupplier.get().getStars(reward.getCard().getId());
@@ -218,7 +230,9 @@ public class PackRevealOverlay extends Overlay
 
 		cards.addLast(new RevealCard(reward.getTitle(), variantDetail(reward, shiny, gilded),
 			reward.getRarity(), colour, major, startAt, reward.getCard(), stars, shiny, gilded, Math.max(1, reward.getCopies()),
-			isStackable(reward), reward.getType() == RewardType.FEAT, (int) reward.getAmount(),
+			isStackable(reward),
+			reward.getType() == RewardType.FEAT || reward.getType() == RewardType.ACHIEVEMENT,
+			(int) reward.getAmount(),
 			hold));
 	}
 
@@ -268,6 +282,7 @@ public class PackRevealOverlay extends Overlay
 		return type != RewardType.SHINY
 			&& type != RewardType.GILDED
 			&& type != RewardType.FEAT
+			&& type != RewardType.ACHIEVEMENT
 			&& type != RewardType.SET_COMPLETE;
 	}
 
@@ -460,7 +475,7 @@ public class PackRevealOverlay extends Overlay
 			(float) (alpha * entrance)));
 		AffineTransform before = graphics.getTransform();
 		graphics.translate(slotX, y);
-		FeatBanner.draw(graphics, card.title, card.featTier,
+		FeatBanner.draw(graphics, card.title, card.detail, card.colour, card.featTier,
 			clamp01((age - BANNER_ENTRANCE_MS) / 900d));
 		graphics.setTransform(before);
 	}

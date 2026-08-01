@@ -45,9 +45,9 @@ public final class FeatBanner
 	{
 	}
 
-	public static void draw(Graphics2D g, String title, int tier, double shine)
+	public static void draw(Graphics2D g, String title, String caption, Color rank,
+		int tier, double shine)
 	{
-		Color rank = Feat.tierColour(tier);
 
 		g.setPaint(new GradientPaint(0, 0, PLATE_TOP, 0, HEIGHT, PLATE_BOTTOM));
 		g.fillRoundRect(0, 0, WIDTH, HEIGHT, 8, 8);
@@ -65,7 +65,7 @@ public final class FeatBanner
 		int textX = 78;
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 9));
 		g.setColor(CAPTION);
-		g.drawString("FEAT EARNED", textX, 20);
+		g.drawString(tier > 0 ? "FEAT EARNED" : "ACHIEVEMENT", textX, 20);
 
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
 		g.setColor(Color.WHITE);
@@ -73,8 +73,10 @@ public final class FeatBanner
 
 		g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 10));
 		g.setColor(rank);
-		g.drawString("Rank " + tier + " of " + Feat.RANKS
-			+ "   +" + Math.round(Feat.BONUS_PER_TIER * 100d) + "% to everything", textX, 54);
+		g.drawString(elide(g, tier > 0
+			? "Rank " + tier + " of " + Feat.RANKS + "   +"
+				+ Math.round(Feat.BONUS_PER_TIER * 100d) + "% to everything"
+			: caption, WIDTH - textX - 12), textX, 54);
 	}
 
 	private static void drawMedal(Graphics2D g, Color rank, int tier)
@@ -94,7 +96,7 @@ public final class FeatBanner
 		g.drawOval(centreX - radius + 5, centreY - radius + 5,
 			(radius - 5) * 2, (radius - 5) * 2);
 
-		String label = String.valueOf(Math.max(1, tier));
+		String label = tier > 0 ? String.valueOf(tier) : "★";
 		g.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 19));
 		FontMetrics metrics = g.getFontMetrics();
 		g.setColor(rank);
