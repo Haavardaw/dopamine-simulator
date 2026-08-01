@@ -28,11 +28,13 @@ import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.feats.FeatTrack;
 import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.points.PointSource;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import lombok.Getter;
@@ -58,13 +60,31 @@ public class DopamineState
 
 	private Map<Rarity, Integer> shards = new EnumMap<>(Rarity.class);
 
+	private Set<String> shinyCards = new LinkedHashSet<>();
+
+	private Set<String> gildedCards = new LinkedHashSet<>();
+
 	private Set<CardSet> completedSets = EnumSet.noneOf(CardSet.class);
+
+	private Map<FeatTrack, Long> featProgress = new EnumMap<>(FeatTrack.class);
+
+	private Set<String> npcsKilled = new LinkedHashSet<>();
+
+	private Set<String> skillsMaxed = new LinkedHashSet<>();
 
 	public void ensureInitialised()
 	{
 		if (sourceUpgrades == null)
 		{
 			sourceUpgrades = new HashMap<>();
+		}
+		if (shinyCards == null)
+		{
+			shinyCards = new LinkedHashSet<>();
+		}
+		if (gildedCards == null)
+		{
+			gildedCards = new LinkedHashSet<>();
 		}
 		if (cardCounts == null)
 		{
@@ -78,6 +98,62 @@ public class DopamineState
 		{
 			completedSets = EnumSet.noneOf(CardSet.class);
 		}
+		if (featProgress == null)
+		{
+			featProgress = new EnumMap<>(FeatTrack.class);
+		}
+		if (npcsKilled == null)
+		{
+			npcsKilled = new LinkedHashSet<>();
+		}
+		if (skillsMaxed == null)
+		{
+			skillsMaxed = new LinkedHashSet<>();
+		}
+	}
+
+	public void resetFeats()
+	{
+		featProgress.clear();
+		npcsKilled.clear();
+		skillsMaxed.clear();
+	}
+
+	public long getFeatProgress(FeatTrack track)
+	{
+		Long value = featProgress.get(track);
+		return value == null ? 0L : value;
+	}
+
+	public void addFeatProgress(FeatTrack track, long amount)
+	{
+		if (amount <= 0L)
+		{
+			return;
+		}
+		featProgress.merge(track, amount, Long::sum);
+	}
+
+	public void raiseFeatProgress(FeatTrack track, long value)
+	{
+		if (value > getFeatProgress(track))
+		{
+			featProgress.put(track, value);
+		}
+	}
+
+	public boolean recordNpcKilled(String name)
+	{
+		if (name == null || name.isEmpty())
+		{
+			return false;
+		}
+		return npcsKilled.add(name);
+	}
+
+	public boolean recordSkillMaxed(String skill)
+	{
+		return skill != null && !skill.isEmpty() && skillsMaxed.add(skill);
 	}
 	public boolean isIdle()
 	{
@@ -191,9 +267,53 @@ public class DopamineState
 		int total = 0;
 		for (Card card : CardCatalogue.bySet(set))
 		{
-			total += getStars(card.getId());
+			total += starValue(card.getId());
 		}
 		return total;
+	}
+
+	public int starValue(String cardId)
+	{
+		int stars = getStars(cardId);
+		if (isShiny(cardId))
+		{
+			stars *= Balance.SHINY_STAR_MULTIPLIER;
+		}
+		if (isGilded(cardId))
+		{
+			stars += stars * Balance.GILDED_STAR_BONUS_PERCENT / 100;
+		}
+		return stars;
+	}
+
+	public boolean isGilded(String cardId)
+	{
+		return gildedCards.contains(cardId);
+	}
+
+	public boolean makeGilded(String cardId)
+	{
+		return gildedCards.add(cardId);
+	}
+
+	public int getGildedCount()
+	{
+		return gildedCards.size();
+	}
+
+	public boolean isShiny(String cardId)
+	{
+		return shinyCards.contains(cardId);
+	}
+
+	public boolean makeShiny(String cardId)
+	{
+		return shinyCards.add(cardId);
+	}
+
+	public int getShinyCount()
+	{
+		return shinyCards.size();
 	}
 	public boolean isSetComplete(CardSet set)
 	{

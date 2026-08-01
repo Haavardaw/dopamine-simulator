@@ -27,6 +27,7 @@ package com.dopaminesimulator.core;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.points.PointSource;
 import lombok.Value;
 
@@ -42,39 +43,64 @@ public class Reward
 	CardSet set;
 
 	long amount;
+
+	int copies;
+	public Reward withCopies(int granted)
+	{
+		return new Reward(type, title, detail, card, rarity, set, amount, Math.max(1, granted));
+	}
+
 	public static Reward newCard(Card card)
 	{
 		return new Reward(RewardType.NEW_CARD, card.getName(),
 			"New " + card.getRarity().getDisplayName() + " card",
-			card, card.getRarity(), card.getSet(), 1);
+			card, card.getRarity(), card.getSet(), 1, 1);
 	}
 	public static Reward duplicate(Card card, int shards)
 	{
 		return new Reward(RewardType.DUPLICATE, card.getName(), "Duplicate: +" + shards + " shards",
-			card, card.getRarity(), card.getSet(), shards);
+			card, card.getRarity(), card.getSet(), shards, 1);
+	}
+
+	public static Reward shiny(Card card)
+	{
+		return new Reward(RewardType.SHINY, card.getName(), "Shiny!",
+			card, card.getRarity(), card.getSet(), 0, 1);
+	}
+
+	public static Reward gilded(Card card)
+	{
+		return new Reward(RewardType.GILDED, card.getName(), "Gilded!",
+			card, card.getRarity(), card.getSet(), 0, 1);
 	}
 
 	public static Reward starUp(Card card, int stars)
 	{
 		return new Reward(RewardType.STAR_UP, card.getName(),
 			stars + (stars == 1 ? " star" : " stars"),
-			card, card.getRarity(), card.getSet(), stars);
+			card, card.getRarity(), card.getSet(), stars, 1);
 	}
 	public static Reward fusion(Card card)
 	{
 		return new Reward(RewardType.FUSION, card.getName(),
 			"Fused into a " + card.getRarity().getDisplayName(),
-			card, card.getRarity(), card.getSet(), 1);
+			card, card.getRarity(), card.getSet(), 1, 1);
 	}
+	public static Reward feat(Feat feat, int tier)
+	{
+		return new Reward(RewardType.FEAT, feat.tierName(tier) + " " + feat.getDisplayName(),
+			"Rank " + tier + " of " + feat.maxTier(), null, null, null, tier, 1);
+	}
+
 	public static Reward setComplete(CardSet set)
 	{
 		return new Reward(RewardType.SET_COMPLETE, set.getDisplayName() + " complete!",
-			"Every card in the set collected", null, null, set, 1);
+			"Every card in the set collected", null, null, set, 1, 1);
 	}
 
 	public static Reward sourceUnlocked(PointSource source)
 	{
 		return new Reward(RewardType.SOURCE_UNLOCKED, source.getDisplayName() + " unlocked",
-			source.getDescription() + " now earns points", null, null, null, 1);
+			source.getDescription() + " now earns points", null, null, null, 1, 1);
 	}
 }

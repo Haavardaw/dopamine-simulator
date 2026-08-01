@@ -33,6 +33,7 @@ import com.dopaminesimulator.core.PointListener;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.core.SkillWeights;
 import com.dopaminesimulator.cards.CardAffinity;
+import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.cards.CollectionBonus;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.incremental.Milestones;
@@ -72,6 +73,7 @@ public class PointSystem implements DopamineSystem
 		double points = source.pointsFor(units, state.getSourceUpgradeLevel(source))
 			* Milestones.globalMultiplier(state.getLifetimePoints())
 			* CollectionBonus.multiplierFor(state, source)
+			* Feats.multiplierFor(state)
 			* affinity;
 		state.addPoints(points);
 		if (source != PointSource.IDLING)

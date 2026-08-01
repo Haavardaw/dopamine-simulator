@@ -22,17 +22,61 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.dopaminesimulator.core;
+package com.dopaminesimulator.feats;
 
-public enum RewardType
+import com.dopaminesimulator.core.DopamineState;
+
+public final class Feats
 {
-	SOURCE_UNLOCKED,
-	NEW_CARD,
-	DUPLICATE,
-	STAR_UP,
-	FUSION,
-	SHINY,
-	GILDED,
-	FEAT,
-	SET_COMPLETE
+	private Feats()
+	{
+	}
+
+	public static long progressOf(DopamineState state, Feat feat)
+	{
+		return state.getFeatProgress(feat.getTrack());
+	}
+
+	public static int tierOf(DopamineState state, Feat feat)
+	{
+		return feat.tierFor(progressOf(state, feat));
+	}
+
+	public static int tiersEarned(DopamineState state)
+	{
+		int total = 0;
+		for (Feat feat : Feat.values())
+		{
+			total += tierOf(state, feat);
+		}
+		return total;
+	}
+
+	public static double multiplierFor(DopamineState state)
+	{
+		return 1d + tiersEarned(state) * Feat.BONUS_PER_TIER;
+	}
+
+	public static String titleFor(DopamineState state)
+	{
+		int earned = tiersEarned(state);
+		int max = Feat.totalTiers();
+		if (earned >= max)
+		{
+			return "Completionist";
+		}
+		if (earned >= max * 3 / 4)
+		{
+			return "Veteran";
+		}
+		if (earned >= max / 2)
+		{
+			return "Adventurer";
+		}
+		if (earned >= max / 4)
+		{
+			return "Apprentice";
+		}
+		return earned > 0 ? "Novice" : "Unproven";
+	}
 }

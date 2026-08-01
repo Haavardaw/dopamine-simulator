@@ -22,17 +22,34 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.dopaminesimulator.core;
+package com.dopaminesimulator.feats;
 
-public enum RewardType
+import lombok.Getter;
+
+@Getter
+public enum FeatTrack
 {
-	SOURCE_UNLOCKED,
-	NEW_CARD,
-	DUPLICATE,
-	STAR_UP,
-	FUSION,
-	SHINY,
-	GILDED,
-	FEAT,
-	SET_COMPLETE
+	DISTINCT_NPCS("creatures"),
+	KILLS("kills"),
+	BIGGEST_DROP("gp"),
+	TOTAL_LOOT("gp"),
+	SKILLS_MAXED("skills"),
+	LEVELS_GAINED("levels"),
+	TILES("tiles"),
+	DAMAGE_TAKEN("damage"),
+	HEALTH_RESTORED("hitpoints"),
+	WEIGHTED_XP("xp"),
+	TICKS_PLAYED("ticks");
+
+	private final String unit;
+
+	FeatTrack(String unit)
+	{
+		this.unit = unit;
+	}
+
+	public boolean isHighWaterMark()
+	{
+		return this == BIGGEST_DROP;
+	}
 }
