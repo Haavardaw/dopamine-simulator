@@ -36,7 +36,11 @@ import java.util.Map;
 @Getter
 public final class CardCollection
 {
-	public static final double BONUS_PER_COLLECTION = 0.10d;
+	public static final double BONUS_PER_COLLECTION = 0.07d;
+
+	public static final int[] TIER_STARS = {1, 3, 6, 10};
+
+	public static final String[] TIER_NAMES = {"Bronze", "Silver", "Gold", "Diamond"};
 	private static final List<CardCollection> ALL = new ArrayList<>();
 	private static final Map<String, List<CardCollection>> BY_CARD = new LinkedHashMap<>();
 	private final String name;
@@ -161,7 +165,8 @@ public final class CardCollection
 			"Duke Sucellus", "The Leviathan", "The Whisperer", "Vardorvis");
 		define("Raids", CardSet.BOSSES,
 			"All three raids.",
-			"Chambers of Xeric", "Theatre of Blood", "Tombs of Amascut");
+			"Chambers of Xeric", "Chambers of Xeric: Challenge Mode", "Theatre of Blood",
+			"Tombs of Amascut");
 		define("Slayer Bosses", CardSet.BOSSES,
 			"Bosses that appear as Slayer tasks.",
 			"Abyssal Sire", "Cerberus", "Kraken", "Thermonuclear Smoke Devil",
@@ -289,7 +294,7 @@ public final class CardCollection
 			"Nightmare Zone");
 		define("Skilling Minigames", CardSet.MINIGAMES,
 			"Skilling minigames.",
-			"Blast Furnace", "Tithe Farm", "Wintertodt", "Pyramid Plunder",
+			"Blast Furnace", "Tithe Farm", "Pyramid Plunder",
 			"Brimhaven Agility Arena", "Rogues' Den", "Trouble Brewing", "Mage Training Arena",
 			"Gnome Restaurant", "Volcanic Mine", "Guardians of the Rift");
 		define("The Caves", CardSet.MINIGAMES,
@@ -370,7 +375,7 @@ public final class CardCollection
 
 	public static double multiplierFor(DopamineState state, CardSet set)
 	{
-		return Math.pow(1d + BONUS_PER_COLLECTION, completedIn(state, set));
+		return Math.pow(1d + BONUS_PER_COLLECTION, tiersIn(state, set));
 	}
 	public static int completedIn(DopamineState state, CardSet set)
 	{
@@ -383,6 +388,21 @@ public final class CardCollection
 			}
 		}
 		return completed;
+	}
+
+	public static int tiersIn(DopamineState state, CardSet set)
+	{
+		int tiers = 0;
+		for (CardCollection collection : inSet(set))
+		{
+			tiers += collection.tierIn(state);
+		}
+		return tiers;
+	}
+
+	public static int maxTiersIn(CardSet set)
+	{
+		return inSet(set).size() * TIER_STARS.length;
 	}
 
 	public int size()
@@ -404,7 +424,47 @@ public final class CardCollection
 
 	public boolean isComplete(DopamineState state)
 	{
-		return !cards.isEmpty() && ownedIn(state) == cards.size();
+		return tierIn(state) > 0;
+	}
+
+	public int tierIn(DopamineState state)
+	{
+		if (cards.isEmpty())
+		{
+			return 0;
+		}
+
+		int lowest = Integer.MAX_VALUE;
+		for (Card card : cards)
+		{
+			if (!state.owns(card.getId()))
+			{
+				return 0;
+			}
+			lowest = Math.min(lowest, state.getStars(card.getId()));
+		}
+
+		int tier = 0;
+		for (int threshold : TIER_STARS)
+		{
+			if (lowest >= threshold)
+			{
+				tier++;
+			}
+		}
+		return tier;
+	}
+
+	public String tierNameIn(DopamineState state)
+	{
+		int tier = tierIn(state);
+		return tier <= 0 ? "Incomplete" : TIER_NAMES[Math.min(tier, TIER_NAMES.length) - 1];
+	}
+
+	public int starsForNextTier(DopamineState state)
+	{
+		int tier = tierIn(state);
+		return tier >= TIER_STARS.length ? 0 : TIER_STARS[tier];
 	}
 
 

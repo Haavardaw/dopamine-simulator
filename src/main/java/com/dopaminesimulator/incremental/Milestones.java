@@ -27,7 +27,8 @@ package com.dopaminesimulator.incremental;
 public final class Milestones
 {
 	private static final double[] THRESHOLDS = {
-		1_000_000d, 1_000_000_000d, 1_000_000_000_000d, 1e15, 1e18
+		10_000d, 50_000d, 250_000d, 1_250_000d, 6_250_000d,
+		31_000_000d, 156_000_000d, 780_000_000d
 	};
 	private static final double BONUS_EACH = 0.10d;
 	public static final int MAX_MILESTONES = THRESHOLDS.length;

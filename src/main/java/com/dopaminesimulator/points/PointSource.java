@@ -32,7 +32,7 @@ import java.awt.Color;
 public enum PointSource
 {
 	CLICK("Clicking", "Click the Play tab's coins for money!", 0d,
-		new Color(0xFF, 0xB3, 0x00), 1.0d, 1_000d),
+		new Color(0xFF, 0xB3, 0x00), 0.04d, 25_000d),
 	EXPERIENCE("Experience", "XP in any skill", 50d,
 		new Color(0x42, 0xA5, 0xF5), 0.0167d, 60_000d),
 	COMBAT("Combat", "Things killed", 500d,
@@ -56,6 +56,10 @@ public enum PointSource
 	public static final double TARGET_HOURLY_INCOME = 1_000d;
 
 	public static final double UPGRADE_COST_HOURS = 0.5d;
+
+	public static final int BREAKTHROUGH_EVERY = 10;
+
+	public static final double BREAKTHROUGH_COST_STEP = 24.0d;
 	private final String displayName;
 	private final String description;
 	private final double unlockAtLifetimePoints;
@@ -83,10 +87,30 @@ public enum PointSource
 		return lifetimePoints >= unlockAtLifetimePoints;
 	}
 
+	public double hourlyGainAt(int level)
+	{
+		return baseHourlyIncome()
+			* (multiplierForLevel(level + 1) - multiplierForLevel(level));
+	}
+
+	// Payback climbs 1.26x a level, so without a rebase the ladder shuts around level 10.
 	public double upgradeCost(int currentLevel)
 	{
+		int sinceBreakthrough = currentLevel % BREAKTHROUGH_EVERY;
+		int breakthroughs = currentLevel / BREAKTHROUGH_EVERY;
 		return baseHourlyIncome() * UPGRADE_COST_HOURS
-			* Math.pow(UPGRADE_COST_GROWTH, currentLevel);
+			* Math.pow(UPGRADE_COST_GROWTH, sinceBreakthrough)
+			* Math.pow(BREAKTHROUGH_COST_STEP, breakthroughs);
+	}
+
+	public static boolean isBreakthrough(int level)
+	{
+		return level > 0 && level % BREAKTHROUGH_EVERY == 0;
+	}
+
+	public static int levelsUntilBreakthrough(int level)
+	{
+		return BREAKTHROUGH_EVERY - level % BREAKTHROUGH_EVERY;
 	}
 	public double upgradeCostForMany(int currentLevel, int count)
 	{
@@ -94,8 +118,12 @@ public enum PointSource
 		{
 			return 0d;
 		}
-		double first = upgradeCost(currentLevel);
-		return first * (Math.pow(UPGRADE_COST_GROWTH, count) - 1d) / (UPGRADE_COST_GROWTH - 1d);
+		double total = 0d;
+		for (int i = 0; i < count; i++)
+		{
+			total += upgradeCost(currentLevel + i);
+		}
+		return total;
 	}
 	public static double multiplierForLevel(int level)
 	{
