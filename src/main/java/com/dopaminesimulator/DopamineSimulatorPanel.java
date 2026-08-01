@@ -63,6 +63,7 @@ import com.dopaminesimulator.ui.WishReveal;
 import com.dopaminesimulator.ui.PointsHeader;
 import com.dopaminesimulator.ui.ScrollableContent;
 import com.dopaminesimulator.ui.SectionHeader;
+import com.dopaminesimulator.ui.Segmented;
 import com.dopaminesimulator.ui.Skin;
 import com.dopaminesimulator.ui.StoneButton;
 import com.dopaminesimulator.ui.WrappedLabel;
@@ -88,7 +89,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -385,7 +385,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		playContent.add(sectionLabel("Sources",
 			BigNumbers.format(perHour) + "/hr"));
-		playContent.add(hint("Each one pays more every time you upgrade it."));
+		playContent.add(hint("Each upgrade makes that source pay more."));
 		playContent.add(Box.createVerticalStrut(4));
 		playContent.add(buildQuantitySelector());
 		playContent.add(Box.createVerticalStrut(5));
@@ -540,15 +540,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ " total");
 		return sized(row);
 	}
-	private JPanel shopToggle()
+	private Segmented shopToggle()
 	{
-		JPanel row = new JPanel(new GridLayout(1, 3, 4, 0));
-		row.setBackground(Skin.BG);
+		Segmented row = new Segmented(new String[]{"Packs", "Pass", "Banner"}, shopView, index ->
+		{
+			shopView = index;
+			rebuild();
+		});
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
-		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
-		row.add(toggleButton("Packs", shopView == 0, () -> shopView = 0));
-		row.add(toggleButton("Pass", shopView == 1, () -> shopView = 1));
-		row.add(toggleButton("Banner", shopView == 2, () -> shopView = 2));
 		return row;
 	}
 
@@ -1413,25 +1412,28 @@ public class DopamineSimulatorPanel extends PluginPanel
 	}
 
 
-	private JPanel buildQuantitySelector()
+	private Segmented buildQuantitySelector()
 	{
-		JPanel row = new JPanel(new GridLayout(1, 4, 3, 0));
-		row.setBackground(Skin.BG);
-		row.setAlignmentX(Component.LEFT_ALIGNMENT);
-		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
-		for (int quantity : new int[]{1, 5, 10, 25})
+		int[] quantities = {1, 5, 10, 25};
+		String[] labels = new String[quantities.length];
+		int selected = 0;
+		for (int i = 0; i < quantities.length; i++)
 		{
-			StoneButton button = new StoneButton("x" + quantity);
-			button.withAccent(buyQuantity == quantity ? GOLD : Skin.WHITE);
-			button.addActionListener(e ->
+			labels[i] = "x" + quantities[i];
+			if (buyQuantity == quantities[i])
 			{
-				buyQuantity = quantity;
-				rebuild();
-			});
-			row.add(button);
+				selected = i;
+			}
 		}
+		Segmented row = new Segmented(labels, selected, index ->
+		{
+			buyQuantity = quantities[index];
+			rebuild();
+		});
+		row.setAlignmentX(Component.LEFT_ALIGNMENT);
 		return row;
 	}
+
 	private PointsHeader pointsLine(DopamineState state)
 	{
 		double perHour = plugin.getIncomeTracker().totalPerHour(state.getTick());
@@ -1574,30 +1576,16 @@ public class DopamineSimulatorPanel extends PluginPanel
 		}
 	}
 
-	private JPanel featsToggle()
+	private Segmented featsToggle()
 	{
-		JPanel row = new JPanel(new GridLayout(1, 2, 4, 0));
-		row.setBackground(Skin.BG);
+		Segmented row = new Segmented(new String[]{"Ranks", "Achievements"},
+			showingAchievements ? 1 : 0, index ->
+			{
+				showingAchievements = index == 1;
+				rebuild();
+			});
 		row.setAlignmentX(Component.LEFT_ALIGNMENT);
-		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 22));
-		row.add(toggleButton("Ranks", !showingAchievements, () -> showingAchievements = false));
-		row.add(toggleButton("Achievements", showingAchievements, () -> showingAchievements = true));
 		return row;
-	}
-
-	private JButton toggleButton(String text, boolean active, Runnable onClick)
-	{
-		StoneButton button = new StoneButton(text);
-		button.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 6));
-		button.setBackground(active ? Skin.CARD_HOVER
-			: Skin.CARD_DEEP);
-			button.withAccent(active ? GOLD : Skin.WHITE);
-		button.addActionListener(e ->
-		{
-			onClick.run();
-			rebuild();
-		});
-		return button;
 	}
 
 	private void buildAchievements(DopamineState state)
