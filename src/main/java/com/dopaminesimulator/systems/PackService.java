@@ -84,7 +84,7 @@ public class PackService
 
 		for (Card card : pulled)
 		{
-			collection.grant(state, card, rewards, false, tier.getCopiesPerCard());
+			collection.grant(state, card, rewards, false, tier.copiesFor(card.getRarity()));
 		}
 		return pulled;
 	}
@@ -123,7 +123,7 @@ public class PackService
 				continue;
 			}
 			double weight = rarity.getPackWeight();
-			if (rarity.isPityWorthy())
+			if (rarity.isPityWorthy() && (floor == null || rarity.ordinal() > floor.ordinal()))
 			{
 				weight *= luck;
 			}

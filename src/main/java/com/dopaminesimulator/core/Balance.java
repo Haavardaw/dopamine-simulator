@@ -40,5 +40,13 @@ public final class Balance
 	public static final double LEVEL_UP_UNITS = 12_000d;
 	public static final int PITY_PACKS = 10;
 
+	public static final int SHINY_ONE_IN = 1_000;
+
+	public static final int GILDED_ONE_IN = 400;
+
+	public static final int GILDED_STAR_BONUS_PERCENT = 50;
+
+	public static final int SHINY_STAR_MULTIPLIER = 2;
+
 	public static final boolean FUSION_CAN_FAIL = false;
 }

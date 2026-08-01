@@ -74,6 +74,10 @@ public enum Rarity
 				return new int[]{1, 2, 4, 7, 12, 25, 55, 130, 320, 800};
 		}
 	}
+	public int copiesForMaxStars()
+	{
+		return starThresholds()[MAX_STARS - 1];
+	}
 	public int starsFor(int copies)
 	{
 		int[] thresholds = starThresholds();

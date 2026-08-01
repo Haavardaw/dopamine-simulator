@@ -27,12 +27,26 @@ package com.dopaminesimulator.systems;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardSet;
 import com.dopaminesimulator.cards.Rarity;
+import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.Reward;
 import com.dopaminesimulator.core.RewardQueue;
+import java.util.Random;
 
 public class CollectionService
 {
+	private final Random random;
+
+	public CollectionService()
+	{
+		this(new Random());
+	}
+
+	public CollectionService(Random random)
+	{
+		this.random = random;
+	}
+
 	private static final int EPIC_SHARDS_PER_LEGENDARY_DUPE = 3;
 	private static final int SHARDS_PER_DUPE = 1;
 	public boolean grant(DopamineState state, Card card, RewardQueue rewards)
@@ -49,6 +63,8 @@ public class CollectionService
 		int copies)
 	{
 		int granted = Math.max(1, copies);
+		rollShiny(state, card, rewards);
+		rollGilded(state, card, rewards);
 		if (state.owns(card.getId()))
 		{
 			int starsBefore = state.getStars(card.getId());
@@ -64,22 +80,48 @@ public class CollectionService
 			}
 			if (starsAfter > starsBefore)
 			{
-				rewards.push(Reward.starUp(card, starsAfter));
+				rewards.push(Reward.starUp(card, starsAfter).withCopies(granted));
 			}
 			else
 			{
 				rewards.push(Reward.duplicate(card,
 					card.getRarity() == Rarity.LEGENDARY
 						? EPIC_SHARDS_PER_LEGENDARY_DUPE
-						: SHARDS_PER_DUPE));
+						: SHARDS_PER_DUPE).withCopies(granted));
 			}
 			return false;
 		}
 		state.addCopies(card.getId(), granted);
-		rewards.push(fromFusion ? Reward.fusion(card) : Reward.newCard(card));
+		rewards.push((fromFusion ? Reward.fusion(card) : Reward.newCard(card)).withCopies(granted));
 		checkSetCompletion(state, card.getSet(), rewards);
 		return true;
 	}
+	private void rollShiny(DopamineState state, Card card, RewardQueue rewards)
+	{
+		if (state.isShiny(card.getId()))
+		{
+			return;
+		}
+
+		if (random.nextInt(Balance.SHINY_ONE_IN) == 0 && state.makeShiny(card.getId()))
+		{
+			rewards.push(Reward.shiny(card));
+		}
+	}
+
+	private void rollGilded(DopamineState state, Card card, RewardQueue rewards)
+	{
+		if (state.isGilded(card.getId()))
+		{
+			return;
+		}
+
+		if (random.nextInt(Balance.GILDED_ONE_IN) == 0 && state.makeGilded(card.getId()))
+		{
+			rewards.push(Reward.gilded(card));
+		}
+	}
+
 	private void checkSetCompletion(DopamineState state, CardSet set, RewardQueue rewards)
 	{
 		if (state.getCompletedSets().contains(set))
