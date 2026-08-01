@@ -536,17 +536,21 @@ public class DopamineSimulatorPlugin extends Plugin
 		});
 	}
 
-	private static final int BULK_HIGHLIGHTS = 8;
+	private static final int BULK_HIGHLIGHTS = 10;
 	private void revealHighlights(List<Reward> batch)
 	{
-		batch.sort(Comparator.comparingInt(DopamineSimulatorPlugin::significance));
+		batch.sort(Comparator.comparingInt(DopamineSimulatorPlugin::significance).reversed());
 		List<Reward> highlights = batch.size() > BULK_HIGHLIGHTS
-			? batch.subList(batch.size() - BULK_HIGHLIGHTS, batch.size())
+			? batch.subList(0, BULK_HIGHLIGHTS)
 			: batch;
+
+		PackRevealOverlay reveal = revealOverlay;
+		if (reveal != null)
+		{
+			reveal.pushBatch(highlights);
+		}
 		for (Reward reward : highlights)
 		{
-			rewards.push(reward);
-
 			if (reward.getCard() != null)
 			{
 				announce(reward.getCard());

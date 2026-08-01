@@ -72,6 +72,11 @@ public class PackRevealOverlay extends Overlay
 	private static final long DEAL_MS = 340L;
 	private static final long MIN_DEAL_MS = 120L;
 	private static final long MIN_FLIP_MS = 120L;
+	private static final long HEADLINE_LEAD_MS = 900L;
+	private static final long RAPID_STAGGER_MS = 190L;
+	private static final long RAPID_DEAL_MS = 90L;
+	private static final long RAPID_FLIP_MS = 110L;
+	private static final long RAPID_HOLD_MS = 260L;
 	private static final long BANNER_ENTRANCE_MS = 260L;
 	private static final double BANNER_TOP = 0.06d;
 	private static final long BANNER_SPARK_MS = 620L;
@@ -255,6 +260,39 @@ public class PackRevealOverlay extends Overlay
 			reward.getType() == RewardType.BANNER_WIN,
 			(int) reward.getAmount(),
 			hold, deal, flip));
+	}
+
+	/**
+	 * Leads with the best of a batch at full length, then flurries the rest so a ten
+	 * pull reads as one prize and a handful of extras rather than a long queue.
+	 */
+	public void pushBatch(List<Reward> ordered)
+	{
+		if (ordered.isEmpty() || !config.showRewardFlashes())
+		{
+			return;
+		}
+
+		push(ordered.get(0));
+		long headlineDone = nextAvailableSlot + HEADLINE_LEAD_MS;
+
+		for (int i = 1; i < ordered.size(); i++)
+		{
+			Reward reward = ordered.get(i);
+			if (reward.getCard() == null)
+			{
+				continue;
+			}
+			long startAt = headlineDone + (i - 1) * RAPID_STAGGER_MS;
+			cards.addLast(new RevealCard(reward.getTitle(),
+				variantDetail(reward, reward.isShiny(), reward.isGilded()),
+				reward.getRarity(),
+				reward.getRarity() == null ? Color.WHITE : reward.getRarity().getColour(),
+				false, startAt, reward.getCard(), 0, reward.isShiny(), reward.isGilded(),
+				Math.max(1, reward.getCopies()), false, false, false, 0,
+				RAPID_HOLD_MS, RAPID_DEAL_MS, RAPID_FLIP_MS));
+			nextAvailableSlot = startAt + RAPID_STAGGER_MS;
+		}
 	}
 
 	private void pushWish(Reward reward)
