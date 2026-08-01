@@ -41,22 +41,22 @@ public enum PackTier
 	STANDARD("Standard Pack", 2_400d, 2, 1, 1.25d, null, Rarity.UNCOMMON, false, 2_000d,
 		new Color(0x64, 0xB5, 0xF6),
 		"2 cards. Common or Uncommon, in bulk."),
-	GILDED("Gilded Pack", 15_000d, 3, 2, 1.0d, Rarity.UNCOMMON, Rarity.RARE, false, 20_000d,
+	GILDED("Gilded Pack", 15_000d, 3, 1, 1.0d, Rarity.UNCOMMON, Rarity.RARE, false, 20_000d,
 		new Color(0x66, 0xBB, 0x6A),
 		"3 cards. Uncommon or Rare."),
-	CURATED("Curated Pack", 70_000d, 3, 11, 1.0d, Rarity.UNCOMMON, Rarity.RARE, true,
+	CURATED("Curated Pack", 70_000d, 3, 3, 1.0d, Rarity.UNCOMMON, Rarity.RARE, true,
 		100_000d, new Color(0x26, 0xC6, 0xDA),
 		"3 cards from one chosen set. Uncommon or Rare."),
-	PRISMATIC("Prismatic Pack", 350_000d, 4, 19, 1.5d, Rarity.RARE, Rarity.EPIC,
+	PRISMATIC("Prismatic Pack", 350_000d, 4, 4, 1.5d, Rarity.RARE, Rarity.EPIC,
 		false, 500_000d, new Color(0xAB, 0x47, 0xBC),
 		"4 cards. Rare floor, about three in ten Epic."),
-	ASCENDANT("Ascendant Pack", 2_000_000d, 5, 30, 1.6d, Rarity.EPIC,
+	ASCENDANT("Ascendant Pack", 2_000_000d, 5, 4, 1.6d, Rarity.EPIC,
 		Rarity.LEGENDARY, false, 3_000_000d, new Color(0xFF, 0xB3, 0x00),
 		"5 cards. Epic floor, about one in seven Legendary."),
-	MYTHIC("Mythic Pack", 6_250_000d, 3, 28, 1.0d, Rarity.LEGENDARY, Rarity.LEGENDARY,
+	MYTHIC("Mythic Pack", 6_250_000d, 3, 2, 1.0d, Rarity.LEGENDARY, Rarity.LEGENDARY,
 		false, 15_000_000d, new Color(0xFF, 0x70, 0x43),
 		"3 cards, always Legendary. The cheapest Legendary copies in the game.");
-	public static final int MAX_COPIES = 10;
+	public static final int MAX_COPIES = 5;
 
 	private final String displayName;
 	private final double cost;
@@ -100,10 +100,19 @@ public enum PackTier
 		return floor == null ? Rarity.COMMON : floor;
 	}
 
+	/**
+	 * How many copies of a card of this rarity one slot in the pack grants.
+	 *
+	 * <p>Scaled against the tier's own floor rarity, not against Common. Scaling
+	 * everything against Common meant a Legendary-only pack could never grant more
+	 * than one copy without the Common side running past the cap, so the top three
+	 * tiers all clamped to the same grants and stopped differentiating. Read
+	 * bulkCopies as "copies of the commonest card this pack can produce".
+	 */
 	public int copiesFor(Rarity rarity)
 	{
 		double scale = rarity.copiesForMaxStars()
-			/ (double) Rarity.COMMON.copiesForMaxStars();
+			/ (double) lowestRarity().copiesForMaxStars();
 		return Math.max(1, Math.min(MAX_COPIES, (int) Math.round(bulkCopies * scale)));
 	}
 

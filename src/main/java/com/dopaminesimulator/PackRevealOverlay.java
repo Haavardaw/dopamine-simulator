@@ -520,6 +520,8 @@ public class PackRevealOverlay extends Overlay
 		}
 	}
 
+	private static final Color STACK_COUNT = new Color(0xFF, 0xD9, 0x1F);
+
 	private void drawStackCount(Graphics2D graphics, RevealCard card)
 	{
 		if (card.quantity < 2)
@@ -527,22 +529,19 @@ public class PackRevealOverlay extends Overlay
 			return;
 		}
 
+		// the bottom-right corner already holds the star track and its "n/10" label,
+		// so a count there reads as part of it. Stack sizes go top-left, in yellow,
+		// exactly where the game puts them on an inventory item.
 		String label = "x" + card.quantity;
 		graphics.setFont(FontManager.getRunescapeBoldFont());
 		FontMetrics metrics = graphics.getFontMetrics();
-		int textWidth = metrics.stringWidth(label);
-		int padding = 6;
-		int boxWidth = textWidth + padding * 2;
-		int boxHeight = metrics.getHeight() + 2;
-		int x = CARD_WIDTH - boxWidth - 6;
-		int y = CARD_HEIGHT - boxHeight - 6;
+		int x = 8;
+		int y = 6 + metrics.getAscent();
 
-		graphics.setColor(new Color(0x10, 0x10, 0x14, 225));
-		graphics.fillRoundRect(x, y, boxWidth, boxHeight, 6, 6);
-		graphics.setColor(card.colour == null ? Color.WHITE : card.colour);
-		graphics.setStroke(new BasicStroke(1f));
-		graphics.drawRoundRect(x, y, boxWidth, boxHeight, 6, 6);
-		graphics.drawString(label, x + padding, y + metrics.getAscent());
+		graphics.setColor(new Color(0, 0, 0, 210));
+		graphics.drawString(label, x + 1, y + 1);
+		graphics.setColor(STACK_COUNT);
+		graphics.drawString(label, x, y);
 	}
 
 	private void drawBanner(Graphics2D graphics, RevealCard card, int slotX, int slotY)
