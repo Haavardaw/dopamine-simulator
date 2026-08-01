@@ -1293,7 +1293,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		overall.setMaximumSize(new Dimension(Integer.MAX_VALUE, 15));
 		featsContent.add(overall);
 		featsContent.add(Box.createVerticalStrut(5));
-		featsContent.add(hint("One-off moments rather than long climbs."));
+		featsContent.add(hint("Can you complete them all?"));
 		featsContent.add(Box.createVerticalStrut(8));
 
 		for (Achievement achievement : Achievement.values())

@@ -70,6 +70,8 @@ public class PackRevealOverlay extends Overlay
 	private static final long DEAL_MS = 340L;
 	private static final long BANNER_ENTRANCE_MS = 260L;
 	private static final double BANNER_TOP = 0.06d;
+	private static final long BANNER_SPARK_MS = 620L;
+	private static final int BANNER_SPARKS = 10;
 	private static final Color ACHIEVEMENT = new Color(0xFF, 0xB3, 0x00);
 	private static final long FLIP_MS = 300L;
 	private static final long HOLD_MS = 1300L;
@@ -463,9 +465,10 @@ public class PackRevealOverlay extends Overlay
 			return;
 		}
 
-		double entrance = smoothstep(clamp01(age / (double) BANNER_ENTRANCE_MS));
+		double raw = clamp01(age / (double) BANNER_ENTRANCE_MS);
+		double entrance = smoothstep(raw);
 		int y = (int) Math.round(slotY + (1d - entrance) * 14d);
-		if (entrance >= 1d && !card.revealSoundPlayed)
+		if (raw >= 1d && !card.revealSoundPlayed)
 		{
 			card.revealSoundPlayed = true;
 			sounds.cardRevealed(Rarity.EPIC);
@@ -474,10 +477,76 @@ public class PackRevealOverlay extends Overlay
 		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 			(float) (alpha * entrance)));
 		AffineTransform before = graphics.getTransform();
-		graphics.translate(slotX, y);
+		graphics.translate(slotX + FeatBanner.WIDTH / 2d, y + FeatBanner.HEIGHT / 2d);
+
+		double pop = 0.86d + 0.14d * backOut(raw);
+		graphics.scale(pop, pop);
+		graphics.translate(-FeatBanner.WIDTH / 2d, -FeatBanner.HEIGHT / 2d);
+
+		drawBannerGlow(graphics, card, alpha);
 		FeatBanner.draw(graphics, card.title, card.detail, card.colour, card.featTier,
 			clamp01((age - BANNER_ENTRANCE_MS) / 900d));
+		drawBannerSparks(graphics, card, alpha);
 		graphics.setTransform(before);
+	}
+
+	private void drawBannerGlow(Graphics2D graphics, RevealCard card, float alpha)
+	{
+		double pulse = 0.75d + 0.25d * Math.sin(card.age() / 190d);
+		Composite before = graphics.getComposite();
+		for (int i = 5; i >= 1; i--)
+		{
+			int spread = i * 5;
+			int a = (int) (alpha * pulse * (16 - i * 2));
+			if (a <= 0)
+			{
+				continue;
+			}
+			graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+				Math.min(1f, a / 255f * 4f)));
+			graphics.setColor(card.colour);
+			graphics.fillRoundRect(-spread, -spread, FeatBanner.WIDTH + spread * 2,
+				FeatBanner.HEIGHT + spread * 2, 12 + spread, 12 + spread);
+		}
+		graphics.setComposite(before);
+	}
+
+	private void drawBannerSparks(Graphics2D graphics, RevealCard card, float alpha)
+	{
+		long age = card.age();
+		double life = clamp01((age - BANNER_ENTRANCE_MS / 2L) / (double) BANNER_SPARK_MS);
+		if (life <= 0d || life >= 1d)
+		{
+			return;
+		}
+
+		Composite before = graphics.getComposite();
+		graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+			(float) (alpha * (1d - life))));
+		graphics.setColor(card.colour);
+		graphics.setStroke(new BasicStroke(2f));
+
+		double centreX = 42d;
+		double centreY = FeatBanner.HEIGHT / 2d;
+		double travel = 14d + life * 26d;
+		for (int i = 0; i < BANNER_SPARKS; i++)
+		{
+			double angle = Math.PI * 2d * i / BANNER_SPARKS + life * 0.6d;
+			double x = centreX + Math.cos(angle) * travel;
+			double y = centreY + Math.sin(angle) * travel;
+			double tail = 4d + (1d - life) * 5d;
+			graphics.drawLine((int) Math.round(x), (int) Math.round(y),
+				(int) Math.round(x + Math.cos(angle) * tail),
+				(int) Math.round(y + Math.sin(angle) * tail));
+		}
+		graphics.setComposite(before);
+	}
+
+	private static double backOut(double t)
+	{
+		double s = 1.9d;
+		double p = t - 1d;
+		return 1d + p * p * ((s + 1d) * p + s);
 	}
 
 	private void drawCard(Graphics2D graphics, RevealCard card, int slotX, int slotY)
