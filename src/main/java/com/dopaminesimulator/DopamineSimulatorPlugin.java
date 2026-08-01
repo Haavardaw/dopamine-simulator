@@ -32,6 +32,8 @@ import com.dopaminesimulator.core.DopamineEngine;
 import com.dopaminesimulator.core.DopamineEvent;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.feats.Feats;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import com.dopaminesimulator.core.IncomeTracker;
 import com.dopaminesimulator.core.PointListener;
 import com.dopaminesimulator.core.Reward;
@@ -127,7 +129,9 @@ public class DopamineSimulatorPlugin extends Plugin
 
 	private static final long RESET_CONFIRM_MS = 30_000L;
 
-	private long resetFeatsRequestedAt;
+	private long resetRequestedAt;
+
+	private String pendingResetCommand;
 
 	private final AchievementSystem achievementSystem = new AchievementSystem();
 
@@ -808,11 +812,23 @@ public class DopamineSimulatorPlugin extends Plugin
 	@Subscribe
 	public void onCommandExecuted(CommandExecuted event)
 	{
-		if (!"resetfeats".equalsIgnoreCase(event.getCommand()))
+		if ("resetfeats".equalsIgnoreCase(event.getCommand()))
 		{
-			return;
+			runReset("resetfeats", "feat ranks",
+				state -> Feats.tiersEarned(state) + " feat ranks",
+				DopamineState::resetFeats);
 		}
+		else if ("resetdopamine".equalsIgnoreCase(event.getCommand()))
+		{
+			runReset("resetdopamine", "everything",
+				state -> "every card, upgrade, feat and pass season",
+				this::wipe);
+		}
+	}
 
+	private void runReset(String command, String what,
+		Function<DopamineState, String> summary, Consumer<DopamineState> reset)
+	{
 		if (engine == null || !isPlayable())
 		{
 			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
@@ -822,24 +838,42 @@ public class DopamineSimulatorPlugin extends Plugin
 
 		DopamineState state = engine.getState();
 		long now = System.currentTimeMillis();
-		int ranks = Feats.tiersEarned(state);
 
-		if (now - resetFeatsRequestedAt > RESET_CONFIRM_MS)
+		if (!command.equals(pendingResetCommand) || now - resetRequestedAt > RESET_CONFIRM_MS)
 		{
-			resetFeatsRequestedAt = now;
+			pendingResetCommand = command;
+			resetRequestedAt = now;
 			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
-				"Dopamine Simulator: this wipes <col=ffb300>" + ranks
-					+ "</col> feat ranks and cannot be undone."
-					+ " Run <col=ffb300>::resetfeats</col> again to confirm.", null);
+				"Dopamine Simulator: this wipes <col=ffb300>" + summary.apply(state)
+					+ "</col> and cannot be undone."
+					+ " Run <col=ffb300>::" + command + "</col> again to confirm.", null);
 			return;
 		}
 
-		resetFeatsRequestedAt = 0L;
-		state.resetFeats();
+		pendingResetCommand = null;
+		resetRequestedAt = 0L;
+		reset.accept(state);
 		persist();
 		refreshPanel();
 		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
-			"Dopamine Simulator: cleared <col=ffb300>" + ranks + "</col> feat ranks.", null);
+			"Dopamine Simulator: reset " + what + ".", null);
+	}
+
+	private void wipe(DopamineState state)
+	{
+		engine.setState(new DopamineState());
+		incomeTracker.reset();
+		clickState.clear();
+		announcedSources.clear();
+		achievementSystem.newSession();
+		if (revealOverlay != null)
+		{
+			revealOverlay.clear();
+		}
+		if (floatingTextOverlay != null)
+		{
+			floatingTextOverlay.clear();
+		}
 	}
 
 	private void persist()
