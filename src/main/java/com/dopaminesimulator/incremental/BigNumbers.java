@@ -44,6 +44,10 @@ public final class BigNumbers
 		}
 		if (value < 1000d)
 		{
+			if (value > 0d && value < 0.1d)
+			{
+				return "<0.1";
+			}
 			return value < 10d && value != Math.floor(value)
 				? String.format("%.1f", value)
 				: String.valueOf((long) value);

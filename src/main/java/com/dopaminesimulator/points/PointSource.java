@@ -33,7 +33,7 @@ import java.awt.Color;
 public enum PointSource
 {
 	CLICK("Clicking", "Click the Play tab's coins for money!", 0d,
-		new Color(0xFF, 0xB3, 0x00), 0.04d, 25_000d),
+		new Color(0xFF, 0xB3, 0x00), 1.0d, 1_000d),
 	EXPERIENCE("Experience", "XP in any skill", 50d,
 		new Color(0x42, 0xA5, 0xF5), 0.0167d, 60_000d),
 	COMBAT("Combat", "Things killed", 500d,
