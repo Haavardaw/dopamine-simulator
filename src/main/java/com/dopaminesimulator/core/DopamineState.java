@@ -96,6 +96,10 @@ public class DopamineState
 
 	private int bannerPulls;
 
+	private int insight;
+
+	private int prestigeCount;
+
 	public void ensureInitialised()
 	{
 		if (sourceUpgrades == null)
@@ -177,6 +181,28 @@ public class DopamineState
 	public boolean hasBack(String id)
 	{
 		return unlockedBacks.contains(id);
+	}
+
+	/**
+	 * Everything bought with points goes. Everything earned by playing stays.
+	 */
+	public void prestige(int gainedInsight)
+	{
+		insight += gainedInsight;
+		prestigeCount++;
+		points = 0d;
+		lifetimePoints = 0d;
+		sourceUpgrades.clear();
+		cardCounts.clear();
+		shards.clear();
+		shinyCards.clear();
+		gildedCards.clear();
+		completedSets.clear();
+		bannerCards.clear();
+		bannerPity.clear();
+		totalPacksOpened = 0L;
+		packsSinceLastRare = 0;
+		wildcards = 0;
 	}
 
 	public String getBannerCard(Rarity rarity)

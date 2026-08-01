@@ -70,7 +70,7 @@ public class PointSystem implements DopamineSystem
 			return;
 		}
 		double affinity = CardAffinity.multiplierFor(state, event);
-		double points = source.pointsFor(units, state.getSourceUpgradeLevel(source))
+		double points = source.pointsFor(units, state.getSourceUpgradeLevel(source), state.getInsight())
 			* Milestones.globalMultiplier(state.getLifetimePoints())
 			* CollectionBonus.multiplierFor(state, source)
 			* Feats.multiplierFor(state)

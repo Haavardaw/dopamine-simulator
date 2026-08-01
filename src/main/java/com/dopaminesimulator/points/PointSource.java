@@ -24,6 +24,7 @@
  */
 package com.dopaminesimulator.points;
 
+import com.dopaminesimulator.incremental.Prestige;
 import lombok.Getter;
 
 import java.awt.Color;
@@ -113,11 +114,16 @@ public enum PointSource
 	}
 	public static double multiplierForLevel(int level)
 	{
-		return 1d + UPGRADE_GAIN * Math.max(0, level);
+		return multiplierForLevel(level, 0);
 	}
-	public double pointsFor(double units, int upgradeLevel)
+
+	public static double multiplierForLevel(int level, int insight)
 	{
-		return units * basePointsPerUnit * multiplierForLevel(upgradeLevel);
+		return 1d + UPGRADE_GAIN * Prestige.gainMultiplier(insight) * Math.max(0, level);
+	}
+	public double pointsFor(double units, int upgradeLevel, int insight)
+	{
+		return units * basePointsPerUnit * multiplierForLevel(upgradeLevel, insight);
 	}
 	public static PointSource byId(String id)
 	{

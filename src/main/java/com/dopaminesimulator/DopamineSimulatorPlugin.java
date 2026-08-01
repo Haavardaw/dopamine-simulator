@@ -32,6 +32,7 @@ import com.dopaminesimulator.core.DopamineEngine;
 import com.dopaminesimulator.core.DopamineEvent;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.feats.Feats;
+import com.dopaminesimulator.incremental.Prestige;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import com.dopaminesimulator.core.IncomeTracker;
@@ -661,6 +662,39 @@ public class DopamineSimulatorPlugin extends Plugin
 			}
 			persist();
 			refreshPanel();
+		});
+	}
+
+	public void prestige()
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable())
+			{
+				return;
+			}
+			DopamineState state = engine.getState();
+			int stars = state.getTotalStars();
+			if (!Prestige.canPrestige(stars))
+			{
+				return;
+			}
+
+			int gained = Prestige.insightFor(stars);
+			state.prestige(gained);
+			incomeTracker.reset();
+			announcedSources.clear();
+			if (revealOverlay != null)
+			{
+				revealOverlay.clear();
+			}
+			persist();
+			refreshPanel();
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: prestiged for <col=ffb300>" + gained
+					+ "</col> insight. Every upgrade level is now worth "
+					+ Math.round((Prestige.gainMultiplier(state.getInsight()) - 1d) * 100d)
+					+ "% more.", null);
 		});
 	}
 

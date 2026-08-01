@@ -41,6 +41,7 @@ import com.dopaminesimulator.feats.Feat;
 import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.incremental.BigNumbers;
 import com.dopaminesimulator.incremental.Milestones;
+import com.dopaminesimulator.incremental.Prestige;
 import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.pass.BattlePass;
 import com.dopaminesimulator.pass.PassReward;
@@ -366,6 +367,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		playContent.add(Box.createVerticalStrut(8));
 		playContent.add(milestoneLine(state));
 		playContent.add(featLine(state));
+		playContent.add(Box.createVerticalStrut(6));
+		playContent.add(prestigeBlock(state));
 	}
 
 	private ClickButton buildClickButton(DopamineState state, boolean surging)
@@ -391,7 +394,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		double surge = plugin.getClickState() != null
 			&& plugin.getClickState().isSurging(System.currentTimeMillis())
 			? ClickState.SURGE_MULTIPLIER : 1d;
-		return PointSource.CLICK.pointsFor(1d, state.getSourceUpgradeLevel(PointSource.CLICK))
+		return PointSource.CLICK.pointsFor(1d, state.getSourceUpgradeLevel(PointSource.CLICK),
+			state.getInsight())
 			* Milestones.globalMultiplier(state.getLifetimePoints()) * surge;
 	}
 	private JPanel nextUnlockRow(DopamineState state)
@@ -471,8 +475,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		double rate = income.perHour(source, state.getTick());
 
 		String effect = (rate > 0 ? BigNumbers.format(rate) + "/hr  •  " : "")
-			+ "x" + String.format("%.2f", PointSource.multiplierForLevel(level))
-			+ "  →  x" + String.format("%.2f", PointSource.multiplierForLevel(level + buyQuantity));
+			+ "x" + String.format("%.2f", PointSource.multiplierForLevel(level, state.getInsight()))
+			+ "  →  x" + String.format("%.2f", PointSource.multiplierForLevel(level + buyQuantity, state.getInsight()));
 
 		ShopRow row = new ShopRow(
 			source.getDisplayName(),
@@ -491,7 +495,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 			+ ", each adding "
 			+ Math.round(PointSource.UPGRADE_GAIN * 100d) + "%"
 			+ "  \u2022  " + multiplierText(fromCards) + " from " + set.getDisplayName() + " cards"
-			+ "  \u2022  " + multiplierText(PointSource.multiplierForLevel(level) * fromCards)
+			+ "  \u2022  " + multiplierText(PointSource.multiplierForLevel(level, state.getInsight()) * fromCards)
 			+ " total");
 		return sized(row);
 	}
@@ -1476,6 +1480,61 @@ public class DopamineSimulatorPanel extends PluginPanel
 		header.setMaximumSize(new Dimension(Integer.MAX_VALUE, 62));
 		return header;
 	}
+	private JComponent prestigeBlock(DopamineState state)
+	{
+		int stars = state.getTotalStars();
+		int insight = state.getInsight();
+		int gain = Prestige.insightFor(stars);
+		boolean ready = Prestige.canPrestige(stars);
+
+		JPanel block = new JPanel();
+		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
+		block.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		block.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		if (insight > 0 || ready)
+		{
+			block.add(sectionLabel("Prestige", insight + " insight"));
+		}
+		else
+		{
+			block.add(sectionLabel("Prestige"));
+		}
+
+		if (insight > 0)
+		{
+			block.add(hint("Upgrades are worth "
+				+ Math.round((Prestige.gainMultiplier(insight) - 1d) * 100d)
+				+ "% more, from " + state.getPrestigeCount() + " run"
+				+ (state.getPrestigeCount() == 1 ? "" : "s") + " so far."));
+		}
+
+		if (!ready)
+		{
+			block.add(hint("Start again from nothing for permanent insight. Needs "
+				+ Prestige.starsUntilPrestige(stars) + " more stars ("
+				+ stars + "/" + Prestige.MIN_STARS + ")."));
+			return block;
+		}
+
+		block.add(hint("Wipes points, upgrades and every card. Feats, achievements, the pass"
+			+ " and your card backs all stay."));
+		block.add(Box.createVerticalStrut(4));
+
+		JButton go = new JButton("Prestige for " + gain + " insight");
+		go.setFont(FontManager.getRunescapeSmallFont());
+		go.setForeground(GOLD);
+		go.setBackground(ColorScheme.DARKER_GRAY_HOVER_COLOR);
+		go.setFocusPainted(false);
+		go.setAlignmentX(Component.LEFT_ALIGNMENT);
+		go.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+		go.setToolTipText("Each insight makes every upgrade level " 
+			+ Math.round(Prestige.GAIN_PER_INSIGHT * 100d) + "% stronger, forever");
+		go.addActionListener(e -> plugin.prestige());
+		block.add(go);
+		return block;
+	}
+
 	private WrappedLabel featLine(DopamineState state)
 	{
 		int ranks = Feats.tiersEarned(state);
