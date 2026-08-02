@@ -435,6 +435,13 @@ public class DopamineState
 		{
 			return 0;
 		}
+		// a skill unlock is something you have or have not. There is no owning
+		// Cooking 30 twice, so those cards stop at one star and the ten star
+		// ladder belongs to the collectible sets alone.
+		if (card.getSet().isUnlockSet())
+		{
+			return getCopies(cardId) > 0 ? 1 : 0;
+		}
 		return card.getRarity().starsFor(getCopies(cardId));
 	}
 	public int getTotalStars()

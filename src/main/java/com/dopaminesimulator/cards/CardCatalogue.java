@@ -59,9 +59,17 @@ public final class CardCatalogue
 			bySet.put(set, new ArrayList<>());
 		}
 
+		List<Card> all = new ArrayList<>();
 		for (Cards entry : Cards.values())
 		{
-			Card card = entry.getCard();
+			all.add(entry.getCard());
+		}
+		// the skill guide unlocks come from a data file rather than the enum,
+		// there being too many of them to fit in one
+		all.addAll(SkillCards.load());
+
+		for (Card card : all)
+		{
 			cards.add(card);
 			if (byId.put(card.getId(), card) != null)
 			{

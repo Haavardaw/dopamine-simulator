@@ -34,14 +34,52 @@ public enum CardSet
 	BOSSES("Bosses", "Including raids"),
 	ITEMS("Items", "Gear and the things you handle daily"),
 	MINIGAMES("Minigames", "Everything with its own reward shop"),
-	SLAYER("Slayer", "Task monsters"),
-	DIARIES("Diaries", "Achievement diaries by area");
+	SLAYER("Slayer", "Task monsters and slayer unlocks"),
+	DIARIES("Diaries", "Achievement diaries by area"),
+
+	// one set per skill, holding what that skill's in-game guide says you unlock,
+	// plus Areas for the shortcuts and regions the guides list under several
+	// skills at once
+	AGILITY("Agility", "Courses and what agility opens up"),
+	ATTACK("Attack", "What you can wield"),
+	CONSTRUCTION("Construction", "Rooms and everything you can build in them"),
+	COOKING("Cooking", "Everything you can cook or brew"),
+	CRAFTING("Crafting", "Jewellery, leather, glass and pottery"),
+	DEFENCE("Defence", "What you can wear"),
+	FARMING("Farming", "Seeds, crops and trees"),
+	FIREMAKING("Firemaking", "Logs and what you can light"),
+	FISHING("Fishing", "Everything you can catch"),
+	FLETCHING("Fletching", "Bows, bolts and darts"),
+	HERBLORE("Herblore", "Herbs and potions"),
+	HITPOINTS("Hitpoints", "What hitpoints alone gates"),
+	HUNTER("Hunter", "Creatures and how to catch them"),
+	MAGIC("Magic", "Spells and staves"),
+	MINING("Mining", "Ores, rocks and pickaxes"),
+	PRAYER("Prayer", "Prayers, bones and vestments"),
+	RANGED("Ranged", "Bows, ammunition and what to wear"),
+	RUNECRAFT("Runecraft", "Runes, altars and pouches"),
+	SAILING("Sailing", "Ships, ports and crew"),
+	SMITHING("Smithing", "Bars and everything you can hammer out"),
+	STRENGTH("Strength", "What strength alone gates"),
+	THIEVING("Thieving", "Stalls, chests and pockets"),
+	WOODCUTTING("Woodcutting", "Trees and axes"),
+	AREAS("Areas", "Shortcuts, regions and places you can reach");
+
 	private final String displayName;
 	private final String description;
+
 	CardSet(String displayName, String description)
 	{
 		this.displayName = displayName;
 		this.description = description;
 	}
 
+	/**
+	 * Skill sets hold unlocks rather than collectibles, so a card in one is
+	 * something you either have or have not: there is no owning Cooking 30 twice.
+	 */
+	public boolean isUnlockSet()
+	{
+		return ordinal() >= AGILITY.ordinal();
+	}
 }
