@@ -84,6 +84,7 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
+import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.dev.WidgetDump;
 import java.io.File;
 import java.io.IOException;
@@ -988,6 +989,10 @@ public class DopamineSimulatorPlugin extends Plugin
 		{
 			grantPoints(event.getArguments());
 		}
+		else if ("unlockall".equalsIgnoreCase(event.getCommand()) && developerMode)
+		{
+			unlockEveryCard(event.getArguments());
+		}
 		else if ("dumpui".equalsIgnoreCase(event.getCommand()) && developerMode)
 		{
 			String[] arguments = event.getArguments();
@@ -1001,6 +1006,44 @@ public class DopamineSimulatorPlugin extends Plugin
 				dumpOpenInterfaces(arguments);
 			}
 		}
+	}
+
+	/**
+	 * Grants the whole catalogue, for looking at a full collection without
+	 * playing to one. Bare gives a single copy of everything, which is every
+	 * card owned at one star; "max" gives enough copies to finish each.
+	 */
+	private void unlockEveryCard(String[] arguments)
+	{
+		if (!isPlayable())
+		{
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: log in first.", null);
+			return;
+		}
+		boolean max = arguments != null && arguments.length > 0
+			&& "max".equalsIgnoreCase(arguments[0]);
+
+		DopamineState state = engine.getState();
+		int granted = 0;
+		for (Card card : CardCatalogue.all())
+		{
+			int want = max && !card.getSet().isUnlockSet()
+				? card.getRarity().copiesForMaxStars()
+				: 1;
+			int missing = want - state.getCopies(card.getId());
+			if (missing > 0)
+			{
+				state.addCopies(card.getId(), missing);
+				granted++;
+			}
+		}
+		persist();
+		refreshPanel();
+		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+			"Dopamine Simulator: granted " + granted + " of "
+				+ CardCatalogue.size() + " cards"
+				+ (max ? " at full stars." : ", one copy each."), null);
 	}
 
 	/**
