@@ -560,6 +560,22 @@ public class DopamineState
 		return total;
 	}
 
+	/**
+	 * The stars in a set, each counted for what its rarity is worth.
+	 *
+	 * <p>What the income bonus reads. Plain {@link #getStarsInSet} is the number
+	 * you see on the cards and stays a plain count.
+	 */
+	public long getWeightedStarsInSet(CardSet set)
+	{
+		long total = 0;
+		for (Card card : CardCatalogue.bySet(set))
+		{
+			total += (long) starValue(card.getId()) * card.getRarity().starWeight();
+		}
+		return total;
+	}
+
 	public int starValue(String cardId)
 	{
 		int stars = getStars(cardId);

@@ -112,6 +112,35 @@ public enum Rarity
 		}
 		return 0;
 	}
+	/**
+	 * What one of this rarity's stars is worth against a common's.
+	 *
+	 * <p>Measured, not chosen. A star costs 4,500 points if you buy Scrap packs
+	 * and 333,333 if you buy Mythic ones, because the ladder lets a legendary
+	 * finish in ten copies where a common needs forty five, while the packs that
+	 * hand out legendaries cost hundreds of times more. Counting both stars the
+	 * same made spamming the cheapest pack the only sensible play by a factor of
+	 * seventy four. These are that factor, so every tier buys roughly the same
+	 * progress per point and you pick a pack for what you want, not for what is
+	 * efficient.
+	 */
+	public int starWeight()
+	{
+		switch (this)
+		{
+			case COMMON:
+				return 1;
+			case UNCOMMON:
+				return 3;
+			case RARE:
+				return 7;
+			case EPIC:
+				return 18;
+			default:
+				return 74;
+		}
+	}
+
 	public Rarity next()
 	{
 		return this == LEGENDARY ? null : values()[ordinal() + 1];
