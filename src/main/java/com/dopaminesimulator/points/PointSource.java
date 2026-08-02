@@ -73,8 +73,17 @@ public enum PointSource
 
 	public static final double UPGRADE_COST_GROWTH = 1.18d;
 
-	/** A click pays this many seconds of your current income, rather than a flat sum. */
-	public static final double CLICK_SECONDS = 6d;
+	/**
+	 * A click pays this many seconds of your current income, rather than a flat
+	 * sum that the rest of the economy leaves behind.
+	 *
+	 * <p>Kept small on purpose. The share of your income that clicking adds is
+	 * clicks per hour times this over 3600, so at six seconds a click every six
+	 * seconds doubled your income and spamming beat playing. At two, steady
+	 * clicking is worth about a sixth and heavy clicking about a third, which
+	 * rewards paying attention without making the button compulsory.
+	 */
+	public static final double CLICK_SECONDS = 2d;
 
 	/**
 	 * Clicking earns a share of everything else, so there is no level to sell for

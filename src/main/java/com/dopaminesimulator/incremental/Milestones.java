@@ -28,9 +28,17 @@ public final class Milestones
 {
 	private static final double[] THRESHOLDS = {
 		10_000d, 50_000d, 250_000d, 1_250_000d, 5_000_000d,
-		20_000_000d, 60_000_000d, 120_000_000d
+		15_000_000d, 27_000_000d, 42_000_000d, 60_000_000d,
+		85_000_000d, 110_000_000d, 135_000_000d
 	};
-	private static final double BONUS_EACH = 0.10d;
+
+	/**
+	 * Twelve steps rather than eight. Income flattens once the upgrade ladder
+	 * runs out, so lifetime points climb close to linearly from then on; a
+	 * ladder that kept multiplying left one gap of a hundred and forty hours and
+	 * another of a hundred and ninety with nothing in them.
+	 */
+	private static final double BONUS_EACH = 0.07d;
 	public static final int MAX_MILESTONES = THRESHOLDS.length;
 	private Milestones()
 	{
