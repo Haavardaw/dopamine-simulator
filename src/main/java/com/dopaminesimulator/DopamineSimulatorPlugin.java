@@ -510,6 +510,25 @@ public class DopamineSimulatorPlugin extends Plugin
 		return Math.max(1d, others * PointSource.CLICK_SECONDS / 3_600d) * surge;
 	}
 
+	/** How much of this hour's clicking allowance is left, from 1 down to 0. */
+	public double clickAllowanceLeft()
+	{
+		if (!isPlayable() || clickState == null)
+		{
+			return 1d;
+		}
+		long tick = engine.getState().getTick();
+		double others = Math.max(0d,
+			incomeTracker.totalPerHour(tick) - incomeTracker.perHour(PointSource.CLICK, tick));
+		return clickState.allowanceLeft(others, System.currentTimeMillis());
+	}
+
+	public long clickAllowanceResetsInMs()
+	{
+		return clickState == null
+			? 0L : clickState.allowanceResetsInMs(System.currentTimeMillis());
+	}
+
 	/** As above, but spends the hour's allowance; only the real click may do that. */
 	private double takeClickPayout()
 	{

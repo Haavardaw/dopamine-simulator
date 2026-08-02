@@ -41,12 +41,19 @@ public class ClickState
 
 	private static final long WINDOW_MS = 3_600_000L;
 
-	/** Past the cap a click still pays, just poorly, because zero feels broken. */
-	private static final double OVER_CAP_RATE = 0.08d;
+	/**
+	 * Clicks landing closer together than this pay nothing extra.
+	 *
+	 * <p>Not really about the total, which the allowance already bounds, but
+	 * about there being no reason to reach for an autoclicker: past a couple of
+	 * presses a second the extra ones do nothing at all.
+	 */
+	private static final long MIN_GAP_MS = 250L;
 
 	private long surgeEndsAt;
 	private long lastSurgeStartedAt;
 	private long windowStartedAt;
+	private long lastPaidAt;
 	private double earnedInWindow;
 
 	/**
@@ -61,29 +68,45 @@ public class ClickState
 			windowStartedAt = nowMs;
 			earnedInWindow = 0d;
 		}
+		if (nowMs - lastPaidAt < MIN_GAP_MS)
+		{
+			return 0d;
+		}
 		double cap = otherIncomePerHour * HOURLY_SHARE_CAP;
-		double paid = rawPayout;
-		if (cap > 0d && earnedInWindow >= cap)
+		if (cap <= 0d)
 		{
-			paid = rawPayout * OVER_CAP_RATE;
+			lastPaidAt = nowMs;
+			return rawPayout;
 		}
-		else if (cap > 0d && earnedInWindow + rawPayout > cap)
-		{
-			double remaining = cap - earnedInWindow;
-			paid = remaining + (rawPayout - remaining) * OVER_CAP_RATE;
-		}
+		// a hard stop, not a taper. Paying even a small fraction past the cap
+		// left it unbounded: eight percent of four clicks a second still came to
+		// more than everything else earned.
+		double remaining = Math.max(0d, cap - earnedInWindow);
+		double paid = Math.min(rawPayout, remaining);
 		earnedInWindow += paid;
+		lastPaidAt = nowMs;
 		return paid;
 	}
 
-	public double spentShare(double otherIncomePerHour, long nowMs)
+	/** What is left of this hour's clicking allowance, as a share of it. */
+	public double allowanceLeft(double otherIncomePerHour, long nowMs)
 	{
 		if (windowStartedAt == 0L || nowMs - windowStartedAt >= WINDOW_MS
 			|| otherIncomePerHour <= 0d)
 		{
-			return 0d;
+			return 1d;
 		}
-		return Math.min(1d, earnedInWindow / (otherIncomePerHour * HOURLY_SHARE_CAP));
+		double cap = otherIncomePerHour * HOURLY_SHARE_CAP;
+		return cap <= 0d ? 1d : Math.max(0d, 1d - earnedInWindow / cap);
+	}
+
+	public long allowanceResetsInMs(long nowMs)
+	{
+		if (windowStartedAt == 0L)
+		{
+			return 0L;
+		}
+		return Math.max(0L, WINDOW_MS - (nowMs - windowStartedAt));
 	}
 
 	public boolean isSurging(long nowMs)
@@ -108,6 +131,7 @@ public class ClickState
 		surgeEndsAt = 0L;
 		lastSurgeStartedAt = 0L;
 		windowStartedAt = 0L;
+		lastPaidAt = 0L;
 		earnedInWindow = 0d;
 	}
 }

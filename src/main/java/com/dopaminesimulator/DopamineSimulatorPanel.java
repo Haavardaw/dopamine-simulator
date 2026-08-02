@@ -423,6 +423,10 @@ public class DopamineSimulatorPanel extends PluginPanel
 		clickButton.setIcon(plugin.getGameIcons()
 			.forClick(state.getLifetimePoints()));
 		clickButton.setSurging(surging);
+		double left = plugin.clickAllowanceLeft();
+		clickButton.setStatus(left > 0d ? null
+			: "Clicked out for " + Math.max(1L,
+				plugin.clickAllowanceResetsInMs() / 60_000L) + "m");
 		return clickButton;
 	}
 	private double pointsPerClick()

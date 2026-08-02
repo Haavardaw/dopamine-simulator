@@ -62,6 +62,7 @@ public class ClickButton extends JComponent
 	private final List<Particle> particles = new ArrayList<>();
 	private final Timer animator;
 	private BufferedImage icon;
+	private String status;
 	private boolean surging;
 	private boolean hovered;
 	private long pressedAt;
@@ -132,6 +133,15 @@ public class ClickButton extends JComponent
 	public void setIcon(BufferedImage icon)
 	{
 		this.icon = icon;
+	}
+
+	/**
+	 * Shown instead of the payout when there is a reason the button is not
+	 * paying. A button that silently stops giving anything reads as broken.
+	 */
+	public void setStatus(String status)
+	{
+		this.status = status;
 	}
 	public void setSurging(boolean surging)
 	{
@@ -260,6 +270,12 @@ public class ClickButton extends JComponent
 
 	private void drawLabel(Graphics2D g, int width, int height)
 	{
+		if (status != null && !status.isEmpty())
+		{
+			g.setFont(Skin.body());
+			Skin.centred(g, status, 0, width, height - 4, Skin.MUTED);
+			return;
+		}
 		g.setFont(Skin.heading());
 		Skin.centred(g, surging
 				? "SURGE  +" + BigNumbers.format(pointsPerClick.getAsDouble())
