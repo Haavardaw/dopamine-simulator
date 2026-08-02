@@ -31,6 +31,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import com.dopaminesimulator.incremental.Milestones;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.SpriteID;
 import net.runelite.client.game.ItemManager;
@@ -93,12 +94,19 @@ public class GameIcons
 		ItemID.COINS_25, ItemID.COINS_100, ItemID.COINS_250, ItemID.COINS_1000, ItemID.COINS_10000
 	};
 
-	public static final int LEVELS_PER_COIN_TIER = 10;
-
-	public BufferedImage forClick(int clickUpgradeLevel)
+	/**
+	 * The pile of coins on the click button, growing with milestones reached.
+	 *
+	 * <p>It used to grow with the click upgrade level, which no longer moves now
+	 * that clicking pays a share of income instead of having a level to buy.
+	 * Left as it was, the coins would have been stuck on the same sprite for the
+	 * whole game.
+	 */
+	public BufferedImage forClick(double lifetimePoints)
 	{
+		int reached = Milestones.reached(lifetimePoints);
 		int tier = Math.max(0, Math.min(COIN_LADDER.length - 1,
-			clickUpgradeLevel / LEVELS_PER_COIN_TIER));
+			reached * (COIN_LADDER.length - 1) / Math.max(1, Milestones.MAX_MILESTONES)));
 		return itemManager.getImage(COIN_LADDER[tier]);
 	}
 	private static int itemIdFor(PackTier tier)
