@@ -85,6 +85,7 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
 import com.dopaminesimulator.cards.CardCatalogue;
+import com.dopaminesimulator.cards.CardCollection;
 import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.dev.WidgetDump;
 import java.io.File;
@@ -854,6 +855,52 @@ public class DopamineSimulatorPlugin extends Plugin
 			collection.grant(state, card, rewards, false, copies);
 			persist();
 			refreshPanel();
+		});
+	}
+
+	/**
+	 * Takes a finished collection round again: its cards go back to nothing and
+	 * the collection keeps a permanent bonus.
+	 *
+	 * <p>What there is above the top. Paid in dust, so the duplicates a finished
+	 * collection was producing are exactly what funds going round it again.
+	 */
+	public void ascendCollection(String collectionName)
+	{
+		clientThread.invoke(() ->
+		{
+			if (!isPlayable() || collectionName == null)
+			{
+				return;
+			}
+			DopamineState state = engine.getState();
+			CardCollection collection = null;
+			for (CardCollection candidate : CardCollection.all())
+			{
+				if (candidate.getName().equals(collectionName))
+				{
+					collection = candidate;
+					break;
+				}
+			}
+			if (collection == null || !collection.isMaxed(state))
+			{
+				return;
+			}
+			if (!state.spendDust(collection.ascensionCost(state)))
+			{
+				return;
+			}
+			for (Card card : collection.getCards())
+			{
+				state.clearCopies(card.getId());
+			}
+			state.ascend(collectionName);
+			persist();
+			refreshPanel();
+			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+				"Dopamine Simulator: " + collectionName + " ascended to "
+					+ state.getAscension(collectionName) + ".", null);
 		});
 	}
 

@@ -1114,7 +1114,9 @@ public class DopamineSimulatorPanel extends PluginPanel
 		row.setBorder(BorderFactory.createCompoundBorder(
 			BorderFactory.createMatteBorder(0, 2, 0, 0, complete ? GOLD : Color.DARK_GRAY),
 			BorderFactory.createEmptyBorder(4, 6, 4, 6)));
-		JLabel name = new JLabel(collection.getName());
+		int ascension = state.getAscension(collection.getName());
+		JLabel name = new JLabel(collection.getName()
+			+ (ascension > 0 ? "  ✦" + ascension : ""));
 		name.setFont(FontManager.getRunescapeSmallFont());
 		name.setForeground(complete ? GOLD : Skin.WHITE);
 		row.add(name, BorderLayout.WEST);
@@ -1135,9 +1137,43 @@ public class DopamineSimulatorPanel extends PluginPanel
 				members.append("  \u2022  need ").append(card.getName());
 			}
 		}
+		if (ascension > 0)
+		{
+			members.append("  •  ascended ").append(ascension).append(" times, ")
+				.append(multiplierText(1d + collection.bonusFromAscension(state)))
+				.append(" for good");
+		}
 		row.setToolTipText(members.toString());
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height));
-		return row;
+
+		if (!collection.isMaxed(state))
+		{
+			row.setMaximumSize(new Dimension(Integer.MAX_VALUE, row.getPreferredSize().height));
+			return row;
+		}
+
+		// a collection with every card at ten stars has nothing left to give, so
+		// this is the only thing on the panel that can still move
+		long cost = collection.ascensionCost(state);
+		boolean afford = state.getDust() >= cost;
+		StoneButton ascend = new StoneButton(afford
+			? "Ascend  " + BigNumbers.format(cost) + " dust"
+			: "Ascend  " + BigNumbers.format(cost) + " dust needed");
+		ascend.withAccent(afford ? GOLD : Skin.MUTED);
+		ascend.setEnabled(afford);
+		ascend.setToolTipText("Puts every card in " + collection.getName()
+			+ " back to nothing, and keeps "
+			+ multiplierText(1d + CardCollection.BONUS_PER_ASCENSION) + " on it for good.");
+		ascend.addActionListener(e -> plugin.ascendCollection(collection.getName()));
+
+		JPanel block = new JPanel();
+		block.setLayout(new BoxLayout(block, BoxLayout.Y_AXIS));
+		block.setBackground(Skin.CARD_DEEP);
+		block.setAlignmentX(Component.LEFT_ALIGNMENT);
+		block.add(row);
+		block.add(ascend);
+		block.setMaximumSize(new Dimension(Integer.MAX_VALUE, block.getPreferredSize().height));
+		return block;
 	}
 
 	private int cardColumns()

@@ -97,6 +97,15 @@ public class DopamineState
 	 */
 	private long dust;
 
+	/**
+	 * How many times each collection has been taken round again.
+	 *
+	 * <p>What there is to do once a collection is finished. Without it a
+	 * completed set is a dead end, and with three thousand cards there needed to
+	 * be something above the top.
+	 */
+	private Map<String, Integer> ascensions = new HashMap<>();
+
 	private Set<String> unlockedBacks = new LinkedHashSet<>();
 
 	private String selectedBack = "STANDARD";
@@ -138,6 +147,10 @@ public class DopamineState
 			shards = new EnumMap<>(Rarity.class);
 		}
 		migrateToDust();
+		if (ascensions == null)
+		{
+			ascensions = new HashMap<>();
+		}
 		if (completedSets == null)
 		{
 			completedSets = EnumSet.noneOf(CardSet.class);
@@ -212,6 +225,7 @@ public class DopamineState
 		cardCounts.clear();
 		shards.clear();
 		dust = 0L;
+		ascensions.clear();
 		shinyCards.clear();
 		gildedCards.clear();
 		completedSets.clear();
@@ -267,6 +281,32 @@ public class DopamineState
 			wildcards = 0;
 		}
 		dust += carried;
+	}
+
+	public int getAscension(String collection)
+	{
+		return ascensions.getOrDefault(collection, 0);
+	}
+
+	public void ascend(String collection)
+	{
+		ascensions.merge(collection, 1, Integer::sum);
+	}
+
+	public int getTotalAscensions()
+	{
+		int total = 0;
+		for (int level : ascensions.values())
+		{
+			total += level;
+		}
+		return total;
+	}
+
+	/** Ascending a collection puts its cards back to nothing. */
+	public void clearCopies(String cardId)
+	{
+		cardCounts.remove(cardId);
 	}
 
 	public void addDust(long amount)

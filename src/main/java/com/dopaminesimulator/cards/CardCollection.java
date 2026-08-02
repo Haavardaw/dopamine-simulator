@@ -38,6 +38,9 @@ public final class CardCollection
 {
 	public static final double BONUS_PER_COLLECTION = 0.07d;
 
+	/** What one trip round again is permanently worth. */
+	public static final double BONUS_PER_ASCENSION = 0.05d;
+
 	public static final int[] TIER_STARS = {1, 3, 6, 10};
 
 	public static final String[] TIER_NAMES = {"Bronze", "Silver", "Gold", "Diamond"};
@@ -315,7 +318,21 @@ public final class CardCollection
 
 	public static double multiplierFor(DopamineState state, CardSet set)
 	{
-		return Math.pow(1d + BONUS_PER_COLLECTION, tiersIn(state, set));
+		double ascended = 0d;
+		for (CardCollection collection : inSet(set))
+		{
+			ascended += collection.bonusFromAscension(state);
+		}
+		return Math.pow(1d + BONUS_PER_COLLECTION, tiersIn(state, set)) * (1d + ascended);
+	}
+
+	/**
+	 * What ascending has permanently bought this collection. Kept additive so
+	 * that ten ascensions is ten times one rather than something unbounded.
+	 */
+	public double bonusFromAscension(DopamineState state)
+	{
+		return state.getAscension(name) * BONUS_PER_ASCENSION;
 	}
 	public static int completedIn(DopamineState state, CardSet set)
 	{
@@ -360,6 +377,45 @@ public final class CardCollection
 			}
 		}
 		return owned;
+	}
+
+	/**
+	 * Every card in the collection at the top of its star track.
+	 *
+	 * <p>The gate for taking it round again. Stricter than {@link #isComplete},
+	 * which only wants one star on each.
+	 */
+	public boolean isMaxed(DopamineState state)
+	{
+		if (cards.isEmpty())
+		{
+			return false;
+		}
+		for (Card card : cards)
+		{
+			if (state.getStars(card.getId()) < Rarity.MAX_STARS)
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * What it costs to take this collection round again, in dust.
+	 *
+	 * <p>Priced off what the collection is worth rather than a flat figure, so a
+	 * collection of legendaries costs more to reset than one of commons, and each
+	 * further ascension costs half again as much as the last.
+	 */
+	public long ascensionCost(DopamineState state)
+	{
+		long base = 0L;
+		for (Card card : cards)
+		{
+			base += Dust.costToMax(card.getRarity());
+		}
+		return Math.round(base * 0.25d * Math.pow(1.5d, state.getAscension(name)));
 	}
 
 	public boolean isComplete(DopamineState state)
