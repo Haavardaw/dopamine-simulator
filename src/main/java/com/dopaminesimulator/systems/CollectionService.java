@@ -26,6 +26,7 @@ package com.dopaminesimulator.systems;
 
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardSet;
+import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.core.Balance;
 import com.dopaminesimulator.core.DopamineState;
@@ -68,16 +69,24 @@ public class CollectionService
 		if (state.owns(card.getId()))
 		{
 			int starsBefore = state.getStars(card.getId());
-			state.addCopies(card.getId(), granted);
+			int maxCopies = card.getSet().isUnlockSet()
+				? 1 : card.getRarity().copiesForMaxStars();
+			int held = state.getCopies(card.getId());
+
+			// a copy does exactly one thing. Below the top of the track it
+			// advances the card; above it there is nothing left to advance, so it
+			// becomes dust instead. Never both, which is what made the old
+			// shard-per-duplicate impossible to explain alongside stars.
+			int useful = Math.max(0, Math.min(granted, maxCopies - held));
+			int overflow = granted - useful;
+			if (useful > 0)
+			{
+				state.addCopies(card.getId(), useful);
+			}
+			int dust = overflow * Dust.fromOverflow(card.getRarity());
+			state.addDust(dust);
+
 			int starsAfter = state.getStars(card.getId());
-			if (card.getRarity() == Rarity.LEGENDARY)
-			{
-				state.addShards(Rarity.EPIC, EPIC_SHARDS_PER_LEGENDARY_DUPE * granted);
-			}
-			else
-			{
-				state.addShards(card.getRarity(), SHARDS_PER_DUPE * granted);
-			}
 			if (starsAfter > starsBefore)
 			{
 				rewards.push(Reward.starUp(card, starsAfter).withCopies(granted)
@@ -85,10 +94,7 @@ public class CollectionService
 			}
 			else
 			{
-				rewards.push(Reward.duplicate(card,
-					card.getRarity() == Rarity.LEGENDARY
-						? EPIC_SHARDS_PER_LEGENDARY_DUPE
-						: SHARDS_PER_DUPE).withCopies(granted)
+				rewards.push(Reward.duplicate(card, dust).withCopies(granted)
 					.withVariant(becameShiny, becameGilded));
 			}
 			return false;

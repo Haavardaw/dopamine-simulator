@@ -27,6 +27,7 @@ package com.dopaminesimulator.systems;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardSet;
+import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.cards.Region;
 import com.dopaminesimulator.core.DopamineState;
 import com.dopaminesimulator.core.Reward;
@@ -174,7 +175,10 @@ public class PassService
 					Region.forSeason(state.getPassSeason()), (int) reward.getAmount(), rewards);
 				break;
 			case SHARDS:
-				state.addShards(reward.getRarity(), (int) reward.getAmount());
+				// the reward table still speaks in rarities, which is a good way to
+				// scale the amount by season; it pays out in dust like everything else
+				state.addDust(reward.getAmount()
+					* Dust.fromOverflow(reward.getRarity()));
 				break;
 			case SHINY:
 				upgrade(state, rewards, true);
@@ -186,7 +190,7 @@ public class PassService
 				state.unlockBack(reward.back().name());
 				break;
 			case WILDCARD:
-				state.addWildcards((int) reward.getAmount());
+				state.addDust(reward.getAmount() * Dust.PER_WILDCARD);
 				break;
 			default:
 				break;

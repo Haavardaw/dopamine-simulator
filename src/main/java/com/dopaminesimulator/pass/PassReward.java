@@ -24,6 +24,7 @@
  */
 package com.dopaminesimulator.pass;
 
+import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.cosmetics.CardBack;
 import com.dopaminesimulator.incremental.BigNumbers;
@@ -82,7 +83,7 @@ public class PassReward
 			case PACK:
 				return amount + "x " + pack.getDisplayName();
 			case SHARDS:
-				return BigNumbers.format(amount) + " " + rarity.getDisplayName() + " shards";
+				return BigNumbers.format(amount * Dust.fromOverflow(rarity)) + " dust";
 			case SHINY:
 				return "Make a card shiny";
 			case GILDED:
@@ -90,7 +91,7 @@ public class PassReward
 			case CARD_BACK:
 				return back().getDisplayName() + " card back";
 			default:
-				return amount + " wildcard" + (amount == 1 ? "" : "s");
+				return BigNumbers.format(amount * Dust.PER_WILDCARD) + " dust";
 		}
 	}
 
@@ -101,13 +102,13 @@ public class PassReward
 			case PACK:
 				return pack.getColour();
 			case SHARDS:
-				return rarity.getColour();
+				return new Color(0xC9, 0xB8, 0xE8);
 			case SHINY:
 				return new Color(0x7C, 0xE6, 0xD6);
 			case CARD_BACK:
 				return back().getTrim();
 			case WILDCARD:
-				return new Color(0xF0, 0xF0, 0xF6);
+				return new Color(0xC9, 0xB8, 0xE8);
 			default:
 				return new Color(0xD9, 0xA8, 0x33);
 		}

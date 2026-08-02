@@ -27,6 +27,7 @@ package com.dopaminesimulator.core;
 import com.dopaminesimulator.cards.Card;
 import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardSet;
+import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.feats.FeatTrack;
 import com.dopaminesimulator.packs.PackTier;
@@ -86,6 +87,16 @@ public class DopamineState
 
 	private int wildcards;
 
+	/**
+	 * The one currency a finished card pays out in, and the only way to choose
+	 * which card you get next.
+	 *
+	 * <p>Replaces the per rarity shards and the wildcards, which were three
+	 * mechanics answering the same question. A copy now does exactly one thing:
+	 * it advances the card, or if the card is finished it becomes dust.
+	 */
+	private long dust;
+
 	private Set<String> unlockedBacks = new LinkedHashSet<>();
 
 	private String selectedBack = "STANDARD";
@@ -126,6 +137,7 @@ public class DopamineState
 		{
 			shards = new EnumMap<>(Rarity.class);
 		}
+		migrateToDust();
 		if (completedSets == null)
 		{
 			completedSets = EnumSet.noneOf(CardSet.class);
@@ -199,6 +211,7 @@ public class DopamineState
 		sourceUpgrades.clear();
 		cardCounts.clear();
 		shards.clear();
+		dust = 0L;
 		shinyCards.clear();
 		gildedCards.clear();
 		completedSets.clear();
@@ -228,6 +241,50 @@ public class DopamineState
 	public void setBannerPity(Rarity rarity, int value)
 	{
 		bannerPityByRarity.put(rarity, value);
+	}
+
+	/**
+	 * Folds an older save's shards and wildcards into dust, once.
+	 *
+	 * <p>Both were spent on the same thing dust is spent on, so converting them
+	 * loses nobody anything; leaving them would mean carrying three currencies
+	 * that all buy card copies.
+	 */
+	private void migrateToDust()
+	{
+		int carried = 0;
+		for (Rarity rarity : Rarity.values())
+		{
+			carried += getShards(rarity);
+		}
+		if (carried > 0)
+		{
+			shards.clear();
+		}
+		if (wildcards > 0)
+		{
+			carried += wildcards * Dust.PER_WILDCARD;
+			wildcards = 0;
+		}
+		dust += carried;
+	}
+
+	public void addDust(long amount)
+	{
+		if (amount > 0)
+		{
+			dust += amount;
+		}
+	}
+
+	public boolean spendDust(long amount)
+	{
+		if (amount <= 0 || dust < amount)
+		{
+			return false;
+		}
+		dust -= amount;
+		return true;
 	}
 
 	public boolean spendShards(Rarity rarity, int amount)

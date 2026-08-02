@@ -85,6 +85,7 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
 import com.dopaminesimulator.cards.CardCatalogue;
+import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.dev.WidgetDump;
 import java.io.File;
 import java.io.IOException;
@@ -825,41 +826,32 @@ public class DopamineSimulatorPlugin extends Plugin
 		});
 	}
 
-	public void useWildcard(Card card)
+	/**
+	 * Spends dust on a copy of a card you chose.
+	 *
+	 * <p>The one place in the game where you pick. Packs and banners decide for
+	 * you, so this is what turns a shelf of finished commons into progress on the
+	 * legendary you are actually missing.
+	 */
+	public void spendDustOn(Card card, int copies)
 	{
 		clientThread.invoke(() ->
 		{
-			if (!isPlayable() || card == null)
+			if (!isPlayable() || card == null || copies <= 0)
 			{
 				return;
 			}
 			DopamineState state = engine.getState();
-			if (!state.spendWildcard())
+			if (card.getSet().isUnlockSet() && state.owns(card.getId()))
 			{
 				return;
 			}
-			collection.grant(state, card, rewards, false,
-				Math.max(1, card.getRarity().copiesForMaxStars() / 10));
-			persist();
-			refreshPanel();
-		});
-	}
-
-	public void forgeWithShards(Card card)
-	{
-		clientThread.invoke(() ->
-		{
-			if (!isPlayable() || card == null)
+			long cost = (long) Dust.costPerCopy(card.getRarity()) * copies;
+			if (!state.spendDust(cost))
 			{
 				return;
 			}
-			DopamineState state = engine.getState();
-			if (!state.spendShards(card.getRarity(), Balance.SHARDS_PER_FORGE))
-			{
-				return;
-			}
-			collection.grant(state, card, rewards, false,
-				Math.max(1, card.getRarity().copiesForMaxStars() / 20));
+			collection.grant(state, card, rewards, false, copies);
 			persist();
 			refreshPanel();
 		});

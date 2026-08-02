@@ -29,6 +29,7 @@ import com.dopaminesimulator.cards.CardAffinity;
 import com.dopaminesimulator.cards.CardCatalogue;
 import com.dopaminesimulator.cards.CardCollection;
 import com.dopaminesimulator.cards.CardSet;
+import com.dopaminesimulator.cards.Dust;
 import com.dopaminesimulator.cards.CollectionBonus;
 import com.dopaminesimulator.cards.Rarity;
 import com.dopaminesimulator.cards.Region;
@@ -948,6 +949,13 @@ public class DopamineSimulatorPanel extends PluginPanel
 	private static String variantSummary(DopamineState state)
 	{
 		StringBuilder text = new StringBuilder();
+		if (state.getDust() > 0)
+		{
+			// worth showing even at zero-ish, since it is the only currency that
+			// lets you choose a card and nothing else in the panel mentions it
+			text.append("  •  ").append(BigNumbers.format(state.getDust()))
+				.append(" dust");
+		}
 		if (state.getShinyCount() > 0)
 		{
 			text.append("  •  ").append(state.getShinyCount()).append(" shiny");
@@ -1231,35 +1239,23 @@ public class DopamineSimulatorPanel extends PluginPanel
 		text.add(Box.createVerticalStrut(4));
 		text.add(cardEffectLine(state, card, stars));
 
-		if (state.getWildcards() > 0 && stars < Rarity.MAX_STARS)
+		int maxStars = card.getSet().isUnlockSet() ? 1 : Rarity.MAX_STARS;
+		if (stars < maxStars)
 		{
-			int grant = Math.max(1, card.getRarity().copiesForMaxStars() / 10);
-			StoneButton wildcard = new StoneButton("Use wildcard  (+" + grant + ")");
-			wildcard.setAlignmentX(Component.LEFT_ALIGNMENT);
-			wildcard.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
-			wildcard.setToolTipText(state.getWildcards() + " left. Adds copies to this exact card.");
-			wildcard.addActionListener(e -> plugin.useWildcard(card));
+			int per = Dust.costPerCopy(card.getRarity());
+			boolean enough = state.getDust() >= per;
+			StoneButton buy = new StoneButton(enough
+				? "Spend " + per + " dust  (+1 copy)"
+				: per + " dust needed  (" + state.getDust() + ")");
+			buy.withAccent(enough ? GOLD : Skin.MUTED);
+			buy.setEnabled(enough);
+			buy.setAlignmentX(Component.LEFT_ALIGNMENT);
+			buy.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
+			buy.setToolTipText("Dust comes from copies of cards you have already"
+				+ " finished. Spending it is the only way to choose which card you get.");
+			buy.addActionListener(e -> plugin.spendDustOn(card, 1));
 			text.add(Box.createVerticalStrut(4));
-			text.add(wildcard);
-		}
-
-		int shards = state.getShards(card.getRarity());
-		if (stars < Rarity.MAX_STARS && shards > 0)
-		{
-			int grant = Math.max(1, card.getRarity().copiesForMaxStars() / 20);
-			boolean enough = shards >= Balance.SHARDS_PER_FORGE;
-			StoneButton forge = new StoneButton("Forge  " + shards + "/"
-				+ Balance.SHARDS_PER_FORGE + " shards  (+" + grant + ")");
-			forge.withAccent(enough ? GOLD : Skin.MUTED);
-			forge.setBackground(Skin.CARD_DEEP);
-			forge.setEnabled(enough);
-			forge.setAlignmentX(Component.LEFT_ALIGNMENT);
-			forge.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
-			forge.setToolTipText("Spend " + card.getRarity().getDisplayName()
-				+ " shards from duplicates on this card");
-			forge.addActionListener(e -> plugin.forgeWithShards(card));
-			text.add(Box.createVerticalStrut(3));
-			text.add(forge);
+			text.add(buy);
 		}
 
 		int next = card.getRarity().copiesForNextStar(copies);
