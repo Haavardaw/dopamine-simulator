@@ -505,9 +505,22 @@ public class DopamineSimulatorPlugin extends Plugin
 		long tick = state.getTick();
 		double others = Math.max(0d,
 			incomeTracker.totalPerHour(tick) - incomeTracker.perHour(PointSource.CLICK, tick));
-		double surge = clickState == null
-			? 1d : clickState.multiplier(System.currentTimeMillis());
+		long now = System.currentTimeMillis();
+		double surge = clickState == null ? 1d : clickState.multiplier(now);
 		return Math.max(1d, others * PointSource.CLICK_SECONDS / 3_600d) * surge;
+	}
+
+	/** As above, but spends the hour's allowance; only the real click may do that. */
+	private double takeClickPayout()
+	{
+		if (!isPlayable() || clickState == null)
+		{
+			return clickPayout();
+		}
+		long tick = engine.getState().getTick();
+		double others = Math.max(0d,
+			incomeTracker.totalPerHour(tick) - incomeTracker.perHour(PointSource.CLICK, tick));
+		return clickState.allowanceFor(clickPayout(), others, System.currentTimeMillis());
 	}
 
 	public void click()
@@ -518,7 +531,7 @@ public class DopamineSimulatorPlugin extends Plugin
 			{
 				return;
 			}
-			engine.accept(DopamineEvent.click(clickPayout()));
+			engine.accept(DopamineEvent.click(takeClickPayout()));
 			refreshPanel();
 		});
 	}

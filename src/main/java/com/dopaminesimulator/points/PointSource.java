@@ -77,13 +77,13 @@ public enum PointSource
 	 * A click pays this many seconds of your current income, rather than a flat
 	 * sum that the rest of the economy leaves behind.
 	 *
-	 * <p>Kept small on purpose. The share of your income that clicking adds is
-	 * clicks per hour times this over 3600, so at six seconds a click every six
-	 * seconds doubled your income and spamming beat playing. At two, steady
-	 * clicking is worth about a sixth and heavy clicking about a third, which
-	 * rewards paying attention without making the button compulsory.
+	 * <p>Four seconds makes a single click a visible number rather than a
+	 * rounding error, which two was: thirty clicks in an hour came to under two
+	 * percent of it. The runaway that a larger figure used to cause is held by
+	 * the hourly allowance in ClickState rather than by keeping this small, so
+	 * the click can feel worth pressing without ever beating real play.
 	 */
-	public static final double CLICK_SECONDS = 2d;
+	public static final double CLICK_SECONDS = 4d;
 
 	/**
 	 * Clicking earns a share of everything else, so there is no level to sell for
