@@ -25,6 +25,7 @@
 package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.cards.Card;
+import com.dopaminesimulator.cards.CardSet;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.Set;
@@ -43,11 +44,14 @@ public class CardArtService
 	private final Map<String, AsyncBufferedImage> items = new ConcurrentHashMap<>();
 	private final Map<String, BufferedImage> sprites = new ConcurrentHashMap<>();
 	private final Set<String> requested = ConcurrentHashMap.newKeySet();
+	private final Map<CardSet, BufferedImage> badges = new ConcurrentHashMap<>();
+	private final Set<CardSet> badgesRequested = ConcurrentHashMap.newKeySet();
 	@Inject
 	public CardArtService(ItemManager itemManager, SpriteManager spriteManager)
 	{
 		this.itemManager = itemManager;
 		this.spriteManager = spriteManager;
+		CardRenderer.setBadgeSource(this::badgeFor);
 	}
 
 	public BufferedImage get(Card card)
@@ -92,6 +96,32 @@ public class CardArtService
 			image.onLoaded(callback);
 		}
 	}
+	/**
+	 * The skill icon for a set, for the corner of the card. Registered with
+	 * {@link CardRenderer} rather than threaded through its draw calls, since
+	 * every one of them would have to carry a badge it does not choose.
+	 */
+	public BufferedImage badgeFor(CardSet set)
+	{
+		int sprite = set == null ? -1 : set.skillSpriteId();
+		if (sprite <= 0)
+		{
+			return null;
+		}
+		BufferedImage cached = badges.get(set);
+		if (cached == null && badgesRequested.add(set))
+		{
+			spriteManager.getSpriteAsync(sprite, 0, image ->
+			{
+				if (image != null)
+				{
+					badges.put(set, image);
+				}
+			});
+		}
+		return cached;
+	}
+
 	private void requestSprite(Card card, Runnable callback)
 	{
 		if (callback == null && !requested.add(card.getId()))

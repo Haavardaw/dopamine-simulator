@@ -45,12 +45,21 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.function.Function;
 import net.runelite.client.ui.FontManager;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class CardRenderer
 {
+	private static volatile Function<CardSet, BufferedImage> BADGE_SOURCE;
+
+	/** Registered once by the art service, which is the only thing that can load sprites. */
+	public static void setBadgeSource(Function<CardSet, BufferedImage> source)
+	{
+		BADGE_SOURCE = source;
+	}
+
 	public static final double ASPECT = 1.4d;
 	private static final Color BODY_TOP = new Color(0x26, 0x26, 0x2A);
 	private static final Color BODY_BOTTOM = new Color(0x12, 0x12, 0x14);
@@ -126,6 +135,7 @@ public final class CardRenderer
 
 		drawStars(g, rarity, innerX, innerY + innerH, innerW, height, stars, compact);
 		drawRarityPip(g, rarity, width, height, shiny, gilded);
+		drawSkillBadge(g, card, height);
 		if (rarity.ordinal() >= Rarity.RARE.ordinal())
 		{
 			drawFoil(g, rarity, artX, artY, artW, artH, animMs);
@@ -546,6 +556,32 @@ public final class CardRenderer
 			g.drawString(count, startX + barWidth + 4,
 				bottom - strip + (strip + metrics.getAscent()) / 2 - 1);
 		}
+	}
+
+	/**
+	 * The skill icon in the top left, so a Cooking card reads as one without
+	 * having to know the item. The rarity pip owns the opposite corner.
+	 *
+	 * <p>Supplied rather than passed in, because the badge belongs to the set
+	 * rather than to any one caller, and there are four of those.
+	 */
+	private static void drawSkillBadge(Graphics2D g, Card card, int height)
+	{
+		if (BADGE_SOURCE == null || card == null)
+		{
+			return;
+		}
+		BufferedImage badge = BADGE_SOURCE.apply(card.getSet());
+		if (badge == null)
+		{
+			return;
+		}
+		int size = Math.max(7, height / 9);
+		int pad = Math.max(2, height / 30);
+		Composite before = g.getComposite();
+		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.85f));
+		g.drawImage(badge, pad, pad, size, size, null);
+		g.setComposite(before);
 	}
 
 	private static void drawRarityPip(Graphics2D g, Rarity rarity, int width, int height,

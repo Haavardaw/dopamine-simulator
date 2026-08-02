@@ -25,6 +25,7 @@
 package com.dopaminesimulator.cards;
 
 import lombok.Getter;
+import net.runelite.api.gameval.SpriteID;
 
 @Getter
 public enum CardSet
@@ -81,5 +82,42 @@ public enum CardSet
 	public boolean isUnlockSet()
 	{
 		return ordinal() >= AGILITY.ordinal();
+	}
+
+	/**
+	 * The game's own icon for the skill this set belongs to, or -1 for the sets
+	 * that are not a skill. Drawn in the corner of the card so a Cooking card is
+	 * recognisable as one at a glance.
+	 */
+	public int skillSpriteId()
+	{
+		switch (this)
+		{
+			case ATTACK: return SpriteID.Staticons.ATTACK;
+			case STRENGTH: return SpriteID.Staticons.STRENGTH;
+			case DEFENCE: return SpriteID.Staticons.DEFENCE;
+			case RANGED: return SpriteID.Staticons.RANGED;
+			case PRAYER: return SpriteID.Staticons.PRAYER;
+			case MAGIC: return SpriteID.Staticons.MAGIC;
+			case HITPOINTS: return SpriteID.Staticons.HITPOINTS;
+			case AGILITY: return SpriteID.Staticons.AGILITY;
+			case HERBLORE: return SpriteID.Staticons.HERBLORE;
+			case THIEVING: return SpriteID.Staticons.THIEVING;
+			case CRAFTING: return SpriteID.Staticons.CRAFTING;
+			case FLETCHING: return SpriteID.Staticons.FLETCHING;
+			case MINING: return SpriteID.Staticons.MINING;
+			case SMITHING: return SpriteID.Staticons.SMITHING;
+			case FISHING: return SpriteID.Staticons.FISHING;
+			case COOKING: return SpriteID.Staticons.COOKING;
+			case FIREMAKING: return SpriteID.Staticons.FIREMAKING;
+			case WOODCUTTING: return SpriteID.Staticons.WOODCUTTING;
+			case RUNECRAFT: return SpriteID.Staticons2.RUNECRAFT;
+			case SLAYER: return SpriteID.Staticons2.SLAYER;
+			case HUNTER: return SpriteID.Staticons2.HUNTER;
+			case FARMING: return SpriteID.Staticons2.FARMING;
+			case CONSTRUCTION: return SpriteID.Staticons2.CONSTRUCTION;
+			case SAILING: return SpriteID.Staticons2.SAILING;
+			default: return -1;
+		}
 	}
 }
