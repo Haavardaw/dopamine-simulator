@@ -125,7 +125,8 @@ public class ShopRow extends JComponent
 		drawIcon(g, height);
 
 		int textX = ICON_X + ICON + 8;
-		String price = BigNumbers.format(cost);
+		// nothing left to sell reads as a dash, not as costing nothing
+		String price = cost > 0d ? BigNumbers.format(cost) : "—";
 
 		g.setFont(Skin.body());
 		FontMetrics bodyMetrics = g.getFontMetrics();

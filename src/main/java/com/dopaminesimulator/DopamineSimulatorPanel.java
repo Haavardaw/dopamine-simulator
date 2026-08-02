@@ -519,10 +519,14 @@ public class DopamineSimulatorPanel extends PluginPanel
 		// clicking is not paid through the level multiplier, so quoting one here
 		// would describe a number that does nothing. Its levels buy surges.
 		boolean surgeLine = source == PointSource.CLICK;
+		// the click ladder is the one that finishes, so it has to say so rather
+		// than leave a button that costs points and changes nothing
+		boolean maxed = surgeLine && level >= ClickState.MAX_LEVEL;
 		String effect = surgeLine
-			? String.format("%.1f", ClickState.surgesPerHour(level)) + " surges/hr"
-				+ "  →  " + String.format("%.1f",
-					ClickState.surgesPerHour(level + buyQuantity))
+			? String.format("%.1f", ClickState.surgesPerHour(level)) + " dishes/hr"
+				+ (maxed ? "  •  fully served" : "  →  " + String.format("%.1f",
+					ClickState.surgesPerHour(Math.min(ClickState.MAX_LEVEL,
+						level + buyQuantity))))
 			: (rate > 0 ? BigNumbers.format(rate) + "/hr  •  " : "")
 				+ "x" + String.format("%.2f",
 					PointSource.multiplierForLevel(level, state.getInsight()))
@@ -532,11 +536,11 @@ public class DopamineSimulatorPanel extends PluginPanel
 		ShopRow row = new ShopRow(
 			source.getDisplayName(),
 			effect,
-			cost,
+			maxed ? 0d : cost,
 			source.getColour(),
-			String.valueOf(level),
-			affordable,
-			state.getPoints() / cost,
+			maxed ? "MAX" : String.valueOf(level),
+			affordable && !maxed,
+			maxed ? 1d : state.getPoints() / cost,
 			r -> plugin.buySourceUpgrade(source, buyQuantity));
 		row.setIcon(plugin.getGameIcons().forSource(source));
 		CardSet set = CollectionBonus.setFor(source);
@@ -544,8 +548,10 @@ public class DopamineSimulatorPanel extends PluginPanel
 		row.setToolTipText(surgeLine
 			? source.getDescription()
 				+ "  •  level " + level
-				+ ", each making surges " + Math.round(ClickState.SURGE_RATE_PER_LEVEL * 100d)
-				+ "% more frequent"
+				+ ", serving " + String.format("%.1f", ClickState.surgesPerHour(level))
+				+ " dishes an hour of a possible "
+				+ String.format("%.1f", ClickState.BASE_SURGE_CHANCE_PER_TICK
+					* ClickState.SURGE_RATE_CAP * 6_000d)
 				+ "  •  a surge serves one of " + GnomeFood.values().length
 				+ " gnome dishes, each doing something different"
 			: source.getDescription()

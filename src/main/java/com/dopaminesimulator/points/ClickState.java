@@ -32,15 +32,32 @@ public class ClickState
 	public static final double BASE_SURGE_CHANCE_PER_TICK = 0.00125d;
 
 	/**
-	 * Each click upgrade adds this share of the base rate, taking a fully
-	 * invested clicker from around seven surges an hour to around twenty.
+	 * The most the click upgrade can ever multiply the catch rate by.
 	 *
-	 * <p>Kept gentle because surge income multiplies out: rate times duration
-	 * times clicks per second times the multiplier. At twelve percent a level it
-	 * reached thirty five surges an hour and clicking came to more than
-	 * everything else earned, which is the wrong way round.
+	 * <p>It used to add a flat share of the base rate per level, which was fine
+	 * when a surge was only a click multiplier. Seven dishes later, four of them
+	 * paying a share of total income, and the same flat rate took food from a
+	 * third of an hour's earnings at level nought to nearly twice an hour's at
+	 * level a hundred and twenty, which the cost curve does not stop you reaching
+	 * in a long game.
+	 *
+	 * <p>So it approaches a ceiling instead of climbing forever. Food is worth
+	 * about thirty percent on top of an hour untouched and around half at the
+	 * limit: active play stays well rewarded without making the rest pointless.
 	 */
-	public static final double SURGE_RATE_PER_LEVEL = 0.055d;
+	public static final double SURGE_RATE_CAP = 1.75d;
+
+	/**
+	 * The last click level worth selling, and the one that reaches the ceiling.
+	 *
+	 * <p>The ladder is short and it finishes. Every other source grows eleven
+	 * percent a level forever, so its ladder can be geometric and still worth
+	 * climbing; this one buys a share of a bounded thing, and pricing a bounded
+	 * benefit on a curve that doubles every four levels would mean the last few
+	 * cost millions for a percent each. Twenty levels, evenly spaced, bought out
+	 * for well under a hundred thousand points, and then it says MAX.
+	 */
+	public static final int MAX_LEVEL = 20;
 
 	/**
 	 * The two dishes that pay out at once would otherwise appear for a single
@@ -61,8 +78,14 @@ public class ClickState
 	 */
 	public static double surgeChancePerTick(int clickLevel)
 	{
-		return BASE_SURGE_CHANCE_PER_TICK
-			* (1d + SURGE_RATE_PER_LEVEL * Math.max(0, clickLevel));
+		return BASE_SURGE_CHANCE_PER_TICK * rateMultiplier(clickLevel);
+	}
+
+	/** How much more often dishes come than they do untouched. */
+	public static double rateMultiplier(int clickLevel)
+	{
+		int level = Math.max(0, Math.min(MAX_LEVEL, clickLevel));
+		return 1d + (SURGE_RATE_CAP - 1d) * level / MAX_LEVEL;
 	}
 
 	public static double surgesPerHour(int clickLevel)

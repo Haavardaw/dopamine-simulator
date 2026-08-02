@@ -691,7 +691,13 @@ public class DopamineSimulatorPlugin extends Plugin
 			}
 			DopamineState state = engine.getState();
 			int current = state.getSourceUpgradeLevel(source);
-			int affordable = affordableCount(levels,
+			int wanted = source == PointSource.CLICK
+				? Math.min(levels, ClickState.MAX_LEVEL - current) : levels;
+			if (wanted <= 0)
+			{
+				return;
+			}
+			int affordable = affordableCount(wanted,
 				count -> source.upgradeCostForMany(current, count), state.getPoints());
 			if (affordable > 0
 				&& state.spendPoints(source.upgradeCostForMany(current, affordable)))
