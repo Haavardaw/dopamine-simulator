@@ -52,7 +52,6 @@ public enum CardSet
 	FISHING("Fishing", "Everything you can catch"),
 	FLETCHING("Fletching", "Bows, bolts and darts"),
 	HERBLORE("Herblore", "Herbs and potions"),
-	HITPOINTS("Hitpoints", "What hitpoints alone gates"),
 	HUNTER("Hunter", "Creatures and how to catch them"),
 	MAGIC("Magic", "Spells and staves"),
 	MINING("Mining", "Ores, rocks and pickaxes"),
@@ -99,7 +98,6 @@ public enum CardSet
 			case RANGED: return SpriteID.Staticons.RANGED;
 			case PRAYER: return SpriteID.Staticons.PRAYER;
 			case MAGIC: return SpriteID.Staticons.MAGIC;
-			case HITPOINTS: return SpriteID.Staticons.HITPOINTS;
 			case AGILITY: return SpriteID.Staticons.AGILITY;
 			case HERBLORE: return SpriteID.Staticons.HERBLORE;
 			case THIEVING: return SpriteID.Staticons.THIEVING;

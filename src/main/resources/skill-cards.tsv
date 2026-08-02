@@ -1274,6 +1274,7 @@ DEFENCE	70	EPIC	4753	Verac's armour
 DEFENCE	75	EPIC	11283	Dragonfire shield
 DEFENCE	75	EPIC	28945	Echo boots
 DEFENCE	75	EPIC	12817	Elysian spirit shield
+DEFENCE	75	EPIC	19550	Enchanted zenyte jewellery
 DEFENCE	75	EPIC	21733	Guardian boots
 DEFENCE	75	EPIC	22326	Justiciar armour
 DEFENCE	75	EPIC	13237	Pegasian boots
@@ -1285,6 +1286,9 @@ DEFENCE	80	LEGENDARY	27238	Fortified Masori armour
 DEFENCE	80	LEGENDARY	27229	Masori armour
 DEFENCE	80	LEGENDARY	26382	Torva armour
 DEFENCE	80	LEGENDARY	26235	Zaryte vambraces
+DEFENCE	90	LEGENDARY	29801	Amulet of Rancour
+DEFENCE	90	LEGENDARY	31106	Confliction gauntlets
+DEFENCE	90	LEGENDARY	33639	Necklace of Rupture
 FARMING	1	COMMON	1942	Potatoes
 FARMING	2	COMMON	6010	Marigolds
 FARMING	3	COMMON	6006	Barley
@@ -1782,10 +1786,6 @@ HERBLORE	98	LEGENDARY	3256	Extended super antifires
 HERBLORE	98	LEGENDARY	21994	Super antifire mix
 HERBLORE	99	LEGENDARY	22221	Extended super antifire mix
 HERBLORE	99	LEGENDARY	9774	Skillcape
-HITPOINTS	75	EPIC	19550	Enchanted zenyte jewellery
-HITPOINTS	90	LEGENDARY	29801	Amulet of Rancour
-HITPOINTS	90	LEGENDARY	31106	Confliction gauntlets
-HITPOINTS	90	LEGENDARY	33639	Necklace of Rupture
 HUNTER	1	COMMON	20870	Chambers of Xeric - Guanic bat
 HUNTER	1	COMMON	10053	Common kebbit fur clothing
 HUNTER	1	COMMON	9965	Crimson swifts
