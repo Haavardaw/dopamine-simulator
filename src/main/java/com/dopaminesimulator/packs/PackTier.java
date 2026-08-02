@@ -113,7 +113,12 @@ public enum PackTier
 	{
 		double scale = rarity.copiesForMaxStars()
 			/ (double) lowestRarity().copiesForMaxStars();
-		return Math.max(1, Math.min(MAX_COPIES, (int) Math.round(bulkCopies * scale)));
+		// no pack may hand over more than a fifth of a card's whole star track,
+		// or one pull finishes a card. Enforced from the track itself rather than
+		// by tuning each tier, so changing the thresholds cannot quietly break it
+		int fifthOfTrack = Math.max(1, rarity.copiesForMaxStars() / 5);
+		int ceiling = Math.min(MAX_COPIES, fifthOfTrack);
+		return Math.max(1, Math.min(ceiling, (int) Math.round(bulkCopies * scale)));
 	}
 
 	public double getCostPerCopy()

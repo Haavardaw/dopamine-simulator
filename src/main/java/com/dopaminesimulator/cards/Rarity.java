@@ -58,20 +58,29 @@ public enum Rarity
 
 	public static final int MAX_STARS = 10;
 
+	/**
+	 * Copies needed for each star.
+	 *
+	 * <p>Flattened from a ladder whose last rung cost as much as the other nine
+	 * together: a Common needed forty five more copies to go from nine stars to
+	 * ten, so four in every five copies a pack gave you moved nothing visible.
+	 * The worst gap is twelve now, and finishing the collection wants about half
+	 * the copies it did.
+	 */
 	public int[] starThresholds()
 	{
 		switch (this)
 		{
 			case COMMON:
-				return new int[]{1, 2, 3, 5, 8, 12, 18, 28, 45, 90};
+				return new int[]{1, 2, 3, 5, 8, 12, 17, 24, 33, 45};
 			case UNCOMMON:
-				return new int[]{1, 2, 3, 4, 7, 10, 15, 24, 38, 68};
+				return new int[]{1, 2, 3, 4, 6, 9, 13, 18, 25, 34};
 			case RARE:
-				return new int[]{1, 2, 3, 4, 6, 8, 12, 19, 30, 48};
+				return new int[]{1, 2, 3, 4, 6, 8, 11, 15, 20, 26};
 			case EPIC:
-				return new int[]{1, 2, 3, 4, 5, 7, 10, 15, 22, 30};
+				return new int[]{1, 2, 3, 4, 5, 6, 8, 11, 14, 18};
 			default:
-				return new int[]{1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
+				return new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 		}
 	}
 	public int copiesForMaxStars()
