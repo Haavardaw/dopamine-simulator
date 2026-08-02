@@ -53,6 +53,7 @@ import com.dopaminesimulator.systems.BannerService;
 import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.systems.PassSystem;
 import com.dopaminesimulator.points.ClickState;
+import com.dopaminesimulator.points.GnomeFood;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.ui.CardComponent;
 import com.dopaminesimulator.ui.ClickButton;
@@ -371,7 +372,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		IncomeTracker income = plugin.getIncomeTracker();
 		ClickState clicks = plugin.getClickState();
 		long now = System.currentTimeMillis();
-		boolean surging = clicks != null && clicks.isSurging(now);
+		GnomeFood serving = clicks == null ? null : clicks.getShown(now);
+		boolean surging = serving != null;
 		double perHour = income.totalPerHour(state.getTick());
 		playContent.add(pointsLine(state));
 		playContent.add(Box.createVerticalStrut(8));
@@ -421,8 +423,11 @@ public class DopamineSimulatorPanel extends PluginPanel
 			clickButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		}
 
-		clickButton.setIcon(plugin.getGameIcons()
-			.forClick(state.getLifetimePoints()));
+		GnomeFood serving = plugin.getClickState() == null
+			? null : plugin.getClickState().getShown(System.currentTimeMillis());
+		clickButton.setIcon(serving == null
+			? plugin.getGameIcons().forClick(state.getLifetimePoints())
+			: plugin.getGameIcons().forFood(serving));
 		clickButton.setSurging(surging);
 		clickButton.setStatus(null);
 		return clickButton;
@@ -541,8 +546,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 				+ "  •  level " + level
 				+ ", each making surges " + Math.round(ClickState.SURGE_RATE_PER_LEVEL * 100d)
 				+ "% more frequent"
-				+ "  •  a surge lasts " + (ClickState.SURGE_DURATION_MS / 1000L)
-				+ "s, paying x" + (long) ClickState.SURGE_MULTIPLIER + " a click"
+				+ "  •  a surge serves one of " + GnomeFood.values().length
+				+ " gnome dishes, each doing something different"
 			: source.getDescription()
 				+ "  •  level " + level
 				+ ", each adding "

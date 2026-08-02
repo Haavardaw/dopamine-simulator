@@ -45,9 +45,11 @@ import com.dopaminesimulator.core.RewardType;
 import com.dopaminesimulator.core.RewardQueue;
 import com.dopaminesimulator.packs.PackTier;
 import com.dopaminesimulator.points.ClickState;
+import com.dopaminesimulator.points.GnomeFood;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.systems.CollectionService;
 import com.dopaminesimulator.systems.BannerService;
+import com.dopaminesimulator.systems.GnomeFoodService;
 import com.dopaminesimulator.systems.PackService;
 import com.dopaminesimulator.systems.PassService;
 import com.dopaminesimulator.systems.PassSystem;
@@ -184,6 +186,7 @@ public class DopamineSimulatorPlugin extends Plugin
 
 	@Getter
 	private PackService packService;
+	private GnomeFoodService foodService;
 
 	@Getter
 	private PassService passService;
@@ -229,6 +232,7 @@ public class DopamineSimulatorPlugin extends Plugin
 		clickState = new ClickState();
 		collection = new CollectionService();
 		packService = new PackService(random, collection);
+		foodService = new GnomeFoodService(random, packService);
 		passService = new PassService(random, packService);
 		bannerService = new BannerService(random, packService, collection);
 
@@ -239,7 +243,8 @@ public class DopamineSimulatorPlugin extends Plugin
 			floatingTextOverlay.onPointsGained(source, detail, amount, tick);
 		};
 		engine = new DopamineEngine(new DopamineState(), rewards)
-			.register(new PointSystem(listeners))
+			.register(new PointSystem(listeners,
+				() -> clickState == null ? 1d : clickState.incomeMultiplier(System.currentTimeMillis())))
 			.register(new FeatSystem())
 			.register(achievementSystem)
 			.register(new PassSystem());
@@ -399,12 +404,23 @@ public class DopamineSimulatorPlugin extends Plugin
 			return;
 		}
 
-		if (random.nextDouble() < ClickState.surgeChancePerTick(
+		if (random.nextDouble() >= ClickState.surgeChancePerTick(
 			state.getSourceUpgradeLevel(PointSource.CLICK)))
 		{
-			clickState.startSurge(now);
-			refreshPanel();
+			return;
 		}
+
+		GnomeFood food = GnomeFood.roll(random);
+		clickState.start(food, now);
+
+		long tick = state.getTick();
+		double others = Math.max(0d,
+			incomeTracker.totalPerHour(tick) - incomeTracker.perHour(PointSource.CLICK, tick));
+		String got = foodService.apply(state, food, others, clickPayout(), rewards);
+		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+			"<col=ffb300>" + food.getDisplayName() + "</col>! "
+				+ (got == null ? food.getBlurb() : got + "."), null);
+		refreshPanel();
 	}
 
 	private void checkSourceUnlocks()

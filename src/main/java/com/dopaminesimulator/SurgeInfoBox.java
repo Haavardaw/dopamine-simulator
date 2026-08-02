@@ -25,6 +25,7 @@
 package com.dopaminesimulator;
 
 import com.dopaminesimulator.points.ClickState;
+import com.dopaminesimulator.points.GnomeFood;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import net.runelite.client.plugins.Plugin;
@@ -41,12 +42,18 @@ public class SurgeInfoBox extends InfoBox
 		super(image, plugin);
 		this.config = config;
 		this.clickState = clickState;
-		setTooltip("Click surge: open the Dopamine Simulator panel and click");
+		setTooltip("A gnome dish is being served");
 	}
 	@Override
 	public String getText()
 	{
-		return String.format("%.0f", clickState.secondsRemaining(System.currentTimeMillis()));
+		long now = System.currentTimeMillis();
+		GnomeFood food = clickState.getActive(now);
+		if (food != null)
+		{
+			setTooltip(food.getDisplayName() + ": " + food.getBlurb());
+		}
+		return String.format("%.0f", clickState.secondsRemaining(now));
 	}
 
 	@Override

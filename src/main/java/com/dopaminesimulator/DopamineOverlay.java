@@ -102,7 +102,8 @@ public class DopamineOverlay extends OverlayPanel
 		if (clicks != null && clicks.isSurging(now))
 		{
 			panelComponent.getChildren().add(LineComponent.builder()
-				.left("SURGE")
+				.left(clicks.getActive(now) == null
+					? "SURGE" : clicks.getActive(now).getDisplayName())
 				.right(String.format("%.0fs", clicks.secondsRemaining(now)))
 				.leftColor(SURGE)
 				.rightColor(SURGE)

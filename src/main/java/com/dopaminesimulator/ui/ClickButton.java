@@ -187,15 +187,8 @@ public class ClickButton extends JComponent
 		int plate = (int) (Math.min(width, height - 16) * 0.78d * currentScale());
 
 		drawGlow(g, centreX, centreY, plate);
-		if (surging)
-		{
-			drawGoldenCookie(g, centreX, centreY, plate);
-		}
-		else
-		{
-			drawPlate(g, centreX, centreY, plate);
-			drawIcon(g, centreX, centreY, plate);
-		}
+		drawPlate(g, centreX, centreY, plate);
+		drawIcon(g, centreX, centreY, plate);
 		drawLabel(g, width, height);
 		drawParticles(g, centreX, centreY);
 
@@ -258,82 +251,6 @@ public class ClickButton extends JComponent
 		int spread = (int) (5 + 7 * pulse);
 		g.drawOval(x - spread, y - spread, plate + spread * 2, plate + spread * 2);
 		g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-	}
-
-	/**
-	 * What a surge looks like: a golden biscuit rather than the ordinary coin.
-	 *
-	 * <p>Drawn rather than bundled. It is the shape of the game's own cookie, an
-	 * eight sided slab with chunks in it, which is simple enough to lay out in a
-	 * dozen lines and costs nothing to redistribute. Drawing it also means it
-	 * scales with the button and takes the surge's colours rather than sitting in
-	 * the panel as a fixed lump of pixels.
-	 */
-	private void drawGoldenCookie(Graphics2D g, int centreX, int centreY, int plate)
-	{
-		double radius = plate / 2d;
-		Path2D.Double biscuit = new Path2D.Double();
-		for (int i = 0; i < 8; i++)
-		{
-			// starting off axis puts flat edges top and bottom, as the model has
-			double angle = Math.PI * 2 * i / 8 + Math.PI / 8;
-			double px = centreX + Math.cos(angle) * radius;
-			double py = centreY + Math.sin(angle) * radius * 0.86d;
-			if (i == 0)
-			{
-				biscuit.moveTo(px, py);
-			}
-			else
-			{
-				biscuit.lineTo(px, py);
-			}
-		}
-		biscuit.closePath();
-
-		g.setPaint(new GradientPaint(
-			centreX - (float) radius, centreY - (float) radius, new Color(0xFF, 0xE4, 0x3A),
-			centreX + (float) radius, centreY + (float) radius, new Color(0xB9, 0x6A, 0x08)));
-		g.fill(biscuit);
-		g.setStroke(new BasicStroke(1.5f));
-		g.setColor(new Color(0xFF, 0xF4, 0x9B, 200));
-		g.draw(biscuit);
-
-		// chunks, at fixed offsets and angles so the biscuit does not shimmer
-		// between frames the way anything random would
-		double[][] chunks = {
-			{-0.34, -0.46, 0.15, 2.6}, {0.04, -0.54, 0.11, 0.4},
-			{0.46, -0.32, 0.10, 3.0}, {-0.52, 0.04, 0.12, 1.3},
-			{-0.08, -0.10, 0.17, 2.2}, {0.30, 0.02, 0.12, 0.9},
-			{-0.30, 0.42, 0.11, 2.9}, {0.16, 0.44, 0.13, 1.8},
-			{0.50, 0.30, 0.09, 2.0}, {-0.10, 0.20, 0.10, 0.2},
-		};
-		Shape clip = g.getClip();
-		g.clip(biscuit);
-		g.setColor(new Color(0x33, 0x1D, 0x03, 235));
-		for (double[] chunk : chunks)
-		{
-			double cx = centreX + chunk[0] * radius;
-			double cy = centreY + chunk[1] * radius * 0.86d;
-			double size = chunk[2] * radius;
-			Path2D.Double chip = new Path2D.Double();
-			for (int i = 0; i < 3; i++)
-			{
-				double angle = chunk[3] + Math.PI * 2 * i / 3;
-				double px = cx + Math.cos(angle) * size;
-				double py = cy + Math.sin(angle) * size;
-				if (i == 0)
-				{
-					chip.moveTo(px, py);
-				}
-				else
-				{
-					chip.lineTo(px, py);
-				}
-			}
-			chip.closePath();
-			g.fill(chip);
-		}
-		g.setClip(clip);
 	}
 
 	private void drawIcon(Graphics2D g, int centreX, int centreY, int plate)

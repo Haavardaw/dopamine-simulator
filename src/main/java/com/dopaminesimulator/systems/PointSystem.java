@@ -37,18 +37,34 @@ import com.dopaminesimulator.feats.Feats;
 import com.dopaminesimulator.cards.CollectionBonus;
 import com.dopaminesimulator.points.PointSource;
 import com.dopaminesimulator.incremental.Milestones;
+import java.util.function.DoubleSupplier;
 
 public class PointSystem implements DopamineSystem
 {
 	private static final String PASSIVE_DETAIL = "Standing about";
 	private final PointListener listener;
+
+	/**
+	 * What a worm hole is currently multiplying everything by. A supplier because
+	 * the dish is timed off the wall clock, which lives with the plugin, and this
+	 * runs deep inside the event handling.
+	 */
+	private final DoubleSupplier foodMultiplier;
+
 	public PointSystem()
 	{
 		this(PointListener.NOOP);
 	}
+
 	public PointSystem(PointListener listener)
 	{
+		this(listener, () -> 1d);
+	}
+
+	public PointSystem(PointListener listener, DoubleSupplier foodMultiplier)
+	{
 		this.listener = listener == null ? PointListener.NOOP : listener;
+		this.foodMultiplier = foodMultiplier == null ? () -> 1d : foodMultiplier;
 	}
 
 	@Override
@@ -85,6 +101,7 @@ public class PointSystem implements DopamineSystem
 				* Milestones.globalMultiplier(state.getLifetimePoints())
 				* CollectionBonus.multiplierFor(state, source)
 				* Feats.multiplierFor(state)
+				* foodMultiplier.getAsDouble()
 				* affinity;
 		}
 		state.addPoints(points);

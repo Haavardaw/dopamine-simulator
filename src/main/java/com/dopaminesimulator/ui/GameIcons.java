@@ -25,6 +25,7 @@
 package com.dopaminesimulator.ui;
 
 import com.dopaminesimulator.packs.PackTier;
+import com.dopaminesimulator.points.GnomeFood;
 import com.dopaminesimulator.points.PointSource;
 import java.awt.image.BufferedImage;
 import java.util.EnumMap;
@@ -109,6 +110,12 @@ public class GameIcons
 			reached * (COIN_LADDER.length - 1) / Math.max(1, Milestones.MAX_MILESTONES)));
 		return itemManager.getImage(COIN_LADDER[tier]);
 	}
+	/** The dish itself, so a surge is read by what turned up on the coin. */
+	public BufferedImage forFood(GnomeFood food)
+	{
+		return itemManager.getImage(food.getItemId());
+	}
+
 	private static int itemIdFor(PackTier tier)
 	{
 		switch (tier)
