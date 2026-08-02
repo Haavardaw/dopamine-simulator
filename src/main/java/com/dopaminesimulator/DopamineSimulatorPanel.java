@@ -392,7 +392,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 
 		for (PointSource source : PointSource.values())
 		{
-			if (source.isUpgradeable() && state.isSourceUnlocked(source))
+			if (state.isSourceUnlocked(source))
 			{
 				playContent.add(upgradeRow(state, source, income));
 			}
@@ -423,10 +423,7 @@ public class DopamineSimulatorPanel extends PluginPanel
 		clickButton.setIcon(plugin.getGameIcons()
 			.forClick(state.getLifetimePoints()));
 		clickButton.setSurging(surging);
-		double left = plugin.clickAllowanceLeft();
-		clickButton.setStatus(left > 0d ? null
-			: "Clicked out for " + Math.max(1L,
-				plugin.clickAllowanceResetsInMs() / 60_000L) + "m");
+		clickButton.setStatus(null);
 		return clickButton;
 	}
 	private double pointsPerClick()
@@ -513,9 +510,18 @@ public class DopamineSimulatorPanel extends PluginPanel
 		boolean affordable = state.getPoints() >= cost;
 		double rate = income.perHour(source, state.getTick());
 
-		String effect = (rate > 0 ? BigNumbers.format(rate) + "/hr  •  " : "")
-			+ "x" + String.format("%.2f", PointSource.multiplierForLevel(level, state.getInsight()))
-			+ "  →  x" + String.format("%.2f", PointSource.multiplierForLevel(level + buyQuantity, state.getInsight()));
+		// clicking is not paid through the level multiplier, so quoting one here
+		// would describe a number that does nothing. Its levels buy surges.
+		boolean surgeLine = source == PointSource.CLICK;
+		String effect = surgeLine
+			? String.format("%.1f", ClickState.surgesPerHour(level)) + " surges/hr"
+				+ "  →  " + String.format("%.1f",
+					ClickState.surgesPerHour(level + buyQuantity))
+			: (rate > 0 ? BigNumbers.format(rate) + "/hr  •  " : "")
+				+ "x" + String.format("%.2f",
+					PointSource.multiplierForLevel(level, state.getInsight()))
+				+ "  →  x" + String.format("%.2f",
+					PointSource.multiplierForLevel(level + buyQuantity, state.getInsight()));
 
 		ShopRow row = new ShopRow(
 			source.getDisplayName(),
@@ -529,13 +535,21 @@ public class DopamineSimulatorPanel extends PluginPanel
 		row.setIcon(plugin.getGameIcons().forSource(source));
 		CardSet set = CollectionBonus.setFor(source);
 		double fromCards = CollectionBonus.multiplierFor(state, source);
-		row.setToolTipText(source.getDescription()
-			+ "  \u2022  level " + level
-			+ ", each adding "
-			+ Math.round((PointSource.UPGRADE_GAIN_GROWTH - 1d) * 100d) + "%"
-			+ "  \u2022  " + multiplierText(fromCards) + " from " + set.getDisplayName() + " cards"
-			+ "  \u2022  " + multiplierText(PointSource.multiplierForLevel(level, state.getInsight()) * fromCards)
-			+ " total");
+		row.setToolTipText(surgeLine
+			? source.getDescription()
+				+ "  •  level " + level
+				+ ", each making surges " + Math.round(ClickState.SURGE_RATE_PER_LEVEL * 100d)
+				+ "% more frequent"
+				+ "  •  a surge lasts " + (ClickState.SURGE_DURATION_MS / 1000L)
+				+ "s, paying x" + (long) ClickState.SURGE_MULTIPLIER + " a click"
+			: source.getDescription()
+				+ "  •  level " + level
+				+ ", each adding "
+				+ Math.round((PointSource.UPGRADE_GAIN_GROWTH - 1d) * 100d) + "%"
+				+ "  •  " + multiplierText(fromCards) + " from " + set.getDisplayName() + " cards"
+				+ "  •  " + multiplierText(
+					PointSource.multiplierForLevel(level, state.getInsight()) * fromCards)
+				+ " total");
 		return sized(row);
 	}
 	private Segmented shopToggle()

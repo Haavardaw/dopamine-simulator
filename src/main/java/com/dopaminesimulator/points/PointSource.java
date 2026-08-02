@@ -74,25 +74,20 @@ public enum PointSource
 	public static final double UPGRADE_COST_GROWTH = 1.18d;
 
 	/**
-	 * A click pays this many seconds of your current income, rather than a flat
-	 * sum that the rest of the economy leaves behind.
+	 * A click pays this coefficient times income to this power.
 	 *
-	 * <p>Four seconds makes a single click a visible number rather than a
-	 * rounding error, which two was: thirty clicks in an hour came to under two
-	 * percent of it. The runaway that a larger figure used to cause is held by
-	 * the hourly allowance in ClickState rather than by keeping this small, so
-	 * the click can feel worth pressing without ever beating real play.
+	 * <p>Sublinear on purpose. A flat payout gets left behind by everything else,
+	 * which is how level eighty seven clicking came to pay sixty seven against
+	 * costs in the millions. A payout that is a straight share of income never
+	 * falls behind at all, so clicking stays as good as playing forever. Three
+	 * quarters sits between the two: the number on the button always grows, from
+	 * about one early to about a hundred late, while what it is worth next to
+	 * real play slides from around forty percent of an hour's income down to
+	 * under ten.
 	 */
-	public static final double CLICK_SECONDS = 4d;
+	public static final double CLICK_COEFFICIENT = 0.00748d;
 
-	/**
-	 * Clicking earns a share of everything else, so there is no level to sell for
-	 * it. It stays a source for attribution and for the income breakdown.
-	 */
-	public boolean isUpgradeable()
-	{
-		return this != CLICK;
-	}
+	public static final double CLICK_EXPONENT = 0.75d;
 
 	public static final double TARGET_HOURLY_INCOME = 1_000d;
 
