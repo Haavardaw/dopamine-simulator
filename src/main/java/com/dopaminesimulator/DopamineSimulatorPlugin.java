@@ -82,15 +82,12 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
-import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
 import com.dopaminesimulator.dev.WidgetDump;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.HashSet;
-import java.util.Deque;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -126,9 +123,12 @@ public class DopamineSimulatorPlugin extends Plugin
 	private boolean developerMode;
 
 	/** Set by ::dumpui sweep. Records every interface as it opens, once each. */
+	private static final int SWEEP_EVERY_TICKS = 2;
+
 	private boolean sweeping;
-	private final Set<Integer> sweptGroups = new HashSet<>();
-	private final Deque<Integer> pendingGroups = new ArrayDeque<>();
+	private int sweepTick;
+	private int sweepCount;
+	private final Set<Integer> sweptContent = new HashSet<>();
 
 	@Inject
 	private ClientThread clientThread;
@@ -297,32 +297,31 @@ public class DopamineSimulatorPlugin extends Plugin
 		lastLocation = null;
 		lastHitpoints = -1;
 	}
-	@Subscribe
-	public void onWidgetLoaded(WidgetLoaded event)
-	{
-		if (sweeping && sweptGroups.add(event.getGroupId()))
-		{
-			pendingGroups.add(event.getGroupId());
-		}
-	}
-
 	/**
-	 * Interfaces are not fully built when they announce themselves, so a group is
-	 * written on the tick after it loads rather than the moment it arrives.
+	 * Polled while sweeping rather than driven by WidgetLoaded, which only fires
+	 * when a group first opens. A skill guide is a single group that swaps its
+	 * contents as you click through it, so the event fires once for two hundred
+	 * pages.
 	 */
 	private void drainSweep()
 	{
-		while (!pendingGroups.isEmpty())
+		if (++sweepTick % SWEEP_EVERY_TICKS != 0)
 		{
-			int group = pendingGroups.poll();
-			try
+			return;
+		}
+		try
+		{
+			int written = WidgetDump.appendNew(client, WidgetDump.sweepFile(), sweptContent);
+			if (written > 0)
 			{
-				WidgetDump.append(client, group, WidgetDump.sweepFile());
+				sweepCount += written;
+				client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+					"Dopamine Simulator: captured " + sweepCount + " interfaces.", null);
 			}
-			catch (IOException e)
-			{
-				log.warn("could not append widget group {}", group, e);
-			}
+		}
+		catch (IOException e)
+		{
+			log.warn("could not append widgets", e);
 		}
 	}
 
@@ -1014,15 +1013,16 @@ public class DopamineSimulatorPlugin extends Plugin
 		sweeping = !sweeping;
 		if (sweeping)
 		{
-			sweptGroups.clear();
-			pendingGroups.clear();
+			sweptContent.clear();
+			sweepCount = 0;
+			sweepTick = 0;
 		}
 		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
 			sweeping
-				? "Dopamine Simulator: recording interfaces to "
+				? "Dopamine Simulator: recording to "
 					+ WidgetDump.sweepFile().getAbsolutePath()
-					+ ". Open the windows you want, then ::dumpui sweep again to stop."
-				: "Dopamine Simulator: stopped recording, " + sweptGroups.size()
+					+ ". Click through every page you want, then ::dumpui sweep to stop."
+				: "Dopamine Simulator: stopped recording, " + sweepCount
 					+ " interfaces captured.", null);
 	}
 

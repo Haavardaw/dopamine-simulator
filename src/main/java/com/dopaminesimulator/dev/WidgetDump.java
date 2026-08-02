@@ -31,6 +31,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import net.runelite.api.Client;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.RuneLite;
@@ -53,41 +54,63 @@ public final class WidgetDump
 	}
 
 	/**
-	 * Appends one interface group to a file, for sweeping through many windows in
-	 * one sitting rather than naming a dump per window.
+	 * Appends every open interface whose contents we have not written before.
+	 *
+	 * <p>Keyed on what the interface currently holds rather than on its group id,
+	 * because a skill guide is one group that swaps its contents as you click
+	 * through it. Keying on the group captured the first page and silently
+	 * skipped every other one.
+	 *
+	 * @return how many interfaces were newly written
 	 */
-	public static void append(Client client, int groupId, File out) throws IOException
+	public static int appendNew(Client client, File out, Set<Integer> seen) throws IOException
 	{
-		List<String> lines = new ArrayList<>();
 		Widget[] roots = client.getWidgetRoots();
 		if (roots == null)
 		{
-			return;
+			return 0;
 		}
+
+		List<String> pending = new ArrayList<>();
+		int written = 0;
 		for (Widget root : roots)
 		{
-			if (root != null && (root.getId() >>> 16) == groupId)
+			if (root == null)
 			{
-				walk(root, 0, lines);
+				continue;
 			}
+			List<String> lines = new ArrayList<>();
+			walk(root, 0, lines);
+			if (lines.isEmpty())
+			{
+				continue;
+			}
+			if (!seen.add(lines.hashCode()))
+			{
+				continue;
+			}
+			pending.add("### group " + (root.getId() >>> 16) + ", " + lines.size() + " widgets");
+			pending.addAll(lines);
+			pending.add("");
+			written++;
 		}
-		if (lines.isEmpty())
+		if (pending.isEmpty())
 		{
-			return;
+			return 0;
 		}
+
 		if (!DIR.exists() && !DIR.mkdirs())
 		{
 			throw new IOException("could not create " + DIR);
 		}
 		try (PrintWriter writer = new PrintWriter(new FileWriter(out, true)))
 		{
-			writer.println();
-			writer.println("### group " + groupId);
-			for (String line : lines)
+			for (String line : pending)
 			{
 				writer.println(line);
 			}
 		}
+		return written;
 	}
 
 	public static File sweepFile()
