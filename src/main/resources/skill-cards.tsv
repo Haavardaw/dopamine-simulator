@@ -1,0 +1,3089 @@
+# set	level	rarity	itemId	name
+# Generated from the in-game skill guides via ::dumpui sweep.
+# Regenerate rather than hand-editing; ids derive from set and name.
+AGILITY	30	UNCOMMON	6970	Agility Pyramid
+AGILITY	20	UNCOMMON	11849	Al Kharid Rooftop Course
+AGILITY	48	RARE	4024	Ape Atoll Agility Course
+AGILITY	90	LEGENDARY	11849	Ardougne Rooftop Course
+AGILITY	35	UNCOMMON	1365	Barbarian Outpost Agility Course
+AGILITY	70	EPIC	25865	Bow of Faerdhinen
+AGILITY	40	RARE	11849	Canifis Rooftop Course
+AGILITY	70	EPIC	4550	Caves south of Dorgesh-Kaan
+AGILITY	62	EPIC	30038	Colossal Wyrm Advanced Course
+AGILITY	50	RARE	30038	Colossal Wyrm Basic Course
+AGILITY	50	RARE	23971	Crystal armour
+AGILITY	50	RARE	23983	Crystal bows
+AGILITY	50	RARE	23987	Crystal halberd
+AGILITY	50	RARE	23991	Crystal shield
+AGILITY	50	RARE	23673	Crystal weaponry
+AGILITY	1	COMMON	11849	Draynor Village Rooftop Course
+AGILITY	50	RARE	11849	Falador Rooftop Course
+AGILITY	1	COMMON	2150	Gnome Stronghold Agility Course
+AGILITY	1	COMMON	751	Gnomeball game
+AGILITY	52	RARE	24717	Hallowed Sepulchre (Floor 1)
+AGILITY	62	EPIC	24717	Hallowed Sepulchre (Floor 2)
+AGILITY	72	EPIC	24717	Hallowed Sepulchre (Floor 3)
+AGILITY	82	LEGENDARY	24717	Hallowed Sepulchre (Floor 4)
+AGILITY	92	LEGENDARY	24717	Hallowed Sepulchre (Floor 5)
+AGILITY	40	RARE	2996	High-level Agility Arena obstacles
+AGILITY	30	UNCOMMON	11330	Leaping salmonBarbarian rod & most bait types
+AGILITY	45	RARE	11332	Leaping sturgeonBarbarian rod & most bait types
+AGILITY	15	COMMON	11328	Leaping troutBarbarian rod & most bait types
+AGILITY	1	COMMON	2996	Low-level Agility Arena obstacles
+AGILITY	20	UNCOMMON	2996	Medium-level Agility Arena obstacles
+AGILITY	30	UNCOMMON	10595	Penguin Agility Course
+AGILITY	70	EPIC	11849	Pollnivneach Rooftop Course
+AGILITY	75	EPIC	23962	Prifddinas Agility Course
+AGILITY	80	LEGENDARY	11849	Rellekka Rooftop Course
+AGILITY	70	EPIC	24736	Ring of Endurance
+AGILITY	60	EPIC	11849	Seers' Village Rooftop Course
+AGILITY	45	RARE	13379	Shayzien Advanced Course
+AGILITY	1	COMMON	13359	Shayzien Basic Course
+AGILITY	99	LEGENDARY	9771	Skillcape
+AGILITY	30	UNCOMMON	11849	Varrock Rooftop Course
+AGILITY	60	EPIC	4179	Werewolf Agility Course
+AGILITY	25	UNCOMMON	964	Werewolf Skullball game
+AGILITY	52	RARE	964	Wilderness Course
+AREAS	60	EPIC	6520	Access the God Wars Dungeon area via the Agility route
+AREAS	60	EPIC	11793	Access the God Wars Dungeon via the Strength route
+AREAS	82	LEGENDARY	6514	Adept Asgarnian Ice Dungeon wyvern tunnel
+AREAS	38	UNCOMMON	6517	Al Kharid Mining pit cliffside scramble
+AREAS	70	EPIC	6516	Al Kharid Palace southern window
+AREAS	52	RARE	6514	Anglers' Retreat stepping stone
+AREAS	49	RARE	6514	Arceuus essence mine boulder leap
+AREAS	52	RARE	6517	Arceuus essence mine eastern scramble
+AREAS	69	EPIC	6517	Arceuus essence mine northern scramble
+AREAS	73	EPIC	6517	Arceuus essence mine western descent
+AREAS	33	UNCOMMON	6515	Ardougne log balance shortcut
+AREAS	60	EPIC	6516	Asgarnian Ice Dungeon frozen throne tunnel
+AREAS	45	RARE	6515	Auburn Valley log balances
+AREAS	41	RARE	6517	Auburnvale rock scramble
+AREAS	72	EPIC	6514	Barrows wall-jump
+AREAS	72	EPIC	6516	Basic Asgarnian Ice Dungeon wyvern tunnel
+AREAS	56	RARE	6514	Brimhaven Dungeon eastern stepping stones
+AREAS	87	LEGENDARY	6517	Brimhaven Dungeon vine to baby green dragons
+AREAS	25	UNCOMMON	6514	Burgh de Rott fence
+AREAS	55	RARE	6517	Cape Conch rock scramble
+AREAS	59	RARE	6516	Cave to the Stalker Den
+AREAS	72	EPIC	6514	Chaos temple Stepping Stone
+AREAS	83	LEGENDARY	6517	Chasm of Fire Chain
+AREAS	73	EPIC	6514	Chasm of Fire platforms
+AREAS	20	UNCOMMON	6515	Coal Truck log balance
+AREAS	49	RARE	6520	Contortion in Yanille Dungeon small room
+AREAS	15	COMMON	6514	Corsair Cove Dungeon shortcut
+AREAS	30	UNCOMMON	6517	Corsair Cove Resource Area shortcut
+AREAS	10	COMMON	6514	Corsair Cove shortcut
+AREAS	46	RARE	6516	Cosmic Temple - medium narrow walkway
+AREAS	66	EPIC	6516	Cosmic Temple advanced narrow walkway
+AREAS	84	LEGENDARY	6516	Crandor rock-climb
+AREAS	70	EPIC	6515	Cross cave south of Dorgesh-Kaan
+AREAS	8	COMMON	6515	Cross the River Lum to Al Kharid
+AREAS	76	EPIC	6517	Darkfrost cliff scramble
+AREAS	63	EPIC	6517	Darkmeyer wall climb
+AREAS	86	LEGENDARY	6514	Darkmeyer wall jump
+AREAS	46	RARE	6516	Deep Wilderness - narrow tunnel
+AREAS	84	LEGENDARY	6516	Deepfin Point dungeon crevice
+AREAS	31	UNCOMMON	6515	Draynor Manor stones to Champions' Guild
+AREAS	42	RARE	6516	Draynor narrow tunnel
+AREAS	42	RARE	6516	Dwarven Mine narrow crevice
+AREAS	25	UNCOMMON	6517	Eagles' Peak Agility shortcut
+AREAS	45	RARE	6519	Elf area log balance
+AREAS	85	LEGENDARY	6517	Elven overpass advanced cliffside scramble
+AREAS	59	RARE	6517	Elven overpass easy cliffside scramble
+AREAS	68	EPIC	6517	Elven overpass medium cliffside scramble
+AREAS	70	EPIC	11793	Enter the Bandos area of the God Wars Dungeon
+AREAS	70	EPIC	6521	Enter the Saradomin area of the God Wars Dungeon
+AREAS	22	UNCOMMON	6517	Escape from the Water Obelisk island
+AREAS	60	EPIC	6514	Estuary crossing on Mos Le'Harmless
+AREAS	26	UNCOMMON	6516	Falador Agility shortcut
+AREAS	5	COMMON	6517	Falador low wall climb
+AREAS	63	EPIC	6514	Forthos Dungeon spiked blades jump
+AREAS	74	EPIC	31134	Fossil Island zipline
+AREAS	70	EPIC	6516	Fossil island hardwood shortcut
+AREAS	61	EPIC	6516	Fremennik Slayer Dungeon narrow crevice
+AREAS	43	RARE	6514	Fremennik Slayer Dungeon spiked blades jump
+AREAS	37	UNCOMMON	6517	Gnome Stronghold shortcut
+AREAS	21	UNCOMMON	6516	Grand Exchange Agility shortcut
+AREAS	57	RARE	6517	Great Conch eastern plateau rock scramble (north-east side)
+AREAS	52	RARE	6517	Great Conch eastern plateau rock scramble (south-west side)
+AREAS	61	EPIC	6514	Great Conch stepping stone
+AREAS	83	LEGENDARY	6517	Grimstone uneven stone ledges climb
+AREAS	71	EPIC	6517	Gu'Tanoth wall climb
+AREAS	62	EPIC	6514	Hallowed Sepulchre - Grapple swing
+AREAS	67	EPIC	6516	Heroes' Guild tunnel
+AREAS	40	RARE	6514	Hosidius lake isle jump
+AREAS	45	RARE	6514	Hosidius river jump
+AREAS	68	EPIC	6517	Ice Mountain western scramble
+AREAS	78	EPIC	6516	Iorwerth Dungeon northern shortcut
+AREAS	84	LEGENDARY	6516	Iorwerth Dungeon southern shortcut
+AREAS	76	EPIC	6514	Island crossing near Zul-Andra
+AREAS	13	COMMON	6514	Jump fence south of Varrock
+AREAS	86	LEGENDARY	6516	Kalphite Lair shortcut
+AREAS	21	UNCOMMON	6517	Karamja crossing south of volcano
+AREAS	88	LEGENDARY	6516	Karuulm Dungeon pipe
+AREAS	79	EPIC	6517	Kharazi Jungle vine climb
+AREAS	17	COMMON	6516	Kourend Catacombs Agility shortcut
+AREAS	34	UNCOMMON	6516	Kourend Catacombs contortion shortcut
+AREAS	28	UNCOMMON	6515	Kourend Catacombs pillar jump shortcut
+AREAS	61	EPIC	6514	Laguna Aurorae stepping stones
+AREAS	74	EPIC	6514	Lava Dragon Isle jump
+AREAS	82	LEGENDARY	6514	Lava Maze northern jump
+AREAS	48	RARE	6515	Log balance to Fremennik Province
+AREAS	43	RARE	13573	Lovakengj Blast Mine
+AREAS	66	EPIC	6514	Lumbridge Swamp to the Desert
+AREAS	69	EPIC	6514	Mausoleum bridge jump
+AREAS	93	LEGENDARY	6516	Meiyerditch Laboratories advanced shortcut
+AREAS	74	EPIC	6516	Meiyerditch Laboratory tunnels
+AREAS	60	EPIC	447	Mining Guild
+AREAS	75	EPIC	6514	Mokhaiotl pit jump
+AREAS	15	COMMON	31135	Monkey bars under Edgeville
+AREAS	57	RARE	31135	Monkey bars under Yanille
+AREAS	30	UNCOMMON	12011	Motherlode Mine
+AREAS	54	RARE	6516	Motherlode Mine dark tunnel
+AREAS	57	RARE	12011	Motherlode Mine upper area
+AREAS	29	UNCOMMON	6517	Mount Karuulm lower cliffside climb
+AREAS	62	EPIC	6517	Mount Karuulm upper cliffside climb
+AREAS	36	UNCOMMON	6514	Nemus Retreat stepping stones
+AREAS	33	UNCOMMON	6516	Nemus Retreat underground tunnel
+AREAS	24	UNCOMMON	6516	Nemus Retreat wall climbs
+AREAS	60	EPIC	6514	Pillars in the Wintertodt's Prison
+AREAS	22	UNCOMMON	6520	Pipe contortion in Karamja Dungeon
+AREAS	51	RARE	6516	Pipe from Edgeville dungeon to Varrock Sewers
+AREAS	34	UNCOMMON	6520	Pipe squeeze in Karamja Dungeon
+AREAS	71	EPIC	6517	Pollnivneach stepping stone
+AREAS	58	RARE	6517	Port Phasmatys ectopool shortcut
+AREAS	45	RARE	6517	Proudspire lower scramble
+AREAS	71	EPIC	6517	Proudspire upper scramble
+AREAS	47	RARE	6517	Ralos' Rise rock climb
+AREAS	57	RARE	6517	Rellekka east fence shortcut
+AREAS	65	EPIC	6514	Revenant Cave jump (easy)
+AREAS	89	LEGENDARY	6514	Revenant Cave jump (hard)
+AREAS	75	EPIC	6514	Revenant Cave jump (medium)
+AREAS	56	RARE	6517	Rock climb in the Temple of the Eye
+AREAS	64	EPIC	6517	Rope to the Fossil Island volcano
+AREAS	10	COMMON	6518	Rope-swing to Moss Giant Island
+AREAS	11	COMMON	6517	Scale Falador wall
+AREAS	14	COMMON	6515	Scale Goblin village wall
+AREAS	21	UNCOMMON	6517	Scale Yanille wall
+AREAS	32	UNCOMMON	6517	Scale the Catherby cliff
+AREAS	23	UNCOMMON	6517	Scale the Observatory cliff
+AREAS	32	UNCOMMON	6514	Shilo Village river crossing
+AREAS	79	EPIC	6517	Shilo Village rock climb
+AREAS	18	COMMON	6514	Slayer Tower Banshee shortcut
+AREAS	71	EPIC	6517	Slayer Tower advanced spiked chain climb
+AREAS	81	LEGENDARY	6517	Slayer Tower ivy climb
+AREAS	61	EPIC	6517	Slayer Tower medium spiked chain climb
+AREAS	64	EPIC	6514	Stalker Den stepping stone
+AREAS	55	RARE	6514	Stepping stone by Miscellania docks
+AREAS	60	EPIC	6514	Stepping stone in the Tombs of Amascut
+AREAS	58	RARE	6514	Stepping stone in the north of Wyrmscraig
+AREAS	62	EPIC	6514	Stepping stone in the south of Wyrmscraig
+AREAS	50	RARE	6514	Stepping stone into Morytania near the Nature Grotto
+AREAS	72	EPIC	6518	Stepping stone to the private mining area in Wyrmscraig
+AREAS	12	COMMON	6518	Stepping stones in Karamja Dungeon
+AREAS	30	UNCOMMON	6518	Stepping stones in south-eastern Karamja
+AREAS	62	EPIC	6514	Stepping stones in the Necropolis
+AREAS	72	EPIC	6516	Stronghold Slayer Cave narrow tunnel
+AREAS	50	RARE	6517	Summer Shore rock scramble
+AREAS	70	EPIC	6516	Taverley Dungeon shortcuts to blue dragons
+AREAS	80	LEGENDARY	6514	Taverley Dungeon spiked blades jump
+AREAS	63	EPIC	6517	Taverley dungeon lesser demon fence shortcut
+AREAS	66	EPIC	6516	Taverley wall shortcut
+AREAS	65	EPIC	6517	Temple on the Salve to Morytania shortcut
+AREAS	43	RARE	6517	Tlati Rainforest cliffside scramble
+AREAS	40	RARE	6515	Tlati Rainforest log balance
+AREAS	46	RARE	6515	Tonali Cavern shortcuts
+AREAS	73	EPIC	6517	Troll Stronghold wall-climb
+AREAS	64	EPIC	6517	Trollheim Wilderness route
+AREAS	44	RARE	6517	Trollheim advanced cliffside scramble
+AREAS	41	RARE	6517	Trollheim easy cliffside scramble
+AREAS	47	RARE	6517	Trollheim hard cliffside scramble
+AREAS	42	RARE	6517	Trollheim medium cliffside scramble
+AREAS	64	EPIC	6516	Vampyrium Forest Crawl
+AREAS	73	EPIC	6514	Vampyrium Pillar Jumping
+AREAS	61	EPIC	6517	Vampyrium Rock Climbs
+AREAS	78	EPIC	6519	Vampyrium Rock Slides
+AREAS	35	UNCOMMON	6517	Varrock Palace Garden trellis shortcut
+AREAS	91	LEGENDARY	6517	Viyeldi Caves cliff climb
+AREAS	96	LEGENDARY	6516	Viyeldi caves crevice
+AREAS	50	RARE	21532	Volcanic Mine
+AREAS	81	LEGENDARY	6516	Waterbirth Dungeon crevice
+AREAS	85	LEGENDARY	6517	Waterbirth Island rock-climb
+AREAS	54	RARE	6517	Western Aldarin cliff scramble
+AREAS	77	EPIC	6516	Wilderness Slayer Dungeon Crevices
+AREAS	60	EPIC	6517	Wilderness from the God Wars Dungeon area climb
+AREAS	54	RARE	6517	Wyrmscraig Cathedral cliffside scramble
+AREAS	16	COMMON	6516	Yanille Agility shortcut
+AREAS	67	EPIC	6521	Yanille Dungeon's rubble climb
+ATTACK	65	EPIC	12426	3rd Age weapons
+ATTACK	70	EPIC	13263	Abyssal bludgeon
+ATTACK	75	EPIC	12006	Abyssal tentacle
+ATTACK	70	EPIC	4151	Abyssal whip & dagger
+ATTACK	30	UNCOMMON	1211	Adamant weapons
+ATTACK	75	EPIC	19675	Arclight
+ATTACK	60	EPIC	30955	Arkan blade
+ATTACK	70	EPIC	22322	Avernic defender
+ATTACK	60	EPIC	10887	Barrelchest Anchor
+ATTACK	40	RARE	25641	Barronite mace
+ATTACK	65	EPIC	31248	Belle's Folly
+ATTACK	10	COMMON	1217	Black weapons
+ATTACK	80	LEGENDARY	23995	Blade of Saeldor
+ATTACK	75	EPIC	12808	Blessed Saradomin sword
+ATTACK	50	RARE	24699	Blisterwood
+ATTACK	50	RARE	28792	Bone mace
+ATTACK	40	RARE	11037	Brine sabre
+ATTACK	1	COMMON	1205	Bronze weapons
+ATTACK	60	EPIC	29577	Burning claws
+ATTACK	60	EPIC	27021	Colossal Blade
+ATTACK	60	EPIC	33631	Crimson Kisten
+ATTACK	70	EPIC	23987	Crystal halberd
+ATTACK	70	EPIC	23673	Crystal weaponry
+ATTACK	70	EPIC	4718	Dharok's greataxe
+ATTACK	75	EPIC	21015	Dinh's bulwark
+ATTACK	78	EPIC	22978	Dragon hunter lance
+ATTACK	60	EPIC	1215	Dragon weapons
+ATTACK	70	EPIC	28997	Dual Macuahuitl
+ATTACK	55	RARE	30957	Earthbound tecpatl
+ATTACK	75	EPIC	21003	Elder maul
+ATTACK	77	EPIC	29589	Emberlight
+ATTACK	80	LEGENDARY	22981	Ferocious Gloves
+ATTACK	80	LEGENDARY	22324	Ghrazi rapier
+ATTACK	55	RARE	29889	Glacial temotli
+ATTACK	75	EPIC	11808	Godswords
+ATTACK	50	RARE	21646	Granite longsword
+ATTACK	50	RARE	4153	Granite maul
+ATTACK	70	EPIC	4726	Guthan's warspear
+ATTACK	75	EPIC	34027	Hallowfell
+ATTACK	80	LEGENDARY	24417	Inquisitor's mace
+ATTACK	1	COMMON	1203	Iron weapons
+ATTACK	40	RARE	22398	Ivandis Flail
+ATTACK	50	RARE	10581	Keris dagger
+ATTACK	65	EPIC	25979	Keris partisan
+ATTACK	20	UNCOMMON	1209	Mithril weapons
+ATTACK	80	LEGENDARY	29796	Noxious Halberd
+ATTACK	60	EPIC	6523	Obsidian melee weapons
+ATTACK	82	LEGENDARY	26219	Osmumten's Fang
+ATTACK	40	RARE	1213	Rune weapons
+ATTACK	65	EPIC	23528	Sarachnis cudgel
+ATTACK	70	EPIC	11838	Saradomin sword
+ATTACK	80	LEGENDARY	22325	Scythe of Vitur
+ATTACK	80	LEGENDARY	28338	Soulreaper axe
+ATTACK	5	COMMON	1207	Steel weapons
+ATTACK	55	RARE	29084	Sulphur blades
+ATTACK	70	EPIC	4747	Torag's hammers
+ATTACK	70	EPIC	27660	Ursine Chainmace
+ATTACK	80	LEGENDARY	27287	Variants of Keris partisan
+ATTACK	70	EPIC	4755	Verac's flail
+ATTACK	75	EPIC	24617	Vesta's blighted longsword
+ATTACK	60	EPIC	22545	Viggora's Chainmace
+ATTACK	75	EPIC	27690	Voidwaker
+ATTACK	10	COMMON	6591	White weapons
+ATTACK	70	EPIC	11824	Zamorakian spear
+ATTACK	65	EPIC	28810	Zombie axe
+CONSTRUCTION	80	LEGENDARY	20625	Achievement Gallery
+CONSTRUCTION	61	EPIC	32203	Adamant cannon
+CONSTRUCTION	59	RARE	32151	Adamant helm
+CONSTRUCTION	62	EPIC	32189	Adamant keel
+CONSTRUCTION	52	RARE	32210	Adamant salvaging hook
+CONSTRUCTION	61	EPIC	32226	Advanced chum station
+CONSTRUCTION	73	EPIC	12719	Advanced pet arena
+CONSTRUCTION	43	RARE	8354	Alchemical chart
+CONSTRUCTION	29	UNCOMMON	32232	Anchor
+CONSTRUCTION	80	LEGENDARY	20617	Ancient Altar
+CONSTRUCTION	43	RARE	11646	Anvil
+CONSTRUCTION	81	LEGENDARY	8164	Archery target
+CONSTRUCTION	77	EPIC	8345	Armillary sphere
+CONSTRUCTION	55	RARE	8391	Armour stand
+CONSTRUCTION	18	COMMON	8241	Asgarnian Ale barrel
+CONSTRUCTION	63	EPIC	8355	Astronomical chart
+CONSTRUCTION	82	LEGENDARY	8134	Baby red dragon
+CONSTRUCTION	81	LEGENDARY	8027	Balance beam
+CONSTRUCTION	44	RARE	33142	Ballistic attractor
+CONSTRUCTION	70	EPIC	11647	Bank chest
+CONSTRUCTION	66	EPIC	8394	Banner easel
+CONSTRUCTION	30	UNCOMMON	25355	Banner stand
+CONSTRUCTION	81	LEGENDARY	20626	Basic jewellery box
+CONSTRUCTION	20	UNCOMMON	8037	Bedroom
+CONSTRUCTION	7	COMMON	8239	Beer barrel
+CONSTRUCTION	76	EPIC	8212	Bluebells
+CONSTRUCTION	85	LEGENDARY	8301	Bone cage
+CONSTRUCTION	87	LEGENDARY	20629	Boss lair display
+CONSTRUCTION	54	RARE	33420	Bosun's workbench
+CONSTRUCTION	55	RARE	8196	Boundary stones
+CONSTRUCTION	34	UNCOMMON	8028	Boxing glove rack
+CONSTRUCTION	32	UNCOMMON	8023	Boxing ring
+CONSTRUCTION	21	UNCOMMON	32199	Bronze cannon
+CONSTRUCTION	1	COMMON	32139	Bronze helm
+CONSTRUCTION	1	COMMON	32181	Bronze keel
+CONSTRUCTION	1	COMMON	32206	Bronze salvaging hook
+CONSTRUCTION	2	COMMON	8316	Brown rug
+CONSTRUCTION	40	RARE	17	Butler
+CONSTRUCTION	53	RARE	32217	Camphor cargo hold
+CONSTRUCTION	59	RARE	32130	Camphor hull & hull parts
+CONSTRUCTION	60	EPIC	32172	Camphor mast and canvas sails
+CONSTRUCTION	66	EPIC	32304	Camphor repair kit
+CONSTRUCTION	80	LEGENDARY	20632	Cape hanger
+CONSTRUCTION	31	UNCOMMON	8110	Carved oak dining bench
+CONSTRUCTION	31	UNCOMMON	8117	Carved oak dining table
+CONSTRUCTION	51	RARE	9830	Carved oak wardrobe (costume room)
+CONSTRUCTION	44	RARE	8112	Carved teak dining bench
+CONSTRUCTION	45	RARE	8119	Carved teak dining table
+CONSTRUCTION	69	EPIC	9832	Carved teak wardrobe (costume room)
+CONSTRUCTION	19	COMMON	8237	Cat basket
+CONSTRUCTION	5	COMMON	8236	Cat blanket
+CONSTRUCTION	68	EPIC	8344	Celestial globe
+CONSTRUCTION	90	LEGENDARY	21039	Chambers of Xeric - Large storage unit
+CONSTRUCTION	99	LEGENDARY	24660	Chambers of Xeric - Massive storage unit
+CONSTRUCTION	60	EPIC	21038	Chambers of Xeric - Medium storage unit
+CONSTRUCTION	30	UNCOMMON	21037	Chambers of Xeric - Small storage unit
+CONSTRUCTION	45	RARE	8068	Chapel
+CONSTRUCTION	58	RARE	8080	Chapel bells
+CONSTRUCTION	69	EPIC	8081	Chapel organ
+CONSTRUCTION	49	RARE	8079	Chapel windchimes
+CONSTRUCTION	48	RARE	8244	Chef's Delight barrel
+CONSTRUCTION	74	EPIC	32227	Chum spreader
+CONSTRUCTION	45	RARE	32225	Chum station
+CONSTRUCTION	12	COMMON	8240	Cider barrel
+CONSTRUCTION	39	UNCOMMON	8153	Clay attack stone
+CONSTRUCTION	3	COMMON	8325	Clay fireplace
+CONSTRUCTION	60	EPIC	8065	Cloth-covered mahogany altar
+CONSTRUCTION	56	RARE	8064	Cloth-covered teak altar
+CONSTRUCTION	48	RARE	20745	Combat dummy
+CONSTRUCTION	53	RARE	20746	Combat dummy (Undead and Slayer)
+CONSTRUCTION	51	RARE	8025	Combat ring
+CONSTRUCTION	32	UNCOMMON	8027	Combat room
+CONSTRUCTION	70	EPIC	12707	Consecrated pet house (9 pets)
+CONSTRUCTION	30	UNCOMMON	17	Cook
+CONSTRUCTION	19	COMMON	11548	Cooking pot
+CONSTRUCTION	42	RARE	9822	Costume room
+CONSTRUCTION	73	EPIC	32223	Cotton trawling net
+CONSTRUCTION	10	COMMON	31671	Crab traps
+CONSTRUCTION	16	COMMON	8380	Crafting table 1
+CONSTRUCTION	25	UNCOMMON	8381	Crafting table 2
+CONSTRUCTION	34	UNCOMMON	8382	Crafting table 3
+CONSTRUCTION	42	RARE	8383	Crafting table 4
+CONSTRUCTION	1	COMMON	8309	Crude wooden chair
+CONSTRUCTION	42	RARE	8351	Crystal ball
+CONSTRUCTION	67	EPIC	32235	Crystal extractor
+CONSTRUCTION	66	EPIC	8353	Crystal of power
+CONSTRUCTION	95	LEGENDARY	8362	Crystal throne
+CONSTRUCTION	92	LEGENDARY	22707	Crystalline portal nexus
+CONSTRUCTION	18	COMMON	8323	Curtains
+CONSTRUCTION	33	UNCOMMON	8238	Cushioned cat basket
+CONSTRUCTION	71	EPIC	8211	Daffodils
+CONSTRUCTION	90	LEGENDARY	8141	Dagannoth
+CONSTRUCTION	80	LEGENDARY	20619	Dark Altar
+CONSTRUCTION	54	RARE	8163	Dartboard
+CONSTRUCTION	28	UNCOMMON	29598	Deadman rug
+CONSTRUCTION	69	EPIC	8077	Decorative chapel window
+CONSTRUCTION	72	EPIC	8125	Decorative dungeon bloodstain
+CONSTRUCTION	83	LEGENDARY	8126	Decorative dungeon pipe
+CONSTRUCTION	5	COMMON	8169	Decorative rock
+CONSTRUCTION	75	EPIC	8138	Demon
+CONSTRUCTION	50	RARE	17	Demon Butler
+CONSTRUCTION	99	LEGENDARY	8363	Demonic throne
+CONSTRUCTION	81	LEGENDARY	12708	Desecrated pet house (12 pets)
+CONSTRUCTION	57	RARE	12712	Desert pet habitat
+CONSTRUCTION	10	COMMON	8121	Dining room
+CONSTRUCTION	36	UNCOMMON	8243	Dragon Bitter barrel
+CONSTRUCTION	84	LEGENDARY	32205	Dragon cannon
+CONSTRUCTION	86	LEGENDARY	32157	Dragon helm
+CONSTRUCTION	87	LEGENDARY	32193	Dragon keel
+CONSTRUCTION	78	EPIC	32212	Dragon salvaging hook
+CONSTRUCTION	70	EPIC	8123	Dungeon
+CONSTRUCTION	72	EPIC	8128	Dungeon candles
+CONSTRUCTION	70	EPIC	8172	Dungeon entrance
+CONSTRUCTION	94	LEGENDARY	8130	Dungeon skull torches
+CONSTRUCTION	84	LEGENDARY	8129	Dungeon torches
+CONSTRUCTION	54	RARE	8352	Elemental sphere
+CONSTRUCTION	72	EPIC	32195	Eternal brazier
+CONSTRUCTION	1	COMMON	8168	Exit portal
+CONSTRUCTION	54	RARE	8030	Extra weapons rack
+CONSTRUCTION	85	LEGENDARY	20636	Fairy ring
+CONSTRUCTION	72	EPIC	8207	Fancy hedge
+CONSTRUCTION	86	LEGENDARY	20627	Fancy jewellery box
+CONSTRUCTION	42	RARE	8222	Fancy range
+CONSTRUCTION	85	LEGENDARY	20642	Fancy rejuvenation pool
+CONSTRUCTION	56	RARE	8049	Fancy teak dresser
+CONSTRUCTION	83	LEGENDARY	32229	Fathom pearl
+CONSTRUCTION	62	EPIC	32228	Fathom stone
+CONSTRUCTION	41	RARE	8024	Fencing ring
+CONSTRUCTION	50	RARE	22607	Fire of Dehumidification
+CONSTRUCTION	35	UNCOMMON	22606	Fire of Eternal Light
+CONSTRUCTION	35	UNCOMMON	22608	Fire of Nourishment
+CONSTRUCTION	60	EPIC	22609	Fire of Unseasonal Warmth
+CONSTRUCTION	5	COMMON	8216	Firepit
+CONSTRUCTION	11	COMMON	8217	Firepit with hook
+CONSTRUCTION	17	COMMON	8218	Firepit with pot
+CONSTRUCTION	20	UNCOMMON	32196	Flags
+CONSTRUCTION	47	RARE	12711	Forest pet habitat
+CONSTRUCTION	55	RARE	8195	Formal garden
+CONSTRUCTION	56	RARE	11553	Furnace
+CONSTRUCTION	70	EPIC	32234	Gale catcher
+CONSTRUCTION	30	UNCOMMON	8163	Games room
+CONSTRUCTION	1	COMMON	8170	Garden
+CONSTRUCTION	75	EPIC	8201	Garden fence
+CONSTRUCTION	65	EPIC	8192	Gazebo
+CONSTRUCTION	74	EPIC	8051	Gilded Mahogany dresser
+CONSTRUCTION	88	LEGENDARY	20624	Gilded adventure log
+CONSTRUCTION	72	EPIC	8121	Gilded mahogany and marble table
+CONSTRUCTION	81	LEGENDARY	9820	Gilded mahogany cape rack
+CONSTRUCTION	85	LEGENDARY	8054	Gilded mahogany clock
+CONSTRUCTION	61	EPIC	8114	Gilded mahogany dining bench
+CONSTRUCTION	60	EPIC	8037	Gilded mahogany four-poster bed
+CONSTRUCTION	81	LEGENDARY	8360	Gilded mahogany throne
+CONSTRUCTION	56	RARE	8104	Gilded mahogany wall decoration
+CONSTRUCTION	87	LEGENDARY	8044	Gilded mahogany wardrobe (bedroom)
+CONSTRUCTION	87	LEGENDARY	9834	Gilded mahogany wardrobe (costume room)
+CONSTRUCTION	75	EPIC	8068	Gilded marble altar
+CONSTRUCTION	78	EPIC	8089	Gilded mounted head display
+CONSTRUCTION	82	LEGENDARY	22706	Gilded portal nexus
+CONSTRUCTION	60	EPIC	8101	Gilded teak bell pull
+CONSTRUCTION	41	RARE	8341	Globe
+CONSTRUCTION	83	LEGENDARY	12720	Glorious pet arena
+CONSTRUCTION	77	EPIC	20650	Gnome bench
+CONSTRUCTION	47	RARE	26269	Gold Sink
+CONSTRUCTION	57	RARE	8072	Gold candlesticks
+CONSTRUCTION	37	UNCOMMON	12710	Grassland pet habitat
+CONSTRUCTION	89	LEGENDARY	8374	Greater magic cage
+CONSTRUCTION	77	EPIC	8158	Greater magical balance
+CONSTRUCTION	65	EPIC	8332	Greater teleport focus
+CONSTRUCTION	26	UNCOMMON	8242	Greenman's Ale barrel
+CONSTRUCTION	74	EPIC	8132	Guard dog
+CONSTRUCTION	35	UNCOMMON	8259	Hall (quest trophies)
+CONSTRUCTION	25	UNCOMMON	8255	Hall (skill trophies)
+CONSTRUCTION	56	RARE	24719	Hallowed Sepulchre - Repair bridge
+CONSTRUCTION	94	LEGENDARY	8127	Hanging dungeon skeleton
+CONSTRUCTION	59	RARE	8161	Hangman game
+CONSTRUCTION	94	LEGENDARY	8137	Hellhound
+CONSTRUCTION	65	EPIC	32222	Hemp trawling net
+CONSTRUCTION	12	COMMON	8098	High-level plants
+CONSTRUCTION	78	EPIC	8133	Hobgoblin guard
+CONSTRUCTION	30	UNCOMMON	8162	Hoop-and-stick game
+CONSTRUCTION	86	LEGENDARY	8135	Huge spider
+CONSTRUCTION	71	EPIC	8061	Icon of Bob the Cat
+CONSTRUCTION	45	RARE	25319	Icon of Gnome Child
+CONSTRUCTION	59	RARE	8060	Icon of Guthix
+CONSTRUCTION	59	RARE	8058	Icon of Saradomin
+CONSTRUCTION	59	RARE	8059	Icon of Zamorak
+CONSTRUCTION	15	COMMON	8171	Imp statue
+CONSTRUCTION	83	LEGENDARY	8356	Infernal chart
+CONSTRUCTION	37	UNCOMMON	32236	Inoculation station
+CONSTRUCTION	28	UNCOMMON	32200	Iron cannon
+CONSTRUCTION	14	COMMON	32142	Iron helm
+CONSTRUCTION	17	COMMON	32183	Iron keel
+CONSTRUCTION	67	EPIC	8199	Iron railings
+CONSTRUCTION	9	COMMON	32207	Iron salvaging hook
+CONSTRUCTION	77	EPIC	32218	Ironwood cargo hold
+CONSTRUCTION	75	EPIC	32133	Ironwood hull & hull parts
+CONSTRUCTION	77	EPIC	32175	Ironwood mast and cotton sails
+CONSTRUCTION	80	LEGENDARY	32305	Ironwood repair kit
+CONSTRUCTION	39	UNCOMMON	8159	Jester game
+CONSTRUCTION	80	LEGENDARY	8139	Kalphite soldier
+CONSTRUCTION	25	UNCOMMON	32231	Keg
+CONSTRUCTION	5	COMMON	8222	Kitchen
+CONSTRUCTION	89	LEGENDARY	8084	Large chapel statue
+CONSTRUCTION	75	EPIC	8194	Large fountain
+CONSTRUCTION	65	EPIC	8094	Large landscape
+CONSTRUCTION	78	EPIC	8296	Large map
+CONSTRUCTION	34	UNCOMMON	8033	Large oak bed
+CONSTRUCTION	95	LEGENDARY	8347	Large orrery
+CONSTRUCTION	29	UNCOMMON	8220	Large oven
+CONSTRUCTION	55	RARE	8093	Large portrait
+CONSTRUCTION	45	RARE	8035	Large teak bed
+CONSTRUCTION	74	EPIC	8372	Large trapdoor
+CONSTRUCTION	27	UNCOMMON	25351	League hall
+CONSTRUCTION	32	UNCOMMON	25359	League statue
+CONSTRUCTION	48	RARE	25365	Leagues accomplishment scroll
+CONSTRUCTION	82	LEGENDARY	8373	Lesser magic cage
+CONSTRUCTION	37	UNCOMMON	8156	Lesser magical balance
+CONSTRUCTION	64	EPIC	8066	Limestone altar
+CONSTRUCTION	59	RARE	8154	Limestone attack stone
+CONSTRUCTION	67	EPIC	8258	Limestone spiral staircase
+CONSTRUCTION	61	EPIC	32221	Linen trawling net
+CONSTRUCTION	31	UNCOMMON	11550	Loom
+CONSTRUCTION	1	COMMON	8096	Low-level plant
+CONSTRUCTION	80	LEGENDARY	20618	Lunar Altar
+CONSTRUCTION	59	RARE	8343	Lunar globe
+CONSTRUCTION	91	LEGENDARY	8152	Magic dungeon treasure chest
+CONSTRUCTION	99	LEGENDARY	9822	Magic stone cape rack
+CONSTRUCTION	75	EPIC	8179	Magic tree
+CONSTRUCTION	50	RARE	7733	Mahogany Homes (adept)
+CONSTRUCTION	1	COMMON	1978	Mahogany Homes (beginner)
+CONSTRUCTION	70	EPIC	7736	Mahogany Homes (expert)
+CONSTRUCTION	20	UNCOMMON	7730	Mahogany Homes (novice)
+CONSTRUCTION	83	LEGENDARY	20623	Mahogany adventure log
+CONSTRUCTION	50	RARE	8315	Mahogany armchair
+CONSTRUCTION	82	LEGENDARY	9828	Mahogany armour case
+CONSTRUCTION	40	RARE	8321	Mahogany bookcase
+CONSTRUCTION	72	EPIC	9819	Mahogany cape rack
+CONSTRUCTION	41	RARE	32216	Mahogany cargo hold
+CONSTRUCTION	67	EPIC	8340	Mahogany demon lectern
+CONSTRUCTION	52	RARE	8113	Mahogany dining bench
+CONSTRUCTION	52	RARE	8120	Mahogany dining table
+CONSTRUCTION	64	EPIC	8050	Mahogany dresser
+CONSTRUCTION	87	LEGENDARY	8151	Mahogany dungeon treasure chest
+CONSTRUCTION	67	EPIC	8339	Mahogany eagle lectern
+CONSTRUCTION	80	LEGENDARY	9825	Mahogany fancy dress box
+CONSTRUCTION	53	RARE	8036	Mahogany four-poster bed
+CONSTRUCTION	41	RARE	32127	Mahogany hull & hull parts
+CONSTRUCTION	65	EPIC	8074	Mahogany incense burners
+CONSTRUCTION	88	LEGENDARY	8366	Mahogany lever
+CONSTRUCTION	45	RARE	32169	Mahogany mast and canvas sails
+CONSTRUCTION	76	EPIC	11601	Mahogany mounted fish display
+CONSTRUCTION	58	RARE	8088	Mahogany mounted head display
+CONSTRUCTION	88	LEGENDARY	8308	Mahogany oubliette ladder
+CONSTRUCTION	74	EPIC	25358	Mahogany outfit stand
+CONSTRUCTION	59	RARE	12724	Mahogany pet feeder
+CONSTRUCTION	59	RARE	12706	Mahogany pet house (7 pets)
+CONSTRUCTION	59	RARE	12717	Mahogany pet scratching post
+CONSTRUCTION	65	EPIC	8329	Mahogany portal frame
+CONSTRUCTION	54	RARE	8167	Mahogany prize chest
+CONSTRUCTION	47	RARE	32303	Mahogany repair kit
+CONSTRUCTION	84	LEGENDARY	8350	Mahogany telescope
+CONSTRUCTION	74	EPIC	8359	Mahogany throne
+CONSTRUCTION	86	LEGENDARY	9838	Mahogany toy box
+CONSTRUCTION	78	EPIC	25354	Mahogany trophy case
+CONSTRUCTION	75	EPIC	8043	Mahogany wardrobe (bedroom)
+CONSTRUCTION	78	EPIC	9833	Mahogany wardrobe (costume room)
+CONSTRUCTION	25	UNCOMMON	17	Maid
+CONSTRUCTION	76	EPIC	8144	Man trap
+CONSTRUCTION	45	RARE	8177	Maple tree
+CONSTRUCTION	93	LEGENDARY	20625	Marble adventure log
+CONSTRUCTION	70	EPIC	8067	Marble altar
+CONSTRUCTION	79	EPIC	8155	Marble attack stone
+CONSTRUCTION	90	LEGENDARY	9821	Marble cape rack
+CONSTRUCTION	94	LEGENDARY	8124	Marble dungeon door
+CONSTRUCTION	63	EPIC	8327	Marble fireplace
+CONSTRUCTION	88	LEGENDARY	20651	Marble garden bench (decoration only)
+CONSTRUCTION	69	EPIC	8075	Marble incense burner
+CONSTRUCTION	77	EPIC	24132	Marble lectern
+CONSTRUCTION	80	LEGENDARY	8330	Marble portal frame
+CONSTRUCTION	72	EPIC	22705	Marble portal nexus
+CONSTRUCTION	97	LEGENDARY	8259	Marble spiral
+CONSTRUCTION	82	LEGENDARY	8255	Marble staircase
+CONSTRUCTION	84	LEGENDARY	8146	Marble trap
+CONSTRUCTION	79	EPIC	8202	Marble wall
+CONSTRUCTION	96	LEGENDARY	9835	Marble wardrobe (costume room)
+CONSTRUCTION	71	EPIC	8214	Marigolds
+CONSTRUCTION	1	COMMON	2347	Maximum dimensions: 3x3
+CONSTRUCTION	15	COMMON	2347	Maximum dimensions: 4x4
+CONSTRUCTION	30	UNCOMMON	2347	Maximum dimensions: 5x5
+CONSTRUCTION	45	RARE	2347	Maximum dimensions: 6x6
+CONSTRUCTION	60	EPIC	2347	Maximum dimensions: 7x7
+CONSTRUCTION	1	COMMON	2347	Maximum rooms: 24
+CONSTRUCTION	26	UNCOMMON	2347	Maximum rooms: 25
+CONSTRUCTION	32	UNCOMMON	2347	Maximum rooms: 26
+CONSTRUCTION	38	UNCOMMON	2347	Maximum rooms: 27
+CONSTRUCTION	44	RARE	2347	Maximum rooms: 28
+CONSTRUCTION	50	RARE	2347	Maximum rooms: 29
+CONSTRUCTION	56	RARE	2347	Maximum rooms: 30
+CONSTRUCTION	62	EPIC	2347	Maximum rooms: 31
+CONSTRUCTION	68	EPIC	2347	Maximum rooms: 32
+CONSTRUCTION	74	EPIC	2347	Maximum rooms: 33
+CONSTRUCTION	80	LEGENDARY	2347	Maximum rooms: 34
+CONSTRUCTION	86	LEGENDARY	2347	Maximum rooms: 35
+CONSTRUCTION	92	LEGENDARY	2347	Maximum rooms: 36
+CONSTRUCTION	96	LEGENDARY	2347	Maximum rooms: 37
+CONSTRUCTION	99	LEGENDARY	2347	Maximum rooms: 38
+CONSTRUCTION	57	RARE	8157	Medium balance
+CONSTRUCTION	69	EPIC	8083	Medium chapel statue
+CONSTRUCTION	58	RARE	8295	Medium map
+CONSTRUCTION	37	UNCOMMON	12706	Menagerie
+CONSTRUCTION	6	COMMON	8097	Mid-level plants
+CONSTRUCTION	50	RARE	32202	Mithril cannon
+CONSTRUCTION	47	RARE	32148	Mithril helm
+CONSTRUCTION	50	RARE	32187	Mithril keel
+CONSTRUCTION	30	UNCOMMON	32209	Mithril salvaging hook
+CONSTRUCTION	82	LEGENDARY	23081	Mounted Alchemical Hydra head
+CONSTRUCTION	47	RARE	8283	Mounted Amulet of Glory
+CONSTRUCTION	47	RARE	8282	Mounted Anti-Dragon Shield
+CONSTRUCTION	47	RARE	8284	Mounted Cape of Legends
+CONSTRUCTION	82	LEGENDARY	22709	Mounted Digsite Pendant
+CONSTRUCTION	66	EPIC	11578	Mounted Harpoonfish
+CONSTRUCTION	47	RARE	21913	Mounted Mythical Cape
+CONSTRUCTION	82	LEGENDARY	21912	Mounted Vorkath head
+CONSTRUCTION	72	EPIC	22708	Mounted Xeric's Talisman
+CONSTRUCTION	80	LEGENDARY	20631	Mounted coins
+CONSTRUCTION	80	LEGENDARY	20630	Mounted emblem
+CONSTRUCTION	64	EPIC	11574	Mounted giant blue krill
+CONSTRUCTION	68	EPIC	11580	Mounted golden haddock
+CONSTRUCTION	78	EPIC	11604	Mounted huge halibut
+CONSTRUCTION	74	EPIC	11600	Mounted orangefin
+CONSTRUCTION	82	LEGENDARY	11605	Mounted purplefin
+CONSTRUCTION	86	LEGENDARY	11606	Mounted swift marlin
+CONSTRUCTION	42	RARE	8090	Mounted sword
+CONSTRUCTION	92	LEGENDARY	12709	Natural pet house (many pets)
+CONSTRUCTION	60	EPIC	8204	Nice hedge
+CONSTRUCTION	10	COMMON	8174	Nice tree
+CONSTRUCTION	45	RARE	8062	Oak altar
+CONSTRUCTION	70	EPIC	8298	Oak and steel cage
+CONSTRUCTION	26	UNCOMMON	8313	Oak armchair
+CONSTRUCTION	46	RARE	9826	Oak armour case
+CONSTRUCTION	30	UNCOMMON	8032	Oak bed
+CONSTRUCTION	29	UNCOMMON	8320	Oak bookcase
+CONSTRUCTION	65	EPIC	8297	Oak cage
+CONSTRUCTION	54	RARE	9817	Oak cape rack
+CONSTRUCTION	11	COMMON	32214	Oak cargo hold
+CONSTRUCTION	19	COMMON	8312	Oak chair
+CONSTRUCTION	27	UNCOMMON	8039	Oak chest of drawers
+CONSTRUCTION	25	UNCOMMON	8052	Oak clock
+CONSTRUCTION	47	RARE	8336	Oak demon lectern
+CONSTRUCTION	22	UNCOMMON	8109	Oak dining bench
+CONSTRUCTION	22	UNCOMMON	8116	Oak dining table
+CONSTRUCTION	37	UNCOMMON	8047	Oak dresser
+CONSTRUCTION	74	EPIC	8122	Oak dungeon door
+CONSTRUCTION	79	EPIC	8149	Oak dungeon treasure chest
+CONSTRUCTION	47	RARE	8335	Oak eagle lectern
+CONSTRUCTION	44	RARE	9823	Oak fancy dress box
+CONSTRUCTION	8	COMMON	32121	Oak hull & hull parts
+CONSTRUCTION	61	EPIC	8073	Oak incense burners
+CONSTRUCTION	32	UNCOMMON	8247	Oak kitchen table
+CONSTRUCTION	33	UNCOMMON	8234	Oak larder
+CONSTRUCTION	40	RARE	8334	Oak lectern
+CONSTRUCTION	68	EPIC	8364	Oak lever
+CONSTRUCTION	11	COMMON	32163	Oak mast and linen sails
+CONSTRUCTION	36	UNCOMMON	11599	Oak mounted fish display
+CONSTRUCTION	68	EPIC	8306	Oak oubliette ladder
+CONSTRUCTION	34	UNCOMMON	25357	Oak outfit stand
+CONSTRUCTION	37	UNCOMMON	12722	Oak pet feeder
+CONSTRUCTION	37	UNCOMMON	12704	Oak pet house (3 pets)
+CONSTRUCTION	39	UNCOMMON	12715	Oak pet scratching post
+CONSTRUCTION	34	UNCOMMON	8165	Oak prize chest
+CONSTRUCTION	19	COMMON	32301	Oak repair kit
+CONSTRUCTION	29	UNCOMMON	8046	Oak shaving stand
+CONSTRUCTION	34	UNCOMMON	8226	Oak shelves 1
+CONSTRUCTION	45	RARE	8227	Oak shelves 2
+CONSTRUCTION	27	UNCOMMON	8249	Oak staircase
+CONSTRUCTION	44	RARE	8348	Oak telescope
+CONSTRUCTION	60	EPIC	8357	Oak throne
+CONSTRUCTION	50	RARE	9836	Oak toy box
+CONSTRUCTION	48	RARE	9839	Oak treasure chest
+CONSTRUCTION	15	COMMON	8175	Oak tree
+CONSTRUCTION	36	UNCOMMON	25353	Oak trophy case
+CONSTRUCTION	16	COMMON	8102	Oak wall decoration
+CONSTRUCTION	39	UNCOMMON	8040	Oak wardrobe (bedroom)
+CONSTRUCTION	42	RARE	9829	Oak wardrobe (costume room)
+CONSTRUCTION	32	UNCOMMON	8376	Oak workbench
+CONSTRUCTION	80	LEGENDARY	21788	Obelisk
+CONSTRUCTION	83	LEGENDARY	20648	Obsidian fence
+CONSTRUCTION	98	LEGENDARY	20652	Obsidian garden bench (decoration only)
+CONSTRUCTION	90	LEGENDARY	20620	Occult Altar (upgrade from Ancient)
+CONSTRUCTION	90	LEGENDARY	20622	Occult Altar (upgrade from Dark)
+CONSTRUCTION	90	LEGENDARY	20621	Occult Altar (upgrade from Lunar)
+CONSTRUCTION	40	RARE	8324	Opulent curtains
+CONSTRUCTION	65	EPIC	8318	Opulent rug
+CONSTRUCTION	65	EPIC	25363	Opulent rug (League hall)
+CONSTRUCTION	50	RARE	8342	Ornamental globe
+CONSTRUCTION	66	EPIC	25356	Ornate banner stand
+CONSTRUCTION	58	RARE	25154	Ornate combat dummy (Undead and Slayer)
+CONSTRUCTION	91	LEGENDARY	20628	Ornate jewellery box
+CONSTRUCTION	68	EPIC	25360	Ornate league statue
+CONSTRUCTION	90	LEGENDARY	20643	Ornate rejuvenation pool
+CONSTRUCTION	64	EPIC	25352	Ornate trophy pedestal
+CONSTRUCTION	75	EPIC	20645	Otherworldly theme
+CONSTRUCTION	65	EPIC	8302	Oubliette
+CONSTRUCTION	77	EPIC	8304	Oubliette flame pit
+CONSTRUCTION	65	EPIC	8302	Oubliette spikes
+CONSTRUCTION	1	COMMON	8315	Parlour
+CONSTRUCTION	38	UNCOMMON	12721	Pet list (for one-off pets)
+CONSTRUCTION	71	EPIC	8200	Picket fence
+CONSTRUCTION	16	COMMON	8392	Pluming stand
+CONSTRUCTION	67	EPIC	12713	Polar pet habitat
+CONSTRUCTION	10	COMMON	8170	Pond
+CONSTRUCTION	50	RARE	8333	Portal chamber
+CONSTRUCTION	72	EPIC	22705	Portal nexus
+CONSTRUCTION	81	LEGENDARY	8195	Posh fountain
+CONSTRUCTION	37	UNCOMMON	11551	Pottery oven
+CONSTRUCTION	24	UNCOMMON	11549	Pottery wheel
+CONSTRUCTION	7	COMMON	8230	Pump and drain
+CONSTRUCTION	27	UNCOMMON	8231	Pump and tub
+CONSTRUCTION	80	LEGENDARY	20633	Quest list
+CONSTRUCTION	73	EPIC	30501	Raging Echoes rug
+CONSTRUCTION	6	COMMON	32230	Range
+CONSTRUCTION	71	EPIC	8026	Ranging pedestals
+CONSTRUCTION	27	UNCOMMON	33421	Recolour sails
+CONSTRUCTION	75	EPIC	20647	Redwood fence
+CONSTRUCTION	80	LEGENDARY	20641	Rejuvenation pool
+CONSTRUCTION	30	UNCOMMON	2347	Repair Piscarilius fishing cranes
+CONSTRUCTION	15	COMMON	8389	Repair bench
+CONSTRUCTION	65	EPIC	20639	Restoration pool
+CONSTRUCTION	70	EPIC	20640	Revitalisation pool
+CONSTRUCTION	20	UNCOMMON	17	Rick
+CONSTRUCTION	14	COMMON	8311	Rocking chair
+CONSTRUCTION	83	LEGENDARY	8305	Rocnar
+CONSTRUCTION	26	UNCOMMON	8099	Rope bell pull
+CONSTRUCTION	45	RARE	32220	Rope trawling net
+CONSTRUCTION	66	EPIC	8210	Rosemary
+CONSTRUCTION	76	EPIC	8215	Roses
+CONSTRUCTION	84	LEGENDARY	32219	Rosewood cargo hold
+CONSTRUCTION	84	LEGENDARY	32136	Rosewood hull & hull parts
+CONSTRUCTION	85	LEGENDARY	32178	Rosewood mast and cotton sails
+CONSTRUCTION	92	LEGENDARY	32306	Rosewood repair kit
+CONSTRUCTION	66	EPIC	8105	Round wall-mounted shield
+CONSTRUCTION	50	RARE	11552	Rowboat
+CONSTRUCTION	13	COMMON	8317	Rug
+CONSTRUCTION	28	UNCOMMON	25362	Rug (League hall)
+CONSTRUCTION	76	EPIC	32204	Rune cannon
+CONSTRUCTION	41	RARE	8095	Rune display cases
+CONSTRUCTION	99	LEGENDARY	21911	Rune dragon
+CONSTRUCTION	81	LEGENDARY	32154	Rune helm
+CONSTRUCTION	78	EPIC	32191	Rune keel
+CONSTRUCTION	66	EPIC	32211	Rune salvaging hook
+CONSTRUCTION	40	RARE	25611	S.T.A.S.H chart
+CONSTRUCTION	12	COMMON	23416	STASH units (beginner)
+CONSTRUCTION	27	UNCOMMON	20532	STASH units (easy)
+CONSTRUCTION	77	EPIC	20535	STASH units (elite)
+CONSTRUCTION	55	RARE	20534	STASH units (hard)
+CONSTRUCTION	88	LEGENDARY	20536	STASH units (master)
+CONSTRUCTION	42	RARE	20533	STASH units (medium)
+CONSTRUCTION	34	UNCOMMON	32224	Salvaging station
+CONSTRUCTION	80	LEGENDARY	8333	Scrying pool
+CONSTRUCTION	58	RARE	21213	Servant's money bag
+CONSTRUCTION	41	RARE	8393	Shield easel
+CONSTRUCTION	20	UNCOMMON	8038	Shoe box
+CONSTRUCTION	49	RARE	8076	Shuttered chapel window
+CONSTRUCTION	63	EPIC	12718	Simple pet arena
+CONSTRUCTION	47	RARE	8232	Sink
+CONSTRUCTION	70	EPIC	8131	Skeleton guard
+CONSTRUCTION	88	LEGENDARY	8361	Skeleton throne
+CONSTRUCTION	99	LEGENDARY	9789	Skillcape
+CONSTRUCTION	64	EPIC	8205	Small box hedge
+CONSTRUCTION	49	RARE	8082	Small chapel statue
+CONSTRUCTION	71	EPIC	8193	Small fountain
+CONSTRUCTION	44	RARE	8091	Small landscape
+CONSTRUCTION	38	UNCOMMON	8294	Small map
+CONSTRUCTION	86	LEGENDARY	8346	Small orrery
+CONSTRUCTION	24	UNCOMMON	8219	Small oven
+CONSTRUCTION	35	UNCOMMON	8086	Small portrait
+CONSTRUCTION	60	EPIC	24479	Spice Rack
+CONSTRUCTION	72	EPIC	8143	Spike trap
+CONSTRUCTION	80	LEGENDARY	8300	Spiked cage
+CONSTRUCTION	24	UNCOMMON	11645	Spinning wheel
+CONSTRUCTION	75	EPIC	20635	Spirit tree
+CONSTRUCTION	95	LEGENDARY	20637	Spirit tree & fairy ring
+CONSTRUCTION	76	EPIC	8106	Square wall-mounted shield
+CONSTRUCTION	89	LEGENDARY	8078	Stained-glass chapel window
+CONSTRUCTION	68	EPIC	8371	Steel cage
+CONSTRUCTION	53	RARE	8071	Steel candlesticks
+CONSTRUCTION	39	UNCOMMON	32201	Steel cannon
+CONSTRUCTION	95	LEGENDARY	8142	Steel dragon
+CONSTRUCTION	46	RARE	8377	Steel framed workbench
+CONSTRUCTION	30	UNCOMMON	32145	Steel helm
+CONSTRUCTION	32	UNCOMMON	32185	Steel keel
+CONSTRUCTION	34	UNCOMMON	8221	Steel range
+CONSTRUCTION	18	COMMON	32208	Steel salvaging hook
+CONSTRUCTION	45	RARE	8070	Steel torches (chapel)
+CONSTRUCTION	84	LEGENDARY	8123	Steel-plated oak door
+CONSTRUCTION	33	UNCOMMON	8326	Stone fireplace
+CONSTRUCTION	63	EPIC	8198	Stone wall
+CONSTRUCTION	40	RARE	8340	Study
+CONSTRUCTION	28	UNCOMMON	8085	Suit of Armour
+CONSTRUCTION	66	EPIC	8213	Sunflower
+CONSTRUCTION	65	EPIC	20653	Superior garden
+CONSTRUCTION	48	RARE	8057	Symbol of Guthix
+CONSTRUCTION	48	RARE	8055	Symbol of Saradomin
+CONSTRUCTION	48	RARE	8056	Symbol of Zamorak
+CONSTRUCTION	80	LEGENDARY	8209	Tall box hedge
+CONSTRUCTION	76	EPIC	8208	Tall fancy hedge
+CONSTRUCTION	80	LEGENDARY	8145	Tangle vine
+CONSTRUCTION	50	RARE	8063	Teak altar
+CONSTRUCTION	35	UNCOMMON	8314	Teak armchair
+CONSTRUCTION	64	EPIC	9827	Teak armour case
+CONSTRUCTION	40	RARE	8034	Teak bed
+CONSTRUCTION	37	UNCOMMON	8100	Teak bell pull
+CONSTRUCTION	63	EPIC	9818	Teak cape rack
+CONSTRUCTION	21	UNCOMMON	32215	Teak cargo hold
+CONSTRUCTION	51	RARE	8041	Teak chest of drawers
+CONSTRUCTION	55	RARE	8053	Teak clock
+CONSTRUCTION	57	RARE	8338	Teak demon lectern
+CONSTRUCTION	38	UNCOMMON	8111	Teak dining bench
+CONSTRUCTION	38	UNCOMMON	8118	Teak dining table
+CONSTRUCTION	46	RARE	8048	Teak dresser
+CONSTRUCTION	83	LEGENDARY	8150	Teak dungeon treasure chest
+CONSTRUCTION	57	RARE	8337	Teak eagle lectern
+CONSTRUCTION	62	EPIC	9824	Teak fancy dress box
+CONSTRUCTION	66	EPIC	20649	Teak garden bench
+CONSTRUCTION	23	UNCOMMON	32124	Teak hull & hull parts
+CONSTRUCTION	52	RARE	8248	Teak kitchen table
+CONSTRUCTION	43	RARE	8235	Teak larder
+CONSTRUCTION	78	EPIC	8365	Teak lever
+CONSTRUCTION	26	UNCOMMON	32166	Teak mast and canvas sails
+CONSTRUCTION	56	RARE	11603	Teak mounted fish display
+CONSTRUCTION	38	UNCOMMON	8087	Teak mounted head display
+CONSTRUCTION	78	EPIC	8307	Teak oubliette ladder
+CONSTRUCTION	48	RARE	12723	Teak pet feeder
+CONSTRUCTION	48	RARE	12705	Teak pet house (5 pets)
+CONSTRUCTION	49	RARE	12716	Teak pet scratching post
+CONSTRUCTION	50	RARE	8328	Teak portal frame
+CONSTRUCTION	44	RARE	8166	Teak prize chest
+CONSTRUCTION	30	UNCOMMON	32302	Teak repair kit
+CONSTRUCTION	56	RARE	8228	Teak shelves 1
+CONSTRUCTION	67	EPIC	8229	Teak shelves 2
+CONSTRUCTION	48	RARE	8252	Teak staircase
+CONSTRUCTION	64	EPIC	8349	Teak telescope
+CONSTRUCTION	67	EPIC	8358	Teak throne
+CONSTRUCTION	68	EPIC	9837	Teak toy box
+CONSTRUCTION	66	EPIC	9840	Teak treasure chest
+CONSTRUCTION	36	UNCOMMON	8103	Teak wall decoration
+CONSTRUCTION	63	EPIC	8042	Teak wardrobe (bedroom)
+CONSTRUCTION	60	EPIC	9831	Teak wardrobe (costume room)
+CONSTRUCTION	49	RARE	32237	Teleport focus
+CONSTRUCTION	88	LEGENDARY	8147	Teleport trap
+CONSTRUCTION	71	EPIC	8303	Tentacle pool
+CONSTRUCTION	56	RARE	8203	Thorny hedge
+CONSTRUCTION	60	EPIC	8363	Throne room
+CONSTRUCTION	61	EPIC	8370	Throne room floor decoration
+CONSTRUCTION	40	RARE	20634	Tip jar
+CONSTRUCTION	85	LEGENDARY	8140	Tok-Xil
+CONSTRUCTION	15	COMMON	8384	Tool store 1
+CONSTRUCTION	25	UNCOMMON	8385	Tool store 2
+CONSTRUCTION	35	UNCOMMON	8386	Tool store 3
+CONSTRUCTION	44	RARE	8387	Tool store 4
+CONSTRUCTION	55	RARE	8388	Tool store 5
+CONSTRUCTION	65	EPIC	20638	Topiary bush
+CONSTRUCTION	68	EPIC	8206	Topiary hedge
+CONSTRUCTION	2	COMMON	8322	Torn curtains
+CONSTRUCTION	32	UNCOMMON	25361	Trailblazer globe
+CONSTRUCTION	28	UNCOMMON	25364	Trailblazer rug
+CONSTRUCTION	49	RARE	8160	Treasure hunt fairy house
+CONSTRUCTION	75	EPIC	8151	Treasure room
+CONSTRUCTION	5	COMMON	8173	Tree
+CONSTRUCTION	20	UNCOMMON	32299	Trims
+CONSTRUCTION	90	LEGENDARY	8136	Troll guard
+CONSTRUCTION	27	UNCOMMON	25351	Trophy pedestal
+CONSTRUCTION	50	RARE	24235	Use the Advertisement noticeboard
+CONSTRUCTION	77	EPIC	12714	Volcanic pet habitat
+CONSTRUCTION	85	LEGENDARY	20646	Volcanic theme
+CONSTRUCTION	86	LEGENDARY	8107	Wall-mounted kiteshield
+CONSTRUCTION	17	COMMON	11547	Water pump
+CONSTRUCTION	44	RARE	8029	Weapons rack
+CONSTRUCTION	35	UNCOMMON	8390	Whetstone
+CONSTRUCTION	30	UNCOMMON	8176	Willow tree
+CONSTRUCTION	47	RARE	32233	Wind catcher
+CONSTRUCTION	20	UNCOMMON	8031	Wooden bed
+CONSTRUCTION	4	COMMON	8319	Wooden bookcase
+CONSTRUCTION	1	COMMON	32213	Wooden cargo hold
+CONSTRUCTION	8	COMMON	8310	Wooden chair
+CONSTRUCTION	10	COMMON	8108	Wooden dining bench
+CONSTRUCTION	10	COMMON	8115	Wooden dining table
+CONSTRUCTION	75	EPIC	8148	Wooden dungeon treasure crate
+CONSTRUCTION	59	RARE	8197	Wooden fence
+CONSTRUCTION	1	COMMON	32118	Wooden hull & hull parts
+CONSTRUCTION	12	COMMON	8246	Wooden kitchen table
+CONSTRUCTION	9	COMMON	8233	Wooden larder
+CONSTRUCTION	1	COMMON	32160	Wooden mast and linen sails
+CONSTRUCTION	1	COMMON	32300	Wooden repair kit
+CONSTRUCTION	21	UNCOMMON	8045	Wooden shaving stand
+CONSTRUCTION	6	COMMON	8223	Wooden shelves 1
+CONSTRUCTION	12	COMMON	8224	Wooden shelves 2
+CONSTRUCTION	23	UNCOMMON	8225	Wooden shelves 3
+CONSTRUCTION	49	RARE	8069	Wooden torches (chapel)
+CONSTRUCTION	17	COMMON	8375	Wooden workbench
+CONSTRUCTION	77	EPIC	8379	Workbench with lathe
+CONSTRUCTION	62	EPIC	8378	Workbench with vice
+CONSTRUCTION	15	COMMON	8379	Workshop
+CONSTRUCTION	60	EPIC	8178	Yew tree
+CONSTRUCTION	65	EPIC	20644	Zen theme
+COOKING	70	EPIC	7198	Admiral pie
+COOKING	1	COMMON	319	Anchovies
+COOKING	55	RARE	2297	Anchovy pizza
+COOKING	84	LEGENDARY	13441	Anglerfish
+COOKING	30	UNCOMMON	2323	Apple pie
+COOKING	24	UNCOMMON	1905	Asgarnian Ale4 Asgarnian hops
+COOKING	49	RARE	5751	Axeman's Folly1 Oak root
+COOKING	7	COMMON	6701	Baked potato
+COOKING	39	UNCOMMON	6703	Baked potato with butter
+COOKING	47	RARE	6705	Baked potato with butter and cheese
+COOKING	41	RARE	7054	Baked potato with chilli con carne
+COOKING	51	RARE	7056	Baked potato with egg and tomato
+COOKING	64	EPIC	7058	Baked potato with mushroom and onion
+COOKING	68	EPIC	7060	Baked potato with tuna and sweetcorn
+COOKING	32	UNCOMMON	29131	Barb-tailed kebbit
+COOKING	43	RARE	365	Bass
+COOKING	48	RARE	31674	Blue crab
+COOKING	87	LEGENDARY	32344	Bluefin
+COOKING	37	UNCOMMON	2064	Blurberry Special
+COOKING	52	RARE	19662	Botanical pie
+COOKING	1	COMMON	2309	Bread
+COOKING	30	UNCOMMON	29217	Bream
+COOKING	38	UNCOMMON	6697	Butter
+COOKING	40	RARE	1891	Cake
+COOKING	38	UNCOMMON	5003	Cave eel
+COOKING	45	RARE	20862	Chambers of Xeric - Brawk fish
+COOKING	30	UNCOMMON	20875	Chambers of Xeric - Giral bat
+COOKING	1	COMMON	20871	Chambers of Xeric - Guanic bat
+COOKING	60	EPIC	20879	Chambers of Xeric - Kryket bat
+COOKING	90	LEGENDARY	20868	Chambers of Xeric - Kyren fish
+COOKING	30	UNCOMMON	20860	Chambers of Xeric - Leckish fish
+COOKING	75	EPIC	20881	Chambers of Xeric - Murng bat
+COOKING	60	EPIC	20864	Chambers of Xeric - Mycil fish
+COOKING	45	RARE	20877	Chambers of Xeric - Phluxia bat
+COOKING	15	COMMON	20873	Chambers of Xeric - Prael bat
+COOKING	90	LEGENDARY	20883	Chambers of Xeric - Psykk bat
+COOKING	1	COMMON	20856	Chambers of Xeric - Pysk fish
+COOKING	75	EPIC	20866	Chambers of Xeric - Roqed fish
+COOKING	15	COMMON	20858	Chambers of Xeric - Suphi fish
+COOKING	48	RARE	1985	Cheese
+COOKING	29	UNCOMMON	2259	Cheese and tomato batta
+COOKING	54	RARE	5755	Chef's Delight4 Portions of chocolate dust
+COOKING	1	COMMON	2140	Chicken
+COOKING	11	COMMON	7062	Chilli con carne (topping)Meat & spicy sauce
+COOKING	33	UNCOMMON	2074	Chocolate Saturday
+COOKING	42	RARE	2185	Chocolate bomb
+COOKING	50	RARE	1897	Chocolate cake
+COOKING	16	COMMON	2209	Chocolate chip crunchies
+COOKING	14	COMMON	5763	Cider4 Apple mush
+COOKING	18	COMMON	339	Cod
+COOKING	21	UNCOMMON	2130	Cream
+COOKING	60	EPIC	2011	Curry
+COOKING	36	UNCOMMON	30985	Damiana tea
+COOKING	90	LEGENDARY	11936	Dark crab
+COOKING	82	LEGENDARY	29134	Dashing kebbit
+COOKING	72	EPIC	13339	Dissect sacred eels
+COOKING	39	UNCOMMON	1911	Dragon Bitter4 Krandorian hops
+COOKING	73	EPIC	22795	Dragonfruit pie
+COOKING	32	UNCOMMON	2092	Drunk Dragon
+COOKING	19	COMMON	1913	Dwarven Stout4 Hammerstone hops
+COOKING	22	UNCOMMON	3373	Fat snail
+COOKING	47	RARE	7188	Fish pie
+COOKING	31	UNCOMMON	7530	Fishcakes
+COOKING	35	UNCOMMON	28157	Forester's ration
+COOKING	46	RARE	7082	Fried mushroom (topping ingredient)
+COOKING	57	RARE	7066	Fried mushroom and onion (topping)Fried bittercap mushroom & fried onion
+COOKING	42	RARE	7084	Fried onion (topping ingredient)
+COOKING	6	COMMON	2084	Fruit Blast
+COOKING	25	UNCOMMON	2277	Fruit batta
+COOKING	34	UNCOMMON	7178	Garden pie
+COOKING	21	UNCOMMON	7521	Giant crab meat
+COOKING	69	EPIC	32312	Giant krill
+COOKING	41	RARE	29149	Graahk
+COOKING	29	UNCOMMON	1909	Greenman's Ale4 Harralander leaves
+COOKING	73	EPIC	32320	Haddock
+COOKING	83	LEGENDARY	32336	Halibut
+COOKING	5	COMMON	347	Herring
+COOKING	41	RARE	7568	Jubbly
+COOKING	71	EPIC	31564	Jumbo squid
+COOKING	1	COMMON	3146	Karambwan
+COOKING	51	RARE	29152	Kyatt
+COOKING	31	UNCOMMON	29146	Larupia
+COOKING	53	RARE	2149	Lava eel
+COOKING	17	COMMON	3371	Lean snail
+COOKING	40	RARE	379	Lobster
+COOKING	10	COMMON	355	Mackerel
+COOKING	91	LEGENDARY	391	Manta ray
+COOKING	91	LEGENDARY	32352	Marlin
+COOKING	1	COMMON	2142	Meat
+COOKING	20	UNCOMMON	2327	Meat pie
+COOKING	45	RARE	2293	Meat pizza
+COOKING	62	EPIC	7946	Monkfish
+COOKING	44	RARE	2955	Moonlight Mead4 Bittercap mushrooms
+COOKING	92	LEGENDARY	29143	Moonlight antelope
+COOKING	30	UNCOMMON	29077	Mossy Lizard
+COOKING	29	UNCOMMON	7170	Mud pie
+COOKING	60	EPIC	21690	Mushroom pie
+COOKING	20	UNCOMMON	4242	Nettle tea
+COOKING	20	UNCOMMON	351	Pike
+COOKING	8	COMMON	2048	Pineapple Punch
+COOKING	65	EPIC	2301	Pineapple pizza
+COOKING	58	RARE	1865	Pitta bread
+COOKING	35	UNCOMMON	2289	Plain pizza
+COOKING	59	RARE	29137	Pyre fox
+COOKING	1	COMMON	3228	Rabbit
+COOKING	77	EPIC	31677	Rainbow crab
+COOKING	35	UNCOMMON	10136	Rainbow fish
+COOKING	21	UNCOMMON	31671	Red crab
+COOKING	10	COMMON	2325	Redberry pie
+COOKING	46	RARE	25672	Ritual Offering - Catfish
+COOKING	20	UNCOMMON	25660	Ritual Offering - Cavefish
+COOKING	7	COMMON	25654	Ritual Offering - Guppy
+COOKING	33	UNCOMMON	25666	Ritual Offering - Tetra
+COOKING	21	UNCOMMON	9988	Roasted beast meat
+COOKING	11	COMMON	9980	Roasted bird meat
+COOKING	30	UNCOMMON	2878	Roasted chompy
+COOKING	16	COMMON	7223	Roasted rabbit
+COOKING	25	UNCOMMON	329	Salmon
+COOKING	1	COMMON	325	Sardine
+COOKING	13	COMMON	7078	Scrambled egg (topping ingredient)
+COOKING	23	UNCOMMON	7064	Scrambled egg and tomato (topping)
+COOKING	82	LEGENDARY	397	Sea turtle
+COOKING	80	LEGENDARY	385	Shark
+COOKING	20	UNCOMMON	2080	Short Green Guy (SGG)
+COOKING	1	COMMON	315	Shrimp
+COOKING	1	COMMON	9436	Sinew - made by drying beef or bear meat on a range
+COOKING	99	LEGENDARY	9801	Skillcape
+COOKING	59	RARE	5759	Slayer's Respite4 Wildblood hops
+COOKING	28	UNCOMMON	3381	Slimy eel
+COOKING	12	COMMON	2213	Spicy crunchies
+COOKING	9	COMMON	7072	Spicy sauce (topping ingredient)Garlic + gnome spice
+COOKING	16	COMMON	6297	Spider
+COOKING	25	UNCOMMON	2003	Stew
+COOKING	95	LEGENDARY	7218	Summer pie
+COOKING	68	EPIC	29140	Sunlight antelope
+COOKING	28	UNCOMMON	5988	Sweetcorn
+COOKING	45	RARE	373	Swordfish
+COOKING	56	RARE	31556	Swordtip squid
+COOKING	13	COMMON	33109	T-bone Steak
+COOKING	40	RARE	2187	Tangled toads' legs
+COOKING	12	COMMON	3369	Thin snail
+COOKING	26	UNCOMMON	2255	Toad batta
+COOKING	10	COMMON	2217	Toad crunchies
+COOKING	15	COMMON	333	Trout
+COOKING	30	UNCOMMON	361	Tuna
+COOKING	67	EPIC	7068	Tuna and sweetcorn (topping)Tuna & cooked sweetcorn
+COOKING	1	COMMON	1885	Ugthanki kebab
+COOKING	35	UNCOMMON	2195	Vegetable ball
+COOKING	28	UNCOMMON	2281	Vegetable batta
+COOKING	23	UNCOMMON	29128	Wild kebbit
+COOKING	85	LEGENDARY	7208	Wild pie
+COOKING	35	UNCOMMON	1993	Wine
+COOKING	65	EPIC	245	Wine of Zamorak
+COOKING	18	COMMON	2054	Wizard Blizzard
+COOKING	34	UNCOMMON	1907	Wizard's Mind Bomb4 Yanillian hops
+COOKING	27	UNCOMMON	2253	Worm batta
+COOKING	14	COMMON	2205	Worm crunchies
+COOKING	30	UNCOMMON	2191	Worm hole
+COOKING	79	EPIC	32328	Yellowfin
+CRAFTING	85	LEGENDARY	27665	Accursed Sceptre
+CRAFTING	66	EPIC	1397	Air battlestaff
+CRAFTING	85	LEGENDARY	21350	Amethyst arrowtips
+CRAFTING	83	LEGENDARY	4768	Amethyst bolt tips
+CRAFTING	89	LEGENDARY	25853	Amethyst dart tips
+CRAFTING	87	LEGENDARY	13220	Amethyst javelin tips
+CRAFTING	86	LEGENDARY	29801	Amulet of Rancour
+CRAFTING	1	COMMON	1919	Beer glass
+CRAFTING	84	LEGENDARY	2503	Black dragonhide body
+CRAFTING	82	LEGENDARY	2497	Black dragonhide chaps
+CRAFTING	83	LEGENDARY	22284	Black dragonhide shield
+CRAFTING	79	EPIC	2491	Black dragonhide vambraces
+CRAFTING	82	LEGENDARY	23995	Blade of Saeldor
+CRAFTING	82	LEGENDARY	24551	Blade of Saeldor (c)
+CRAFTING	71	EPIC	2499	Blue dragonhide body
+CRAFTING	68	EPIC	2493	Blue dragonhide chaps
+CRAFTING	69	EPIC	22278	Blue dragonhide shield
+CRAFTING	66	EPIC	2487	Blue dragonhide vambraces
+CRAFTING	39	UNCOMMON	31475	Bolt of canvas
+CRAFTING	73	EPIC	31478	Bolt of cotton
+CRAFTING	12	COMMON	31472	Bolt of linen
+CRAFTING	35	UNCOMMON	28796	Bone staff
+CRAFTING	82	LEGENDARY	25865	Bow of Faerdhinen
+CRAFTING	82	LEGENDARY	25867	Bow of Faerdhinen (c)
+CRAFTING	8	COMMON	1923	Bowl
+CRAFTING	90	LEGENDARY	27238	Break down Armadylean armour and fortify Masori armour
+CRAFTING	35	UNCOMMON	6259	Broodoo shield
+CRAFTING	49	RARE	4542	Bullseye lantern lens
+CRAFTING	4	COMMON	4527	Candle lantern
+CRAFTING	70	EPIC	25545	Celestial signet
+CRAFTING	50	RARE	28163	Clothes Pouch
+CRAFTING	38	UNCOMMON	1169	Coif
+CRAFTING	83	LEGENDARY	31106	Confliction gauntlets
+CRAFTING	15	COMMON	7539	Crab shell armour
+CRAFTING	60	EPIC	34020	Craft a Sunstone Golem on Wyrmscraig
+CRAFTING	75	EPIC	22201	Craft a birdhouse trap from magic logs
+CRAFTING	50	RARE	22195	Craft a birdhouse trap from mahogany logs
+CRAFTING	45	RARE	22192	Craft a birdhouse trap from maple logs
+CRAFTING	5	COMMON	21512	Craft a birdhouse trap from normal logs
+CRAFTING	15	COMMON	21515	Craft a birdhouse trap from oak logs
+CRAFTING	90	LEGENDARY	22204	Craft a birdhouse trap from redwood logs
+CRAFTING	35	UNCOMMON	21521	Craft a birdhouse trap from teak logs
+CRAFTING	25	UNCOMMON	21518	Craft a birdhouse trap from willow logs
+CRAFTING	60	EPIC	22198	Craft a birdhouse trap from yew logs
+CRAFTING	56	RARE	26784	Craft a colossal pouch from essence pouches
+CRAFTING	62	EPIC	32364	Craft a crate from camphor logs
+CRAFTING	75	EPIC	27281	Craft a divine rune pouch from a Thread of Elidinis
+CRAFTING	12	COMMON	33384	Craft a gem pouch
+CRAFTING	81	LEGENDARY	33393	Craft a gem sack
+CRAFTING	39	UNCOMMON	33387	Craft a gem satchel
+CRAFTING	81	LEGENDARY	33390	Craft a gem tote
+CRAFTING	51	RARE	31957	Craft a knife from a narwhal horn
+CRAFTING	65	EPIC	29303	Craft large hunters' pouches
+CRAFTING	50	RARE	29301	Craft medium hunters' pouches
+CRAFTING	35	UNCOMMON	29299	Craft small hunters' pouches
+CRAFTING	76	EPIC	23673	Crystal axe
+CRAFTING	74	EPIC	23975	Crystal body
+CRAFTING	78	EPIC	23983	Crystal bow
+CRAFTING	76	EPIC	28220	Crystal felling axe
+CRAFTING	78	EPIC	23987	Crystal halberd
+CRAFTING	76	EPIC	23762	Crystal harpoon
+CRAFTING	70	EPIC	23971	Crystal helm
+CRAFTING	72	EPIC	23979	Crystal legs
+CRAFTING	76	EPIC	23680	Crystal pickaxe
+CRAFTING	78	EPIC	23991	Crystal shield
+CRAFTING	3	COMMON	1980	Cup
+CRAFTING	43	RARE	1601	Cut diamond
+CRAFTING	55	RARE	1615	Cut dragonstone
+CRAFTING	27	UNCOMMON	1605	Cut emerald
+CRAFTING	13	COMMON	1611	Cut jade
+CRAFTING	67	EPIC	6573	Cut onyx
+CRAFTING	1	COMMON	1609	Cut opal
+CRAFTING	16	COMMON	1613	Cut red topaz
+CRAFTING	34	UNCOMMON	1603	Cut ruby
+CRAFTING	20	UNCOMMON	1607	Cut sapphire
+CRAFTING	89	LEGENDARY	19493	Cut zenyte
+CRAFTING	38	UNCOMMON	13445	Dense essence
+CRAFTING	70	EPIC	1700	Diamond amulet
+CRAFTING	58	RARE	11092	Diamond bracelet
+CRAFTING	56	RARE	1662	Diamond necklace
+CRAFTING	43	RARE	1643	Diamond ring
+CRAFTING	87	LEGENDARY	10973	Dorgeshuun light orb
+CRAFTING	80	LEGENDARY	1702	Dragonstone amulet
+CRAFTING	74	EPIC	11115	Dragonstone bracelet
+CRAFTING	72	EPIC	1664	Dragonstone necklace
+CRAFTING	55	RARE	1645	Dragonstone ring
+CRAFTING	26	UNCOMMON	21652	Drift net
+CRAFTING	58	RARE	1399	Earth battlestaff
+CRAFTING	31	UNCOMMON	1696	Emerald amulet
+CRAFTING	30	UNCOMMON	11076	Emerald bracelet
+CRAFTING	29	UNCOMMON	1658	Emerald necklace
+CRAFTING	27	UNCOMMON	1639	Emerald ring
+CRAFTING	80	LEGENDARY	23951	Enhanced crystal key
+CRAFTING	80	LEGENDARY	23946	Eternal teleport crystal
+CRAFTING	10	COMMON	19665	Extract sinew from monkey tails
+CRAFTING	62	EPIC	1393	Fire battlestaff
+CRAFTING	42	RARE	6667	Fishbowl
+CRAFTING	36	UNCOMMON	5376	Fruit basket
+CRAFTING	46	RARE	567	Glass orb
+CRAFTING	42	RARE	26788	Gold Tiara
+CRAFTING	8	COMMON	1692	Gold amulet
+CRAFTING	7	COMMON	11069	Gold bracelet
+CRAFTING	6	COMMON	1654	Gold necklace
+CRAFTING	5	COMMON	1635	Gold ring
+CRAFTING	63	EPIC	1135	Green dragonhide body
+CRAFTING	60	EPIC	1099	Green dragonhide chaps
+CRAFTING	62	EPIC	22275	Green dragonhide shield
+CRAFTING	57	RARE	1065	Green dragonhide vambraces
+CRAFTING	28	UNCOMMON	1131	Hard leather body
+CRAFTING	41	RARE	22269	Hard leather shield
+CRAFTING	16	COMMON	1716	Holy symbol
+CRAFTING	78	EPIC	30076	Hueycoatl hide body
+CRAFTING	77	EPIC	30079	Hueycoatl hide chaps
+CRAFTING	76	EPIC	30073	Hueycoatl hide coif
+CRAFTING	76	EPIC	30082	Hueycoatl hide vambraces
+CRAFTING	80	LEGENDARY	28295	Icon Removal
+CRAFTING	34	UNCOMMON	21111	Jade amulet
+CRAFTING	29	UNCOMMON	21120	Jade bracelet
+CRAFTING	25	UNCOMMON	21093	Jade necklace
+CRAFTING	13	COMMON	21084	Jade ring
+CRAFTING	14	COMMON	1129	Leather body
+CRAFTING	7	COMMON	1061	Leather boots
+CRAFTING	18	COMMON	1095	Leather chaps
+CRAFTING	9	COMMON	1167	Leather cowl
+CRAFTING	1	COMMON	1059	Leather gloves
+CRAFTING	11	COMMON	1063	Leather vambraces
+CRAFTING	72	EPIC	29280	Mixed hide body
+CRAFTING	69	EPIC	29286	Mixed hide boots
+CRAFTING	68	EPIC	29289	Mixed hide cape
+CRAFTING	71	EPIC	29283	Mixed hide legs
+CRAFTING	84	LEGENDARY	33639	Necklace of Rupture
+CRAFTING	72	EPIC	29796	Noxious Halberd
+CRAFTING	12	COMMON	4525	Oil lamp
+CRAFTING	26	UNCOMMON	4535	Oil lantern
+CRAFTING	90	LEGENDARY	6581	Onyx amulet
+CRAFTING	84	LEGENDARY	11130	Onyx bracelet
+CRAFTING	82	LEGENDARY	6577	Onyx necklace
+CRAFTING	67	EPIC	6575	Onyx ring
+CRAFTING	27	UNCOMMON	21108	Opal amulet
+CRAFTING	22	UNCOMMON	21117	Opal bracelet
+CRAFTING	16	COMMON	21090	Opal necklace
+CRAFTING	1	COMMON	21081	Opal ring
+CRAFTING	2	COMMON	28620	Pheasant clothing
+CRAFTING	7	COMMON	2313	Pie dish
+CRAFTING	19	COMMON	5350	Plant pot
+CRAFTING	3	COMMON	10496	Polished buttons
+CRAFTING	1	COMMON	1931	Pot
+CRAFTING	25	UNCOMMON	4440	Pot lid
+CRAFTING	74	EPIC	29594	Purging staff
+CRAFTING	37	UNCOMMON	10132	Rabbit-foot necklaces
+CRAFTING	77	EPIC	2501	Red dragonhide body
+CRAFTING	75	EPIC	2495	Red dragonhide chaps
+CRAFTING	76	EPIC	22281	Red dragonhide shield
+CRAFTING	73	EPIC	2489	Red dragonhide vambraces
+CRAFTING	45	RARE	21114	Red topaz amulet
+CRAFTING	38	UNCOMMON	21123	Red topaz bracelet
+CRAFTING	32	UNCOMMON	21096	Red topaz necklace
+CRAFTING	16	COMMON	21087	Red topaz ring
+CRAFTING	30	UNCOMMON	2347	Repair Piscarilius fishing cranes
+CRAFTING	52	RARE	10973	Replace Dorgeshuun light orbs
+CRAFTING	50	RARE	1698	Ruby amulet
+CRAFTING	42	RARE	11085	Ruby bracelet
+CRAFTING	40	RARE	1660	Ruby necklace
+CRAFTING	34	UNCOMMON	1641	Ruby ring
+CRAFTING	24	UNCOMMON	1694	Sapphire amulet
+CRAFTING	23	UNCOMMON	11072	Sapphire bracelet
+CRAFTING	22	UNCOMMON	1656	Sapphire necklace
+CRAFTING	20	UNCOMMON	1637	Sapphire ring
+CRAFTING	52	RARE	12931	Serpentine helm
+CRAFTING	21	UNCOMMON	9414	Silver crossbow bolts
+CRAFTING	18	COMMON	2961	Silver sickle
+CRAFTING	99	LEGENDARY	9780	Skillcape
+CRAFTING	55	RARE	11864	Slayer helm
+CRAFTING	75	EPIC	11866	Slayer ring
+CRAFTING	15	COMMON	3327	Snail helmet
+CRAFTING	48	RARE	6326	Snakeskin bandana
+CRAFTING	53	RARE	6322	Snakeskin body
+CRAFTING	45	RARE	6328	Snakeskin boots
+CRAFTING	51	RARE	6324	Snakeskin chaps
+CRAFTING	56	RARE	22272	Snakeskin shield
+CRAFTING	47	RARE	6330	Snakeskin vambraces
+CRAFTING	32	UNCOMMON	10077	Spiked vambraces
+CRAFTING	73	EPIC	31469	Spin cotton boll into cotton yarn
+CRAFTING	10	COMMON	1777	Spin flax into bow strings
+CRAFTING	12	COMMON	31463	Spin flax into linen yarn
+CRAFTING	39	UNCOMMON	31466	Spin hemp into hemp yarn
+CRAFTING	19	COMMON	6038	Spin magic tree roots into magic strings
+CRAFTING	10	COMMON	9438	Spin sinew into crossbow strings
+CRAFTING	1	COMMON	1759	Spin wool into balls of wool
+CRAFTING	30	UNCOMMON	954	Spin yak hair into rope
+CRAFTING	62	EPIC	3387	Splitbark body
+CRAFTING	60	EPIC	3393	Splitbark boots
+CRAFTING	60	EPIC	3391	Splitbark gauntlets
+CRAFTING	61	EPIC	3385	Splitbark helm
+CRAFTING	62	EPIC	3389	Splitbark legs
+CRAFTING	41	RARE	1133	Studded body
+CRAFTING	44	RARE	1097	Studded chaps
+CRAFTING	23	UNCOMMON	5525	Tiara
+CRAFTING	59	RARE	12904	Toxic Staff of the Dead
+CRAFTING	59	RARE	12899	Trident of the Swamp
+CRAFTING	80	LEGENDARY	28307	Ultor, Venator, Bellator, Magus rings
+CRAFTING	17	COMMON	1722	Unholy symbol
+CRAFTING	21	UNCOMMON	5418	Vegetable sack
+CRAFTING	33	UNCOMMON	229	Vial
+CRAFTING	54	RARE	1395	Water battlestaff
+CRAFTING	14	COMMON	13385	Xerician hat
+CRAFTING	17	COMMON	13389	Xerician robe
+CRAFTING	22	UNCOMMON	13387	Xerician top
+CRAFTING	46	RARE	10822	Yak-hide body armour
+CRAFTING	43	RARE	10824	Yak-hide leg armour
+CRAFTING	98	LEGENDARY	19541	Zenyte amulet
+CRAFTING	95	LEGENDARY	19532	Zenyte bracelet
+CRAFTING	92	LEGENDARY	19535	Zenyte necklace
+CRAFTING	89	LEGENDARY	19538	Zenyte ring
+DEFENCE	65	EPIC	10350	3rd Age fighter armour
+DEFENCE	30	UNCOMMON	1145	Adamant armour
+DEFENCE	65	EPIC	11832	Bandos armour
+DEFENCE	10	COMMON	1151	Black armour
+DEFENCE	70	EPIC	12831	Blessed spirit shield
+DEFENCE	50	RARE	29028	Bloodrager set
+DEFENCE	1	COMMON	1139	Bronze armour
+DEFENCE	70	EPIC	23971	Crystal armour
+DEFENCE	70	EPIC	23991	Crystal shield
+DEFENCE	70	EPIC	4716	Dharok's armour
+DEFENCE	60	EPIC	1149	Dragon armour
+DEFENCE	75	EPIC	11283	Dragonfire shield
+DEFENCE	75	EPIC	28945	Echo boots
+DEFENCE	75	EPIC	12817	Elysian spirit shield
+DEFENCE	45	RARE	10548	Fighter hat
+DEFENCE	40	RARE	10551	Fighter torso
+DEFENCE	45	RARE	3751	Fremennik helmets
+DEFENCE	50	RARE	10589	Granite armour
+DEFENCE	75	EPIC	21733	Guardian boots
+DEFENCE	70	EPIC	4724	Guthan's armour
+DEFENCE	45	RARE	10547	Healer hat
+DEFENCE	55	RARE	10828	Helm of Neitiznot
+DEFENCE	20	UNCOMMON	5574	Initiate armour
+DEFENCE	30	UNCOMMON	24419	Inquisitor's armour
+DEFENCE	1	COMMON	1137	Iron armour
+DEFENCE	75	EPIC	22326	Justiciar armour
+DEFENCE	40	RARE	22263	Magic shield
+DEFENCE	40	RARE	22257	Maple shield
+DEFENCE	20	UNCOMMON	4156	Mirror shield
+DEFENCE	20	UNCOMMON	1143	Mithril armour
+DEFENCE	70	EPIC	24271	Neitiznot faceguard
+DEFENCE	10	COMMON	22251	Oak shield
+DEFENCE	78	EPIC	30750	Oathplate armour
+DEFENCE	60	EPIC	21301	Obsidian armour
+DEFENCE	60	EPIC	11926	Odium & Malediction wards
+DEFENCE	40	RARE	10553	Penance gloves
+DEFENCE	75	EPIC	13239	Primordial boots
+DEFENCE	30	UNCOMMON	9672	Proselyte armour
+DEFENCE	45	RARE	10550	Ranger hat
+DEFENCE	40	RARE	22266	Redwood shield
+DEFENCE	40	RARE	6128	Rock-shell armour
+DEFENCE	40	RARE	1147	Rune armour
+DEFENCE	40	RARE	10552	Runner boots
+DEFENCE	45	RARE	10549	Runner hat
+DEFENCE	35	UNCOMMON	20035	Samurai armour
+DEFENCE	75	EPIC	12931	Serpentine helm
+DEFENCE	20	UNCOMMON	13379	Shayzien armour
+DEFENCE	10	COMMON	11864	Slayer helm
+DEFENCE	5	COMMON	4551	Spiny helmet
+DEFENCE	45	RARE	12829	Spirit Shield
+DEFENCE	5	COMMON	1141	Steel armour
+DEFENCE	40	RARE	28936	Sunfire Fanatic armour
+DEFENCE	60	EPIC	6524	Toktz-Ket-Xil
+DEFENCE	70	EPIC	4745	Torag's armour
+DEFENCE	80	LEGENDARY	26382	Torva armour
+DEFENCE	40	RARE	24266	V's shield
+DEFENCE	70	EPIC	4753	Verac's armour
+DEFENCE	75	EPIC	26243	Virtus robes
+DEFENCE	10	COMMON	6621	White armour
+DEFENCE	30	UNCOMMON	22254	Willow shield
+DEFENCE	20	UNCOMMON	10822	Yak-hide
+DEFENCE	40	RARE	22260	Yew shield
+DEFENCE	50	RARE	30321	Zombie helmet
+FARMING	83	LEGENDARY	6051	2x magic roots
+FARMING	53	RARE	6047	2x maple roots
+FARMING	23	UNCOMMON	6043	2x oak roots
+FARMING	38	UNCOMMON	6045	2x willow roots
+FARMING	68	EPIC	6049	2x yew roots
+FARMING	91	LEGENDARY	6051	3x magic roots
+FARMING	61	EPIC	6047	3x maple roots
+FARMING	31	UNCOMMON	6043	3x oak roots
+FARMING	46	RARE	6045	3x willow roots
+FARMING	76	EPIC	6049	3x yew roots
+FARMING	99	LEGENDARY	6051	4x magic roots
+FARMING	69	EPIC	6047	4x maple roots
+FARMING	39	UNCOMMON	6043	4x oak roots
+FARMING	54	RARE	6045	4x willow roots
+FARMING	84	LEGENDARY	6049	4x yew roots
+FARMING	76	EPIC	22940	Anima: AttasIncreases yield of other Farming patches
+FARMING	76	EPIC	22939	Anima: IasorDecreases chance of disease for other Farming patches
+FARMING	76	EPIC	22938	Anima: KronosIncreases speed of growth for other Farming patches
+FARMING	27	UNCOMMON	1955	Apple treesPayment: Sweetcorn x9
+FARMING	8	COMMON	5996	Asgarnian hopsPayment: Onions(10)
+FARMING	50	RARE	261	Avantoe
+FARMING	33	UNCOMMON	1963	Banana treesPayment: Apples(5) x4
+FARMING	3	COMMON	6006	BarleyPayment: Compost x3
+FARMING	63	EPIC	2398	Belladonna
+FARMING	53	RARE	6004	Bittercap mushrooms
+FARMING	54	RARE	13427	Bologano fruit
+FARMING	39	UNCOMMON	20908	Buchu leaf
+FARMING	7	COMMON	1965	CabbagesPayment: Onions(10)
+FARMING	55	RARE	6016	CactiPayment: Cadava berries x6
+FARMING	67	EPIC	265	Cadantine
+FARMING	22	UNCOMMON	753	Cadavaberry bushesPayment: Tomatoes(5) x3
+FARMING	72	EPIC	5980	Calquat treesPayment: Poison ivy berries x8
+FARMING	66	EPIC	32904	Camphor treesPayment: White berries x10
+FARMING	85	LEGENDARY	22935	Celastrus treesPayment: Potato Cactus x8
+FARMING	71	EPIC	31460	Cotton bollsPayment: Hemp x6
+FARMING	74	EPIC	23962	Crystal trees
+FARMING	42	RARE	5970	Curry treesPayment: Bananas(5) x5
+FARMING	81	LEGENDARY	22929	Dragonfruit treesPayment: Coconut x15
+FARMING	79	EPIC	267	Dwarf weed
+FARMING	36	UNCOMMON	2126	Dwellberry bushesPayment: Strawberries(5) x3
+FARMING	28	UNCOMMON	31481	Elkhorn coralPayment: Giant seaweed x5
+FARMING	85	LEGENDARY	23006	Farming Guild - High tier
+FARMING	45	RARE	23006	Farming Guild - Low tier
+FARMING	65	EPIC	23006	Farming Guild - Mid tier
+FARMING	18	COMMON	1779	FlaxPayment: Grain x6
+FARMING	23	UNCOMMON	21504	Giant SeaweedPayment: Numulites x200
+FARMING	34	UNCOMMON	13426	Golovanova fruit
+FARMING	27	UNCOMMON	20905	Golpar
+FARMING	29	UNCOMMON	3261	Goutweed
+FARMING	36	UNCOMMON	1987	Grapes
+FARMING	9	COMMON	249	Guam leaf
+FARMING	4	COMMON	5994	Hammerstone hopsPayment: Marigolds
+FARMING	26	UNCOMMON	255	Harralander
+FARMING	37	UNCOMMON	31457	HempPayment: Flax x6
+FARMING	65	EPIC	23044	Hespori
+FARMING	65	EPIC	30097	Huasca
+FARMING	44	RARE	259	Irit leaf
+FARMING	80	LEGENDARY	32907	Ironwood treesPayment: Curry leaf x10
+FARMING	48	RARE	247	Jangerberry bushesPayment: Watermelon x6
+FARMING	13	COMMON	5931	Jute plantsPayment: Barley malt x6
+FARMING	21	UNCOMMON	6000	Krandorian hopsPayment: Cabbages(10) x3
+FARMING	56	RARE	263	Kwuarm
+FARMING	73	EPIC	2481	Lantadyme
+FARMING	26	UNCOMMON	225	Limpwurt plants
+FARMING	74	EPIC	13428	Logavano fruit
+FARMING	75	EPIC	1513	Magic treesPayment: Coconut x25
+FARMING	55	RARE	6332	Mahogany treesPayment: Yanillian hops x25
+FARMING	23	UNCOMMON	6059	Make and place a scarecrowProtects sweetcorn from birds
+FARMING	45	RARE	1517	Maple treesPayment: Oranges(5)
+FARMING	2	COMMON	6010	MarigoldsProtects onions, tomatoes and potatoes
+FARMING	14	COMMON	251	Marrentill
+FARMING	24	UNCOMMON	6012	NasturtiumsProtects watermelons from disease
+FARMING	50	RARE	28152	Nature Offerings
+FARMING	55	RARE	20902	Noxifer
+FARMING	15	COMMON	1521	Oak treesPayment: Tomatoes(5)
+FARMING	5	COMMON	1957	OnionsPayment: Potatoes(10)
+FARMING	39	UNCOMMON	2108	Orange treesPayment: Strawberries(5) x3
+FARMING	68	EPIC	5974	Palm treesPayment: Papaya fruit x15
+FARMING	57	RARE	5972	Papaya treesPayment: Pineapple x10
+FARMING	52	RARE	31484	Pillar coralPayment: Elkhorn coral x5
+FARMING	51	RARE	2114	Pineapple plantsPayment: Watermelon x10
+FARMING	70	EPIC	6018	Poison ivy bushes
+FARMING	64	EPIC	3138	Potato CactiPayment: Snape grass x8
+FARMING	1	COMMON	1942	PotatoesPayment: Compost x2
+FARMING	32	UNCOMMON	257	Ranarr weed
+FARMING	10	COMMON	1951	Redberry bushesPayment: Cabbages(10) x4
+FARMING	90	LEGENDARY	19669	Redwood treesPayment: Dragonfruit x6
+FARMING	11	COMMON	6014	RosemaryProtects cabbages from disease
+FARMING	92	LEGENDARY	32910	Rosewood treesPayment: Dragonfruit x8
+FARMING	99	LEGENDARY	9810	Skillcape
+FARMING	62	EPIC	3000	Snapdragon
+FARMING	61	EPIC	231	Snape grassPayment: Jangerberries x5
+FARMING	83	LEGENDARY	6063	Spirit trees: 1 planted at a timePayment: Monkey bar, ground suqah tooth & 5 monkey nuts
+FARMING	88	LEGENDARY	6063	Spirit trees: 2 planted at a timePayment: Monkey bar, ground suqah tooth & 5 monkey nuts
+FARMING	93	LEGENDARY	6063	Spirit trees: 3 planted at a timePayment: Monkey bar, ground suqah tooth & 5 monkey nuts
+FARMING	96	LEGENDARY	6063	Spirit trees: 4 planted at a timePayment: Monkey bar, ground suqah tooth & 5 monkey nuts
+FARMING	99	LEGENDARY	6063	Spirit trees: Unlimited planted at a timePayment: Monkey bar, ground suqah tooth & 5 monkey nuts
+FARMING	31	UNCOMMON	5504	StrawberriesPayment: Apples(5)
+FARMING	36	UNCOMMON	33437	Sulphurous fertiliser
+FARMING	20	UNCOMMON	5986	SweetcornPayment: Jute fibre x10
+FARMING	19	COMMON	253	Tarromin
+FARMING	35	UNCOMMON	6333	Teak treesPayment: Limpwurt root x15
+FARMING	38	UNCOMMON	2998	Toadflax
+FARMING	12	COMMON	1982	TomatoesPayment: Cabbages(10) x2
+FARMING	85	LEGENDARY	269	Torstol
+FARMING	77	EPIC	31487	Umbral coralPayment: Pillar coral x5
+FARMING	47	RARE	5982	WatermelonsPayment: Curry leaf x10
+FARMING	59	RARE	239	White berry bushesPayment: Mushroom x8
+FARMING	58	RARE	22932	White lilyProtects all allotment crops
+FARMING	28	UNCOMMON	6002	Wildblood hopsPayment: Nasturtiums
+FARMING	30	UNCOMMON	1519	Willow treesPayment: Apples(5)
+FARMING	25	UNCOMMON	5738	Woad
+FARMING	16	COMMON	5998	Yanillian hopsPayment: Tomatoes(5)
+FARMING	60	EPIC	1515	Yew treesPayment: Cactus spine x10
+FIREMAKING	62	EPIC	26844	Abyssal Lantern (with blisterwood logs)
+FIREMAKING	75	EPIC	26846	Abyssal Lantern (with magic logs)
+FIREMAKING	45	RARE	26840	Abyssal Lantern (with maple logs)
+FIREMAKING	1	COMMON	26824	Abyssal Lantern (with normal logs)
+FIREMAKING	15	COMMON	26836	Abyssal Lantern (with oak logs)
+FIREMAKING	90	LEGENDARY	26848	Abyssal Lantern (with redwood logs)
+FIREMAKING	30	UNCOMMON	26838	Abyssal Lantern (with willow logs)
+FIREMAKING	60	EPIC	26842	Abyssal Lantern (with yew logs)
+FIREMAKING	1	COMMON	2862	Achey logs
+FIREMAKING	21	UNCOMMON	2862	Achey logs (barbarian technique)
+FIREMAKING	11	COMMON	2862	Achey pyre ships
+FIREMAKING	42	RARE	10810	Arctic Pine logs
+FIREMAKING	62	EPIC	10810	Arctic Pine logs (barbarian technique)
+FIREMAKING	47	RARE	10808	Arctic Pine pyre logs
+FIREMAKING	52	RARE	10808	Arctic Pine pyre ships
+FIREMAKING	62	EPIC	24691	Blisterwood logs
+FIREMAKING	50	RARE	20720	Bruma torches
+FIREMAKING	49	RARE	4550	Bullseye lanterns
+FIREMAKING	66	EPIC	32904	Camphor logs
+FIREMAKING	86	LEGENDARY	32904	Camphor logs (barbarian technique)
+FIREMAKING	71	EPIC	31383	Camphor pyre logs
+FIREMAKING	76	EPIC	31383	Camphor pyre ships
+FIREMAKING	4	COMMON	4531	Candle lanterns
+FIREMAKING	1	COMMON	36	Candles
+FIREMAKING	65	EPIC	5013	Cave goblin mining helmets
+FIREMAKING	49	RARE	9065	Emerald lanterns
+FIREMAKING	66	EPIC	22607	Fire of Dehumidification
+FIREMAKING	66	EPIC	22606	Fire of Eternal Light
+FIREMAKING	66	EPIC	22608	Fire of Nourishment
+FIREMAKING	66	EPIC	22609	Fire of Unseasonal Warmth
+FIREMAKING	33	UNCOMMON	7053	Harpie bug lanternsNot a light source
+FIREMAKING	85	LEGENDARY	13241	Infernal axe
+FIREMAKING	20	UNCOMMON	7225	Iron spits
+FIREMAKING	80	LEGENDARY	32907	Ironwood logs
+FIREMAKING	99	LEGENDARY	32907	Ironwood logs (barbarian technique)
+FIREMAKING	85	LEGENDARY	31386	Ironwood pyre logs
+FIREMAKING	90	LEGENDARY	31386	Ironwood pyre ships
+FIREMAKING	40	RARE	32902	Jatoba logs
+FIREMAKING	60	EPIC	32902	Jatoba logs (barbarian technique)
+FIREMAKING	75	EPIC	1513	Magic logs
+FIREMAKING	95	LEGENDARY	1513	Magic logs (barbarian technique)
+FIREMAKING	80	LEGENDARY	3448	Magic pyre logs
+FIREMAKING	85	LEGENDARY	3448	Magic pyre ships
+FIREMAKING	50	RARE	6332	Mahogany logs
+FIREMAKING	70	EPIC	6332	Mahogany logs (barbarian technique)
+FIREMAKING	55	RARE	6213	Mahogany pyre logs
+FIREMAKING	60	EPIC	6213	Mahogany pyre ships
+FIREMAKING	45	RARE	1517	Maple logs
+FIREMAKING	65	EPIC	1517	Maple logs (barbarian technique)
+FIREMAKING	50	RARE	3444	Maple pyre logs
+FIREMAKING	55	RARE	3444	Maple pyre ships
+FIREMAKING	1	COMMON	1511	Normal logs
+FIREMAKING	21	UNCOMMON	1511	Normal logs (barbarian technique)
+FIREMAKING	11	COMMON	3438	Normal pyre ships
+FIREMAKING	15	COMMON	1521	Oak logs
+FIREMAKING	35	UNCOMMON	1521	Oak logs (barbarian technique)
+FIREMAKING	20	UNCOMMON	3440	Oak pyre logs
+FIREMAKING	25	UNCOMMON	3440	Oak pyre ships
+FIREMAKING	12	COMMON	4524	Oil lamps
+FIREMAKING	26	UNCOMMON	4539	Oil lanterns
+FIREMAKING	5	COMMON	3438	Pyre logs
+FIREMAKING	90	LEGENDARY	19669	Redwood logs
+FIREMAKING	99	LEGENDARY	19669	Redwood logs (barbarian technique)
+FIREMAKING	95	LEGENDARY	19672	Redwood pyre logs
+FIREMAKING	95	LEGENDARY	19672	Redwood pyre ships
+FIREMAKING	52	RARE	10973	Replace Dorgeshuun light orbs
+FIREMAKING	92	LEGENDARY	32910	Rosewood logs
+FIREMAKING	99	LEGENDARY	32910	Rosewood logs (barbarian technique)
+FIREMAKING	97	LEGENDARY	31389	Rosewood pyre logs
+FIREMAKING	97	LEGENDARY	31389	Rosewood pyre ships
+FIREMAKING	49	RARE	4702	Sapphire lanterns
+FIREMAKING	99	LEGENDARY	9804	Skillcape
+FIREMAKING	35	UNCOMMON	6333	Teak logs
+FIREMAKING	55	RARE	6333	Teak logs (barbarian technique)
+FIREMAKING	40	RARE	6211	Teak pyre logs
+FIREMAKING	45	RARE	6211	Teak pyre ships
+FIREMAKING	1	COMMON	596	Torches
+FIREMAKING	30	UNCOMMON	1519	Willow logs
+FIREMAKING	50	RARE	1519	Willow logs (barbarian technique)
+FIREMAKING	35	UNCOMMON	3442	Willow pyre logs
+FIREMAKING	40	RARE	3442	Willow pyre ships
+FIREMAKING	50	RARE	20696	Wintertodt
+FIREMAKING	60	EPIC	1515	Yew logs
+FIREMAKING	80	LEGENDARY	1515	Yew logs (barbarian technique)
+FIREMAKING	65	EPIC	3446	Yew pyre logs
+FIREMAKING	70	EPIC	3446	Yew pyre ships
+FISHING	15	COMMON	321	AnchoviesSmall fishing net
+FISHING	34	UNCOMMON	13258	Angler's outfit
+FISHING	82	LEGENDARY	13439	AnglerfishFishing rod & sandworms
+FISHING	48	RARE	11323	Barbarian rod
+FISHING	46	RARE	363	BassBig fishing net
+FISHING	1	COMMON	305	Big fishing net
+FISHING	87	LEGENDARY	32341	Bluefin shoalFishing rod & fine fish offcuts
+FISHING	87	LEGENDARY	32341	Bluefin shoalShallow, moderate & deep trawling with fine fish offcuts
+FISHING	43	RARE	22826	BluegillAerial fishing
+FISHING	45	RARE	20861	Brawk fish
+FISHING	20	UNCOMMON	29216	BreamBig fishing net
+FISHING	16	COMMON	405	CasketBig fishing net
+FISHING	46	RARE	25670	CatfishBig fishing net
+FISHING	38	UNCOMMON	5001	Cave eelFishing rod & fishing bait
+FISHING	20	UNCOMMON	25658	CavefishSmall fishing net
+FISHING	23	UNCOMMON	341	CodBig fishing net
+FISHING	56	RARE	22829	Common tenchAerial fishing
+FISHING	71	EPIC	23762	Crystal harpoon
+FISHING	85	LEGENDARY	11934	Dark crabLobster pot & dark fishing bait
+FISHING	61	EPIC	21028	Dragon harpoon
+FISHING	35	UNCOMMON	25565	Fighting Tempoross
+FISHING	1	COMMON	307	Fishing rod
+FISHING	1	COMMON	309	Fly fishing rod
+FISHING	33	UNCOMMON	5004	Giant frogspawnSmall fishing net
+FISHING	69	EPIC	32309	Giant krill shoalFishing rod & fish offcuts
+FISHING	69	EPIC	32309	Giant krill shoalShallow trawling with fish offcuts
+FISHING	76	EPIC	32325	Glistening shoalFishing rod & fine fish offcuts
+FISHING	76	EPIC	32325	Glistening shoalShallow & moderate trawling with fine fish offcuts
+FISHING	7	COMMON	25652	GuppySmall fishing net
+FISHING	73	EPIC	32317	Haddock shoalFishing rod & fish offcuts
+FISHING	73	EPIC	32317	Haddock shoalShallow trawling with fish offcuts
+FISHING	83	LEGENDARY	32333	Halibut shoalFishing rod & fine fish offcuts
+FISHING	83	LEGENDARY	32333	Halibut shoalShallow & moderate trawling with fine fish offcuts
+FISHING	1	COMMON	311	Harpoon
+FISHING	55	RARE	25564	Harpoonfish (barehanded)
+FISHING	10	COMMON	345	HerringFishing rod & fishing bait
+FISHING	80	LEGENDARY	21293	Infernal eelOily fishing rod & fishing bait
+FISHING	75	EPIC	21031	Infernal harpoon
+FISHING	69	EPIC	31561	Jumbo squidHarpoon & lantern
+FISHING	1	COMMON	3157	Karambwan vessel
+FISHING	65	EPIC	3142	KarambwanKarambwan vessel
+FISHING	5	COMMON	3150	KarambwanjiSmall fishing net
+FISHING	90	LEGENDARY	20867	Kyren fish
+FISHING	53	RARE	2148	Lava eelOily fishing rod & fishing bait
+FISHING	58	RARE	11330	Leaping salmonBarbarian rod & most bait types
+FISHING	70	EPIC	11332	Leaping sturgeonBarbarian rod & most bait types
+FISHING	48	RARE	11328	Leaping troutBarbarian rod & most bait types
+FISHING	30	UNCOMMON	20859	Leckish fish
+FISHING	78	EPIC	33621	LeechfinBig fishing net
+FISHING	1	COMMON	301	Lobster pot
+FISHING	40	RARE	377	LobsterLobster pot
+FISHING	16	COMMON	353	MackerelBig fishing net
+FISHING	81	LEGENDARY	389	Manta rayTrawler & Tempoross
+FISHING	91	LEGENDARY	32349	Marlin shoalFishing rod & fine fish offcuts
+FISHING	91	LEGENDARY	32349	Marlin shoalShallow, moderate & deep trawling with fine fish offcuts
+FISHING	82	LEGENDARY	10572	MinnowSmall fishing net
+FISHING	62	EPIC	7944	MonkfishSmall fishing net
+FISHING	73	EPIC	22832	Mottled eelAerial fishing
+FISHING	60	EPIC	20863	Mycil fish
+FISHING	16	COMMON	407	OysterBig fishing net
+FISHING	25	UNCOMMON	349	PikeFishing rod & fishing bait
+FISHING	1	COMMON	20855	Pysk fish
+FISHING	38	UNCOMMON	10138	Rainbow fishFly fishing rod & stripy feathers
+FISHING	75	EPIC	20865	Roqed fish
+FISHING	87	LEGENDARY	13339	Sacred eelFishing rod & fishing bait
+FISHING	30	UNCOMMON	331	SalmonFly fishing rod & feathers
+FISHING	5	COMMON	327	SardineFishing rod & fishing bait
+FISHING	79	EPIC	395	Sea turtleTrawler & Tempoross
+FISHING	76	EPIC	383	SharkHarpoon
+FISHING	69	EPIC	32309	Shimmering shoalFishing rod & fish offcuts
+FISHING	69	EPIC	32309	Shimmering shoalShallow trawling with fish offcuts
+FISHING	1	COMMON	317	ShrimpSmall fishing net
+FISHING	99	LEGENDARY	9798	Skillcape
+FISHING	28	UNCOMMON	3379	Slimy eelFishing rod & fishing bait
+FISHING	1	COMMON	303	Small fishing net
+FISHING	15	COMMON	20857	Suphi fish
+FISHING	70	EPIC	371	Swordfish (barehanded)
+FISHING	50	RARE	371	SwordfishHarpoon
+FISHING	52	RARE	31553	Swordtip squidHarpoon & lantern
+FISHING	33	UNCOMMON	25664	TetraSmall fishing net
+FISHING	20	UNCOMMON	335	TroutFly fishing rod & feathers
+FISHING	55	RARE	359	Tuna (barehanded)
+FISHING	35	UNCOMMON	359	TunaHarpoon
+FISHING	86	LEGENDARY	32341	Vibrant shoalFishing rod & fine fish offcuts
+FISHING	86	LEGENDARY	32341	Vibrant shoalShallow, moderate & deep trawling with fine fish offcuts
+FISHING	79	EPIC	32325	Yellowfin shoalFishing rod & fine fish offcuts
+FISHING	79	EPIC	32325	Yellowfin shoalShallow & moderate trawling with fish offcuts
+FLETCHING	90	LEGENDARY	6443	105 Arrow shafts (Redwood logs)
+FLETCHING	1	COMMON	6443	15 Arrow shafts (Logs)
+FLETCHING	15	COMMON	6443	30 Arrow shafts (Oak logs)
+FLETCHING	30	UNCOMMON	6443	45 Arrow shafts (Willow logs)
+FLETCHING	45	RARE	6443	60 Arrow shafts (Maple logs)
+FLETCHING	60	EPIC	6443	75 Arrow shafts (Yew logs)
+FLETCHING	75	EPIC	6443	90 Arrow shafts (Magic logs)
+FLETCHING	62	EPIC	4798	Adamant 'brutal' arrows
+FLETCHING	60	EPIC	890	Adamant arrows
+FLETCHING	67	EPIC	810	Adamant darts
+FLETCHING	62	EPIC	829	Adamant javelins
+FLETCHING	61	EPIC	9143	Adamantite bolts
+FLETCHING	61	EPIC	9450	Adamantite/mahogany crossbows
+FLETCHING	82	LEGENDARY	21326	Amethyst arrows
+FLETCHING	76	EPIC	21316	Amethyst broad bolts
+FLETCHING	90	LEGENDARY	25849	Amethyst darts
+FLETCHING	84	LEGENDARY	21318	Amethyst javelins
+FLETCHING	74	EPIC	28991	Atlatl darts
+FLETCHING	51	RARE	881	Barbed-tipped bolts
+FLETCHING	40	RARE	1391	Battlestaves
+FLETCHING	38	UNCOMMON	4788	Black 'brutal' arrows
+FLETCHING	24	UNCOMMON	9139	Blurite bolts
+FLETCHING	24	UNCOMMON	9442	Blurite/oak crossbows
+FLETCHING	35	UNCOMMON	28794	Bone shortbow
+FLETCHING	52	RARE	4160	Broad arrows
+FLETCHING	55	RARE	11875	Broad bolts
+FLETCHING	7	COMMON	4773	Bronze 'brutal' arrows
+FLETCHING	1	COMMON	882	Bronze arrows
+FLETCHING	9	COMMON	877	Bronze bolts
+FLETCHING	10	COMMON	806	Bronze darts
+FLETCHING	3	COMMON	825	Bronze javelins
+FLETCHING	9	COMMON	9440	Bronze/wooden crossbows
+FLETCHING	58	RARE	31575	Camphor blowpipe
+FLETCHING	65	EPIC	9340	Diamond-tipped adamantite bolts
+FLETCHING	90	LEGENDARY	11212	Dragon arrows
+FLETCHING	84	LEGENDARY	21905	Dragon bolts
+FLETCHING	95	LEGENDARY	11230	Dragon darts
+FLETCHING	92	LEGENDARY	19484	Dragon javelins
+FLETCHING	78	EPIC	21952	Dragon/magic crossbows
+FLETCHING	71	EPIC	9341	Dragonstone-tipped runite bolts
+FLETCHING	58	RARE	9338	Emerald-tipped mithril bolts
+FLETCHING	79	EPIC	31024	Greenman carving
+FLETCHING	53	RARE	31027	Greenman statue
+FLETCHING	72	EPIC	19481	Heavy ballistae
+FLETCHING	60	EPIC	29305	Hunter's spears
+FLETCHING	18	COMMON	4778	Iron 'brutal' arrows
+FLETCHING	15	COMMON	884	Iron arrows
+FLETCHING	39	UNCOMMON	9140	Iron bolts
+FLETCHING	22	UNCOMMON	807	Iron darts
+FLETCHING	17	COMMON	826	Iron javelins
+FLETCHING	39	UNCOMMON	9444	Iron/willow crossbows
+FLETCHING	72	EPIC	31579	Ironwood blowpipe
+FLETCHING	26	UNCOMMON	9335	Jade-tipped blurite bolts
+FLETCHING	32	UNCOMMON	10158	Kebbit-tipped hunting bolts
+FLETCHING	47	RARE	19478	Light ballistae
+FLETCHING	42	RARE	10159	Long kebbit-tipped hunting bolts
+FLETCHING	10	COMMON	839	Longbows
+FLETCHING	85	LEGENDARY	859	Magic longbows
+FLETCHING	87	LEGENDARY	22263	Magic shield
+FLETCHING	80	LEGENDARY	861	Magic shortbows
+FLETCHING	80	LEGENDARY	1513	Magic vale totems
+FLETCHING	55	RARE	851	Maple longbows
+FLETCHING	57	RARE	22257	Maple shield
+FLETCHING	50	RARE	853	Maple shortbows
+FLETCHING	50	RARE	1517	Maple vale totems
+FLETCHING	49	RARE	4793	Mithril 'brutal' arrows
+FLETCHING	45	RARE	888	Mithril arrows
+FLETCHING	54	RARE	9142	Mithril bolts
+FLETCHING	52	RARE	809	Mithril darts
+FLETCHING	59	RARE	9418	Mithril grapple-tipped bolts
+FLETCHING	47	RARE	828	Mithril javelins
+FLETCHING	54	RARE	9448	Mithril/maple crossbows
+FLETCHING	72	EPIC	28878	Moonlight bolts
+FLETCHING	25	UNCOMMON	845	Oak longbows
+FLETCHING	27	UNCOMMON	22251	Oak shield
+FLETCHING	20	UNCOMMON	843	Oak shortbows
+FLETCHING	20	UNCOMMON	1521	Oak vale totems
+FLETCHING	30	UNCOMMON	4827	Ogre composite bows
+FLETCHING	73	EPIC	9342	Onyx-tipped runite bolts
+FLETCHING	11	COMMON	879	Opal-tipped bronze bolts
+FLETCHING	41	RARE	880	Pearl-tipped iron bolts
+FLETCHING	48	RARE	9336	Red topaz-tipped steel bolts
+FLETCHING	90	LEGENDARY	31049	Redwood hiking staff
+FLETCHING	92	LEGENDARY	22266	Redwood shield
+FLETCHING	90	LEGENDARY	19669	Redwood vale totems
+FLETCHING	84	LEGENDARY	31583	Rosewood blowpipe
+FLETCHING	63	EPIC	9339	Ruby-tipped adamantite bolts
+FLETCHING	77	EPIC	4803	Rune 'brutal' arrows
+FLETCHING	75	EPIC	892	Rune arrows
+FLETCHING	81	LEGENDARY	811	Rune darts
+FLETCHING	77	EPIC	830	Rune javelins
+FLETCHING	69	EPIC	9144	Runite bolts
+FLETCHING	69	EPIC	9452	Runite/yew crossbows
+FLETCHING	56	RARE	9337	Sapphire-tipped mithril bolts
+FLETCHING	74	EPIC	29591	Scorching bows
+FLETCHING	5	COMMON	841	Shortbows
+FLETCHING	43	RARE	9145	Silver bolts
+FLETCHING	99	LEGENDARY	9783	Skillcape
+FLETCHING	33	UNCOMMON	4783	Steel 'brutal' arrows
+FLETCHING	30	UNCOMMON	886	Steel arrows
+FLETCHING	46	RARE	9141	Steel bolts
+FLETCHING	37	UNCOMMON	808	Steel darts
+FLETCHING	32	UNCOMMON	827	Steel javelins
+FLETCHING	46	RARE	9446	Steel/teak crossbows
+FLETCHING	62	EPIC	28872	Sunlight bolts
+FLETCHING	74	EPIC	28869	Sunlight hunters' crossbow
+FLETCHING	78	EPIC	12926	Toxic blowpipe
+FLETCHING	85	LEGENDARY	27655	Webweaver bow
+FLETCHING	40	RARE	847	Willow longbows
+FLETCHING	42	RARE	22254	Willow shield
+FLETCHING	35	UNCOMMON	849	Willow shortbows
+FLETCHING	35	UNCOMMON	1519	Willow vale totems
+FLETCHING	70	EPIC	855	Yew longbows
+FLETCHING	72	EPIC	22260	Yew shield
+FLETCHING	65	EPIC	857	Yew shortbows
+FLETCHING	65	EPIC	1515	Yew vale totems
+HERBLORE	37	UNCOMMON	11461	Agility mix
+HERBLORE	34	UNCOMMON	2152	Agility potionToadflax & toad legs
+HERBLORE	60	EPIC	30014	Alco-augmentatorMastering Mixology
+HERBLORE	85	LEGENDARY	26368	Ancient brewDwarf weed & nihil dust
+HERBLORE	92	LEGENDARY	26350	Ancient mix
+HERBLORE	69	EPIC	241	Anti-firebreath potionLantadyme & ground blue dragon scale
+HERBLORE	78	EPIC	30018	Anti-leech lotionMastering Mixology
+HERBLORE	49	RARE	31712	Anti-odour saltUnprocessed elkhorn coral & crab paste
+HERBLORE	5	COMMON	235	Anti-poison potionMarrentill & ground unicorn horn
+HERBLORE	51	RARE	11473	Anti-poison supermix
+HERBLORE	94	LEGENDARY	269	Anti-venom+Anti-venom & torstol
+HERBLORE	87	LEGENDARY	3997	Anti-venomAntidote++ & Zulrah's scales
+HERBLORE	74	EPIC	11501	Antidote+ mix
+HERBLORE	79	EPIC	6051	Antidote++Coconut milk, irit leaf & magic tree roots
+HERBLORE	68	EPIC	6049	Antidote+Coconut milk, toadflax & yew roots
+HERBLORE	75	EPIC	11505	Antifire mix
+HERBLORE	90	LEGENDARY	25765	Antipoison (+)Noxifer & Cicely
+HERBLORE	60	EPIC	25757	Antipoison (-)Noxifer & Cicely
+HERBLORE	6	COMMON	11433	Antipoison mix
+HERBLORE	75	EPIC	25761	AntipoisonNoxifer & Cicely
+HERBLORE	72	EPIC	30015	Aqualux amalgamMastering Mixology
+HERBLORE	89	LEGENDARY	31710	Armadyl brewUmbral coral & rainbow crab paste
+HERBLORE	4	COMMON	11429	Attack mix
+HERBLORE	3	COMMON	221	Attack potionGuam leaf & eye of newt
+HERBLORE	48	RARE	261	Avantoe
+HERBLORE	69	EPIC	30016	Azure aura mixMastering Mixology
+HERBLORE	80	LEGENDARY	245	Bastion potionCadantine & wine of Zamorak mixed in a vial of blood
+HERBLORE	80	LEGENDARY	3138	Battlemage potionCadantine & potato cactus mixed in a vial of blood
+HERBLORE	65	EPIC	265	Cadantine
+HERBLORE	40	RARE	11445	Combat mix
+HERBLORE	36	UNCOMMON	9736	Combat potionHarralander & ground goat horn
+HERBLORE	22	UNCOMMON	21622	Compost potionHarralander & volcanic ash
+HERBLORE	33	UNCOMMON	11457	Defence mix
+HERBLORE	30	UNCOMMON	239	Defence potionRanarr weed & white berries
+HERBLORE	86	LEGENDARY	23964	Divine bastion potionCrystal dust & bastion potion
+HERBLORE	86	LEGENDARY	23964	Divine battlemage potionCrystal dust & battlemage potion
+HERBLORE	78	EPIC	23964	Divine magic potionCrystal dust & magic potion
+HERBLORE	74	EPIC	23964	Divine ranging potionCrystal dust & ranging potion
+HERBLORE	70	EPIC	23964	Divine super attack potionCrystal dust & super attack potion
+HERBLORE	97	LEGENDARY	23964	Divine super combat potionCrystal dust & super combat potion
+HERBLORE	70	EPIC	23964	Divine super defence potionCrystal dust & super defence potion
+HERBLORE	70	EPIC	23964	Divine super strength potionCrystal dust & super strength potion
+HERBLORE	70	EPIC	267	Dwarf weed
+HERBLORE	70	EPIC	20920	Elder (+)Golpar & Stinkhorn mushroom
+HERBLORE	47	RARE	20916	Elder (-)Golpar & Stinkhorn mushroom
+HERBLORE	59	RARE	20920	ElderGolpar & Stinkhorn mushroom
+HERBLORE	29	UNCOMMON	11453	Energy mix
+HERBLORE	26	UNCOMMON	1975	Energy potionHarralander & chocolate dust
+HERBLORE	94	LEGENDARY	29784	Extended anti-venom+Anti-venom+ & araxyte venom sack
+HERBLORE	91	LEGENDARY	11960	Extended antifire mix
+HERBLORE	84	LEGENDARY	3256	Extended antifire potionAntifire potion & lava scale shards
+HERBLORE	85	LEGENDARY	32360	Extended stamina potionStamina potion & marlin scales
+HERBLORE	99	LEGENDARY	22221	Extended super antifire mix
+HERBLORE	98	LEGENDARY	3256	Extended super antifiresSuper antifire potion & lava scale shards
+HERBLORE	66	EPIC	32360	Extreme energy potionSuper energy potion & yellow fin
+HERBLORE	53	RARE	11477	Fishing mix
+HERBLORE	50	RARE	231	Fishing potionAvantoe & snape grass
+HERBLORE	91	LEGENDARY	27616	Forgotten brewAncient brew & ancient essence
+HERBLORE	54	RARE	29993	Goading potionHarralander & aldarium
+HERBLORE	3	COMMON	249	Guam leaf
+HERBLORE	19	COMMON	10142	Guam tarGuam leaf & swamp tar
+HERBLORE	22	UNCOMMON	1550	Guthix balance potionRestore potion, garlic & silver dust
+HERBLORE	56	RARE	31569	Haemostatic dressingElkhorn coral, squid paste & cotton yarn
+HERBLORE	20	UNCOMMON	255	Harralander
+HERBLORE	44	RARE	10145	Harralander tarHarralander & swamp tar
+HERBLORE	58	RARE	13226	Herb SackTithe Farm or Slayer Masters
+HERBLORE	31	UNCOMMON	21511	Herbiboar
+HERBLORE	58	RARE	30097	Huasca
+HERBLORE	53	RARE	10109	Hunter potionAvantoe & ground sabre-toothed kebbit teeth
+HERBLORE	58	RARE	11517	Hunting mix
+HERBLORE	40	RARE	259	Irit leaf
+HERBLORE	55	RARE	28837	Irit tarIrit leaf & swamp tar
+HERBLORE	70	EPIC	20944	Kodai (+)Golpar & Endarkened juice
+HERBLORE	47	RARE	20940	Kodai (-)Golpar & Endarkened juice
+HERBLORE	59	RARE	20944	KodaiGolpar & Endarkened juice
+HERBLORE	54	RARE	263	Kwuarm
+HERBLORE	67	EPIC	2481	Lantadyme
+HERBLORE	60	EPIC	30017	Liplack liquorMastering Mixology
+HERBLORE	61	EPIC	11489	Magic essence mix
+HERBLORE	57	RARE	9016	Magic essence potionStar flower & ground gorak's claw
+HERBLORE	83	LEGENDARY	11513	Magic mix
+HERBLORE	76	EPIC	3138	Magic potionLantadyme & potato cactus
+HERBLORE	60	EPIC	30011	Mammoth-might mixMastering Mixology
+HERBLORE	66	EPIC	30013	Marley's moonlightMastering Mixology
+HERBLORE	5	COMMON	251	Marrentill
+HERBLORE	31	UNCOMMON	10143	Marrentill tarMarrentill & swamp tar
+HERBLORE	75	EPIC	30019	Megalite liquidMastering Mixology
+HERBLORE	88	LEGENDARY	27272	Menaphite remedyDwarf weed & lily of the sands
+HERBLORE	81	LEGENDARY	30020	MixalotMastering Mixology
+HERBLORE	38	UNCOMMON	29078	Moonlight PotionVial of water & moonlight grub paste
+HERBLORE	63	EPIC	30012	Mystic mana amalgamMastering Mixology
+HERBLORE	90	LEGENDARY	20996	Overload (+)Noxifer, Elder (+), Twisted (+) & Kodai (+)
+HERBLORE	60	EPIC	20988	Overload (-)Noxifer, Elder (-), Twisted (-) & Kodai (-)
+HERBLORE	75	EPIC	20992	OverloadNoxifer, Elder, Twisted & Kodai
+HERBLORE	78	EPIC	20972	Prayer enhance (+)Buchu leaf & Cicely
+HERBLORE	52	RARE	20964	Prayer enhance (-)Buchu leaf & Cicely
+HERBLORE	65	EPIC	20968	Prayer enhanceBuchu leaf & Cicely
+HERBLORE	42	RARE	11465	Prayer mix
+HERBLORE	58	RARE	29993	Prayer regeneration potionHuasca & aldarium
+HERBLORE	38	UNCOMMON	231	Prayer restore potionRanarr weed & snape grass
+HERBLORE	25	UNCOMMON	257	Ranarr weed
+HERBLORE	80	LEGENDARY	11509	Ranging mix
+HERBLORE	72	EPIC	245	Ranging potionDwarf weed & wine of Zamorak
+HERBLORE	8	COMMON	1534	Relicym's balmRogue's purse & snake weed
+HERBLORE	9	COMMON	11437	Relicym's mix
+HERBLORE	24	UNCOMMON	11449	Restore mix
+HERBLORE	78	EPIC	20960	Revitalisation (+)Buchu leaf & Stinkhorn mushroom
+HERBLORE	52	RARE	20952	Revitalisation (-)Buchu leaf & Stinkhorn mushroom
+HERBLORE	65	EPIC	20956	RevitalisationBuchu leaf & Stinkhorn mushroom
+HERBLORE	3	COMMON	1534	Rogue's purse
+HERBLORE	65	EPIC	10937	Sanfew serumSuper restore potion, snake weed, ground unicorn horn & nail beast nails
+HERBLORE	81	LEGENDARY	6693	Saradomin brewToadflax & crushed birdnest
+HERBLORE	81	LEGENDARY	29996	Secondary PouchMastering Mixology
+HERBLORE	15	COMMON	592	Serum 207Tarromin & ashes
+HERBLORE	99	LEGENDARY	9774	Skillcape
+HERBLORE	3	COMMON	1526	Snake weed
+HERBLORE	59	RARE	3000	Snapdragon
+HERBLORE	86	LEGENDARY	12633	Stamina mix
+HERBLORE	77	EPIC	3961	Stamina potionAmylase & super energy potion
+HERBLORE	22	UNCOMMON	223	Stat restore potionHarralander & red spiders' eggs
+HERBLORE	14	COMMON	11443	Strength mix
+HERBLORE	12	COMMON	225	Strength potionTarromin & limpwurt root
+HERBLORE	48	RARE	235	Super anti-poison potionIrit leaf & ground unicorn horn
+HERBLORE	98	LEGENDARY	21994	Super antifire mix
+HERBLORE	92	LEGENDARY	21975	Super antifire potionAntifire potion & crushed superior dragon bones
+HERBLORE	47	RARE	11469	Super attack mix
+HERBLORE	45	RARE	221	Super attack potionIrit leaf & eye of newt
+HERBLORE	90	LEGENDARY	269	Super combat potionSuper attack potion, super defence potion, super strength potion & torstol
+HERBLORE	71	EPIC	11497	Super defence mix
+HERBLORE	66	EPIC	239	Super defence potionCadantine & white berries
+HERBLORE	56	RARE	11481	Super energy mix
+HERBLORE	52	RARE	2970	Super energy potionAvantoe & Mort Myre fungi
+HERBLORE	62	EPIC	32357	Super fishing potionPillar coral & haddock eye
+HERBLORE	67	EPIC	31708	Super hunter potionPillar coral & crab paste
+HERBLORE	67	EPIC	11493	Super restore mix
+HERBLORE	63	EPIC	223	Super restore potionSnapdragon & red spiders' eggs
+HERBLORE	59	RARE	11485	Super strength mix
+HERBLORE	55	RARE	225	Super strength potionKwuarm & limpwurt root
+HERBLORE	81	LEGENDARY	30800	Surge potionTorstol & demonic tallow
+HERBLORE	11	COMMON	253	Tarromin
+HERBLORE	39	UNCOMMON	10144	Tarromin tarTarromin & swamp tar
+HERBLORE	30	UNCOMMON	2998	Toadflax
+HERBLORE	75	EPIC	269	Torstol
+HERBLORE	70	EPIC	20932	Twisted (+)Golpar & Cicely
+HERBLORE	47	RARE	20928	Twisted (-)Golpar & Cicely
+HERBLORE	59	RARE	20932	TwistedGolpar & Cicely
+HERBLORE	73	EPIC	6016	Weapon poison(+)Coconut milk, cactus spine & red spiders' eggs
+HERBLORE	82	LEGENDARY	6018	Weapon poison(++)Coconut milk, nightshade & poison ivy berries
+HERBLORE	60	EPIC	241	Weapon poisonKwuarm & ground blue dragon scale
+HERBLORE	78	EPIC	20984	Xeric's Aid (+)Buchu leaf & Endarkened juice
+HERBLORE	52	RARE	20976	Xeric's Aid (-)Buchu leaf & Endarkened juice
+HERBLORE	65	EPIC	20980	Xeric's AidBuchu leaf & Endarkened juice
+HERBLORE	78	EPIC	247	Zamorak brewTorstol & jangerberries
+HERBLORE	85	LEGENDARY	11521	Zamorak mix
+HITPOINTS	90	LEGENDARY	29801	Amulet of Rancour
+HITPOINTS	90	LEGENDARY	31106	Confliction gauntlets
+HITPOINTS	75	EPIC	19550	Enchanted zenyte jewellery
+HITPOINTS	90	LEGENDARY	33639	Necklace of Rupture
+HUNTER	46	RARE	9951	Access to the Hunter Guild & Basic Hunters' Rumours
+HUNTER	44	RARE	21655	Accessing drift net fishing on Fossil Island
+HUNTER	57	RARE	9951	Adept Hunters' Rumours
+HUNTER	17	COMMON	11238	Baby implings
+HUNTER	27	UNCOMMON	11238	Baby implings (barehanded)
+HUNTER	33	UNCOMMON	9958	Barb-tailed kebbits
+HUNTER	73	EPIC	5091	Black chinchompas
+HUNTER	67	EPIC	10148	Black salamanders
+HUNTER	45	RARE	9973	Black warlock butterflies
+HUNTER	55	RARE	9973	Black warlock butterflies (barehanded)
+HUNTER	48	RARE	31674	Blue crabs
+HUNTER	35	UNCOMMON	22826	BluegillAerial fishing
+HUNTER	11	COMMON	9967	Cerulean twitches
+HUNTER	99	LEGENDARY	20882	Chambers of Xeric - Barehanded bat-catching
+HUNTER	30	UNCOMMON	20874	Chambers of Xeric - Giral bat
+HUNTER	1	COMMON	20870	Chambers of Xeric - Guanic bat
+HUNTER	60	EPIC	20878	Chambers of Xeric - Kryket bat
+HUNTER	75	EPIC	20880	Chambers of Xeric - Murng bat
+HUNTER	45	RARE	20876	Chambers of Xeric - Phluxia bat
+HUNTER	15	COMMON	20872	Chambers of Xeric - Prael bat
+HUNTER	90	LEGENDARY	20882	Chambers of Xeric - Psykk bat
+HUNTER	53	RARE	9976	Chinchompas
+HUNTER	1	COMMON	10053	Common kebbit fur clothing
+HUNTER	3	COMMON	9954	Common kebbits
+HUNTER	51	RARE	22829	Common tenchAerial fishing
+HUNTER	9	COMMON	9966	Copper longtails
+HUNTER	35	UNCOMMON	22816	Cormorant's glove
+HUNTER	1	COMMON	9965	Crimson swifts
+HUNTER	80	LEGENDARY	23768	Crystal implings
+HUNTER	90	LEGENDARY	23768	Crystal implings (barehanded)
+HUNTER	57	RARE	9963	Dark kebbits
+HUNTER	69	EPIC	9964	Dashing kebbits
+HUNTER	10	COMMON	10061	Desert devil fur clothing
+HUNTER	13	COMMON	9956	Desert devils
+HUNTER	15	COMMON	13431	Dig for sandworms
+HUNTER	83	LEGENDARY	11256	Dragon implings
+HUNTER	93	LEGENDARY	11256	Dragon implings (barehanded)
+HUNTER	36	UNCOMMON	11244	Earth implings
+HUNTER	46	RARE	11244	Earth implings (barehanded)
+HUNTER	50	RARE	11248	Eclectic implings
+HUNTER	60	EPIC	11248	Eclectic implings (barehanded)
+HUNTER	39	UNCOMMON	28866	Embertailed jerboa
+HUNTER	42	RARE	11246	Essence implings
+HUNTER	52	RARE	11246	Essence implings (barehanded)
+HUNTER	72	EPIC	9951	Expert Hunters' Rumours
+HUNTER	4	COMMON	10057	Feldip weasel fur clothing
+HUNTER	7	COMMON	9955	Feldip weasels
+HUNTER	27	UNCOMMON	10092	Ferrets
+HUNTER	27	UNCOMMON	9974	Giant eagles
+HUNTER	54	RARE	10075	Gloves of Silence
+HUNTER	5	COMMON	9968	Golden warblers
+HUNTER	28	UNCOMMON	11242	Gourmet implings
+HUNTER	38	UNCOMMON	11242	Gourmet implings (barehanded)
+HUNTER	38	UNCOMMON	10051	Graahk hide clothing
+HUNTER	87	LEGENDARY	22835	Greater sirenAerial fishing
+HUNTER	80	LEGENDARY	21511	Herbiboar
+HUNTER	50	RARE	31241	Horn of Plenty
+HUNTER	41	RARE	10051	Horned graahks
+HUNTER	71	EPIC	9952	Imps
+HUNTER	52	RARE	10039	Kyatt fur clothing
+HUNTER	28	UNCOMMON	10045	Larupia fur clothing
+HUNTER	76	EPIC	33825	Letvek
+HUNTER	89	LEGENDARY	19732	Lucky implings
+HUNTER	99	LEGENDARY	19732	Lucky implings (barehanded)
+HUNTER	24	UNCOMMON	10132	Lucky rabbit foot
+HUNTER	74	EPIC	22201	Magic Birdhouse Trap
+HUNTER	65	EPIC	11252	Magpie implings
+HUNTER	75	EPIC	11252	Magpie implings (barehanded)
+HUNTER	49	RARE	22195	Mahogany Birdhouse Trap
+HUNTER	60	EPIC	19556	Maniacal monkeys
+HUNTER	44	RARE	22192	Maple Birdhouse Trap
+HUNTER	91	LEGENDARY	9951	Master Hunters' Rumours
+HUNTER	91	LEGENDARY	28868	Moonlight antelope
+HUNTER	75	EPIC	28864	Moonlight moths
+HUNTER	85	LEGENDARY	28864	Moonlight moths (barehanded)
+HUNTER	20	UNCOMMON	29076	Mossy Lizards traps
+HUNTER	68	EPIC	22832	Mottled eelAerial fishing
+HUNTER	58	RARE	11250	Nature implings
+HUNTER	68	EPIC	11250	Nature implings (barehanded)
+HUNTER	74	EPIC	11254	Ninja implings
+HUNTER	84	LEGENDARY	11254	Ninja implings (barehanded)
+HUNTER	5	COMMON	21512	Normal Birdhouse Trap
+HUNTER	14	COMMON	21515	Oak Birdhouse Trap
+HUNTER	47	RARE	10146	Orange salamanders
+HUNTER	1	COMMON	10065	Polar kebbit fur clothing
+HUNTER	1	COMMON	9953	Polar kebbits
+HUNTER	37	UNCOMMON	9957	Prickly kebbits
+HUNTER	57	RARE	28865	Pyre foxes
+HUNTER	77	EPIC	31677	Rainbow crabs
+HUNTER	49	RARE	9961	Razor-backed kebbits
+HUNTER	63	EPIC	9977	Red chinchompas
+HUNTER	21	UNCOMMON	31671	Red crabs
+HUNTER	59	RARE	10147	Red salamanders
+HUNTER	89	LEGENDARY	22204	Redwood Birdhouse Trap
+HUNTER	15	COMMON	9970	Ruby harvest butterflies
+HUNTER	25	UNCOMMON	9970	Ruby harvest butterflies (barehanded)
+HUNTER	51	RARE	9959	Sabre-toothed kebbits
+HUNTER	55	RARE	10039	Sabre-toothed kyatts
+HUNTER	25	UNCOMMON	9971	Sapphire glacialis butterflies
+HUNTER	35	UNCOMMON	9971	Sapphire glacialis butterflies (barehanded)
+HUNTER	99	LEGENDARY	9948	Skillcape
+HUNTER	35	UNCOMMON	9972	Snowy knight butterflies
+HUNTER	45	RARE	9972	Snowy knight butterflies (barehanded)
+HUNTER	31	UNCOMMON	10045	Spined larupias
+HUNTER	40	RARE	10069	Spotted capes
+HUNTER	43	RARE	9960	Spotted kebbits
+HUNTER	66	EPIC	10071	Spottier capes
+HUNTER	82	LEGENDARY	33824	Stymphikes
+HUNTER	72	EPIC	28867	Sunlight antelope
+HUNTER	50	RARE	28869	Sunlight hunters' crossbowAmmo: Antler bolts
+HUNTER	65	EPIC	28863	Sunlight moths
+HUNTER	75	EPIC	28863	Sunlight moths (barehanded)
+HUNTER	29	UNCOMMON	10149	Swamp lizards
+HUNTER	34	UNCOMMON	21521	Teak Birdhouse Trap
+HUNTER	79	EPIC	28834	Tecu salamanders
+HUNTER	19	COMMON	9969	Tropical wagtails
+HUNTER	27	UNCOMMON	9975	White rabbits
+HUNTER	23	UNCOMMON	9962	Wild kebbits
+HUNTER	24	UNCOMMON	21518	Willow Birdhouse Trap
+HUNTER	60	EPIC	34017	Wyrmscraig Goat Pit
+HUNTER	59	RARE	22198	Yew Birdhouse Trap
+HUNTER	22	UNCOMMON	11240	Young implings
+HUNTER	32	UNCOMMON	11240	Young implings (barehanded)
+MAGIC	65	EPIC	10338	3rd Age robes
+MAGIC	65	EPIC	12422	3rd Age wand
+MAGIC	70	EPIC	27665	Accursed Sceptre
+MAGIC	70	EPIC	4712	Ahrim's robes
+MAGIC	70	EPIC	4710	Ahrim's staff
+MAGIC	75	EPIC	21021	Ancestral robes
+MAGIC	70	EPIC	27624	Ancient sceptre
+MAGIC	50	RARE	4675	Ancient staff
+MAGIC	50	RARE	6910	Apprentice wand
+MAGIC	65	EPIC	12825	Arcane & Spectral spirit shields
+MAGIC	30	UNCOMMON	1391	Battlestaves
+MAGIC	45	RARE	6908	Beginner wand
+MAGIC	60	EPIC	25404	Bloodbark armour
+MAGIC	50	RARE	28796	Bone staff
+MAGIC	30	UNCOMMON	22370	Bryophyta's staff
+MAGIC	70	EPIC	24291	Dagon'hai robes
+MAGIC	57	RARE	9243	Diamond-tipped crossbow bolts1 cosmic + 10 earth + 2 law runes
+MAGIC	65	EPIC	30070	Dragon Hunter wand
+MAGIC	68	EPIC	9244	Dragonstone-tipped crossbow bolts1 cosmic + 15 earth + 1 soul rune
+MAGIC	40	RARE	20517	Elder chaos druid robes
+MAGIC	80	LEGENDARY	25985	Elidinis' Ward
+MAGIC	27	UNCOMMON	9241	Emerald-tipped crossbow bolts1 cosmic + 3 air + 1 nature rune
+MAGIC	40	RARE	7399	Enchanted robes
+MAGIC	75	EPIC	13235	Eternal boots
+MAGIC	83	LEGENDARY	31113	Eye of Ayak
+MAGIC	75	EPIC	28988	Frostmoon Spear
+MAGIC	75	EPIC	29019	Frostmoon robes
+MAGIC	60	EPIC	2413	God capes
+MAGIC	60	EPIC	2416	God staves
+MAGIC	50	RARE	6916	Infinity robes
+MAGIC	14	COMMON	9237	Jade-tipped crossbow bolts1 cosmic + 2 earth runes
+MAGIC	80	LEGENDARY	21006	Kodai Wand
+MAGIC	65	EPIC	9097	Lunar armour
+MAGIC	60	EPIC	6889	Mage's Book
+MAGIC	66	EPIC	21633	Make Ancient Wyvern shield
+MAGIC	60	EPIC	6914	Master wand
+MAGIC	40	RARE	4091	Mystic robes
+MAGIC	40	RARE	1405	Mystic staves
+MAGIC	82	LEGENDARY	24423	Nightmare Staff (with orb)
+MAGIC	72	EPIC	24422	Nightmare Staff (without orb)
+MAGIC	70	EPIC	12002	Occult necklace
+MAGIC	87	LEGENDARY	9245	Onyx-tipped crossbow bolts1 cosmic + 20 fire + 1 death rune
+MAGIC	4	COMMON	9236	Opal-tipped crossbow bolts1 cosmic + 2 air runes
+MAGIC	24	UNCOMMON	9238	Pearl-tipped crossbow bolts1 cosmic + 2 water runes
+MAGIC	77	EPIC	29594	Purging staff
+MAGIC	29	UNCOMMON	9239	Red topaz-tipped crossbow bolts1 cosmic + 2 fire runes
+MAGIC	40	RARE	20131	Robes of darkness
+MAGIC	49	RARE	9242	Ruby-tipped crossbow bolts1 cosmic + 5 fire + 1 blood rune
+MAGIC	82	LEGENDARY	22323	Sanguinesti staff
+MAGIC	7	COMMON	9240	Sapphire-tipped crossbow bolts1 cosmic + 1 water + 1 mind rune
+MAGIC	40	RARE	6139	Skeletal armour
+MAGIC	50	RARE	4170	Slayer's staff
+MAGIC	75	EPIC	21255	Slayer's staff (e)
+MAGIC	80	LEGENDARY	30759	Soulflame Horn
+MAGIC	40	RARE	3387	Splitbark armour
+MAGIC	75	EPIC	24144	Staff of Balance
+MAGIC	75	EPIC	22296	Staff of Light
+MAGIC	75	EPIC	11791	Staff of the Dead
+MAGIC	50	RARE	25389	Swampbark armour
+MAGIC	55	RARE	6912	Teacher wand
+MAGIC	60	EPIC	22555	Thammaron's Sceptre
+MAGIC	60	EPIC	6526	TokTz-Mej-Tal
+MAGIC	50	RARE	30064	Tome of Earth
+MAGIC	50	RARE	20714	Tome of Fire
+MAGIC	50	RARE	25574	Tome of Water
+MAGIC	75	EPIC	11905	Trident of the Seas
+MAGIC	78	EPIC	12899	Trident of the Swamp
+MAGIC	85	LEGENDARY	27275	Tumeken's Shadow
+MAGIC	60	EPIC	30634	Twinflame staff
+MAGIC	75	EPIC	28264	Upgraded Ancient Sceptre
+MAGIC	42	RARE	8841	Void Knight mace
+MAGIC	62	EPIC	28585	Warped sceptre
+MAGIC	70	EPIC	21633	Wield Ancient Wyvern shield
+MAGIC	20	UNCOMMON	2579	Wizard boots
+MAGIC	20	UNCOMMON	13385	Xerician armour
+MINING	61	EPIC	20014	3rd age pickaxe
+MINING	31	UNCOMMON	1271	Adamant pickaxe
+MINING	70	EPIC	449	Adamantite ore
+MINING	92	LEGENDARY	21347	Amethyst
+MINING	75	EPIC	27619	Ancient essence
+MINING	14	COMMON	25676	Barronite
+MINING	72	EPIC	22603	Basalt
+MINING	11	COMMON	12297	Black pickaxe
+MINING	10	COMMON	668	Blurite ore
+MINING	1	COMMON	1265	Bronze pickaxe
+MINING	41	RARE	29088	Calcified rocks
+MINING	1	COMMON	434	Clay
+MINING	30	UNCOMMON	453	Coal
+MINING	1	COMMON	436	Copper ore
+MINING	71	EPIC	23680	Crystal pickaxe
+MINING	60	EPIC	24704	Daeyalt essence
+MINING	38	UNCOMMON	13445	Dense essence
+MINING	61	EPIC	11920	Dragon pickaxe
+MINING	70	EPIC	21392	Expert mining gloves
+MINING	40	RARE	1629	Gem rocks
+MINING	41	RARE	23276	Gilded pickaxe
+MINING	40	RARE	444	Gold
+MINING	45	RARE	6983	Granite
+MINING	61	EPIC	13243	Infernal pickaxe
+MINING	78	EPIC	30846	Infernal shale
+MINING	15	COMMON	440	Iron ore
+MINING	1	COMMON	1267	Iron pickaxe
+MINING	25	UNCOMMON	31716	Lead ore
+MINING	10	COMMON	3211	Limestone
+MINING	65	EPIC	13356	Lovakite ore
+MINING	20	UNCOMMON	21343	Mining gloves
+MINING	55	RARE	447	Mithril ore
+MINING	21	UNCOMMON	1273	Mithril pickaxe
+MINING	30	UNCOMMON	12011	Motherlode Mine paydirt
+MINING	74	EPIC	31719	Nickel ore
+MINING	30	UNCOMMON	7936	Pure essence
+MINING	68	EPIC	31724	Rubium geode
+MINING	48	RARE	31722	Rubium splinters
+MINING	1	COMMON	1436	Rune essence
+MINING	41	RARE	1275	Rune pickaxe
+MINING	85	LEGENDARY	451	Runite ore
+MINING	35	UNCOMMON	6977	Sandstone
+MINING	20	UNCOMMON	442	Silver ore
+MINING	10	COMMON	25532	Size-1 stars
+MINING	20	UNCOMMON	25532	Size-2 stars
+MINING	30	UNCOMMON	25532	Size-3 stars
+MINING	40	RARE	25532	Size-4 stars
+MINING	50	RARE	25532	Size-5 stars
+MINING	60	EPIC	25532	Size-6 stars
+MINING	70	EPIC	25532	Size-7 stars
+MINING	80	LEGENDARY	25532	Size-8 stars
+MINING	90	LEGENDARY	25532	Size-9 stars
+MINING	99	LEGENDARY	9792	Skillcape
+MINING	70	EPIC	1761	Soft clay
+MINING	6	COMMON	1269	Steel pickaxe
+MINING	50	RARE	34020	Sunstone
+MINING	55	RARE	21345	Superior mining gloves
+MINING	64	EPIC	28591	Tainted essence chunk
+MINING	72	EPIC	22593	Te, Efh & Urt Salts
+MINING	1	COMMON	438	Tin ore
+MINING	22	UNCOMMON	21622	Volcanic ash
+MINING	42	RARE	13571	Volcanic sulphur
+PRAYER	65	EPIC	23336	3rd Age Druidic robes
+PRAYER	65	EPIC	23342	3rd Age Druidic staff
+PRAYER	50	RARE	31081	Antler Guard
+PRAYER	70	EPIC	22986	Bonecrusher necklace
+PRAYER	60	EPIC	10440	Crozier
+PRAYER	60	EPIC	22954	Devout boots
+PRAYER	70	EPIC	22111	Dragonbone necklace
+PRAYER	40	RARE	25340	Ectoplasmator
+PRAYER	90	LEGENDARY	27251	Fortify Elidinis' Ward
+PRAYER	54	RARE	24719	Hallowed Sepulchre - Portal sacrifice
+PRAYER	31	UNCOMMON	12598	Holy sandals
+PRAYER	31	UNCOMMON	19997	Holy wrap
+PRAYER	30	UNCOMMON	29384	Ralos' Rise sacrifices
+PRAYER	70	EPIC	25346	Soul cape
+PRAYER	50	RARE	20747	Use Bologa's grape blessings
+PRAYER	50	RARE	1716	Use completed prayer books to bless holy and unholy symbols
+PRAYER	70	EPIC	22124	Use superior dragon bones
+PRAYER	40	RARE	10446	Vestment cloak
+PRAYER	40	RARE	10452	Vestment mitre
+PRAYER	20	UNCOMMON	10464	Vestment robe legs
+PRAYER	20	UNCOMMON	10458	Vestment robe top
+PRAYER	60	EPIC	10470	Vestment stole
+RANGED	65	EPIC	12424	3rd Age bowAmmo: Arrows up to dragon
+RANGED	65	EPIC	10330	3rd Age range armour
+RANGED	30	UNCOMMON	32203	Adamant cannon
+RANGED	46	RARE	9183	Adamant crossbowAmmo: Bolts up to adamant
+RANGED	30	UNCOMMON	867	Adamant items
+RANGED	50	RARE	25849	Amethyst darts
+RANGED	60	EPIC	32879	Aquanite hoppers
+RANGED	70	EPIC	11826	Armadyl armour
+RANGED	70	EPIC	11785	Armadyl crossbowAmmo: Bolts up to dragon
+RANGED	70	EPIC	22109	Ava's Assembler
+RANGED	50	RARE	10499	Ava's accumulator
+RANGED	30	UNCOMMON	10498	Ava's attractor
+RANGED	80	LEGENDARY	31088	Avernic treads
+RANGED	65	EPIC	11959	Black chinchompas
+RANGED	70	EPIC	2503	Black dragonhide body
+RANGED	70	EPIC	2497	Black dragonhide chaps
+RANGED	70	EPIC	22284	Black dragonhide shield
+RANGED	70	EPIC	2491	Black dragonhide vambraces
+RANGED	10	COMMON	869	Black items
+RANGED	70	EPIC	10148	Black salamander
+RANGED	50	RARE	2499	Blue dragonhide body
+RANGED	50	RARE	2493	Blue dragonhide chaps
+RANGED	50	RARE	22278	Blue dragonhide shield
+RANGED	50	RARE	2487	Blue dragonhide vambraces
+RANGED	16	COMMON	9176	Blurite crossbowAmmo: Bolts up to blurite
+RANGED	50	RARE	28794	Bone shortbowAmmo: Arrows up to amethyst
+RANGED	70	EPIC	22951	Boots of Brimstone
+RANGED	80	LEGENDARY	25865	Bow of Faerdhinen
+RANGED	1	COMMON	32199	Bronze cannon
+RANGED	1	COMMON	9174	Bronze crossbowAmmo: Bronze crossbow bolts
+RANGED	1	COMMON	864	Bronze items
+RANGED	45	RARE	31575	Camphor blowpipe
+RANGED	55	RARE	10034	Carnivorous chinchompas
+RANGED	45	RARE	10033	Chinchompas
+RANGED	20	UNCOMMON	1169	Coif
+RANGED	60	EPIC	22550	Craw's bowAmmo: None
+RANGED	1	COMMON	837	CrossbowAmmo: Bronze crossbow bolts
+RANGED	70	EPIC	23983	Crystal bows
+RANGED	60	EPIC	11235	Dark bowsAmmo: Arrows up to dragon
+RANGED	75	EPIC	28951	Dizana's QuiverStorage: Bolts or Arrows
+RANGED	28	UNCOMMON	8880	Dorgeshuun crossbowAmmo: Bolts up to iron
+RANGED	60	EPIC	32205	Dragon cannon
+RANGED	64	EPIC	21902	Dragon crossbowAmmo: Bolts up to dragon
+RANGED	60	EPIC	11230	Dragon darts
+RANGED	70	EPIC	21012	Dragon hunter crossbowAmmo: Bolts up to dragon
+RANGED	60	EPIC	22804	Dragon knives
+RANGED	61	EPIC	20849	Dragon thrownaxes
+RANGED	70	EPIC	22002	Dragonfire ward
+RANGED	75	EPIC	29000	Eclipse AtlatlAmmo: Atlatl darts
+RANGED	75	EPIC	29010	Eclipse set
+RANGED	70	EPIC	31134	Enter the Armadyl area of the God Wars Dungeon
+RANGED	80	LEGENDARY	27238	Fortified Masori armour
+RANGED	25	UNCOMMON	10954	Frog-leather
+RANGED	70	EPIC	10378	God dragonhide armour
+RANGED	70	EPIC	23188	God dragonhide shields
+RANGED	40	RARE	1135	Green dragonhide body
+RANGED	40	RARE	1099	Green dragonhide chaps
+RANGED	40	RARE	22275	Green dragonhide shield
+RANGED	40	RARE	1065	Green dragonhide vambraces
+RANGED	1	COMMON	1131	Hard leather body
+RANGED	20	UNCOMMON	22269	Hard leather shield
+RANGED	75	EPIC	19481	Heavy ballistaAmmo: All Javelins
+RANGED	70	EPIC	30076	Hueycoatl hide body
+RANGED	70	EPIC	30079	Hueycoatl hide chaps
+RANGED	70	EPIC	30073	Hueycoatl hide coif
+RANGED	70	EPIC	30082	Hueycoatl hide vambraces
+RANGED	55	RARE	29305	Hunter's spear
+RANGED	50	RARE	10156	Hunters' crossbowAmmo: Kebbit bolts
+RANGED	1	COMMON	32200	Iron cannon
+RANGED	26	UNCOMMON	9177	Iron crossbowAmmo: Bolts up to iron
+RANGED	1	COMMON	863	Iron items
+RANGED	55	RARE	31579	Ironwood blowpipe
+RANGED	70	EPIC	4734	Karil's crossbowAmmo: Bolt racks
+RANGED	70	EPIC	4736	Karil's leather armour
+RANGED	65	EPIC	19478	Light ballistaAmmo: All Javelins
+RANGED	50	RARE	861	Magic bowsAmmo: Arrows up to amethyst
+RANGED	30	UNCOMMON	853	Maple bowsAmmo: Arrows up to adamant
+RANGED	80	LEGENDARY	27229	Masori armour
+RANGED	20	UNCOMMON	32202	Mithril cannon
+RANGED	36	UNCOMMON	9181	Mithril crossbowAmmo: Bolts up to mithril
+RANGED	20	UNCOMMON	866	Mithril items
+RANGED	60	EPIC	29283	Mixed hide legs
+RANGED	60	EPIC	29280	Mixed hide top, cape, and boots
+RANGED	5	COMMON	843	Oak bowsAmmo: Arrows up to steel
+RANGED	30	UNCOMMON	4827	Ogre composite bowsAmmo: 'Brutal' arrows up to rune
+RANGED	50	RARE	10146	Orange salamander
+RANGED	75	EPIC	13237	Pegasian boots
+RANGED	60	EPIC	10555	Penance skirt
+RANGED	1	COMMON	767	Phoenix crossbowAmmo: Bronze crossbow bolts
+RANGED	1	COMMON	1129	Plain leather items
+RANGED	40	RARE	2577	Ranger boots
+RANGED	40	RARE	19994	Ranger gloves
+RANGED	40	RARE	23249	Rangers' tights
+RANGED	40	RARE	12596	Rangers' tunic
+RANGED	60	EPIC	2501	Red dragonhide body
+RANGED	60	EPIC	2495	Red dragonhide chaps
+RANGED	60	EPIC	22281	Red dragonhide shield
+RANGED	60	EPIC	2489	Red dragonhide vambraces
+RANGED	60	EPIC	10147	Red salamander
+RANGED	40	RARE	2581	Robin Hood hat
+RANGED	65	EPIC	31583	Rosewood blowpipe
+RANGED	40	RARE	32204	Rune cannon
+RANGED	40	RARE	868	Rune items
+RANGED	61	EPIC	9185	Runite crossbowAmmo: Bolts up to runite
+RANGED	77	EPIC	29591	Scorching bowsAmmo: Arrows up to dragon
+RANGED	50	RARE	6724	SeercullsAmmo: Arrows up to amethyst
+RANGED	99	LEGENDARY	9756	Skillcape
+RANGED	30	UNCOMMON	6322	Snakeskin armour
+RANGED	30	UNCOMMON	22272	Snakeskin shield
+RANGED	40	RARE	6133	Spined armour
+RANGED	1	COMMON	841	Standard bowsAmmo: Arrows up to iron
+RANGED	5	COMMON	32201	Steel cannon
+RANGED	31	UNCOMMON	9179	Steel crossbowAmmo: Bolts up to steel
+RANGED	5	COMMON	865	Steel items
+RANGED	20	UNCOMMON	1133	Studded leather body
+RANGED	20	UNCOMMON	1097	Studded leather chaps
+RANGED	66	EPIC	28869	Sunlight hunters' crossbowAmmo: Antler bolts
+RANGED	30	UNCOMMON	10149	Swamp lizard
+RANGED	80	LEGENDARY	28834	Tecu salamander
+RANGED	60	EPIC	6522	TokTz-Xil-Ul
+RANGED	75	EPIC	28922	Tonalztics of Ralos
+RANGED	75	EPIC	12924	Toxic blowpipe
+RANGED	85	LEGENDARY	20997	Twisted bowAmmo: Arrows up to dragon
+RANGED	75	EPIC	21000	Twisted buckler
+RANGED	80	LEGENDARY	27610	Venator bowAmmo: Arrows up to dragon
+RANGED	42	RARE	8839	Void Knight equipment
+RANGED	70	EPIC	27655	Webweaver bowAmmo: None
+RANGED	20	UNCOMMON	849	Willow bowsAmmo: Arrows up to mithril
+RANGED	40	RARE	857	Yew bowsAmmo: Arrows up to rune
+RANGED	80	LEGENDARY	26374	Zaryte crossbowAmmo: Bolts up to dragon
+RANGED	80	LEGENDARY	26235	Zaryte vambraces
+RUNECRAFT	99	LEGENDARY	556	10 Air runes per essence
+RUNECRAFT	11	COMMON	556	2 Air runes per essence
+RUNECRAFT	82	LEGENDARY	9075	2 Astral runes per essence
+RUNECRAFT	46	RARE	559	2 Body runes per essence
+RUNECRAFT	74	EPIC	562	2 Chaos runes per essence
+RUNECRAFT	59	RARE	564	2 Cosmic runes per essence
+RUNECRAFT	99	LEGENDARY	560	2 Death runes per essence
+RUNECRAFT	26	UNCOMMON	557	2 Earth runes per essence
+RUNECRAFT	35	UNCOMMON	554	2 Fire runes per essence
+RUNECRAFT	95	LEGENDARY	563	2 Law runes per essence
+RUNECRAFT	14	COMMON	558	2 Mind runes per essence
+RUNECRAFT	91	LEGENDARY	561	2 Nature runes per essence
+RUNECRAFT	49	RARE	28929	2 Sunfire runes per essence
+RUNECRAFT	19	COMMON	555	2 Water runes per essence
+RUNECRAFT	22	UNCOMMON	556	3 Air runes per essence
+RUNECRAFT	92	LEGENDARY	559	3 Body runes per essence
+RUNECRAFT	52	RARE	557	3 Earth runes per essence
+RUNECRAFT	70	EPIC	554	3 Fire runes per essence
+RUNECRAFT	28	UNCOMMON	558	3 Mind runes per essence
+RUNECRAFT	98	LEGENDARY	28929	3 Sunfire runes per essence
+RUNECRAFT	38	UNCOMMON	555	3 Water runes per essence
+RUNECRAFT	33	UNCOMMON	556	4 Air runes per essence
+RUNECRAFT	78	EPIC	557	4 Earth runes per essence
+RUNECRAFT	42	RARE	558	4 Mind runes per essence
+RUNECRAFT	57	RARE	555	4 Water runes per essence
+RUNECRAFT	44	RARE	556	5 Air runes per essence
+RUNECRAFT	56	RARE	558	5 Mind runes per essence
+RUNECRAFT	76	EPIC	555	5 Water runes per essence
+RUNECRAFT	55	RARE	556	6 Air runes per essence
+RUNECRAFT	70	EPIC	558	6 Mind runes per essence
+RUNECRAFT	95	LEGENDARY	555	6 Water runes per essence
+RUNECRAFT	66	EPIC	556	7 Air runes per essence
+RUNECRAFT	84	LEGENDARY	558	7 Mind runes per essence
+RUNECRAFT	77	EPIC	556	8 Air runes per essence
+RUNECRAFT	98	LEGENDARY	558	8 Mind runes per essence
+RUNECRAFT	88	LEGENDARY	556	9 Air runes per essence
+RUNECRAFT	90	LEGENDARY	30843	Aether runes
+RUNECRAFT	1	COMMON	556	Air runes
+RUNECRAFT	40	RARE	9075	Astral runes
+RUNECRAFT	60	EPIC	31097	Avernic treads
+RUNECRAFT	77	EPIC	565	Blood runes
+RUNECRAFT	81	LEGENDARY	25404	Bloodbark body and legs
+RUNECRAFT	77	EPIC	25410	Bloodbark boots and gauntlets
+RUNECRAFT	79	EPIC	25413	Bloodbark helm
+RUNECRAFT	20	UNCOMMON	559	Body runes
+RUNECRAFT	50	RARE	20718	Burnt page (via desiccated pages)
+RUNECRAFT	35	UNCOMMON	562	Chaos runes
+RUNECRAFT	25	UNCOMMON	26784	Colossal pouchHolds up to 40 essence, depending on your Runecraft level
+RUNECRAFT	27	UNCOMMON	564	Cosmic runes
+RUNECRAFT	65	EPIC	560	Death runes
+RUNECRAFT	10	COMMON	4696	Dust runesCombination of Air and Earth
+RUNECRAFT	9	COMMON	557	Earth runes
+RUNECRAFT	60	EPIC	13235	Eternal boots
+RUNECRAFT	14	COMMON	554	Fire runes
+RUNECRAFT	75	EPIC	5514	Giant pouchHolds 12 extra essence
+RUNECRAFT	27	UNCOMMON	26903	Guardians of the Rift
+RUNECRAFT	50	RARE	5512	Large pouchHolds 9 extra essence
+RUNECRAFT	23	UNCOMMON	4699	Lava runesCombination of Earth and Fire
+RUNECRAFT	54	RARE	563	Law runes
+RUNECRAFT	25	UNCOMMON	5510	Medium pouchHolds 6 extra essence
+RUNECRAFT	2	COMMON	558	Mind runes
+RUNECRAFT	6	COMMON	4695	Mist runesCombination of Air and Water
+RUNECRAFT	13	COMMON	4698	Mud runesCombination of Water and Earth
+RUNECRAFT	44	RARE	561	Nature runes
+RUNECRAFT	60	EPIC	13237	Pegasian boots
+RUNECRAFT	60	EPIC	13239	Primordial boots
+RUNECRAFT	99	LEGENDARY	9765	Skillcape
+RUNECRAFT	1	COMMON	5509	Small pouchHolds 3 extra essence
+RUNECRAFT	15	COMMON	4697	Smoke runesCombination of Air and Fire
+RUNECRAFT	50	RARE	25578	Soaked page (via desiccated pages)
+RUNECRAFT	50	RARE	30068	Soiled page (via desiccated pages)
+RUNECRAFT	90	LEGENDARY	566	Soul runes
+RUNECRAFT	19	COMMON	4694	Steam runesCombination of Water and Fire
+RUNECRAFT	33	UNCOMMON	28929	Sunfire runes
+RUNECRAFT	50	RARE	34020	Sunstone Golems
+RUNECRAFT	48	RARE	25389	Swampbark body and legs
+RUNECRAFT	42	RARE	25395	Swampbark boots and gauntlets
+RUNECRAFT	46	RARE	25398	Swampbark helm
+RUNECRAFT	5	COMMON	555	Water runes
+RUNECRAFT	95	LEGENDARY	21880	Wrath runes
+SAILING	69	EPIC	32203	Adamant cannon
+SAILING	72	EPIC	32151	Adamant helm
+SAILING	59	RARE	32210	Adamant salvaging hook
+SAILING	68	EPIC	32226	Advanced chum station
+SAILING	55	RARE	32247	Adventurer Ada - The Pandemonium
+SAILING	46	RARE	32275	Aldarin
+SAILING	37	UNCOMMON	32232	Anchor
+SAILING	51	RARE	32292	Anglers' Retreat
+SAILING	28	UNCOMMON	32266	Ardougne
+SAILING	50	RARE	33142	Ballistic attractor
+SAILING	35	UNCOMMON	32851	Barracuda shipwrecks
+SAILING	80	LEGENDARY	32251	Bosun Zarah - Etceteria
+SAILING	63	EPIC	33420	Bosun's workbench
+SAILING	25	UNCOMMON	32265	Brimhaven
+SAILING	81	LEGENDARY	32296	Brittle Isle
+SAILING	28	UNCOMMON	32199	Bronze cannon
+SAILING	1	COMMON	32139	Bronze helm
+SAILING	1	COMMON	32181	Bronze keel
+SAILING	15	COMMON	32206	Bronze salvaging hook
+SAILING	76	EPIC	32294	Buccaneers' Haven
+SAILING	60	EPIC	32248	Cabin Boy Jenkins - Crandor
+SAILING	42	RARE	32272	Cairn Isle
+SAILING	60	EPIC	32217	Camphor cargo hold
+SAILING	67	EPIC	32130	Camphor hull
+SAILING	68	EPIC	32172	Camphor mast and canvas sails
+SAILING	50	RARE	32246	Captain Siad - Desert Mining Camp
+SAILING	20	UNCOMMON	32264	Catherby
+SAILING	60	EPIC	32291	Charred Island
+SAILING	42	RARE	32294	Chinchompa Island
+SAILING	82	LEGENDARY	32227	Chum spreader
+SAILING	56	RARE	32225	Chum station
+SAILING	38	UNCOMMON	32270	Civitas illa Fortis
+SAILING	40	RARE	32271	Corsair Cove
+SAILING	84	LEGENDARY	32223	Cotton trawling net
+SAILING	73	EPIC	32235	Crystal extractor
+SAILING	67	EPIC	32283	Deepfin Point
+SAILING	40	RARE	32291	Dognose Island
+SAILING	92	LEGENDARY	32205	Dragon cannon
+SAILING	96	LEGENDARY	32157	Dragon helm
+SAILING	97	LEGENDARY	32193	Dragon keel
+SAILING	86	LEGENDARY	32212	Dragon salvaging hook
+SAILING	12	COMMON	31807	Drink crate charting
+SAILING	79	EPIC	32294	Drumstick Isle
+SAILING	36	UNCOMMON	32269	Entrana
+SAILING	65	EPIC	32281	Etceteria
+SAILING	78	EPIC	32195	Eternal brazier
+SAILING	91	LEGENDARY	32229	Fathom pearl
+SAILING	70	EPIC	32228	Fathom stone
+SAILING	26	UNCOMMON	32849	Fisherman's shipwrecks
+SAILING	25	UNCOMMON	32196	Flags
+SAILING	80	LEGENDARY	32859	Fremennik shipwrecks
+SAILING	79	EPIC	32234	Gale catcher
+SAILING	1	COMMON	31986	Generic charting
+SAILING	75	EPIC	32238	Greater teleport focus
+SAILING	87	LEGENDARY	32296	Grimstone
+SAILING	76	EPIC	32222	Hemp trawling net
+SAILING	5	COMMON	32260	Hosidius
+SAILING	40	RARE	32236	Inoculation station
+SAILING	35	UNCOMMON	32200	Iron cannon
+SAILING	22	UNCOMMON	32183	Iron keel
+SAILING	21	UNCOMMON	32207	Iron salvaging hook
+SAILING	80	LEGENDARY	32218	Ironwood cargo hold
+SAILING	81	LEGENDARY	32133	Ironwood hull
+SAILING	83	LEGENDARY	32175	Ironwood mast and cotton sails
+SAILING	56	RARE	32292	Isle of Bones
+SAILING	55	RARE	32292	Isle of Souls
+SAILING	68	EPIC	32284	Jatizso
+SAILING	70	EPIC	32250	Jittery Jim - Port Khazard
+SAILING	40	RARE	32245	Jobless Jim - Port Sarim
+SAILING	85	LEGENDARY	32252	Jolly Jim - Brimhaven
+SAILING	33	UNCOMMON	32231	Keg
+SAILING	58	RARE	32293	Laguna Aurorae
+SAILING	5	COMMON	32259	Land's End
+SAILING	53	RARE	32853	Large shipwrecks
+SAILING	65	EPIC	32221	Linen trawling net
+SAILING	66	EPIC	32294	Lledrith Island
+SAILING	76	EPIC	32288	Lunar Isle
+SAILING	46	RARE	32216	Mahogany cargo hold
+SAILING	48	RARE	32127	Mahogany hull
+SAILING	52	RARE	32169	Mahogany mast and canvas sails
+SAILING	1	COMMON	32240	Maximum boats: 1
+SAILING	15	COMMON	32240	Maximum boats: 2
+SAILING	50	RARE	32240	Maximum boats: 3
+SAILING	78	EPIC	32241	Maximum boats: 4
+SAILING	91	LEGENDARY	32241	Maximum boats: 5
+SAILING	40	RARE	32243	Maximum crewmates: 1
+SAILING	55	RARE	32243	Maximum crewmates: 2
+SAILING	70	EPIC	32243	Maximum crewmates: 3
+SAILING	85	LEGENDARY	32243	Maximum crewmates: 4
+SAILING	95	LEGENDARY	32243	Maximum crewmates: 5
+SAILING	1	COMMON	32244	Maximum port tasks: 1
+SAILING	7	COMMON	32244	Maximum port tasks: 2
+SAILING	28	UNCOMMON	32244	Maximum port tasks: 3
+SAILING	56	RARE	32244	Maximum port tasks: 4
+SAILING	84	LEGENDARY	32244	Maximum port tasks: 5
+SAILING	73	EPIC	32857	Mercenary shipwrecks
+SAILING	87	LEGENDARY	32861	Merchant shipwrecks
+SAILING	54	RARE	32292	Minotaur's Rest
+SAILING	57	RARE	32202	Mithril cannon
+SAILING	55	RARE	32148	Mithril helm
+SAILING	54	RARE	32187	Mithril keel
+SAILING	44	RARE	32209	Mithril salvaging hook
+SAILING	10	COMMON	32261	Musa Point
+SAILING	68	EPIC	32285	Neitiznot
+SAILING	18	COMMON	32214	Oak cargo hold
+SAILING	20	UNCOMMON	32121	Oak hull
+SAILING	24	UNCOMMON	32163	Oak mast and linen sails
+SAILING	65	EPIC	32249	Oarswoman Olga - Burgh de Rott
+SAILING	64	EPIC	32855	Pirate shipwrecks
+SAILING	75	EPIC	32287	Piscatoris
+SAILING	30	UNCOMMON	32267	Port Khazard
+SAILING	15	COMMON	32262	Port Piscarillius
+SAILING	50	RARE	32278	Port Roberts
+SAILING	1	COMMON	32257	Port Sarim
+SAILING	66	EPIC	32282	Port Tyras
+SAILING	70	EPIC	32286	Prifddinas
+SAILING	1	COMMON	32239	Raft
+SAILING	69	EPIC	32292	Rainbow's End
+SAILING	16	COMMON	32230	Range
+SAILING	41	RARE	33421	Recolour sails
+SAILING	62	EPIC	32280	Rellekka
+SAILING	18	COMMON	32263	Rimmington
+SAILING	56	RARE	32220	Rope trawling net
+SAILING	89	LEGENDARY	32219	Rosewood cargo hold
+SAILING	93	LEGENDARY	32136	Rosewood hull
+SAILING	94	LEGENDARY	32178	Rosewood mast and cotton sails
+SAILING	48	RARE	32276	Ruins of Unkah
+SAILING	80	LEGENDARY	32204	Rune cannon
+SAILING	87	LEGENDARY	32154	Rune helm
+SAILING	85	LEGENDARY	32191	Rune keel
+SAILING	74	EPIC	32211	Rune salvaging hook
+SAILING	95	LEGENDARY	32254	Sailor Jakob - Catherby
+SAILING	42	RARE	32224	Salvaging station
+SAILING	22	UNCOMMON	31805	Sea current charting
+SAILING	38	UNCOMMON	7534	Sea depth charting
+SAILING	49	RARE	32293	Shimmering Atoll
+SAILING	15	COMMON	32240	Skiff
+SAILING	99	LEGENDARY	31288	Skillcape
+SAILING	50	RARE	32241	Sloop
+SAILING	15	COMMON	32847	Small shipwrecks
+SAILING	90	LEGENDARY	32253	Spotter Virginia - Ruins of Unkah
+SAILING	1	COMMON	31803	Spyglass charting
+SAILING	47	RARE	32201	Steel cannon
+SAILING	38	UNCOMMON	32145	Steel helm
+SAILING	39	UNCOMMON	32185	Steel keel
+SAILING	27	UNCOMMON	32208	Steel salvaging hook
+SAILING	72	EPIC	32292	Sunbleak Island
+SAILING	44	RARE	32273	Sunset Coast
+SAILING	30	UNCOMMON	32809	Task type: Bounty
+SAILING	1	COMMON	32807	Task type: Courier
+SAILING	46	RARE	32275	Tasks from Aldarin
+SAILING	25	UNCOMMON	32265	Tasks from Brimhaven
+SAILING	20	UNCOMMON	32264	Tasks from Catherby
+SAILING	38	UNCOMMON	32270	Tasks from Civitas illa Fortis
+SAILING	40	RARE	32271	Tasks from Corsair Cove
+SAILING	67	EPIC	32283	Tasks from Deepfin Point
+SAILING	65	EPIC	32281	Tasks from Etceteria
+SAILING	5	COMMON	32259	Tasks from Land's End
+SAILING	76	EPIC	32288	Tasks from Lunar Isle
+SAILING	10	COMMON	32261	Tasks from Musa Point
+SAILING	30	UNCOMMON	32267	Tasks from Port Khazard
+SAILING	15	COMMON	32262	Tasks from Port Piscarilius
+SAILING	50	RARE	32278	Tasks from Port Roberts
+SAILING	1	COMMON	32257	Tasks from Port Sarim
+SAILING	66	EPIC	32282	Tasks from Port Tyras
+SAILING	70	EPIC	32286	Tasks from Prifddinas
+SAILING	62	EPIC	32280	Tasks from Rellekka
+SAILING	1	COMMON	32258	Tasks from The Pandemonium
+SAILING	45	RARE	32274	Tasks from The Summer Shore
+SAILING	48	RARE	32276	Tasks from the Ruins of Unkah
+SAILING	50	RARE	32277	Tasks from the Void Knights' Outpost
+SAILING	29	UNCOMMON	32215	Teak cargo hold
+SAILING	31	UNCOMMON	32124	Teak hull
+SAILING	36	UNCOMMON	32166	Teak mast and canvas sails
+SAILING	61	EPIC	32292	Tear of the Soul
+SAILING	55	RARE	32237	Teleport focus
+SAILING	64	EPIC	32292	The Crown Jewel
+SAILING	72	EPIC	32197	The Gwenith Glide - Porth Gwenith
+SAILING	55	RARE	32198	The Jubbly Jive - Backwater
+SAILING	45	RARE	32291	The Little Pearl
+SAILING	47	RARE	32291	The Onyx Crest
+SAILING	1	COMMON	32258	The Pandemonium
+SAILING	45	RARE	32274	The Summer Shore
+SAILING	30	UNCOMMON	32196	The Tempor Tantrum - The Storm Tempor
+SAILING	25	UNCOMMON	32299	Trims
+SAILING	46	RARE	32292	Vatrachos Island
+SAILING	50	RARE	32277	Void Knights' Outpost
+SAILING	74	EPIC	32296	Waterbirth Island
+SAILING	57	RARE	31809	Weather pattern charting
+SAILING	80	LEGENDARY	32296	Weiss
+SAILING	53	RARE	32233	Wind catcher
+SAILING	63	EPIC	32292	Wintumber Island
+SAILING	34	UNCOMMON	32268	Witchaven
+SAILING	1	COMMON	32213	Wooden cargo hold
+SAILING	1	COMMON	32118	Wooden hull
+SAILING	1	COMMON	32160	Wooden mast and linen sails
+SAILING	62	EPIC	34058	Wyrmscraig
+SAILING	73	EPIC	32294	Ynysdail
+SLAYER	60	EPIC	4144	Aberrant Spectres
+SLAYER	85	LEGENDARY	4149	Abyssal demons & Sires
+SLAYER	65	EPIC	3902	Amethyst broad bolts
+SLAYER	82	LEGENDARY	21508	Ancient wyverns
+SLAYER	78	EPIC	32885	Aquanites
+SLAYER	92	LEGENDARY	29780	Araxytes
+SLAYER	15	COMMON	4135	Banshees
+SLAYER	60	EPIC	24276	Basilisk Knights
+SLAYER	40	RARE	4139	Basilisks
+SLAYER	50	RARE	4141	Bloodvelds
+SLAYER	44	RARE	23037	Boots of Stone
+SLAYER	47	RARE	11047	Brine rats
+SLAYER	55	RARE	4150	Broad arrows
+SLAYER	55	RARE	4296	Broad bolts
+SLAYER	77	EPIC	21391	Brutal black dragons
+SLAYER	1	COMMON	4155	Burthorpe master
+SLAYER	1	COMMON	4155	Canifis master
+SLAYER	58	RARE	8900	Cave Horrors
+SLAYER	7	COMMON	4521	Cave bugs
+SLAYER	10	COMMON	4134	Cave crawlers
+SLAYER	87	LEGENDARY	3272	Cave kraken
+SLAYER	17	COMMON	4520	Cave slime
+SLAYER	91	LEGENDARY	13247	Cerberus
+SLAYER	25	UNCOMMON	4137	Cockatrice
+SLAYER	5	COMMON	4133	Crawling hands
+SLAYER	90	LEGENDARY	6637	Dark beast
+SLAYER	22	UNCOMMON	6695	Desert lizards
+SLAYER	84	LEGENDARY	23041	Drakes
+SLAYER	1	COMMON	4155	Draynor Village master
+SLAYER	65	EPIC	4145	Dust devils
+SLAYER	15	COMMON	4166	Earmuffs
+SLAYER	1	COMMON	4155	Edgeville Dungeon master
+SLAYER	76	EPIC	30995	Elder custodian stalkers
+SLAYER	10	COMMON	4164	Facemask
+SLAYER	42	RARE	6709	Fever spiders
+SLAYER	32	UNCOMMON	6660	Fishing explosive
+SLAYER	66	EPIC	21507	Fossil Island wyverns
+SLAYER	57	RARE	7421	Fungicide spray
+SLAYER	75	EPIC	4147	Gargoyles
+SLAYER	1	COMMON	4155	Gnome Stronghold master
+SLAYER	51	RARE	32884	Gryphons
+SLAYER	33	UNCOMMON	7053	Harpie bug lanternsNot a light source
+SLAYER	33	UNCOMMON	7050	Harpie bug swarms
+SLAYER	95	LEGENDARY	23042	Hydras
+SLAYER	45	RARE	4140	Infernal mages
+SLAYER	37	UNCOMMON	7159	Insulated boots
+SLAYER	52	RARE	4142	Jellies
+SLAYER	54	RARE	30993	Juvenile custodian stalkers
+SLAYER	37	UNCOMMON	7160	Killerwatts
+SLAYER	70	EPIC	4146	Kurask
+SLAYER	55	RARE	20727	Leaf-bladed battleaxe
+SLAYER	55	RARE	4158	Leaf-bladed spear and sword
+SLAYER	48	RARE	28823	Lesser Nagua
+SLAYER	67	EPIC	30994	Mature custodian stalkers
+SLAYER	32	UNCOMMON	6661	Mogres
+SLAYER	39	UNCOMMON	10997	Molanisks
+SLAYER	1	COMMON	4155	Mount Karuulm master
+SLAYER	57	RARE	7420	Mutated Zygomites
+SLAYER	80	LEGENDARY	4148	Nechryael
+SLAYER	60	EPIC	4168	Nose peg
+SLAYER	30	UNCOMMON	4138	Pyrefiends
+SLAYER	1	COMMON	24942	Reinforced Goggles
+SLAYER	1	COMMON	4162	Rock hammer & Rock Thrownhammer
+SLAYER	20	UNCOMMON	4136	Rockslugs
+SLAYER	40	RARE	5089	Sea snakes
+SLAYER	50	RARE	4155	Shilo Village master
+SLAYER	72	EPIC	6811	Skeletal wyverns
+SLAYER	99	LEGENDARY	9786	Skillcape
+SLAYER	39	UNCOMMON	10952	Slayer bell
+SLAYER	42	RARE	6720	Slayer gloves
+SLAYER	55	RARE	4170	Slayer's staff
+SLAYER	55	RARE	21255	Slayer's staff (e)
+SLAYER	93	LEGENDARY	5349	Smoke devil
+SLAYER	1	COMMON	4551	Spiny helmet
+SLAYER	83	LEGENDARY	11844	Spiritual mages
+SLAYER	63	EPIC	11845	Spiritual rangers
+SLAYER	68	EPIC	11846	Spiritual warriors
+SLAYER	44	RARE	23043	Sulphur & Grimy Lizards
+SLAYER	40	RARE	10591	Terror dogs
+SLAYER	55	RARE	4143	Turoth
+SLAYER	60	EPIC	24266	V's shield
+SLAYER	74	EPIC	33826	Venators
+SLAYER	38	UNCOMMON	24702	Vyres
+SLAYER	35	UNCOMMON	4519	Wall beasts
+SLAYER	56	RARE	28582	Warped creatures
+SLAYER	1	COMMON	4155	Wilderness master
+SLAYER	35	UNCOMMON	8923	Witchwood icon
+SLAYER	62	EPIC	23040	Wyrms & Strykewyrms
+SLAYER	70	EPIC	4155	Wyrmscraig master
+SLAYER	1	COMMON	4155	Zanaris master
+SMITHING	75	EPIC	43	Adamant arrowheads1 bar makes 15
+SMITHING	71	EPIC	1357	Adamant axes1 bar
+SMITHING	80	LEGENDARY	1371	Adamant battleaxes3 bars
+SMITHING	75	EPIC	31912	Adamant cannonballs1 bar makes 4
+SMITHING	81	LEGENDARY	1111	Adamant chainbodies3 bars
+SMITHING	83	LEGENDARY	3100	Adamant claws2 bars
+SMITHING	73	EPIC	9380	Adamant crossbow bolts1 bar makes 10
+SMITHING	76	EPIC	9429	Adamant crossbow limbs1 bar
+SMITHING	70	EPIC	1211	Adamant daggers1 bar
+SMITHING	74	EPIC	823	Adamant dart tips1 bar makes 10
+SMITHING	77	EPIC	1161	Adamant full helms2 bars
+SMITHING	75	EPIC	11375	Adamant hastae1 bar, 1 yew log
+SMITHING	76	EPIC	3909	Adamant javelin tips1 bar makes 5
+SMITHING	74	EPIC	32011	Adamant keel parts5 bars
+SMITHING	82	LEGENDARY	1199	Adamant kiteshields3 bars
+SMITHING	76	EPIC	1301	Adamant longswords2 bars
+SMITHING	72	EPIC	1430	Adamant maces1 bar
+SMITHING	73	EPIC	1145	Adamant medium helms1 bar
+SMITHING	74	EPIC	4823	Adamant nails1 bar makes 15
+SMITHING	88	LEGENDARY	1123	Adamant platebodies5 bars
+SMITHING	86	LEGENDARY	1073	Adamant platelegs3 bars
+SMITHING	86	LEGENDARY	1091	Adamant plateskirts3 bars
+SMITHING	75	EPIC	1331	Adamant scimitars2 bars
+SMITHING	75	EPIC	1245	Adamant spears1 bar, 1 yew log
+SMITHING	78	EPIC	1183	Adamant square shields2 bars
+SMITHING	74	EPIC	1287	Adamant swords1 bar
+SMITHING	77	EPIC	867	Adamant throwing knives1 bar makes 5
+SMITHING	84	LEGENDARY	1317	Adamant two-handed swords3 bars
+SMITHING	79	EPIC	1345	Adamant warhammers3 bars
+SMITHING	70	EPIC	2361	Adamant6 coal & 1 adamantite ore
+SMITHING	66	EPIC	21633	Ancient Wyvern shield
+SMITHING	60	EPIC	32879	Aquanite hoppers
+SMITHING	82	LEGENDARY	23995	Blade of Saeldor
+SMITHING	82	LEGENDARY	24551	Blade of Saeldor (c)
+SMITHING	13	COMMON	9467	Blurite
+SMITHING	8	COMMON	9376	Blurite crossbow bolts1 bar makes 10
+SMITHING	13	COMMON	9422	Blurite crossbow limbs
+SMITHING	35	UNCOMMON	28792	Bone mace
+SMITHING	82	LEGENDARY	25865	Bow of Faerdhinen
+SMITHING	82	LEGENDARY	25867	Bow of Faerdhinen (c)
+SMITHING	5	COMMON	39	Bronze arrowheads1 bar makes 15
+SMITHING	1	COMMON	1351	Bronze axes1 bar
+SMITHING	10	COMMON	1375	Bronze battleaxes3 bars
+SMITHING	5	COMMON	31906	Bronze cannonballs1 bar makes 4
+SMITHING	11	COMMON	1103	Bronze chainbodies3 bars
+SMITHING	13	COMMON	3095	Bronze claws2 bars
+SMITHING	3	COMMON	9375	Bronze crossbow bolts1 bar makes 10
+SMITHING	6	COMMON	9420	Bronze crossbow limbs1 bar
+SMITHING	1	COMMON	1205	Bronze daggers1 bar
+SMITHING	4	COMMON	819	Bronze dart tips1 bar makes 10
+SMITHING	7	COMMON	1155	Bronze full helms2 bars
+SMITHING	5	COMMON	11367	Bronze hastae1 bar, 1 log
+SMITHING	6	COMMON	3072	Bronze javelin tips1 bar makes 5
+SMITHING	10	COMMON	31999	Bronze keel parts5 bars
+SMITHING	12	COMMON	1189	Bronze kiteshields3 bars
+SMITHING	6	COMMON	1291	Bronze longswords2 bars
+SMITHING	2	COMMON	1422	Bronze maces1 bar
+SMITHING	3	COMMON	1139	Bronze medium helms1 bar
+SMITHING	4	COMMON	4819	Bronze nails1 bar makes 15
+SMITHING	18	COMMON	1117	Bronze platebodies5 bars
+SMITHING	16	COMMON	1075	Bronze platelegs3 bars
+SMITHING	16	COMMON	1087	Bronze plateskirts3 bars
+SMITHING	5	COMMON	1321	Bronze scimitars2 bars
+SMITHING	5	COMMON	1237	Bronze spears1 bar, 1 log
+SMITHING	8	COMMON	1173	Bronze square shields2 bars
+SMITHING	4	COMMON	1277	Bronze swords1 bar
+SMITHING	7	COMMON	864	Bronze throwing knives1 bar makes 5
+SMITHING	14	COMMON	1307	Bronze two-handed swords3 bars
+SMITHING	9	COMMON	1337	Bronze warhammers3 bars
+SMITHING	4	COMMON	1794	Bronze wire1 bar
+SMITHING	1	COMMON	2349	Bronze1 tin ore & 1 copper ore
+SMITHING	49	RARE	4544	Bullseye lantern frames1 bar
+SMITHING	70	EPIC	25545	Celestial signet
+SMITHING	34	UNCOMMON	32886	Chain1 bar
+SMITHING	70	EPIC	31106	Confliction gauntlets
+SMITHING	61	EPIC	28226	Convert 3rd Age felling axes
+SMITHING	31	UNCOMMON	28211	Convert adamant felling axes
+SMITHING	11	COMMON	28205	Convert black felling axes
+SMITHING	1	COMMON	28196	Convert bronze felling axes
+SMITHING	61	EPIC	28217	Convert dragon felling axes
+SMITHING	1	COMMON	28199	Convert iron felling axes
+SMITHING	21	UNCOMMON	28208	Convert mithril felling axes
+SMITHING	41	RARE	28214	Convert rune felling axes
+SMITHING	6	COMMON	28202	Convert steel felling axes
+SMITHING	14	COMMON	25684	Crush barronite deposits
+SMITHING	76	EPIC	23673	Crystal axe
+SMITHING	74	EPIC	23975	Crystal body
+SMITHING	78	EPIC	23983	Crystal bow
+SMITHING	76	EPIC	28220	Crystal felling axe
+SMITHING	78	EPIC	23987	Crystal halberd
+SMITHING	76	EPIC	23762	Crystal harpoon
+SMITHING	70	EPIC	23971	Crystal helm
+SMITHING	72	EPIC	23979	Crystal legs
+SMITHING	76	EPIC	23680	Crystal pickaxe
+SMITHING	78	EPIC	23991	Crystal shield
+SMITHING	74	EPIC	32892	Cupronickel2 copper ore & 1 nickel ore
+SMITHING	94	LEGENDARY	32017	Dragon keel parts
+SMITHING	75	EPIC	21895	Dragon kite shield
+SMITHING	92	LEGENDARY	31406	Dragon nails
+SMITHING	90	LEGENDARY	21892	Dragon platebody
+SMITHING	60	EPIC	1187	Dragon square shield
+SMITHING	74	EPIC	29589	Emberlight
+SMITHING	80	LEGENDARY	23951	Enhanced crystal key
+SMITHING	80	LEGENDARY	23946	Eternal teleport crystal
+SMITHING	40	RARE	2357	Gold
+SMITHING	20	UNCOMMON	40	Iron arrowheads1 bar makes 15
+SMITHING	16	COMMON	1349	Iron axes1 bar
+SMITHING	25	UNCOMMON	1363	Iron battleaxes3 bars
+SMITHING	20	UNCOMMON	31908	Iron cannonballs1 bar makes 4
+SMITHING	26	UNCOMMON	1101	Iron chainbodies3 bars
+SMITHING	28	UNCOMMON	3096	Iron claws2 bars
+SMITHING	18	COMMON	9377	Iron crossbow bolts1 bar makes 10
+SMITHING	23	UNCOMMON	9423	Iron crossbow limbs1 bar
+SMITHING	15	COMMON	1203	Iron daggers1 bar
+SMITHING	19	COMMON	820	Iron dart tips1 bar makes 10
+SMITHING	22	UNCOMMON	1153	Iron full helms2 bars
+SMITHING	20	UNCOMMON	11369	Iron hastae1 bar, 1 oak log
+SMITHING	21	UNCOMMON	3082	Iron javelin tips1 bar makes 5
+SMITHING	22	UNCOMMON	32002	Iron keel parts5 bars
+SMITHING	27	UNCOMMON	1191	Iron kiteshields3 bars
+SMITHING	21	UNCOMMON	1293	Iron longswords2 bars
+SMITHING	17	COMMON	1420	Iron maces1 bar
+SMITHING	18	COMMON	1137	Iron medium helms1 bar
+SMITHING	19	COMMON	4820	Iron nails1 bar makes 15
+SMITHING	33	UNCOMMON	1115	Iron platebodies5 bars
+SMITHING	31	UNCOMMON	1067	Iron platelegs3 bars
+SMITHING	31	UNCOMMON	1081	Iron plateskirts3 bars
+SMITHING	20	UNCOMMON	1323	Iron scimitars2 bars
+SMITHING	20	UNCOMMON	1239	Iron spears1 bar, 1 oak log
+SMITHING	17	COMMON	7225	Iron spits1 bar
+SMITHING	23	UNCOMMON	1175	Iron square shields2 bars
+SMITHING	19	COMMON	1279	Iron swords1 bar
+SMITHING	22	UNCOMMON	863	Iron throwing knives1 bar makes 5
+SMITHING	29	UNCOMMON	1309	Iron two-handed swords3 bars
+SMITHING	24	UNCOMMON	1335	Iron warhammers3 bars
+SMITHING	15	COMMON	2351	Iron50% chance of success
+SMITHING	25	UNCOMMON	32889	Lead2 lead ore
+SMITHING	45	RARE	13354	Lovakite2 coal & 1 lovakite ore
+SMITHING	55	RARE	42	Mithril arrowheads1 bar makes 15
+SMITHING	51	RARE	1355	Mithril axes1 bar
+SMITHING	60	EPIC	1369	Mithril battleaxes3 bars
+SMITHING	55	RARE	31910	Mithril cannonballs1 bar makes 4
+SMITHING	61	EPIC	1109	Mithril chainbodies3 bars
+SMITHING	63	EPIC	3099	Mithril claws2 bars
+SMITHING	53	RARE	9379	Mithril crossbow bolts1 bar makes 10
+SMITHING	59	RARE	9416	Mithril crossbow grapple tips1 bar
+SMITHING	56	RARE	9427	Mithril crossbow limbs1 bar
+SMITHING	50	RARE	1209	Mithril daggers1 bar
+SMITHING	54	RARE	822	Mithril dart tips1 bar makes 10
+SMITHING	57	RARE	1159	Mithril full helms2 bars
+SMITHING	55	RARE	11373	Mithril hastae1 bar, 1 maple log
+SMITHING	56	RARE	3246	Mithril javelin tips1 bar makes 5
+SMITHING	56	RARE	32008	Mithril keel parts5 bars
+SMITHING	62	EPIC	1197	Mithril kiteshields3 bars
+SMITHING	56	RARE	1299	Mithril longswords2 bars
+SMITHING	52	RARE	1428	Mithril maces1 bar
+SMITHING	53	RARE	1143	Mithril medium helms1 bar
+SMITHING	54	RARE	4822	Mithril nails1 bar Makes 15
+SMITHING	68	EPIC	1121	Mithril platebodies5 bars
+SMITHING	66	EPIC	1071	Mithril platelegs3 bars
+SMITHING	66	EPIC	1085	Mithril plateskirts3 bars
+SMITHING	55	RARE	1329	Mithril scimitars2 bars
+SMITHING	55	RARE	1243	Mithril spears1 bar, 1 maple log
+SMITHING	58	RARE	1181	Mithril square shields2 bars
+SMITHING	54	RARE	1285	Mithril swords1 bar
+SMITHING	57	RARE	866	Mithril throwing knives1 bar makes 5
+SMITHING	64	EPIC	1315	Mithril two-handed swords3 bars
+SMITHING	59	RARE	1343	Mithril warhammers3 bars
+SMITHING	50	RARE	2359	Mithril4 coal & 1 mithril ore
+SMITHING	72	EPIC	29796	Noxious Halberd
+SMITHING	83	LEGENDARY	30750	Oathplate
+SMITHING	26	UNCOMMON	4540	Oil lantern frames1 bar
+SMITHING	71	EPIC	28220	Reshape crystal felling axes
+SMITHING	90	LEGENDARY	44	Rune arrowheads1 bar makes 15
+SMITHING	86	LEGENDARY	1359	Rune axes1 bar
+SMITHING	95	LEGENDARY	1373	Rune battleaxes3 bars
+SMITHING	90	LEGENDARY	31914	Rune cannonballs1 bar makes 4
+SMITHING	96	LEGENDARY	1113	Rune chainbodies3 bars
+SMITHING	98	LEGENDARY	3101	Rune claws2 bars
+SMITHING	88	LEGENDARY	9381	Rune crossbow bolts1 bar makes 10
+SMITHING	91	LEGENDARY	9431	Rune crossbow limbs1 bar
+SMITHING	85	LEGENDARY	1213	Rune daggers1 bar
+SMITHING	89	LEGENDARY	824	Rune dart tips1 bar makes 10
+SMITHING	92	LEGENDARY	1163	Rune full helms2 bars
+SMITHING	90	LEGENDARY	11377	Rune hastae1 bar, 1 magic log
+SMITHING	91	LEGENDARY	3917	Rune javelin tips1 bar makes 5
+SMITHING	86	LEGENDARY	32014	Rune keel parts5 bars
+SMITHING	97	LEGENDARY	1201	Rune kiteshields3 bars
+SMITHING	91	LEGENDARY	1303	Rune longswords2 bars
+SMITHING	87	LEGENDARY	1432	Rune maces1 bar
+SMITHING	88	LEGENDARY	1147	Rune medium helms1 bar
+SMITHING	89	LEGENDARY	4824	Rune nails1 bar makes 15
+SMITHING	99	LEGENDARY	1127	Rune platebodies5 bars
+SMITHING	99	LEGENDARY	1079	Rune platelegs3 bars
+SMITHING	99	LEGENDARY	1093	Rune plateskirts3 bars
+SMITHING	90	LEGENDARY	1333	Rune scimitars2 bars
+SMITHING	90	LEGENDARY	1247	Rune spears1 bar, 1 magic log
+SMITHING	93	LEGENDARY	1185	Rune square shields2 bars
+SMITHING	89	LEGENDARY	1289	Rune swords1 bar
+SMITHING	92	LEGENDARY	868	Rune throwing knives1 bar makes 5
+SMITHING	99	LEGENDARY	1319	Rune two-handed swords3 bars
+SMITHING	94	LEGENDARY	1347	Rune warhammers3 bars
+SMITHING	85	LEGENDARY	2363	Runite8 coal & 1 runite ore
+SMITHING	35	UNCOMMON	28161	Secateurs Attachment
+SMITHING	47	RARE	13358	Shayzien boots (1)1 bar
+SMITHING	57	RARE	13363	Shayzien boots (2)1 bar
+SMITHING	67	EPIC	13368	Shayzien boots (3)1 bar
+SMITHING	77	EPIC	13373	Shayzien boots (4)1 bar
+SMITHING	87	LEGENDARY	13378	Shayzien boots (5)1 bar
+SMITHING	45	RARE	13357	Shayzien gloves (1)1 bar
+SMITHING	55	RARE	13362	Shayzien gloves (2)1 bar
+SMITHING	65	EPIC	13367	Shayzien gloves (3)1 bar
+SMITHING	75	EPIC	13372	Shayzien gloves (4)1 bar
+SMITHING	85	LEGENDARY	13377	Shayzien gloves (5)1 bar
+SMITHING	51	RARE	13360	Shayzien greaves (1)3 bars
+SMITHING	61	EPIC	13365	Shayzien greaves (2)3 bars
+SMITHING	71	EPIC	13370	Shayzien greaves (3)3 bars
+SMITHING	81	LEGENDARY	13375	Shayzien greaves (4)3 bars
+SMITHING	91	LEGENDARY	13380	Shayzien greaves (5)3 bars
+SMITHING	49	RARE	13359	Shayzien helm (1)2 bars
+SMITHING	59	RARE	13364	Shayzien helm (2)2 bars
+SMITHING	69	EPIC	13369	Shayzien helm (3)2 bars
+SMITHING	79	EPIC	13374	Shayzien helm (4)2 bars
+SMITHING	89	LEGENDARY	13379	Shayzien helm (5)2 bars
+SMITHING	53	RARE	13361	Shayzien platebody (1)4 bars
+SMITHING	63	EPIC	13366	Shayzien platebody (2)4 bars
+SMITHING	73	EPIC	13371	Shayzien platebody (3)4 bars
+SMITHING	83	LEGENDARY	13376	Shayzien platebody (4)4 bars
+SMITHING	93	LEGENDARY	13381	Shayzien platebody (5)4 bars
+SMITHING	20	UNCOMMON	2355	Silver
+SMITHING	99	LEGENDARY	9795	Skillcape
+SMITHING	35	UNCOMMON	41	Steel arrowheads1 bar makes 15
+SMITHING	31	UNCOMMON	1353	Steel axes1 bar
+SMITHING	40	RARE	1365	Steel battleaxes3 bars
+SMITHING	35	UNCOMMON	2	Steel cannonballs1 bar makes 4
+SMITHING	41	RARE	1105	Steel chainbodies3 bars
+SMITHING	43	RARE	3097	Steel claws2 bars
+SMITHING	33	UNCOMMON	9378	Steel crossbow bolts1 bar makes 10
+SMITHING	36	UNCOMMON	9425	Steel crossbow limbs1 bar
+SMITHING	30	UNCOMMON	1207	Steel daggers1 bar
+SMITHING	34	UNCOMMON	821	Steel dart tips1 bar makes 10
+SMITHING	37	UNCOMMON	1157	Steel full helms2 bars
+SMITHING	35	UNCOMMON	11371	Steel hastae1 bar, 1 willow log
+SMITHING	36	UNCOMMON	3090	Steel javelin tips1 bar makes 5
+SMITHING	38	UNCOMMON	32005	Steel keel parts5 bars
+SMITHING	42	RARE	1193	Steel kiteshields3 bars
+SMITHING	36	UNCOMMON	1295	Steel longswords2 bars
+SMITHING	32	UNCOMMON	1424	Steel maces1 bar
+SMITHING	33	UNCOMMON	1141	Steel medium helms1 bar
+SMITHING	34	UNCOMMON	1539	Steel nails1 bar makes 15
+SMITHING	48	RARE	1119	Steel platebodies5 bars
+SMITHING	46	RARE	1069	Steel platelegs3 bars
+SMITHING	46	RARE	1083	Steel plateskirts3 bars
+SMITHING	35	UNCOMMON	1325	Steel scimitars2 bars
+SMITHING	35	UNCOMMON	1241	Steel spears1 bar, 1 willow log
+SMITHING	38	UNCOMMON	1177	Steel square shields2 bars
+SMITHING	36	UNCOMMON	2370	Steel studs1 bar
+SMITHING	34	UNCOMMON	1281	Steel swords1 bar
+SMITHING	37	UNCOMMON	865	Steel throwing knives1 bar makes 5
+SMITHING	44	RARE	1311	Steel two-handed swords3 bars
+SMITHING	39	UNCOMMON	1339	Steel warhammers3 bars
+SMITHING	30	UNCOMMON	2353	Steel2 coal & 1 iron ore
+SMITHING	70	EPIC	28810	Zombie axes and helmets
+STRENGTH	15	COMMON	3200	Adamant halberd
+STRENGTH	30	UNCOMMON	1345	Adamant warhammer
+STRENGTH	5	COMMON	3196	Black halberd
+STRENGTH	10	COMMON	1341	Black warhammer
+STRENGTH	1	COMMON	1337	Bronze warhammer
+STRENGTH	30	UNCOMMON	3204	Dragon halberd
+STRENGTH	60	EPIC	13576	Dragon warhammer
+STRENGTH	35	UNCOMMON	25564	Harpoonfish (barehanded)
+STRENGTH	1	COMMON	1335	Iron warhammer
+STRENGTH	30	UNCOMMON	11330	Leaping salmonBarbarian rod & most bait types
+STRENGTH	45	RARE	11332	Leaping sturgeonBarbarian rod & most bait types
+STRENGTH	15	COMMON	11328	Leaping troutBarbarian rod & most bait types
+STRENGTH	10	COMMON	3198	Mithril halberd
+STRENGTH	20	UNCOMMON	1343	Mithril warhammer
+STRENGTH	20	UNCOMMON	3202	Rune halberd
+STRENGTH	40	RARE	1347	Rune warhammer
+STRENGTH	76	EPIC	383	Shark (barehanded)
+STRENGTH	5	COMMON	1339	Steel warhammer
+STRENGTH	50	RARE	371	Swordfish (barehanded)
+STRENGTH	35	UNCOMMON	359	Tuna (barehanded)
+STRENGTH	60	EPIC	6528	TzHaar-Ket-Om
+STRENGTH	5	COMMON	6599	White halberd
+STRENGTH	10	COMMON	6613	White warhammer
+THIEVING	72	EPIC	383	Ardougne Castle chest
+THIEVING	45	RARE	6782	Bearded Pollnivnian bandit
+THIEVING	5	COMMON	1891	Cake stall
+THIEVING	50	RARE	1623	Can crack the wall safes in the Rogues' Den
+THIEVING	49	RARE	13434	Can pick locks in Port Piscarilius
+THIEVING	57	RARE	23499	Can pick-lock the door to the Grubby Chest in the Forthos Dungeon
+THIEVING	50	RARE	29328	Can rob houses in Civitas illa Fortis
+THIEVING	15	COMMON	10593	Can steal cowbells from dairy cows
+THIEVING	44	RARE	10981	Can steal wire from the Dorgeshuun wire machine
+THIEVING	87	LEGENDARY	2	Cannonball stall
+THIEVING	36	UNCOMMON	10998	Cave goblin
+THIEVING	28	UNCOMMON	25244	Chest at the Isle of Souls
+THIEVING	59	RARE	565	Chest in the Chaos Druid Tower north of Ardougne
+THIEVING	43	RARE	1002	Chest upstairs in Ardougne
+THIEVING	36	UNCOMMON	29415	Chests in Aldarin Villas
+THIEVING	13	COMMON	1000	Chests in Ardougne, Rellekka and the Wilderness
+THIEVING	47	RARE	41	Chests in Hemenster and Rellekka
+THIEVING	28	UNCOMMON	561	Chests upstairs in Ardougne and Rellekka
+THIEVING	1	COMMON	3241	Citizen
+THIEVING	5	COMMON	1755	Crafting stall
+THIEVING	49	RARE	9174	Crossbow stall
+THIEVING	53	RARE	4625	Desert bandit
+THIEVING	52	RARE	4522	Dorgesh-Kaan average chests
+THIEVING	78	EPIC	1623	Dorgesh-Kaan rich chests
+THIEVING	85	LEGENDARY	6105	Elf
+THIEVING	10	COMMON	3243	Farmer
+THIEVING	42	RARE	331	Fish stall
+THIEVING	45	RARE	3686	Fremennik
+THIEVING	25	UNCOMMON	19653	Fruit stall
+THIEVING	35	UNCOMMON	948	Fur stall
+THIEVING	75	EPIC	1607	Gem stall
+THIEVING	75	EPIC	3257	Gnome
+THIEVING	40	RARE	3249	Guard
+THIEVING	15	COMMON	4295	H.A.M. follower
+THIEVING	66	EPIC	24719	Hallowed Sepulchre - Can pick-lock the coffins found on each floor
+THIEVING	80	LEGENDARY	3259	Hero
+THIEVING	55	RARE	3251	Knight
+THIEVING	64	EPIC	13383	Lizardman Temple chest beneath Molch
+THIEVING	65	EPIC	556	Magic stall
+THIEVING	38	UNCOMMON	5068	Master farmer
+THIEVING	65	EPIC	6780	Menaphite thug
+THIEVING	5	COMMON	1963	Monkey food stall
+THIEVING	82	LEGENDARY	451	Ore stall
+THIEVING	70	EPIC	3255	Paladin
+THIEVING	60	EPIC	32897	Pirate
+THIEVING	55	RARE	6781	Pollnivnian bandit
+THIEVING	31	UNCOMMON	9032	Pyramid Plunder - Room 2
+THIEVING	41	RARE	9036	Pyramid Plunder - Room 3
+THIEVING	51	RARE	9042	Pyramid Plunder - Room 4
+THIEVING	61	EPIC	9038	Pyramid Plunder - Room 5
+THIEVING	71	EPIC	9040	Pyramid Plunder - Room 6
+THIEVING	81	LEGENDARY	9028	Pyramid Plunder - Room 7
+THIEVING	91	LEGENDARY	9034	Pyramid Plunder - Room 8
+THIEVING	21	UNCOMMON	9026	Pyramid Plunder minigame - Room 1In the Jalsavrah Pyramid in Sophanem
+THIEVING	76	EPIC	31912	Reinforced Pirate Chests
+THIEVING	32	UNCOMMON	3247	Rogue
+THIEVING	33	UNCOMMON	31906	Rusty Pirate Chests
+THIEVING	65	EPIC	1323	Scimitar stall
+THIEVING	27	UNCOMMON	5171	Seed stall
+THIEVING	20	UNCOMMON	950	Silk stall
+THIEVING	50	RARE	442	Silver stall
+THIEVING	99	LEGENDARY	9777	Skillcape
+THIEVING	45	RARE	10854	Sorceress's Garden minigame - AutumnAl Kharid region
+THIEVING	25	UNCOMMON	10853	Sorceress's Garden minigame - SpringAl Kharid region
+THIEVING	65	EPIC	10852	Sorceress's Garden minigame - SummerAl Kharid region
+THIEVING	1	COMMON	10855	Sorceress's Garden minigame - WinterAl Kharid region
+THIEVING	65	EPIC	2007	Spices stall
+THIEVING	54	RARE	2	Tarnished Pirate Chests
+THIEVING	5	COMMON	1978	Tea stall
+THIEVING	90	LEGENDARY	21278	TzHaar
+THIEVING	2	COMMON	1965	Vegetable stall
+THIEVING	30	UNCOMMON	32896	Villager
+THIEVING	82	LEGENDARY	24702	Vyre
+THIEVING	25	UNCOMMON	3245	Warrior
+THIEVING	65	EPIC	3253	Watchman
+THIEVING	50	RARE	28821	Wealthy citizen
+THIEVING	84	LEGENDARY	1615	Wilderness Rogues' Castle chest
+THIEVING	22	UNCOMMON	7919	Wine stall
+WOODCUTTING	61	EPIC	20011	3rd age axe
+WOODCUTTING	61	EPIC	28226	3rd age felling axe
+WOODCUTTING	1	COMMON	2862	Achey trees
+WOODCUTTING	31	UNCOMMON	1357	Adamant axe
+WOODCUTTING	31	UNCOMMON	28211	Adamant felling axe
+WOODCUTTING	54	RARE	10810	Arctic Pine trees
+WOODCUTTING	11	COMMON	1361	Black axe
+WOODCUTTING	11	COMMON	28205	Black felling axe
+WOODCUTTING	62	EPIC	24691	Blisterwood tree
+WOODCUTTING	77	EPIC	33539	Bloodwood trees
+WOODCUTTING	1	COMMON	1351	Bronze axe
+WOODCUTTING	1	COMMON	28196	Bronze felling axe
+WOODCUTTING	66	EPIC	32904	Camphor trees
+WOODCUTTING	50	RARE	28163	Clothes Pouch
+WOODCUTTING	71	EPIC	23673	Crystal axe
+WOODCUTTING	71	EPIC	28220	Crystal felling axe
+WOODCUTTING	35	UNCOMMON	6285	Dense jungle
+WOODCUTTING	61	EPIC	6739	Dragon axe
+WOODCUTTING	61	EPIC	28217	Dragon felling axe
+WOODCUTTING	27	UNCOMMON	7414	Dugout canoe
+WOODCUTTING	35	UNCOMMON	28157	Forester's ration
+WOODCUTTING	1	COMMON	28136	Forestry kit
+WOODCUTTING	56	RARE	10826	Fremennik round shield
+WOODCUTTING	41	RARE	23279	Gilded axe
+WOODCUTTING	45	RARE	3239	Hollow trees
+WOODCUTTING	80	LEGENDARY	31111	Infected tree roots
+WOODCUTTING	61	EPIC	13241	Infernal axe
+WOODCUTTING	1	COMMON	1349	Iron axe
+WOODCUTTING	1	COMMON	28199	Iron felling axe
+WOODCUTTING	80	LEGENDARY	32907	Ironwood trees
+WOODCUTTING	40	RARE	32902	Jatoba trees
+WOODCUTTING	42	RARE	13355	Juniper trees
+WOODCUTTING	10	COMMON	6281	Light jungle
+WOODCUTTING	12	COMMON	7414	Log canoe
+WOODCUTTING	44	RARE	10939	Lumberjack and Forestry outfit
+WOODCUTTING	75	EPIC	1513	Magic trees
+WOODCUTTING	50	RARE	6332	Mahogany trees
+WOODCUTTING	45	RARE	1517	Maple trees
+WOODCUTTING	20	UNCOMMON	6283	Medium jungle
+WOODCUTTING	21	UNCOMMON	1355	Mithril axe
+WOODCUTTING	21	UNCOMMON	28208	Mithril felling axe
+WOODCUTTING	68	EPIC	28152	Nature Offerings
+WOODCUTTING	1	COMMON	1511	Normal trees
+WOODCUTTING	15	COMMON	1521	Oak trees
+WOODCUTTING	90	LEGENDARY	19669	Redwood trees
+WOODCUTTING	92	LEGENDARY	32910	Rosewood trees
+WOODCUTTING	41	RARE	1359	Rune axe
+WOODCUTTING	41	RARE	28214	Rune felling axe
+WOODCUTTING	35	UNCOMMON	28161	Secateurs Attachment
+WOODCUTTING	99	LEGENDARY	9807	Skillcape
+WOODCUTTING	56	RARE	10812	Split arctic pine logs
+WOODCUTTING	42	RARE	7414	Stable dugout canoe
+WOODCUTTING	6	COMMON	1353	Steel axe
+WOODCUTTING	6	COMMON	28202	Steel felling axe
+WOODCUTTING	75	EPIC	28149	Sturdy Harness
+WOODCUTTING	65	EPIC	21626	Sulliuscep mushroom trees
+WOODCUTTING	35	UNCOMMON	6333	Teak trees
+WOODCUTTING	57	RARE	7414	Waka canoe
+WOODCUTTING	30	UNCOMMON	1519	Willow trees
+WOODCUTTING	60	EPIC	1515	Yew trees
