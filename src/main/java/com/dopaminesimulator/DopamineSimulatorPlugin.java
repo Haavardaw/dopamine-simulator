@@ -82,11 +82,15 @@ import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.StatChanged;
 import com.dopaminesimulator.dev.WidgetDump;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Deque;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -120,6 +124,11 @@ public class DopamineSimulatorPlugin extends Plugin
 	@Inject
 	@Named("developerMode")
 	private boolean developerMode;
+
+	/** Set by ::dumpui sweep. Records every interface as it opens, once each. */
+	private boolean sweeping;
+	private final Set<Integer> sweptGroups = new HashSet<>();
+	private final Deque<Integer> pendingGroups = new ArrayDeque<>();
 
 	@Inject
 	private ClientThread clientThread;
@@ -289,8 +298,41 @@ public class DopamineSimulatorPlugin extends Plugin
 		lastHitpoints = -1;
 	}
 	@Subscribe
+	public void onWidgetLoaded(WidgetLoaded event)
+	{
+		if (sweeping && sweptGroups.add(event.getGroupId()))
+		{
+			pendingGroups.add(event.getGroupId());
+		}
+	}
+
+	/**
+	 * Interfaces are not fully built when they announce themselves, so a group is
+	 * written on the tick after it loads rather than the moment it arrives.
+	 */
+	private void drainSweep()
+	{
+		while (!pendingGroups.isEmpty())
+		{
+			int group = pendingGroups.poll();
+			try
+			{
+				WidgetDump.append(client, group, WidgetDump.sweepFile());
+			}
+			catch (IOException e)
+			{
+				log.warn("could not append widget group {}", group, e);
+			}
+		}
+	}
+
+	@Subscribe
 	public void onGameTick(GameTick event)
 	{
+		if (sweeping)
+		{
+			drainSweep();
+		}
 		if (engine == null)
 		{
 			return;
@@ -949,8 +991,39 @@ public class DopamineSimulatorPlugin extends Plugin
 		}
 		else if ("dumpui".equalsIgnoreCase(event.getCommand()) && developerMode)
 		{
-			dumpOpenInterfaces(event.getArguments());
+			String[] arguments = event.getArguments();
+			if (arguments != null && arguments.length > 0
+				&& "sweep".equalsIgnoreCase(arguments[0]))
+			{
+				toggleSweep();
+			}
+			else
+			{
+				dumpOpenInterfaces(arguments);
+			}
 		}
+	}
+
+	/**
+	 * Records every interface from now until told to stop, one entry each, all
+	 * appended to a single file. For walking a couple of hundred windows without
+	 * running a command at every one of them.
+	 */
+	private void toggleSweep()
+	{
+		sweeping = !sweeping;
+		if (sweeping)
+		{
+			sweptGroups.clear();
+			pendingGroups.clear();
+		}
+		client.addChatMessage(ChatMessageType.GAMEMESSAGE, "",
+			sweeping
+				? "Dopamine Simulator: recording interfaces to "
+					+ WidgetDump.sweepFile().getAbsolutePath()
+					+ ". Open the windows you want, then ::dumpui sweep again to stop."
+				: "Dopamine Simulator: stopped recording, " + sweptGroups.size()
+					+ " interfaces captured.", null);
 	}
 
 	/**

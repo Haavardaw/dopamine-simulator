@@ -25,6 +25,7 @@
 package com.dopaminesimulator.dev;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -49,6 +50,49 @@ public final class WidgetDump
 
 	private WidgetDump()
 	{
+	}
+
+	/**
+	 * Appends one interface group to a file, for sweeping through many windows in
+	 * one sitting rather than naming a dump per window.
+	 */
+	public static void append(Client client, int groupId, File out) throws IOException
+	{
+		List<String> lines = new ArrayList<>();
+		Widget[] roots = client.getWidgetRoots();
+		if (roots == null)
+		{
+			return;
+		}
+		for (Widget root : roots)
+		{
+			if (root != null && (root.getId() >>> 16) == groupId)
+			{
+				walk(root, 0, lines);
+			}
+		}
+		if (lines.isEmpty())
+		{
+			return;
+		}
+		if (!DIR.exists() && !DIR.mkdirs())
+		{
+			throw new IOException("could not create " + DIR);
+		}
+		try (PrintWriter writer = new PrintWriter(new FileWriter(out, true)))
+		{
+			writer.println();
+			writer.println("### group " + groupId);
+			for (String line : lines)
+			{
+				writer.println(line);
+			}
+		}
+	}
+
+	public static File sweepFile()
+	{
+		return new File(DIR, "widgets-sweep.txt");
 	}
 
 	/**
