@@ -1064,19 +1064,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 		return sets;
 	}
 
-	private static final CardSet[] CURATED_EXCLUDED = {CardSet.CHARACTERS};
-
-	private static CardSet curatedSetToday()
+	static List<CardSet> curatedPool()
 	{
 		List<CardSet> pool = new ArrayList<>();
 		for (CardSet set : CardSet.values())
 		{
-			boolean excluded = false;
-			for (CardSet skip : CURATED_EXCLUDED)
-			{
-				excluded |= set == skip;
-			}
-			if (excluded)
+			if (set == CardSet.CHARACTERS || set.isUnlockSet())
 			{
 				continue;
 			}
@@ -1090,6 +1083,12 @@ public class DopamineSimulatorPanel extends PluginPanel
 				pool.add(set);
 			}
 		}
+		return pool;
+	}
+
+	private static CardSet curatedSetToday()
+	{
+		List<CardSet> pool = curatedPool();
 		if (pool.isEmpty())
 		{
 			return CardSet.QUESTS;
