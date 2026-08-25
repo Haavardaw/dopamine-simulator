@@ -1377,10 +1377,19 @@ public class DopamineSimulatorPanel extends PluginPanel
 			return;
 		}
 		int done = CardCollection.tiersIn(state, selectedSet);
+		int ascendable = 0;
+		for (CardCollection collection : collections)
+		{
+			if (collection.isMaxed(state))
+			{
+				ascendable++;
+			}
+		}
 
 		StoneButton toggle = new StoneButton((collectionsExpanded ? "▾" : "▸")
 			+ " Collections    " + done + "/" + CardCollection.maxTiersIn(selectedSet)
-			+ "    all of them " + multiplierText(1d + CardCollection.FULL_COLLECTION_BONUS));
+			+ "    all of them " + multiplierText(1d + CardCollection.FULL_COLLECTION_BONUS)
+			+ (ascendable > 0 ? "    " + ascendable + " ready to ascend" : ""));
 			toggle.withAccent(done > 0 ? GOLD : Skin.WHITE);
 		toggle.setHorizontalAlignment(SwingConstants.LEFT);
 		toggle.setMargin(new Insets(3, 5, 3, 5));
@@ -1587,7 +1596,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 			detail.add(text, BorderLayout.CENTER);
 			return capHeight(detail);
 		}
-		JLabel tier = new JLabel(stars + " / " + Rarity.MAX_STARS + "★   •   "
+		int maxStars = card.getSet().isUnlockSet() ? 1 : Rarity.MAX_STARS;
+		JLabel tier = new JLabel(stars + " / " + maxStars + "★   •   "
 			+ copies + " copies");
 		tier.setFont(FontManager.getRunescapeSmallFont());
 		tier.setForeground(Skin.WHITE);
@@ -1596,7 +1606,6 @@ public class DopamineSimulatorPanel extends PluginPanel
 		text.add(Box.createVerticalStrut(4));
 		text.add(cardEffectLine(state, card, stars));
 
-		int maxStars = card.getSet().isUnlockSet() ? 1 : Rarity.MAX_STARS;
 		if (stars < maxStars)
 		{
 			int per = Dust.costPerCopy(card.getRarity());
@@ -1618,7 +1627,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 			text.add(buy);
 		}
 
-		int next = card.getRarity().copiesForNextStar(copies);
+		int next = card.getSet().isUnlockSet()
+			? 0 : card.getRarity().copiesForNextStar(copies);
 		if (next > 0)
 		{
 			int previous = stars == 0 ? 0 : card.getRarity().starThresholds()[stars - 1];
@@ -1697,7 +1707,8 @@ public class DopamineSimulatorPanel extends PluginPanel
 		{
 			return "??? \u2022 " + card.getRarity().getDisplayName() + ", not yet found";
 		}
-		int next = card.getRarity().copiesForNextStar(copies);
+		int next = card.getSet().isUnlockSet()
+			? 0 : card.getRarity().copiesForNextStar(copies);
 		return card.getName()
 			+ "  \u2022  " + card.getRarity().getDisplayName()
 			+ "  \u2022  " + stars + "\u2605"

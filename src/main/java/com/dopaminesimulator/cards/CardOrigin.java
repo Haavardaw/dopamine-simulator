@@ -53,7 +53,9 @@ public enum CardOrigin
 		new Color(0xFF, 0xD5, 0x4F)),
 
 	ASCENSION("Ascendant", "Ascension only",
-		"Awarded for ascending a maxed collection.",
+		"Awarded for ascending a maxed collection. Once every card in a collection"
+			+ " is 10 stars, its Ascend button appears under Collections in that"
+			+ " set's card tab.",
 		new Color(0xAB, 0x47, 0xBC)),
 
 	FOLLOWERS("Followers", "Their own pack",

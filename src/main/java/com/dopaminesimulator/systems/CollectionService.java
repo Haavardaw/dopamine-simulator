@@ -66,11 +66,11 @@ public class CollectionService
 		int granted = Math.max(1, copies);
 		boolean becameShiny = rollShiny(state, card, rewards);
 		boolean becameGilded = rollGilded(state, card, rewards);
+		int maxCopies = card.getSet().isUnlockSet()
+			? 1 : card.getRarity().copiesForMaxStars();
 		if (state.owns(card.getId()))
 		{
 			int starsBefore = state.getStars(card.getId());
-			int maxCopies = card.getSet().isUnlockSet()
-				? 1 : card.getRarity().copiesForMaxStars();
 			int held = state.getCopies(card.getId());
 
 			int useful = Math.max(0, Math.min(granted, maxCopies - held));
@@ -86,7 +86,7 @@ public class CollectionService
 			int starsAfter = state.getStars(card.getId());
 			if (starsAfter > starsBefore)
 			{
-				rewards.push(Reward.starUp(card, starsAfter).withCopies(granted)
+				rewards.push(Reward.starUp(card, starsAfter).withCopies(useful)
 					.withVariant(becameShiny, becameGilded));
 			}
 			else
@@ -96,9 +96,16 @@ public class CollectionService
 			}
 			return false;
 		}
-		state.addCopies(card.getId(), granted);
+		int kept = Math.min(granted, maxCopies);
+		int overflow = granted - kept;
+		state.addCopies(card.getId(), kept);
+		if (overflow > 0)
+		{
+			state.addDust((int) Math.round(overflow * Dust.fromOverflow(card.getRarity())
+				* Perks.dust(state)));
+		}
 		rewards.push((fromFusion ? Reward.fusion(card) : Reward.newCard(card))
-			.withCopies(granted).withVariant(becameShiny, becameGilded));
+			.withCopies(kept).withVariant(becameShiny, becameGilded));
 		checkSetCompletion(state, card.getSet(), rewards);
 		return true;
 	}
