@@ -90,6 +90,7 @@ import net.runelite.api.Hitsplat;
 import net.runelite.api.HitsplatID;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
+import net.runelite.api.WorldType;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.events.GameStateChanged;
@@ -686,10 +687,26 @@ public class DopamineSimulatorPlugin extends Plugin
 		}
 	}
 
+	static final Set<WorldType> PRESET_STAT_WORLDS = EnumSet.of(WorldType.PVP_ARENA,
+		WorldType.QUEST_SPEEDRUNNING, WorldType.NOSAVE_MODE, WorldType.TOURNAMENT_WORLD,
+		WorldType.BETA_WORLD);
+
+	static boolean statsArePreset(Set<WorldType> worldTypes)
+	{
+		for (WorldType type : worldTypes)
+		{
+			if (PRESET_STAT_WORLDS.contains(type))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@Subscribe
 	public void onStatChanged(StatChanged event)
 	{
-		if (engine == null)
+		if (engine == null || statsArePreset(client.getWorldType()))
 		{
 			return;
 		}
@@ -711,7 +728,8 @@ public class DopamineSimulatorPlugin extends Plugin
 
 	private void syncSkillFeats()
 	{
-		if (engine == null || client.getGameState() != GameState.LOGGED_IN)
+		if (engine == null || client.getGameState() != GameState.LOGGED_IN
+			|| statsArePreset(client.getWorldType()))
 		{
 			return;
 		}
